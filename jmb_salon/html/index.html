@@ -64,13 +64,7 @@
           <script>
 
             function rotarImagen(elemento) {
-
-                elemento.classList.add('rotacion-360'); // Agrega la clase 'rotacion-360' al elemento
-
-                setTimeout(function() {
-
-                    elemento.classList.remove('rotacion-360'); // Elimina la clase 'rotacion-360' después de un tiempo (puedes ajustar el tiempo según tus preferencias)
-                }, 1000); // Tiempo en milisegundos (en este caso, 1000 ms = 1 segundo)
+                elemento.classList.toggle('rotacion-360');
             }
 
           </script>
