@@ -61,6 +61,10 @@ a:hover {
     opacity: 1;
 }
 
+.boton_navbar{
+    margin-right: 2%;
+}
+
 /* FIN NAVBAR */
 
   
@@ -147,10 +151,13 @@ a:hover {
   }
   
   .services__list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 2rem;
+    max-width: 800px; /* Ajusta el ancho máximo según tus necesidades */
+    margin: 0 auto; /* Centra la cuadrícula */
   }
+  
   
   .services__item {
   background-color: var(--color-tertiary);
@@ -275,8 +282,6 @@ a:hover {
   .popup:hover::after {
     opacity: 1; /* Al hacer hover, cambia la opacidad a 1 gradualmente */
   }
-  
-
   /* FIN GALERIA */
   
   /* CONTACTO */
@@ -335,7 +340,18 @@ a:hover {
     .contact__button:hover {
     background-color: #e0b90e;
     }
-    /* Fin contacto */
+
+    .instagram{
+        color: rgb(217, 0, 255);
+        margin-left: 4%; margin-top: 4%;
+        font-size: 1.4em;
+    }
+
+    .instagram:hover{
+        color: rgb(189, 43, 226);
+        margin-left: 4%; margin-top: 4%;
+    }
+    /* FIN CONTACTO */
     
 /* FOOTER */
 .footer {
@@ -380,12 +396,19 @@ a:hover {
     text-decoration: none;
 }
 
+.footer__menu li {
+    color: rgb(255, 0, 0);
+    margin-left: 1%;
+}
+
 .footer__menu li a:hover {
     color: gray;
 }
 /* FIN FOOTER */
 
 
+/* MEDIA QUERIES */
+/* MOBILES */
 @media (max-width: 767px){
     .navbar-nav li.nav-item {
         text-align: center;
@@ -394,8 +417,36 @@ a:hover {
     .conocenos{
         text-align: center;
     }
+
+    /* CARDS */
+
+    .card_1{
+        font-size: 16px !important;
+      }
+
+    .card_2{
+        font-size: 16px !important;
+      }
+    
+    .card_3{
+        font-size: 16px !important;
+      }
+
+      .servicio_1{
+        height: 18em !important;
+      }
+
+      .servicio_2{
+        height: 18em !important;
+      }
+
+      .servicio_3{
+        height: 18em !important;
+      }
+      /* FIN CARDS */
 }
 
+/* TABLETS */
 @media (max-width: 992px){
     .navbar-nav li.nav-item {
         text-align: center;
@@ -431,9 +482,34 @@ a:hover {
         border-bottom-right-radius: 10%;
         box-shadow: inset 0 0 10px rgb(255, 225, 0), 0 0 10px rgb(255, 225, 0);
       }
+
+      .services__list {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
+
+
+
+
+      /* CARDS */
+      .card_1{
+        font-size: 15px;
+      }
+
+      .servicio_1{
+        height: 13.9em;
+      }
+
+      .servicio_2{
+        height: 13em;
+      }
+
+      .servicio_3{
+        height: 13em;
+      }
+      /* FIN CARDS */
 }
 
-
+/* > TABLETS */
 @media (min-width: 993px) {
   
     .popup img {
@@ -445,6 +521,7 @@ a:hover {
     }
   }
 
+  /* ESCRITORIO */
   @media (min-width: 1200px) {
 
     .container-gallery {
