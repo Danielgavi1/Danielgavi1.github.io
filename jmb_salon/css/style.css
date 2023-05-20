@@ -137,6 +137,13 @@ a:hover {
   .btn:hover {
   background-color: #e0b90e;
   }
+
+
+  .rotar:hover {
+    transform: rotate(360deg); /* Aplica una rotación de 360 grados al hacer hover */
+    transition: transform 0.5s ease-in-out; /* Transición suave para el efecto de rotación */
+  }
+  
   
   /* SERVICIOS */
   .services {
