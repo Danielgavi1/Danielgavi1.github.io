@@ -139,10 +139,14 @@ a:hover {
   }
 
 
-  .rotar:hover {
-    transform: rotate(360deg); /* Aplica una rotación de 360 grados al hacer hover */
-    transition: transform 0.5s ease-in-out; /* Transición suave para el efecto de rotación */
+  .rotar {
+    transition: transform 1s ease-in-out; /* Transición suave para el efecto de rotación */
   }
+  
+  .rotacion-360 {
+    transform: rotate(360deg); /* Aplica una rotación de 360 grados */
+  }
+  
   
   
   /* SERVICIOS */
