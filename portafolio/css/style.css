@@ -183,8 +183,11 @@ footer input{
         max-width: 187px !important;
     }
 
+    .boton{
+        margin-left: 36%;
+    }
+
     .boton button{
-        margin-left: 166px;
         padding: 10px;
         border-radius: 10px;
         border: 1px solid #7a7a7a;
