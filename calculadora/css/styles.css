@@ -16,7 +16,7 @@ a {
 }
 
 body {
-    background-image: linear-gradient( to bottom right, rgba(79,51,176,1.0),rgba(210,53,165));
+    background-image: linear-gradient( to bottom right, rgb(229, 180, 75),rgba(210,53,165));
 }
 
 .container {
@@ -104,7 +104,7 @@ button#equal {
 /* light theme */
 
 .calculator {
-    background-color: #fff;
+    background-color: #8777ff;
 }
 
 .calculator #display {
