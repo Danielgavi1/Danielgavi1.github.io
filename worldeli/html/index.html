@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worldeli᲼🍣</title>
+  <!-- SHORTCUT -->
+  <link rel="shortcut icon" href="../img/logo.png">
+  <!-- Estilos Bootstrap -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+  <!-- Estilos nativos -->
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container sub_navbar">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="#">
+              <img src="../img/logo.png" alt="Logo de Worldeli" width="95" height="95" class="d-inline-block align-top ms-3 ms-sm-5">
+            </a>
+            <button class="navbar-toggler boton_navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+              <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item active">
+                  <a class="nav-link ms-sm-0 sm-5" href="#inicio">Inicio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#menu">Menú</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#reserva">Reserva</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#contacto">Contacto</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <!-- FIN HEADER -->
+
+      <main>
+        <section id="inicio" class="container">
+          <h1>Bienvenido a Worldeli</h1>
+          <p>¡Descubre el mejor sushi y platos de comida japonesa en nuestra exclusiva selección de menú!</p>
+        </section>
+        
+        <section id="menu" class="container">
+          <h2>Nuestro Menú</h2>
+          <div class="row">
+            <div class="col-md-4 col-sm-6">
+              <div class="menu-item">
+                <img src="../img/nigiri.jpg" alt="Sushi de salmón">
+                <h3>Sushi de salmón</h3>
+                <p>Delicioso sushi hecho con fresco salmón de alta calidad.</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <div class="menu-item">
+                <img src="../img/aguacate.jpg" alt="Maki de aguacate">
+                <h3>Maki de aguacate</h3>
+                <p>Roll de arroz, alga nori y aguacate fresco. Una opción vegetariana deliciosa.</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <div class="menu-item">
+                <img src="../img/tempura.jpg" alt="Tempura de camarones">
+                <h3>Tempura de camarones</h3>
+                <p>Crujientes camarones tempura servidos con salsa especial.</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <div class="menu-item">
+                <img src="../img/miso.jpg" alt="Sopa de miso">
+                <h3>Sopa de miso</h3>
+                <p>Caliente y reconfortante sopa de miso con tofu y algas.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <section id="reserva" class="container">
+          <h2>Reserva tu mesa</h2>
+          <p>Para disfrutar de una experiencia inigualable, reserva tu mesa en nuestro restaurante.</p>
+          <form>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+              </div>
+              <div class="col-md-6">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Reservar</button>
+          </form>
+        </section>
+        
+        <section id="contacto" class="container">
+          <h2>Contacto</h2>
+          <p>Para más información o consultas, no dudes en contactarnos:</p>
+          <ul>
+            <li>Teléfono: 123-456-789</li>
+            <li>Email: info@worldeli.com</li>
+          </ul>
+        </section>
+      </main>
+      
+
+  <footer>
+    <!-- Aquí puedes agregar información de contacto, enlaces a redes sociales, etc. -->
+  </footer>
+  <!-- JS BOOTSTRAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <!-- JS NATIVO -->
+  <script src="../js/scripts.js"></script>
+  
+</body>
+</html>
