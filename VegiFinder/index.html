@@ -10,20 +10,32 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- JS NATIVO -->
     <script src="js/index.js" defer></script>
+    <!-- FONT AWESOME JS -->
+    <script src="https://kit.fontawesome.com/9291085edc.js" crossorigin="anonymous" defer></script>
+    <!-- FONT AWESOME LINK -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha256-u7O49P5bSfFqfGnjsbLoNBMBNlHT6Z4+/U02d/yo3+g= crossorigin='anonymous'" />
+    <!-- ICONO -->
+    <link rel="icon" type="image/png" sizes="32x32" href="img/vegifinder.jpg" style="border-radius: 10px;">
+
+
 </head>
 <body class="container mt-5">
-    <h1 class="text-center mb-4">VegiFinder</h1>
+    <h1 class="text-center mb-4">
+        VegiFinder <i class="fas fa-leaf" style="color: #2cd87f;"></i>
+    </h1>
     
     <form id="search-form" class="form-inline justify-content-center">
         <label class="sr-only" for="search-input">Buscar productos veganos:</label>
         <div class="input-group mb-2 mr-sm-2">
             <input type="text" class="form-control" id="search-input" placeholder="Escribe aquí...">
         </div>
-        <button type="button" class="btn btn-primary mb-2" onclick="searchProducts()">Buscar</button>
+        <button type="button" class="btn btn-primary mb-2" onclick="searchProducts()">
+            <i class="fas fa-search"></i> Buscar
+        </button>
     </form>
-
+    
     <!-- Resultados de búsqueda -->
-    <div id="search-results" class="mt-4"></div>
+    <div id="search-results" class="mt-4" style="visibility: hidden;"></div>
 
     <!-- BOOTSTRAP JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

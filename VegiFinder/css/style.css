@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
 /* Reset de estilos */
 body, h1, h2, h3, p, ul, li {
     margin: 0;
@@ -24,6 +26,8 @@ header {
 
 h1, h2, h3 {
     color: #333;
+    font-family: 'Josefin Sans';
+
 }
 
 /* Estilos para el formulario de búsqueda */
@@ -129,4 +133,24 @@ a:hover {
         width: 100%;
         margin-bottom: 10px;
     }
+}
+
+/* Estilos para los botones clicados */
+.result-button.clicked {
+    background-color: #8a2be2; /* Cambia el color lila a tu preferencia */
+    color: #fff;
+}
+
+/* Estilos para las imágenes de los botones */
+.site-image {
+    max-width: 25px; /* Ajusta el tamaño según tus necesidades */
+    max-height: 25px;
+    margin-right: 5px; /* Ajusta el margen según tus necesidades */
+    border-radius: 1rem;
+}
+
+/* Estilos para los botones clicados */
+.result-button.clicked {
+    background-color: #8a2be2; /* Cambia el color lila a tu preferencia */
+    color: #fff;
 }
