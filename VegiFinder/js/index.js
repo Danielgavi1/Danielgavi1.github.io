@@ -5,7 +5,7 @@ function searchProducts() {
     const websites = [
         {name: 'OpenFoodFacts',
          url: `https://es.openfoodfacts.org/cgi/search.pl?search_terms=${searchTerm}&search_simple=1&action=process`,
-         image: './VegiFinder/img/openfoodfacts.png'},
+         image: './img/openfoodfacts.png'},
 
         {name: 'Producto Vegano',
          url: `https://www.productovegano.net/?s=${searchTerm}`,
