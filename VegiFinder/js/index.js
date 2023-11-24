@@ -9,15 +9,15 @@ function searchProducts() {
 
         {name: 'Producto Vegano',
          url: `https://www.productovegano.net/?s=${searchTerm}`,
-         image: './VegiFinder/img/productovegano.png'},
+         image: './img/productovegano.png'},
 
         {name: 'Vegano por Accidente Spain',
          url: `https://www.veganoporaccidentespain.com/?s=${searchTerm}`,
-         image: './VegiFinder/img/veganoporaccidente.png'},
+         image: './img/veganoporaccidente.png'},
 
         {name: 'SuperVeggie',
          url: `https://superveggie.es/?s=${searchTerm}`,
-         image: './VegiFinder/img/superveggie.png'}
+         image: './img/superveggie.png'}
     ];
 
     displayResults(websites);
