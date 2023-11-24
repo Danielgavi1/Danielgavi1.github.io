@@ -5,19 +5,19 @@ function searchProducts() {
     const websites = [
         {name: 'OpenFoodFacts',
          url: `https://es.openfoodfacts.org/cgi/search.pl?search_terms=${searchTerm}&search_simple=1&action=process`,
-         image: './img/openfoodfacts.png'},
+         image: './VegiFinder/img/openfoodfacts.png'},
 
         {name: 'Producto Vegano',
          url: `https://www.productovegano.net/?s=${searchTerm}`,
-         image: './img/productovegano.png'},
+         image: './VegiFinder/img/productovegano.png'},
 
         {name: 'Vegano por Accidente Spain',
          url: `https://www.veganoporaccidentespain.com/?s=${searchTerm}`,
-         image: './img/veganoporaccidente.png'},
+         image: './VegiFinder/img/veganoporaccidente.png'},
 
         {name: 'SuperVeggie',
          url: `https://superveggie.es/?s=${searchTerm}`,
-         image: './img/superveggie.png'}
+         image: './VegiFinder/img/superveggie.png'}
     ];
 
     displayResults(websites);
