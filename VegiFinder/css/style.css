@@ -119,22 +119,6 @@ a:hover {
     margin-top: 20px;
 }
 
-/* Media queries para dispositivos móviles */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 24px;
-    }
-
-    #search-input {
-        width: 100%;
-    }
-
-     .btn-secondary {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-}
-
 /* Estilos para los botones clicados */
 .result-button.clicked {
     background-color: #8a2be2; /* Cambia el color lila a tu preferencia */
@@ -153,4 +137,58 @@ a:hover {
 .result-button.clicked {
     background-color: #8a2be2; /* Cambia el color lila a tu preferencia */
     color: #fff;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    #search-input {
+        width: 100%;
+    }
+
+     .btn-secondary {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .btn{
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+}
+
+/* Media query para tablets */
+@media (max-width: 1024px) {
+    
+    #search-input {
+        width: 100%;
+    }
+    .btn-secondary {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    /* Otros estilos para tablets con ancho de hasta 1024px */
+}
+
+/* Media query específico para el rango de 1025px a 1077px */
+@media (min-width: 1025px) and (max-width: 1077px) {
+    /* Ajusta los estilos según sea necesario para este rango específico */
+    header {
+        padding: 15px 0; /* Modifica el espaciado del encabezado en este rango específico */
+    }
+    .container {
+        max-width: 960px; /* Ajusta el ancho máximo del contenedor en este rango específico */
+        padding: 20px; /* Ajusta el espaciado en este rango específico */
+    }
+    #search-results {
+        padding: 15px; /* Ajusta el espaciado de los resultados de búsqueda en este rango específico */
+    }
+
+    .btn-secondary {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
