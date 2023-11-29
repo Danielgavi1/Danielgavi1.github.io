@@ -1,9 +1,10 @@
 document.getElementById('search-button').addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-        // Si la tecla presionada es Enter, ejecutar la búsqueda
+        event.preventDefault();
         searchProducts();
     }
 });
+
 
 function searchProducts() {
     const searchTerm = document.getElementById('search-button').value;
