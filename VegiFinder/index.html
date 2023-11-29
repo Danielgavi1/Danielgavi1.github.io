@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VegiFinder</title>
     <!-- BOOTSTRAP CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- CSS NATIVO -->
     <link rel="stylesheet" href="css/style.css">
     <!-- JS NATIVO -->
@@ -20,26 +20,55 @@
 
 </head>
 <body class="container mt-5">
-    <h1 class="text-center mb-4">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-dark bg-dark fixed-top mb-5 color-navbar">
+    <div class="container-fluid mb-2">
+      <button class="navbar-toggler color-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+          <h4 class="offcanvas-title" id="offcanvasDarkNavbarLabel">VegiFinder <i class="fas fa-leaf" style="color: #2cd87f;"></i></h4>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" data-bs-dismiss="offcanvas" aria-label="Close" href="#"><h5>Home</h5></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="html/lista.html"><h5>No encontraste tu producto?</h5></a>
+            </li>
+          <form class="d-flex mt-3" role="search">
+            <a class="btn btn-success" type="submit" style="text-decoration: none;">Ayudanos a completar la lista</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- FIN NAVBAR -->
+
+  <br>
+    
+    <h1 class="text-center mb-4 mt-5">
         VegiFinder <i class="fas fa-leaf" style="color: #2cd87f;"></i>
     </h1>
     
     <form id="search-form" class="form-inline justify-content-center">
-        <label class="sr-only" for="search-input">Buscar productos veganos:</label>
-        <div class="input-group mb-2 mr-sm-2">
-            <input type="text" class="form-control" id="search-input" placeholder="Escribe aquí...">
-        </div>
-        <button type="button" class="btn btn-primary mb-2" onclick="searchProducts()">
-            <i class="fas fa-search"></i> Buscar
-        </button>
-    </form>
-    
+      <label class="sr-only" for="search-button">Buscar productos veganos:</label>
+      <div class="input-group mb-3">
+          <input type="text" class="form-control" id="search-button" placeholder="Escribe aquí..." aria-label="Escribir alimento aquí..." aria-describedby="button-addon2">
+          <button class="btn btn-primary" type="button" id="button-addon2" onclick="searchProducts()"><i class="fas fa-search"></i>ㅤBuscar</button>
+      </div>
+  </form>
+
     <!-- Resultados de búsqueda -->
     <div id="search-results" class="mt-4" style="visibility: hidden;"></div>
 
     <!-- BOOTSTRAP JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+  </body>
 </html>

@@ -27,7 +27,18 @@ header {
 h1, h2, h3 {
     color: #333;
     font-family: 'Josefin Sans';
+}
 
+.color-navbar {
+    /* background-color: #6feca5 !important; */
+    background-color: #83fab3 !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ajusta la sombra según tus preferencias */
+}
+
+
+.color-toggler{
+    background-color: #333;
+    margin-left: 15px;
 }
 
 /* Estilos para el formulario de búsqueda */
@@ -37,23 +48,33 @@ h1, h2, h3 {
 
 .input-group {
     width: 100%;
+    margin-left: 250px;
+    padding-right: 500px;
 }
 
-#search-input {
-    padding: 15px;
+#search-button{
     border: 2px solid #4CAF50;
-    border-radius: 20px;
-    font-size: 1.2em;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+
 }
 
 .btn-primary {
     padding: 15px;
     background-color: #4CAF50;
+    border-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 20px;
     cursor: pointer;
     font-size: 1.2em;
+}
+
+.btn-absolute{
+    position: absolute !important;
+    margin-left: 47.6% !important;
+    height: 62px !important;
+    padding-right: 40px;
 }
 
 /* Estilos para los resultados de búsqueda */
@@ -89,15 +110,7 @@ a:hover {
 /* Estilos para el formulario de búsqueda */
 #search-form {
     text-align: center;
-}
-
-#search-input {
-    border-radius: 20px;
-}
-
-.btn-primary {
-    background-color: #4CAF50;
-    border-color: #4CAF50;
+    overflow: hidden;
 }
 
 .btn-secondary {
@@ -117,6 +130,11 @@ a:hover {
 #search-results {
     text-align: center;
     margin-top: 20px;
+    padding-left: 5px;
+}
+
+.result-button{
+    margin: 5px !important;
 }
 
 /* Estilos para los botones clicados */
@@ -142,53 +160,47 @@ a:hover {
 /* Media queries para dispositivos móviles */
 @media (max-width: 768px) {
     h1 {
-        font-size: 24px;
+        font-size: 30px;
     }
 
-    #search-input {
+    .color-toggler{
+        background-color: #333;
+        margin-left: 0px;
+    }
+
+    .input-group {
         width: 100%;
+        margin-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .btn-absolute{
+        position: relative !important;
+        margin-top: 30px;
+        margin-left: 38% !important;
+        height: 62px !important;
+        border-radius: 1rem !important;
+        padding-right: 20px;
     }
 
      .btn-secondary {
         width: 100%;
         margin-bottom: 10px;
     }
-
-    .btn{
-        margin-bottom: 10px;
-        margin-top: 10px;
-    }
 }
 
 /* Media query para tablets */
 @media (max-width: 1024px) {
     
-    #search-input {
-        width: 100%;
-    }
     .btn-secondary {
         width: 100%;
         margin-bottom: 10px;
     }
     /* Otros estilos para tablets con ancho de hasta 1024px */
-}
 
-/* Media query específico para el rango de 1025px a 1077px */
-@media (min-width: 1025px) and (max-width: 1077px) {
-    /* Ajusta los estilos según sea necesario para este rango específico */
-    header {
-        padding: 15px 0; /* Modifica el espaciado del encabezado en este rango específico */
-    }
-    .container {
-        max-width: 960px; /* Ajusta el ancho máximo del contenedor en este rango específico */
-        padding: 20px; /* Ajusta el espaciado en este rango específico */
-    }
-    #search-results {
-        padding: 15px; /* Ajusta el espaciado de los resultados de búsqueda en este rango específico */
-    }
-
-    .btn-secondary {
+    .input-group {
         width: 100%;
-        margin-bottom: 10px;
+        margin-left: 200px;
+        padding-right: 400px;
     }
 }
