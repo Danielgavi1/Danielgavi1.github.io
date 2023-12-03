@@ -31,7 +31,7 @@
                                 <?php echo $error_message; ?>
                             </div>
                         <?php endif; ?>
-                        <form method="post" action="../php/login.php">
+                        <form method="post" action="php/login.php">
                             <div class="mb-3">
                                 <label for="usuario" class="form-label">Usuario</label>
                                 <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ingresa tu usuario">

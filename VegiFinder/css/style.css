@@ -77,15 +77,6 @@ h1, h2, h3 {
     padding-right: 40px;
 }
 
-/* Estilos para los resultados de búsqueda */
-#search-results {
-    margin-top: 20px;
-    padding: 20px;
-    border: 2px solid #4CAF50;
-    border-radius: 20px;
-    background-color: #fff;
-}
-
 /* Estilos para enlaces */
 a {
     color: #4CAF50;
@@ -126,11 +117,30 @@ a:hover {
     color: #333;
 }
 
-/* Resultados de búsqueda */
-#search-results {
-    text-align: center;
-    margin-top: 20px;
-    padding-left: 5px;
+.vino{
+    width: 90px;
+    height: 90px;
+    cursor: pointer;
+    position: absolute;
+    top: 90px;
+    right: 18%;
+    transition: box-shadow 0.3s;
+    border-radius: 100px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: #ffb6b6;
+
+}
+
+.vino:hover{
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos para las imágenes de los botones */
+.site-image {
+    max-width: 25px; /* Ajusta el tamaño según tus necesidades */
+    max-height: 25px;
+    margin-right: 5px; /* Ajusta el margen según tus necesidades */
+    border-radius: 1rem;
 }
 
 .result-button{
@@ -143,19 +153,41 @@ a:hover {
     color: #fff;
 }
 
-/* Estilos para las imágenes de los botones */
-.site-image {
-    max-width: 25px; /* Ajusta el tamaño según tus necesidades */
-    max-height: 25px;
-    margin-right: 5px; /* Ajusta el margen según tus necesidades */
-    border-radius: 1rem;
-}
+/* Estilos para los resultados de búsqueda */
+#search-results {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #4CAF50;
+    border-radius: 20px;
+    background-color: #fff;
+    position: relative;
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: all 0.5s ease-in-out;
+    visibility: hidden;
+  }
 
-/* Estilos para los botones clicados */
-.result-button.clicked {
-    background-color: #8a2be2; /* Cambia el color lila a tu preferencia */
-    color: #fff;
-}
+  #no_encontraste_producto{
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.5s ease-in-out;
+    visibility: hidden;
+  }
+
+  /* Muestra y anima la busqueda de resultados al clickcar el boton buscar */
+  #no_encontraste_producto.fade-in{
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+  
+  /* Muestra y anima la busqueda de resultados al clickcar el boton buscar */
+  #search-results.fade-in{
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
 
 /* Media queries para dispositivos móviles */
 @media (max-width: 768px) {
@@ -166,6 +198,15 @@ a:hover {
     .color-toggler{
         background-color: #333;
         margin-left: 0px;
+    }
+
+    .vino{
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+        position: absolute;
+        top: 95px;
+        right: 10%;
     }
 
     .input-group {
