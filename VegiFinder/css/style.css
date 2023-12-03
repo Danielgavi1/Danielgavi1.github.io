@@ -193,6 +193,7 @@ a:hover {
 @media (max-width: 768px) {
     h1 {
         font-size: 30px;
+        margin-left: -60px;
     }
 
     .color-toggler{
@@ -201,12 +202,12 @@ a:hover {
     }
 
     .vino{
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
         cursor: pointer;
         position: absolute;
-        top: 95px;
-        right: 10%;
+        top: 112px;
+        right: 9%;
     }
 
     .input-group {
