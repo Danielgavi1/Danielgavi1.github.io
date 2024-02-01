@@ -1,0 +1,1 @@
+const imagenes = document.getElementsByClassName('imagen_parallax');new simpleParallax(imagenes, {scale:1.1,delay: .7, transition: 'cubic-bezier(0,0,0,1)'});

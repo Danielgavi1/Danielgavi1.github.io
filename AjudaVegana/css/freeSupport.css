@@ -1,0 +1,119 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #f4eee1;
+    text-align: justify;
+}
+
+/* NAVBAR */
+.brand-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-top: -10px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 2.7em;
+    color: rgb(59, 59, 59);
+}
+
+.navbar-brand:hover{
+    color: rgb(59, 59, 59);
+}
+
+.navbar-text{
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: -8px;
+    color: rgb(133, 133, 133)!important;
+}
+
+.navbar-nav .nav-link {
+    margin-right: 15px;
+    font-weight: 600;
+}
+/* FIN NAVBAR */
+
+/* FREESUPPORT */
+.freeSupport{
+    background-color: #30863f;
+    text-align: center;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.freeSupport h1{
+    font-size: 2em;
+}
+/* FIN FREESUPPORT */
+
+/* FREESUPPORT SECTION */
+.freeSupportContent {
+    padding: 40px 0;
+}
+
+.container2 {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 35px
+}
+
+.supportProgram {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 35px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.supportProgram:hover{
+    transform: scale(1.05);
+}
+
+h3 {
+    font-size: 20px;
+    color: #0066cc;
+    margin-bottom: 10px;
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+p {
+    font-size: 16px;
+    color: #555;
+}
+/* FIN FREESUPPORT SECTION */
+
+/* FOOTER */
+.footer-section {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+.footer-section p {
+    margin-bottom: 0px;
+    color: white;
+}
+/* FIN FOOTER */

@@ -1,0 +1,132 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #f4eee1;
+    text-align: justify;
+}
+
+/* NAVBAR */
+.brand-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin-top: -10px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 2.7em;
+    color: rgb(59, 59, 59);
+}
+
+.navbar-brand:hover{
+    color: rgb(59, 59, 59);
+}
+
+.navbar-text{
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: -8px;
+    color: rgb(133, 133, 133)!important;
+}
+
+.navbar-nav .nav-link {
+    margin-right: 15px;
+    font-weight: 600;
+}
+/* FIN NAVBAR */
+
+/* FAQ SEPARATOR */
+.faqSeparator{
+    background-color: #30863f;
+    text-align: center;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.faqSeparator h1{
+    font-size: 2em;
+}
+/* FIN FAQ SEPARATOR */
+
+
+/* FAQ */
+.faq-section {
+    background-color: #f8f9fa;
+    padding: 80px 0;
+}
+
+.faq-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.faq-item:hover {
+    transform: scale(1.05);
+}
+
+.faq-item h2 {
+    font-size: 1.8rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.faq-item p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.faq-section h2 {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.faq-item ol {
+    list-style-type: decimal;
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.faq-item ol li {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.faq-section footer {
+    margin-top: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-top: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+/* FIN FAQ */
+
+/* FOOTER */
+.footer-section {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+.footer-section p {
+    margin-bottom: 0px;
+}
+/* FIN FOOTER */
