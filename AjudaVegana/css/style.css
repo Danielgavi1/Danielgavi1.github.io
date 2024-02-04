@@ -214,12 +214,12 @@ body{
 .parallax-section {
     position: relative;
     overflow: hidden;
-    height: 40vh;
+    height: 44vh;
 }
 
 .parallax-section img {
     width: 100%;
-    height: 40vh;
+    height: 44vh;
     filter: brightness(0.5);
 }
 
@@ -244,6 +244,10 @@ body{
 }
 /* FIN PARALLAX */
 
+#wehelpyou h2{
+    font-size: 24px;
+}
+
 .button-container {
     margin-top: 30px;
 }
@@ -267,6 +271,10 @@ body{
     }
     .parallax-section img{
         height: 75vh;
+    }
+
+    #wehelpyou h2{
+        font-size: 40px;
     }
 }
 /* FIN WE HELP YOU TRANSITION */
