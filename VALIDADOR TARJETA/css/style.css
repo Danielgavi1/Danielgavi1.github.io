@@ -10,7 +10,7 @@ body {
     margin: 0;
     color: #333;
     transition: background-color 0.3s, color 0.3s;
-    padding: 0 20px; /* Adds padding for smaller screens */
+    padding: 0 20px;
 }
 
 body.dark-mode {
@@ -36,7 +36,7 @@ body.dark-mode .container {
 }
 
 .card-image {
-    max-width: 100px; /* Adjust image size for responsiveness */
+    max-width: 100px;
     margin-bottom: 22px;
     display: block;
     margin-left: auto;
@@ -235,9 +235,7 @@ body.dark-mode .invalid {
 
 /* FIN DARK MODE */
 
-/* Responsive Design */
-
-/* For tablet screens */
+/* Tablet */
 @media (max-width: 768px) {
     .container {
         padding: 1.5rem 1rem;
@@ -262,7 +260,7 @@ body.dark-mode .invalid {
     }
 }
 
-/* For mobile screens */
+/* MOBILE */
 @media (max-width: 480px) {
     .container {
         padding: 1rem 0.8rem;
@@ -279,6 +277,10 @@ body.dark-mode .invalid {
     input {
         padding: 10px 10px 10px 40px;
         font-size: 13px;
+    }
+
+    .input-container input {
+        width: 85%;
     }
 
     button {
