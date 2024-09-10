@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+    font-family: 'Open Sans';
+    background: linear-gradient(135deg, #eef2f3, #8e9eab);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+    background: #333;
+    color: #fff;
+}
+
+.container {
+    background-color: #fff;
+    padding: 50px 40px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+    position: relative;
+}
+
+body.dark-mode .container {
+    background-color: #444;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.card-image {
+    max-width: 120px;
+    margin-bottom: 22px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-image.light-mode {
+    display: block;
+}
+
+.card-image.dark-mode {
+    display: none;
+}
+
+body.dark-mode .card-image.light-mode {
+    display: none;
+}
+
+body.dark-mode .card-image.dark-mode {
+    display: block;
+}
+
+h2 {
+    font-size: 24px;
+    color: #3b3b3b;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    margin-bottom: 35px;
+}
+
+.input-container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto 25px auto;
+    margin-left: 20px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 14px 14px 14px 50px;
+    margin-bottom: 40px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+    display: block;
+}
+
+.input-container::before {
+    content: "💳";
+    position: absolute;
+    top: 42%;
+    left: 15px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #333;
+}
+
+body.dark-mode .input-container::before {
+    color: #fff;
+}
+
+input:focus {
+    border-color: #80cbc4;
+    box-shadow: 0 0 10px #80cbc4;
+}
+
+input.valid {
+    border-color: #28a745;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+}
+
+input.invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+}
+
+button {
+    padding: 14px 40px;
+    background-color: #80cbc4;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #5da39d;
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.valid {
+    color: #28a745;
+    opacity: 1;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.invalid {
+    color: #dc3545;
+    opacity: 1;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* DARK MODE */
+#themeToggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #fff;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1000;
+}
+
+#themeToggle:hover {
+    background-color: #ddd;
+    color: #000;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode {
+    background: linear-gradient(135deg, #252525, #444);
+    color: #f1f1f1;
+}
+
+body.dark-mode .container {
+    background-color: #3e3e3e;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode h2 {
+    color: #f1f1f1;
+}
+
+body.dark-mode input {
+    background-color: #555;
+    color: #f1f1f1;
+    border-color: #888;
+}
+
+body.dark-mode input:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 10px #ffcc00;
+}
+
+body.dark-mode button {
+    background-color: #ffcc00;
+    color: #333;
+}
+
+body.dark-mode button:hover {
+    background-color: #e6b800;
+}
+
+body.dark-mode .valid {
+    color: #28a745;
+}
+
+body.dark-mode .invalid {
+    color: #dc3545;
+}
+/* FIN DARK MODE */
