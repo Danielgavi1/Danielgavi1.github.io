@@ -36,7 +36,7 @@ body.dark-mode .container {
 }
 
 .card-image {
-    max-width: 100px;
+    max-width: 110px;
     margin-bottom: 22px;
     display: block;
     margin-left: auto;
@@ -242,7 +242,7 @@ body.dark-mode .invalid {
     }
 
     .card-image {
-        max-width: 80px;
+        max-width: 90px;
     }
 
     h2 {
@@ -267,7 +267,7 @@ body.dark-mode .invalid {
     }
 
     .card-image {
-        max-width: 60px;
+        max-width: 80px;
     }
 
     h2 {
