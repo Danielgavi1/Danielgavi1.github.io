@@ -10,6 +10,7 @@ body {
     margin: 0;
     color: #333;
     transition: background-color 0.3s, color 0.3s;
+    padding: 0 20px; /* Adds padding for smaller screens */
 }
 
 body.dark-mode {
@@ -19,7 +20,7 @@ body.dark-mode {
 
 .container {
     background-color: #fff;
-    padding: 50px 40px;
+    padding: 2rem 1.5rem;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
     max-width: 420px;
@@ -35,7 +36,7 @@ body.dark-mode .container {
 }
 
 .card-image {
-    max-width: 120px;
+    max-width: 100px; /* Adjust image size for responsiveness */
     margin-bottom: 22px;
     display: block;
     margin-left: auto;
@@ -61,10 +62,9 @@ body.dark-mode .card-image.dark-mode {
 h2 {
     font-size: 24px;
     color: #3b3b3b;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
     font-weight: 700;
     letter-spacing: 1.2px;
-    margin-bottom: 35px;
 }
 
 .input-container {
@@ -232,4 +232,64 @@ body.dark-mode .valid {
 body.dark-mode .invalid {
     color: #dc3545;
 }
+
 /* FIN DARK MODE */
+
+/* Responsive Design */
+
+/* For tablet screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem 1rem;
+    }
+
+    .card-image {
+        max-width: 80px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    input {
+        padding: 12px 12px 12px 45px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 12px 35px;
+        font-size: 16px;
+    }
+}
+
+/* For mobile screens */
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem 0.8rem;
+    }
+
+    .card-image {
+        max-width: 60px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    input {
+        padding: 10px 10px 10px 40px;
+        font-size: 13px;
+    }
+
+    button {
+        padding: 10px 30px;
+        font-size: 14px;
+    }
+
+    #themeToggle {
+        top: 10px;
+        right: 10px;
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}
