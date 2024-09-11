@@ -10,153 +10,146 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
   <!-- Estilos nativos -->
   <link rel="stylesheet" href="../css/styles.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- HEADER -->
     <header>
-        <div class="container sub_navbar">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="#">
-              <img src="../img/logo.png" alt="Logo de Worldeli" width="95" height="95" class="d-inline-block align-top ms-3 ms-sm-5">
-            </a>
-            <button class="navbar-toggler boton_navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-              <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                <li class="nav-item active">
-                  <a class="nav-link ms-sm-0 sm-5" href="#inicio">Inicio</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#menu">Menú</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#about">Nosotros</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#contacto">Contacto</a>
-                </li>
+      <div class="container sub_navbar">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand" href="#">
+            <img src="../img/logo.png" alt="Logo de Worldeli" width="95" height="95" class="d-inline-block align-top ms-3 ms-sm-5">
+          </a>
+          <button class="navbar-toggler boton_navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+              <li class="nav-item active">
+                <a class="nav-link ms-sm-0 sm-5" href="#inicio">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#menu">Menú</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#about">Nosotros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contacto">Contacto</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- FIN HEADER -->
+    <!-- MAIN -->
+    <main>
+      <!-- INICIO -->
+      <div class="inicio-container">
+        <section id="inicio" class="inicio-text">
+          <h1>Bienvenido a Worldeli 🍣</h1>
+          <p>¡Descubre el mejor sushi y platos de comida japonesa en nuestra exclusiva selección de menú! 🍥</p>
+          <img src="../img/sushi_inicio.png" alt="sushi" class="img_sushi">
+        </section>
+      </div>
+      <!-- FIN INICIO -->
+      
+      <!-- MENU -->
+      <section id="menu" class="container mb-5">
+        <h2>Nuestros mejores platos del menú 🍣</h2>
+        <div class="row">
+          <div class="col-md-4 col-sm-6 mt-5">
+            <div class="menu-item">
+              <img src="../img/nigiri.jpg" alt="Sushi de salmón">
+              <h3>Nigiri de solomillo</h3>
+              <p>Delicioso Nigiri de solomillo flameado con salsa teriyaki de alta calidad.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 mt-5">
+            <div class="menu-item">
+              <img src="../img/sushi_amarillo.jpg" alt="Maki de aguacate">
+              <h3>Tuna tartar roll</h3>
+              <p>Roll de atún, aguacate con deliciosa salsa de mango y sishimi.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 mt-5">
+            <div class="menu-item">
+              <img src="../img/tempura.jpg" alt="Tempura de camarones">
+              <h3>Sashimi de gambas rojas</h3>
+              <p>Delicioso y elegante plato hecho con gambas cortadas y servidas con salsa de soja y wasabi.</p>
+            </div>
+          </div>
+          <!-- FILA 2 -->
+          <div class="col-12 col-md-4 col-sm-6 mt-5">
+            <div class="menu-item">
+              <img src="../img/nigiri_mantequilla.jpg" alt="Sopa de miso">
+              <h3>Nigiri de pez mantequilla</h3>
+              <p>Plato elegante y delicioso, lámina de pescado mantequilla sobre arroz de sushi con salsa de trufa.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-6 mt-5">
+              <div class="menu-item">
+                <img src="../img/salmon_flambeado.jpg" alt="Sopa de miso">
+                <h3>Nigiri de salmón flambeado</h3>
+                <p>Una de las piezas más populares, pequeña porción de arroz con una fina lámina de salmón flambeado.</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mt-5">
+              <div class="menu-item">
+                <img src="../img/anguila.jpg" alt="Sopa de miso">
+                <h3>Nigiri de Fua</h3>
+                <p>Delicias de arroz y fua, nigiri de fua con salsa de anguila.</p>
+              </div>
+            </div>
+        </div>
+      </section>
+      <!-- FIN MENU -->
+
+      <!-- NOSOTROS -->
+      <section class="mt-4" id="about">
+        <div class="nosotros-container">
+          <img class="img-fluid img-custom" src="../img/worldeli_2.jpg" width="1980" height="1980" alt="Imagen de Nosotros">
+          <div class="nosotros-content">
+            <h3>Nosotros 🍣</h3>
+            <p>Somos un restaurante de sushi especializado en ofrecer una experiencia gastronómica auténtica y de calidad. Nuestro equipo de chefs expertos se dedica a preparar los platos más deliciosos utilizando ingredientes frescos y de origen local.</p>
+            <a href="#" class="btn boton_nosotros">Leer más</a>
+          </div>
+        </div>
+      </section>
+      <!-- FIN NOSOTROS -->
+
+      <!-- FOOTER -->
+      <footer id="contacto" class="footer">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-info">
+              <h2>Contacto 🍣</h2>
+              <p>Para más información o consultas, no dudes en contactarnos:</p>
+              <ul>
+                <li>Teléfono: 123-456-789</li>
+                <li>Email: info@worldeli.com</li>
               </ul>
             </div>
-          </nav>
-        </div>
-      </header>
-      <!-- FIN HEADER -->
-
-      <!-- MAIN -->
-      <main>
-
-        <!-- INICIO -->
-        <section id="inicio" class="container">
-          <h1 class=""><br><br>Bienvenido a Worldeli</h1>
-          <p>¡Descubre el mejor sushi y platos de comida japonesa en nuestra exclusiva selección de menú!</p>
-        </section>
-        <!-- FIN INICIO -->
-        
-        <!-- MENU -->
-        <section id="menu" class="container">
-          <h2>Nuestros mejores platos del menú 🍣</h2>
-          <div class="row">
-            <div class="col-md-4 col-sm-6 mt-5">
-              <div class="menu-item">
-                <img src="../img/nigiri.jpg" alt="Sushi de salmón">
-                <h3>Nigiri de solomillo</h3>
-                <p>Delicioso Nigiri de solomillo flameado con salsa teriyaki de alta calidad.</p>
-              </div>
+            <div class="footer-social">
+              <h2>Síguenos</h2>
+              <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
             </div>
-            <div class="col-md-4 col-sm-6 mt-5">
-              <div class="menu-item">
-                <img src="../img/sushi_amarillo.jpg" alt="Maki de aguacate">
-                <h3>Tuna tartar roll</h3>
-                <p>Roll de atún, aguacate con deliciosa salsa de mango y sishimi.</p>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6 mt-5">
-              <div class="menu-item">
-                <img src="../img/tempura.jpg" alt="Tempura de camarones">
-                <h3>Sashimi de gambas rojas</h3>
-                <p>Delicioso y elegante plato hecho con gambas cortadas y servidas con salsa de soja y wasabi.</p>
-              </div>
-            </div>
-            <!-- FILA 2 -->
-            <div class="col-12 col-md-4 col-sm-6 mt-5">
-              <div class="menu-item">
-                <img src="../img/nigiri_mantequilla.jpg" alt="Sopa de miso">
-                <h3>Nigiri de pez mantequilla</h3>
-                <p>Plato elegante y delicioso, lámina de pescado mantequilla sobre arroz de sushi con salsa de trufa.</p>
-              </div>
-            </div>
-            <div class="col-md-4 col-sm-6 mt-5">
-                <div class="menu-item">
-                  <img src="../img/salmon_flambeado.jpg" alt="Sopa de miso">
-                  <h3>Nigiri de salmón flambeado</h3>
-                  <p>Una de las piezas más populares, pequeña porción de arroz con una fina lámina de salmón flambeado.</p>
-                </div>
-              </div>
-              <div class="col-md-4 col-sm-6 mt-5">
-                <div class="menu-item">
-                  <img src="../img/anguila.jpg" alt="Sopa de miso">
-                  <h3>Nigiri de Fua</h3>
-                  <p>Delicias de arroz y fua, nigiri de fua con salsa de anguila.</p>
-                </div>
-              </div>
           </div>
-        </section>
-        <!-- FIN MENU -->
-
-        <!-- NOSOTROS -->
-         <section class="mt-5" id="about">
-
-            <div class="position-relative" style="margin: 0px; padding: 0px;">
-
-              <img class="img-fluid img-custom" src="../img/worldeli_2.jpg" width="1980" height="1980">
-
-              <!-- <div class="position-absolute top-50 start-50 div_1">
-                
-                  <h3 class="">Nosotros 🍣</h3>
-                  <p class="" style="line-height: 2; margin: 20px 0 0;">Somos un restaurante de sushi especializado en ofrecer una experiencia gastronómica auténtica y de calidad. Nuestro equipo de chefs expertos se dedica a preparar los platos más deliciosos utilizando ingredientes frescos y de origen local.</p>
-                  <a href="#" class="btn btn-primary" style="text-transform: uppercase; letter-spacing: 3px; background-image: none; font-weight: 700; border-style: solid; margin: 29px auto 0 0; padding: 12px 54px 14px;">Leer más</a>
-
-              </div> -->
-            </div>
-
-
-
-            <!-- <div class="mt-5">
-
-                <img class="img-fluid img-custom" src="../img/worldeli_1.jpg" width="280" height="280">
-  
-            </div>
-
-          </section> -->
-          <!-- FIN NOSOTROS -->
-
-          <!-- CONTACTO -->
-    <section id="contacto" class="container mt-5">
-        <h2>Contacto 🍣</h2>
-        <p>Para más información o consultas, no dudes en contactarnos:</p>
-        <ul>
-        <li>Teléfono: 123-456-789</li>
-        <li>Email: info@worldeli.com</li>
-        </ul>
-    </section>
-    <!-- FIN CONTACTO -->
-        
-      </main>
-      <!-- FIN MAIN -->
-      
-  <!-- FOOTER -->
-  <footer>
-  </footer>
-  <!-- FIN FOOTER -->
-
-
-
-
+          <div class="footer-bottom">
+            <p>&copy; 2024 Worldeli. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </footer>
+      <!-- FIN FOOTER -->
+    </main>
+    <!-- FIN MAIN -->
   <!-- JS BOOTSTRAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   <!-- JS NATIVO -->
   <script src="../js/scripts.js"></script>
-  
 </body>
 </html>
