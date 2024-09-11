@@ -309,7 +309,7 @@ main {
 }
 
 .div_1 a {
-  text-decoration: none;
+  text-decoration: none!important;
 }
 
 .boton_nosotros {
@@ -325,6 +325,7 @@ main {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .boton_nosotros:hover {
@@ -332,6 +333,7 @@ main {
   color: #333;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
   transform: translateY(-3px);
+  text-decoration: none;
 }
 
 /* Estilos para pantallas grandes */
