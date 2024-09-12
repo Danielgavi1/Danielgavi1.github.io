@@ -251,16 +251,102 @@ img {
 
 /* Change background header */
 
-
+.bg-header{
+  box-shadow: 0 2px 8px hsla(19, 64%, 24%, .1);
+}
 
 /* Active link */
 
 
+
 /*=============== HOME ===============*/
 
+.home{
+  position: relative;
+}
+
+.home__container{
+  row-gap: 3rem;
+  padding-top: 2rem;
+}
+
+.home__img{
+  width: 300px;
+  justify-self: center;
+}
+
+.home__data{
+  text-align: center;
+}
+
+.home__title{
+  font-size: var(--biggest-font-size);
+  font-family: var(--title-font);
+  margin-bottom: 1rem;
+}
+
+.home__title img{
+  width: 40px;
+}
+
+.home__title div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: .5rem;
+}
+
+.home__description{
+  padding: 0 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.home__leaf1,
+.home__leaf2{
+  position: absolute;
+  opacity: .2;
+}
+
+.home__leaf1{
+  width: 80px;
+  top: 8rem;
+  left: -1rem;
+  transform: rotate(90deg);
+}
+
+.home__leaf2{
+  width: 100px;
+  bottom: 1rem;
+  right: -2rem;
+  transform: rotate(-15deg);
+}
 
 /*=============== BUTTON ===============*/
 
+.button{
+  display: inline-flex;
+  align-items: center;
+  column-gap: .5rem;
+  background-color: var(--first-color);
+  padding: 1rem 1.5rem;
+  border-radius: 4rem;
+  color: #fff;
+  font-weight: var(--font-medium);
+  transition: background .3s;
+}
+
+.button i{
+  font-size: 1.5rem;
+  transition: transform .3s;
+}
+
+.button:hover{
+  background-color: var(--first-color);
+}
+
+.button:hover i{
+  transform: translateY(.25rem);
+}
 
 /*=============== ABOUT ===============*/
 
