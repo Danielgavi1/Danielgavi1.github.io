@@ -139,7 +139,7 @@ img {
 
 .header{
   position: fixed;
-  width: 100px;
+  width: 100%;
   background-color: var(--body-color);
   top: 0;
   left: 0;
@@ -187,7 +187,7 @@ img {
 @media screen and (max-width: 767px){
   .nav__menu{
     position: fixed;
-    top: 0;
+    top: -100%;
     left: 0;
     background-color: var(--body-color);
     width: 100%;
@@ -212,6 +212,34 @@ img {
 
 .nav__link:hover{
   color: var(--first-color);
+}
+
+.nav__close{
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.nav__img1,
+.nav__img2{
+  position: absolute;
+  opacity: .2;
+}
+
+.nav__img1{
+  width: 100px;
+  top: .75rem;
+  left: -2rem;
+  transform: rotate(165deg);
+}
+
+.nav__img2{
+  width: 50px;
+  right: -1rem;
+  bottom: 0;
+  transform: rotate(-30deg);
 }
 
 /* Show menu */
