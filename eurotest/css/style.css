@@ -36,11 +36,11 @@ h1 {
     opacity: 0.9;
 }
 .buttons button:first-child {
-    background-color: #f44336;
+    background-color: #4caf50;
     color: white;
 }
 .buttons button:last-child {
-    background-color: #4caf50;
+    background-color: #f44336;
     color: white;
 }
 
