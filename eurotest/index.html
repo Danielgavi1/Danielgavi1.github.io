@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EuroTest</title>
-    <link rel="stylesheet" href="./style.css">
-    <script src="./index.js" defer></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/index.js" defer></script>
 </head>
 <body>
+    <div class="top-right">
+        <img src="./img/1f381.png" alt="regalo_icon" width="100">
+    </div>
     <div class="container">
         <h1>✨ EuroTest ✨</h1>
-        <p>Lleva el control de tus tests y ahorra para tu viaje.</p>
+        <p>Lleva el control de tus tests y gana premios.</p>
         <div class="counter">
             <h2>Ahorro: <span id="savings">0</span> €</h2>
         </div>
@@ -18,6 +21,8 @@
             <button onclick="removeTest()">Restar Test -1 🛠️</button>
             <button onclick="addTest()">Sumar Test +1 🚗</button>
         </div>
+        <br><br>
+        <a href="./html/premios.html">Ver Premios 🏆</a>
     </div>
 </body>
 </html>
