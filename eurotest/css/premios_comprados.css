@@ -15,52 +15,60 @@ body {
 }
 
 h1 {
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: 4rem;
+    font-weight: 900;
     color: #fff;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
-    margin-bottom: 30px;
+    text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.3); /* Más sombra para mayor contraste */
+    margin-bottom: 40px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    animation: slideIn 1s ease-out;
 }
 
 ul {
     list-style: none;
     padding: 0;
-    max-width: 600px;
+    max-width: 700px;
     width: 100%;
     color: #fff;
+    animation: fadeInList 1.5s ease-out;
 }
 
 li {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(183, 0, 255, 0.4);
     margin: 15px auto;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    font-size: 1.2rem;
-    font-weight: 500;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2); /* Sombra más intensa para un efecto más destacado */
+    font-size: 1.4rem; /* Aumentamos el tamaño para mejorar la legibilidad */
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    backdrop-filter: blur(10px); /* Efecto de desenfoque de fondo para dar un toque moderno */
 }
 
 li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px); /* Efecto más pronunciado al hacer hover */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Sombras más fuertes */
+    background-color: rgba(161, 0, 224, 0.4); /* Efecto de resaltar al pasar el ratón */
 }
 
-/* Efecto de entrada de los premios */
-li:nth-child(even) {
-    animation: fadeIn 0.6s ease-in-out;
-}
-
-li:nth-child(odd) {
-    animation: fadeIn 0.8s ease-in-out;
-}
-
-@keyframes fadeIn {
+/* Animación para que los elementos de la lista entren suavemente */
+@keyframes fadeInList {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efecto de entrada del título */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
     }
     to {
         opacity: 1;
