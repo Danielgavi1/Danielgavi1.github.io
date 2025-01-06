@@ -8,15 +8,16 @@ body {
     margin: 0;
     font-family: Playfair;
     font-style: italic;
-    background-color: #ffbbfe;
+    background-color: #ffd2fe;
 }
 .container {
     text-align: center;
     background: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px 5px rgba(206, 0, 203, 0.5);
 }
+
 h1 {
     color: #333;
 }
@@ -44,6 +45,25 @@ h1 {
     color: white;
 }
 
+.button_comprar {
+    background-color: #baf4fc; /* Green */
+    border: solid 1px #000000;
+    border-radius: 20px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button_comprar:hover {
+    background-color: #7dedfc;
+}
+
 /* Imagen en la esquina superior derecha */
 .top-right {
     position: absolute;
@@ -54,6 +74,12 @@ h1 {
 .top-right img {
     width: 80px;
     height: auto;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
 }
 
 /* Más separación a la derecha en pantallas grandes (Desktop) */
