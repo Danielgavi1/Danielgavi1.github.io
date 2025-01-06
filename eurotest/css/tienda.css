@@ -2,7 +2,7 @@
 
 body {
     font-family: 'Playfair', serif;
-    font-style: italic;  
+    font-style: italic;
     background-color: #ffd2fe;
     margin: 0;
     padding: 0;
@@ -114,4 +114,27 @@ h1{
 
 .container{
     margin-bottom: 50px;
+}
+
+/* estilos boton premios comprados */
+
+.comprados{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background: #ff45ca;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    /* transitio */
+    transition: background-color 0.3s;
+    border: solid 1px #141414;
+}
+
+.comprados:hover {
+    background: #ff00b3;
 }

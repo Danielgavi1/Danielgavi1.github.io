@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const buyButton = card.querySelector(".buy");
         const quantitySpan = card.querySelector(".quantity");
         const price = parseInt(card.dataset.price);
+        const premioNombre = card.querySelector("h2").textContent;
 
         let quantity = 0;
 
@@ -34,7 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (savings >= totalCost && quantity > 0) {
                 savings -= totalCost;
                 localStorage.setItem("savings", savings);
-                alert(`Has comprado ${quantity} x ${card.querySelector("h2").textContent}. Ahorros restantes: ${savings} €`);
+                
+                // Llamar a la función para registrar premios
+                registrarPremios(premioNombre, quantity);
+
+                alert(`Has comprado ${quantity} x ${premioNombre}. Ahorros restantes: ${savings} €`);
                 quantity = 0;
                 quantitySpan.textContent = quantity;
             } else if (quantity === 0) {
@@ -44,4 +49,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // Función para registrar premios en localStorage
+    function registrarPremios(premio, cantidad) {
+        let premios = JSON.parse(localStorage.getItem("premios")) || [];
+        
+        // Agregar el premio con la cantidad
+        for (let i = 0; i < cantidad; i++) {
+            premios.push(premio);
+        }
+        
+        // Guardar en localStorage
+        localStorage.setItem("premios", JSON.stringify(premios));
+    }
 });
