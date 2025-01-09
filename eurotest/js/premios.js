@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const savings = localStorage.getItem('savings') ? parseInt(localStorage.getItem('savings')) : 0;
 
     const achievements = [
-        // { id: 'prize8', threshold: 8, text: ' 8€ Café y pastel ☕🍰' },
+        { id: 'prize8', threshold: 8, text: ' 8€ Café y pastel ☕🍰' },
         // { id: 'prize15', threshold: 15, text: ' Ver la peli que quieras 🍿' },
         // { id: 'prize30', threshold: 30, text: ' 30€ Cena temática en casa 🍴' },
         // { id: 'prize40', threshold: 40, text: ' 40€ Entradas a Naturlandia 🌳' },
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // { id: 'prize90', threshold: 90, text: ' 90€ Vale para un spa 🧖‍♀️' },
         // { id: 'prize100', threshold: 100, text: ' 100€ Cena en un restaurante de lujo 🍾' }
 
-        { id: 'prize8', threshold: 8, text: ' Premio 8€ enseña las capturas a tu niño' },
+        // { id: 'prize8', threshold: 8, text: ' Premio 8€ enseña las capturas a tu niño' },
         { id: 'prize15', threshold: 15, text: ' Premio 15€ enseña las capturas a tu niño' },
         { id: 'prize30', threshold: 30, text: ' Premio 30€ enseña las capturas a tu niño' },
         { id: 'prize40', threshold: 40, text: ' Premio 40€ enseña las capturas a tu niño' },
