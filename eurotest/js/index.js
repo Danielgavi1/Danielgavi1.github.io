@@ -65,7 +65,7 @@ function checkAchievements() {
             message = '¡Vas por buen camino! 🎉 Has desbloqueado un nuevo premio!';
             break;
         case 15: 
-            message = 'Premio de 15€ enseña las capturas a tu niño';
+            message = 'Premio de 15€ Entradas al cine (peli al gusto) 🍿';
             break;
         case 30: 
             message = 'Premio de 30€ enseña las capturas a tu niño';
