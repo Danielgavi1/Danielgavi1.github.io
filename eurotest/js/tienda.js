@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const cards = document.querySelectorAll(".card");
+    const cards = document.querySelectorAll(".product-card");  // Aquí corregido para usar 'product-card'
 
     // Obtener ahorros del localStorage o inicializar
     let savings = parseInt(localStorage.getItem("savings")) || 0;
