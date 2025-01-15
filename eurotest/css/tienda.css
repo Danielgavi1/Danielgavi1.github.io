@@ -85,7 +85,7 @@ h1 {
 }
 
 .counter button {
-    background-color: #007bff;
+    background-color: #4bbdff;
     color: white;
     border: none;
     padding: 8px 12px;
@@ -95,7 +95,7 @@ h1 {
 }
 
 .counter button:hover {
-    background-color: #0056b3;
+    background-color: #2b99d9;
 }
 
 .quantity {
@@ -155,7 +155,7 @@ h1 {
 
     .comprados {
         position: fixed;
-        bottom: 30px; /* Ajusta la distancia desde el fondo */
+        bottom: 70px; /* Ajusta la distancia desde el fondo */
         right: 15px; /* Ajusta la distancia desde el lado derecho */
         width: 55px; /* Ajusta el tamaño del ícono */
         height: 55px; /* Ajusta el tamaño del ícono */
