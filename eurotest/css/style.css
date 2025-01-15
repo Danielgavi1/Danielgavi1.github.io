@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 body {
     display: flex;
@@ -6,98 +6,65 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #ffd2fe, #ffe4f9);
-    color: #333;
+    font-family: Playfair;
+    font-style: italic;
+    background-color: #ffd2fe;
 }
-
 .container {
     text-align: center;
     background: white;
     padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 90%;
-    animation: fadeIn 0.8s ease-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    border-radius: 10px;
+    box-shadow: 0 0 15px 5px rgba(206, 0, 203, 0.5);
 }
 
 h1 {
-    font-size: 2.2rem;
-    font-family: 'Playfair Display', serif;
-    color: #5a189a;
-    margin-bottom: 15px;
+    color: #333;
 }
-
-p {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    color: #555;
-}
-
 .counter h2 {
-    font-size: 2rem;
-    color: #1a535c;
-    margin: 15px 0;
+    font-size: 2.5rem;
+    margin: 20px 0;
 }
-
 .buttons button {
     margin: 10px;
-    padding: 12px 25px;
+    padding: 10px 20px;
     font-size: 1rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .buttons button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
 }
-
 .buttons button:first-child {
     background-color: #4caf50;
     color: white;
-    font-weight: bold;
 }
-
 .buttons button:last-child {
     background-color: #f44336;
     color: white;
-    font-weight: bold;
 }
 
 .button_comprar {
-    background-color: #1e90ff;
-    border: none;
-    border-radius: 30px;
+    background-color: #baf4fc; /* Green */
+    border: solid 1px #000000;
+    border-radius: 20px;
     color: white;
-    padding: 15px 30px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    display: inline-block;
+    padding: 15px 32px;
     text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .button_comprar:hover {
-    background-color: #007acc;
-    transform: translateY(-3px);
+    background-color: #7dedfc;
 }
 
+/* Imagen en la esquina superior derecha */
 .top-right {
     position: absolute;
     top: 160px;
@@ -107,45 +74,35 @@ p {
 .top-right img {
     width: 80px;
     height: auto;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.top-right img:hover {
-    transform: scale(1.1);
-    opacity: 0.9;
 }
 
 a {
     text-decoration: none;
-    color: inherit;
-    font-size: 1rem;
+    color: #333;
+    font-size: 1.2rem;
 }
 
-/* Responsividad */
+/* Más separación a la derecha en pantallas grandes (Desktop) */
+@media (min-width: 1024px) {
+    .top-right {
+        right: 410px;
+        top: 60px;
+    }
+}
+
+/* Responsividad para tablets y móviles */
 @media (max-width: 768px) {
     .container {
+        max-width: 90%;
         padding: 20px;
     }
-
+    
     h1 {
         font-size: 1.8rem;
     }
 
     .top-right img {
         width: 70px;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    .buttons button {
-        padding: 10px 20px;
-    }
-
-    .button_comprar {
-        font-size: 0.9rem;
-        padding: 12px 25px;
     }
 }
 
@@ -154,8 +111,8 @@ a {
         font-size: 1.5rem;
     }
 
-    p {
-        font-size: 0.9rem;
+    p, a {
+        font-size: 1rem;
     }
 
     .top-right img {
