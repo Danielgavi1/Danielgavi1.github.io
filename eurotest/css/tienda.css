@@ -12,7 +12,7 @@ body {
 }
 
 header {
-    background-color: #ff74d8;
+    background-color: #b758ff;
     padding: 20px;
     width: 100%;
     text-align: center;
@@ -125,18 +125,18 @@ h1 {
 
 /* Mantener estilos existentes para desktop */
 .comprados {
-    background-color: #ff45ca;
+    background-color: #b758ff;
     color: white;
     border: none;
     padding: 12px 24px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .comprados:hover {
-    background-color: #ff00b3;
+    background-color: #8c33bc;
 }
 
 
@@ -155,14 +155,14 @@ h1 {
 
     .comprados {
         position: fixed;
-        bottom: 20px; /* Ajusta la distancia desde el fondo */
+        bottom: 30px; /* Ajusta la distancia desde el fondo */
         right: 15px; /* Ajusta la distancia desde el lado derecho */
-        width: 60px; /* Ajusta el tamaño del ícono */
-        height: 60px; /* Ajusta el tamaño del ícono */
+        width: 55px; /* Ajusta el tamaño del ícono */
+        height: 55px; /* Ajusta el tamaño del ícono */
         border-radius: 50%; /* Hace el botón redondo */
         padding: 0; /* Elimina el relleno */
         font-size: 30px; /* Tamaño del icono */
-        background-color: #ff45ca;
+        background-color: #ba25ff;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -170,7 +170,7 @@ h1 {
     }
 
     .comprados:hover {
-        background-color: #ff00b3;
+        background-color: #8c33bc;
     }
 
     .comprados i {
