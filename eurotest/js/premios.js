@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const achievements = [
         { id: 'prize8', threshold: 8, text: ' 8€ Café y pastel ☕🍰' },
-        { id: 'prize15', threshold: 15, text: ' Entradas al cine (peli al gusto) 🍿' },
+        { id: 'prize15', threshold: 15, text: ' 15€ Entradas al cine (peli al gusto) 🍿' },
         // { id: 'prize30', threshold: 30, text: ' 30€ Cena temática en casa 🍴' },
         // { id: 'prize40', threshold: 40, text: ' 40€ Entradas a Naturlandia 🌳' },
         // { id: 'prize50', threshold: 50, text: ' 50€ Cena para dos 🍽️' },
