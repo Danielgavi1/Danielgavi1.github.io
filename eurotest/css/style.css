@@ -1,121 +1,201 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap');
+
+:root {
+    --primary: #7C3AED;
+    --secondary: #A78BFA;
+    --background: #ae00ff2b;
+    --surface: #FFFFFF;
+    --text: #1E293B;
+    --success: #34D399;
+    --error: #F87171;
+    --border: #E2E8F0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: Playfair;
+    font-family: 'Inter', sans-serif;
     font-style: italic;
-    background-color: #ffd2fe;
-}
-.container {
-    text-align: center;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px 5px rgba(206, 0, 203, 0.5);
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-h1 {
-    color: #333;
+.app-bar {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    background: var(--surface);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
-.counter h2 {
-    font-size: 2.5rem;
-    margin: 20px 0;
+
+.icon-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
 }
-.buttons button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 1rem;
+
+.icon-button:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero-section {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.highlight {
+    color: var(--primary);
+}
+
+.app-subtitle {
+    color: #64748B;
+    font-size: 1.1rem;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.savings-card {
+    background: var(--surface);
+    width: 100%;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.savings-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.savings-header i {
+    font-size: 1.4rem;
+    color: var(--primary);
+}
+
+.savings-amount {
+    font-size: 2.6rem;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: -1px;
+}
+
+.actions-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.primary-button, .secondary-button, .cta-button {
+    padding: 1rem 1.8rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    font-weight: 500;
     cursor: pointer;
-}
-.buttons button:hover {
-    opacity: 0.9;
-}
-.buttons button:first-child {
-    background-color: #4caf50;
-    color: white;
-}
-.buttons button:last-child {
-    background-color: #f44336;
-    color: white;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
 }
 
-.button_comprar {
-    background-color: #baf4fc; /* Green */
-    border: solid 1px #000000;
-    border-radius: 20px;
+.primary-button {
+    background: var(--success);
     color: white;
-    padding: 15px 32px;
-    text-align: center;
+    flex: 1;
+}
+
+.secondary-button {
+    background: var(--error);
+    color: white;
+    flex: 1;
+}
+
+.cta-button {
+    background: var(--primary);
+    color: white;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    width: 100%;
 }
 
-.button_comprar:hover {
-    background-color: #7dedfc;
+.primary-button:hover, .secondary-button:hover, .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Imagen en la esquina superior derecha */
-.top-right {
-    position: absolute;
-    top: 160px;
-    right: 20px;
-}
-
-.top-right img {
-    width: 80px;
-    height: auto;
-}
-
-a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1.2rem;
-}
-
-/* Más separación a la derecha en pantallas grandes (Desktop) */
-@media (min-width: 1024px) {
-    .top-right {
-        right: 410px;
-        top: 60px;
-    }
-}
-
-/* Responsividad para tablets y móviles */
 @media (max-width: 768px) {
-    .container {
-        max-width: 90%;
-        padding: 20px;
+    .main-content {
+        padding: 1.5rem;
+        gap: 2rem;
     }
     
-    h1 {
-        font-size: 1.8rem;
+    .app-title {
+        font-size: 2.4rem;
     }
-
-    .top-right img {
-        width: 70px;
+    
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .savings-amount {
+        font-size: 2.2rem;
     }
 }
 
 @media (max-width: 480px) {
-    h1 {
-        font-size: 1.5rem;
+    .app-title {
+        font-size: 2rem;
     }
-
-    p, a {
+    
+    .app-subtitle {
         font-size: 1rem;
     }
-
-    .top-right img {
-        width: 60px;
+    
+    .savings-card {
+        padding: 1.5rem;
     }
 }

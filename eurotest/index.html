@@ -6,29 +6,45 @@
     <title>EuroTest</title>
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/index.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="top-right">
-        <a href="./html/premios.html">
-            <img src="./img/1f381.webp" alt="regalo_icon" width="100">
+    <nav class="app-bar">
+        <a href="./html/premios.html" class="icon-button">
+            <i class="fas fa-gift"></i>
         </a>
-    </div>
-    <div class="container">
-        <h1>✨ EuroTest ✨</h1>
-        <p>Lleva el control de tus tests y gana premios.</p>
-        <div class="counter">
-            <h2>Ahorro: <span id="savings">0</span> €</h2>
+    </nav>
+    
+    <main class="main-content">
+        <div class="hero-section">
+            <h1 class="app-title">
+                <span class="highlight">Euro</span>Test
+            </h1>
+            <p class="app-subtitle">Controla tus tests y descubre recompensas</p>
         </div>
-        <div class="buttons">
-            <button onclick="addTest()">Sumar Test +1 🚗</button>
-            <button onclick="removeTest()">Restar Test -1 🛠️</button>
-        </div>
-        <br><br>
-        <!-- Boton comprar premios --> 
 
-        <button class="button_comprar" onclick="window.location.href='./html/tienda.html'">
-            <a href="./html/tienda.html">Comprar Premios 💸</a>
-        </button>
-    </div>
+        <div class="savings-card">
+            <div class="savings-header">
+                <i class="fas fa-coins"></i>
+                <h2>Fondo Actual</h2>
+            </div>
+            <div class="savings-amount" id="savings">0€</div>
+        </div>
+
+        <div class="actions-container">
+            <div class="button-group">
+                <button class="primary-button" onclick="addTest()">
+                    <i class="fas fa-plus"></i> Test completado
+                </button>
+                <button class="secondary-button" onclick="removeTest()">
+                    <i class="fas fa-minus"></i> Ajustar cuenta
+                </button>
+            </div>
+            
+            <a href="./html/tienda.html" class="cta-button">
+                <i class="fas fa-shopping-bag"></i> Ver recompensas
+            </a>
+        </div>
+    </main>
 </body>
 </html>
