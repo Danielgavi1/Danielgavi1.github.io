@@ -20,7 +20,7 @@ function removeTest() {
 }
 
 function updateSavings() {
-    savingsElement.textContent = savings;
+    savingsElement.textContent = savings+'€';
 }
 
 function saveToLocalStorage() {
