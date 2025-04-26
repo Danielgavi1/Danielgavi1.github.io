@@ -68,7 +68,7 @@ function checkAchievements() {
             message = 'Premio de 15€ Entradas al cine (peli al gusto) 🍿';
             break;
         case 30: 
-            message = 'Premio de 30€ enseña las capturas a tu niño';
+            message = 'Premio de 30€ ¡Cena temática en casa! 🍴';
             break;
         case 40: 
             message = 'Premio de 40€ enseña las capturas a tu niño';
