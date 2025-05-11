@@ -178,6 +178,7 @@ h1 {
     }
 }
 
+/* Estilos para pantallas pequeñas */
 @media (max-width: 480px) {
     .product-grid {
         grid-template-columns: 1fr;
@@ -186,4 +187,12 @@ h1 {
     .product-title {
         font-size: 1rem;
     }
+}
+
+/* Estilos para pantallas grandes - naturlandia */
+@media (min-width: 1024px) {
+  .naturlandia {
+    margin-top: 70px;
+    margin-bottom: 60px;
+  }
 }

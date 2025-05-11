@@ -30,18 +30,6 @@ function saveToLocalStorage() {
 function checkAchievements() {
     let message = '';
     switch (savings) {
-        // case 8:
-        //     message = '¡Vas por buen camino! 🎉 Has desbloqueado un nuevo premio!';
-        //     break;
-        // case 15:
-        //     message = '¡Desbloqueaste una noche de pelis! 🍿';
-        //     break;
-        // case 30:
-        //     message = ' ¡Cena temática en casa! 🍴';
-        //     break;
-        // case 40:
-        //     message = ' ¡Entradas para Naturlandia! 🌳';
-        //     break;
         // case 50:
         //     message = '¡Cena para dos desbloqueada! 🍽️';
         //     break;
@@ -71,7 +59,7 @@ function checkAchievements() {
             message = 'Premio de 30€ ¡Cena temática en casa! 🍴';
             break;
         case 40: 
-            message = 'Premio de 40€ enseña las capturas a tu niño';
+            message = 'Premio de 40€ ¡Entradas para Naturlandia! 🌳';
             break;
         case 50: 
             message = 'Premio de 50€ enseña las capturas a tu niño';
