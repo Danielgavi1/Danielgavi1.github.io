@@ -1,5 +1,5 @@
 function generarLista(titulo, ejercicios, persona) {
-  let html = `<h1>${persona}</h1><h2>${titulo}</h2><ul>`;
+  let html = `<h2>${titulo}</h2><ul>`;
   ejercicios.forEach((ejercicio, i) => {
     const id = `${persona}-${titulo}-${i}`;
     html += `
@@ -13,7 +13,7 @@ function generarLista(titulo, ejercicios, persona) {
 }
 
 function renderRutina(persona, secciones) {
-  let html = '';
+  let html = `<h1>${persona}</h1>`; // Solo aparece una vez aquí
   for (const [titulo, ejercicios] of Object.entries(secciones)) {
     html += generarLista(titulo, ejercicios, persona);
   }
@@ -41,6 +41,7 @@ function renderRutina(persona, secciones) {
     }
   });
 }
+
 
 function cargarVictoria() {
   const rutina = {
