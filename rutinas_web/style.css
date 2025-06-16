@@ -296,3 +296,50 @@ h2 {
 .container {
   animation: fadeIn 0.6s ease;
 }
+
+/* Estilos para el botón "Editar texto" */
+.edit-btn {
+  background-color: #3498db; /* azul claro */
+  color: white;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  user-select: none;
+  box-shadow: 0 2px 5px rgba(52, 152, 219, 0.4);
+  align-self: center; /* para que el botón quede alineado verticalmente en el li */
+}
+
+.edit-btn:hover {
+  background-color: #2980b9; /* azul más oscuro */
+  transform: scale(1.05);
+}
+
+.edit-btn:active {
+  transform: scale(0.95);
+}
+
+.edit-btn:focus {
+  outline: 2px solid #2980b9;
+  outline-offset: 2px;
+}
+
+/* Cambios cuando el body está en modo oscuro */
+body.dark .edit-btn {
+  background-color: #3a7bd5;
+  box-shadow: 0 2px 5px rgba(58, 123, 213, 0.6);
+}
+
+body.dark .edit-btn:hover {
+  background-color: #2c5aa0;
+}
+
+/* Responsive: hacer el botón un poco más grande en pantallas pequeñas */
+@media (max-width: 480px) {
+  .edit-btn {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
