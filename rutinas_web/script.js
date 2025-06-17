@@ -90,12 +90,12 @@ function renderRutina(persona, secciones) {
 function cargarVictoria() {
   const rutina = {
     "🍑 Culo 🍑": [
-      "<strong>Hip trust:</strong> barra (20Kg?) + 10Kg 4 x 10 reps + negativa al fallo",
+      "<strong>Hip trust:</strong> 10Kg 4 x 10 reps + negativa al fallo",
       "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 45Kg 3 x 10 reps",
-      "<strong>Patada de glúteo:</strong> 4 x 10 reps",
+      "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
-      "<strong>Abductor focalizado glúteo 🍑:</strong> 3 x 10 reps",
+      "<strong>Abductor focalizado glúteo 🍑:</strong> 4 x 10 reps",
       "<strong>Hacka:</strong> (barra) 3 x 10 reps",
       "<strong>Sentadilla goblet:</strong> 3 x 10 reps",
       "<strong>Sentadilla sumo con mancuerna:</strong> 3 x 10 reps"
@@ -105,8 +105,8 @@ function cargarVictoria() {
       "<strong>Femoral tumbada:</strong> 10Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 12.5Kg 3 x 10 reps",
-      "<strong>Abductor cadera:</strong> 67.5Kg 3 x 10 reps",
-      "<strong>Aductor cadera:</strong> 60Kg 3 x 10 reps"
+      "<strong>Abductor cadera:</strong> 75Kg 3 x 10 reps",
+      "<strong>Aductor cadera:</strong> 72.5Kg 3 x 10 reps"
     ]
   };
   renderRutina("Victoria", rutina);
@@ -115,9 +115,9 @@ function cargarVictoria() {
 function cargarDaniel() {
   const rutina = {
     "🍑 Culo 🍑": [
-      "<strong>Hip trust:</strong> barra (20Kg?) + 15Kg 4 x 10 reps",
+      "<strong>Hip trust:</strong> 15Kg 4 x 10 reps",
       "<strong>Press pierna sentado</strong> (ajustar rango completo 🍑): 75Kg 3 x 10 reps",
-      "<strong>Patada de glúteo:</strong> 4 x 10 reps",
+      "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
       "<strong>Abductor focalizado glúteo 🍑:</strong> 3 x 10 reps",
