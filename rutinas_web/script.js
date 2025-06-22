@@ -83,11 +83,11 @@ function cargarVictoria() {
   const rutina = {
     "🍑 Culo 🍑": [
       "<strong>Hip trust:</strong> 10Kg 4 x 10 reps + negativa al fallo",
-      "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 45Kg 3 x 10 reps",
       "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
+      "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 45Kg 3 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
-      "<strong>Abductor focalizado glúteo 🍑:</strong> 4 x 10 reps",
+      "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 4 x 10 reps",
       "<strong>Hacka:</strong> (barra) 3 x 10 reps",
       "<strong>Sentadilla goblet:</strong> 3 x 10 reps",
       "<strong>Sentadilla sumo con mancuerna:</strong> 3 x 10 reps"
@@ -107,12 +107,12 @@ function cargarVictoria() {
 function cargarDaniel() {
   const rutina = {
     "🍑 Culo 🍑": [
-      "<strong>Hip trust:</strong> 15Kg 4 x 10 reps",
-      "<strong>Press pierna sentado</strong> (ajustar rango completo 🍑): 75Kg 3 x 10 reps",
+      "<strong>Hip trust:</strong> 20Kg 4 x 10 reps",
       "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
+      "<strong>Press pierna sentado</strong> (ajustar rango completo 🍑): 75Kg 3 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
-      "<strong>Abductor focalizado glúteo 🍑:</strong> 3 x 10 reps",
+      "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 3 x 10 reps",
       "<strong>Hacka:</strong> (barra) 3 x 10 reps",
       "<strong>Sentadilla goblet:</strong> 3 x 10 reps",
       "<strong>Sentadilla sumo con mancuerna:</strong> 3 x 10 reps"
@@ -122,8 +122,8 @@ function cargarDaniel() {
       "<strong>Femoral tumbado:</strong> 25Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 45Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 25Kg 3 x 10 reps",
-      "<strong>Abductor cadera:</strong> 95Kg 3 x 10 reps",
-      "<strong>Aductor cadera:</strong> 95Kg 3 x 10 reps"
+      "<strong>Abductor cadera:</strong> 100Kg 3 x 10 reps",
+      "<strong>Aductor cadera:</strong> 100Kg 3 x 10 reps"
     ]
   };
   renderRutina("Daniel", rutina);
