@@ -1,0 +1,333 @@
+/* Estilos base */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #0a2e0a, #1a3c1a);
+    color: #fff;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Contenedor principal */
+#game-container {
+    text-align: center;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Títulos */
+h1 {
+    font-size: calc(1.5rem + 2vw);
+    color: #FFD700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin: 0.5em 0;
+}
+
+h2 {
+    font-size: calc(1rem + 1vw);
+    margin: 0.5em 0;
+}
+
+/* Ruleta */
+#wheel-container {
+    position: relative;
+    margin: 10px auto;
+    width: min(90vw, 400px);
+    aspect-ratio: 1 / 1;
+}
+
+#wheel {
+    width: 100%;
+    height: 100%;
+    background: url('https://static.vecteezy.com/system/resources/previews/002/551/491/non_2x/casino-european-roulette-vector.jpg') no-repeat center;
+    background-size: cover;
+    border-radius: 50%;
+    border: 3px solid #FFD700;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    transition: transform 6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+#ball {
+    width: 5%;
+    height: 5%;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: transform 6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.spinning #ball {
+    animation: spinBall 6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes spinBall {
+    0% { transform: translateX(-50%) rotate(0deg) translateY(calc(45% - 2.5%)) rotate(0deg); }
+    100% { transform: translateX(-50%) rotate(-1080deg) translateY(calc(45% - 2.5%)) rotate(1080deg); }
+}
+
+/* Controles */
+#controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+#balance {
+    font-size: calc(1rem + 1vw);
+    background: #333;
+    padding: 8px 15px;
+    border-radius: 6px;
+}
+
+#bet-input {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+#bet-amount {
+    padding: 6px;
+    font-size: calc(0.9rem + 0.5vw);
+    width: 80px;
+    border-radius: 4px;
+    border: 1px solid #FFD700;
+    background: #fff;
+    color: #000;
+}
+
+#bet-amount:focus {
+    outline: 2px solid #FFC107;
+    outline-offset: 2px;
+}
+
+#bet-error {
+    color: #FF4D4D;
+    font-size: calc(0.7rem + 0.5vw);
+    display: none;
+}
+
+#bet-error.show {
+    display: block;
+}
+
+#chip-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.chip {
+    padding: 6px 12px;
+    font-size: calc(0.8rem + 0.5vw);
+    background: #FFD700;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.chip:hover, .chip:focus {
+    background: #FFC107;
+    transform: scale(1.05);
+}
+
+.chip:active {
+    transform: scale(0.95);
+}
+
+.chip.selected {
+    background: #FFA000;
+    box-shadow: 0 0 5px #FFA000;
+    transform: scale(1.1);
+}
+
+#clear-bets, #spin-button, #reset-balance {
+    padding: 8px 15px;
+    font-size: calc(0.9rem + 0.5vw);
+    background: #FFD700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    width: 100%;
+    max-width: 200px;
+}
+
+#clear-bets:hover, #spin-button:hover, #reset-balance:hover,
+#clear-bets:focus, #spin-button:focus, #reset-balance:focus {
+    background: #FFC107;
+    transform: scale(1.05);
+}
+
+#clear-bets:active, #spin-button:active, #reset-balance:active {
+    transform: scale(0.95);
+}
+
+#clear-bets:disabled, #spin-button:disabled, #reset-balance:disabled {
+    background: #666;
+    cursor: not-allowed;
+}
+
+/* Mesa de apuestas */
+#betting-table {
+    display: grid;
+    grid-template-columns: repeat(13, minmax(30px, 50px));
+    gap: 2px;
+    background: #006400;
+    padding: 10px;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 10px auto;
+    position: relative;
+    width: min(100%, 650px);
+}
+
+.number, .bet-option {
+    width: 100%;
+    height: min(50px, 8vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #000;
+    font-weight: bold;
+    font-size: calc(0.7rem + 0.5vw);
+    transition: transform 0.2s, background 0.2s;
+    position: relative;
+}
+
+.number:hover, .bet-option:hover,
+.number:focus, .bet-option:focus {
+    transform: scale(1.05);
+    outline: 2px solid #FFC107;
+}
+
+.number:active, .bet-option:active {
+    transform: scale(0.95);
+}
+
+.bet-chip {
+    position: absolute;
+    width: min(20px, 4vw);
+    height: min(20px, 4vw);
+    background: #FFD700;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(0.6rem + 0.2vw);
+    font-weight: bold;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.bet-chip:hover, .bet-chip:focus {
+    background: #FF4D4D;
+    transform: scale(1.1);
+    outline: 2px solid #FFF;
+}
+
+.red { background: #FF0000; color: #fff; }
+.black { background: #000; color: #fff; }
+.green { background: #008000; color: #fff; }
+.bet-option { background: #4B0082; color: #fff; grid-column: span 3; }
+
+/* Notificaciones */
+#bets-display, #result {
+    font-size: calc(0.9rem + 0.5vw);
+    margin: 10px 0;
+    background: #333;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+/* Historial */
+#history {
+    margin-top: 15px;
+}
+
+#history-list {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.history-item {
+    width: min(30px, 6vw);
+    height: min(30px, 6vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: calc(0.7rem + 0.3vw);
+    font-weight: bold;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    body { padding: 5px; }
+    h1 { font-size: calc(1.2rem + 2vw); }
+    #wheel-container { width: 80vw; }
+    #controls { gap: 8px; }
+    #balance { font-size: calc(0.9rem + 1vw); padding: 6px 12px; }
+    #bet-input { flex-direction: column; gap: 6px; }
+    #bet-amount { width: 100%; max-width: 120px; }
+    #chip-buttons { gap: 6px; }
+    #clear-bets, #spin-button, #reset-balance { font-size: calc(0.8rem + 0.5vw); padding: 6px 10px; }
+    #betting-table { grid-template-columns: repeat(13, minmax(20px, 35px)); padding: 8px; gap: 1px; }
+    .number, .bet-option { height: min(35px, 7vw); font-size: calc(0.6rem + 0.5vw); }
+    .bet-chip { width: min(15px, 3.5vw); height: min(15px, 3.5vw); font-size: calc(0.5rem + 0.2vw); }
+    #bets-display, #result { font-size: calc(0.8rem + 0.5vw); padding: 6px; }
+    #history-list { gap: 6px; }
+    .history-item { width: min(25px, 5vw); height: min(25px, 5vw); font-size: calc(0.6rem + 0.3vw); }
+}
+
+@media (max-width: 400px) {
+    #betting-table { grid-template-columns: repeat(7, minmax(20px, 30px)); }
+    .number, .bet-option { grid-column: auto; width: 100%; height: min(30px, 8vw); font-size: calc(0.5rem + 0.5vw); }
+    .bet-option { grid-column: span 7; }
+    .number[data-type="0"] { grid-column: span 2; }
+}
+
+@media (max-width: 320px) {
+    #betting-table { grid-template-columns: repeat(7, minmax(15px, 25px)); }
+    .number, .bet-option { height: min(25px, 7vw); font-size: calc(0.4rem + 0.5vw); }
+    .bet-chip { width: min(12px, 3vw); height: min(12px, 3vw); font-size: calc(0.4rem + 0.2vw); }
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruleta de Casino</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>Ruleta de Casino</h1>
+        <div id="balance">Saldo: $<span id="balance-amount">1000</span></div>
+        <div id="wheel-container">
+            <div id="wheel"></div>
+            <div id="ball"></div>
+        </div>
+        <div id="controls">
+            <div id="bet-input">
+                <span>Apuesta: $</span>
+                <input type="number" id="bet-amount" min="1" aria-label="Cantidad de apuesta">
+                <div id="bet-error"></div>
+                <div id="chip-buttons">
+                    <button class="chip" data-amount="5">$5</button>
+                    <button class="chip" data-amount="10">$10</button>
+                    <button class="chip" data-amount="25">$25</button>
+                    <button class="chip" data-amount="50">$50</button>
+                </div>
+            </div>
+            <button id="clear-bets">Borrar Apuestas</button>
+            <button id="reset-balance">Resetear Saldo</button>
+            <button id="spin-button">¡Girar la Ruleta!</button>
+        </div>
+        <div id="betting-table"></div>
+        <div id="bets-display">Apuestas: Ninguna</div>
+        <div id="result">Resultado: Esperando...</div>
+        <div id="history">
+            <h2>Últimos Resultados</h2>
+            <div id="history-list"></div>
+        </div>
+        <div id="toast" class="toast"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
