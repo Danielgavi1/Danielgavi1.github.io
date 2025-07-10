@@ -97,6 +97,14 @@ function cargarVictoria() {
       "<strong>Curl de pierna:</strong> 12.5Kg 3 x 10 reps",
       "<strong>Abductor cadera:</strong> 82.5Kg 3 x 10 reps",
       "<strong>Aductor cadera:</strong> 75Kg 3 x 10 reps"
+    ],
+    "<img src='./img/espalda.webp' width='30%'>": [
+      "<strong>Dominadas:</strong> 4 x 10 reps",
+      "<strong>Remo con barra:</strong> 4 x 10 reps",
+      "<strong>Jalón al pecho:</strong> 4 x 10 reps",
+      "<strong>Face pull:</strong> 4 x 10 reps",
+      "<strong>Hiperextensiones:</strong> 4 x 10 reps",
+      "<strong>Aductor cadera:</strong> 75Kg 3 x 10 reps"
     ]
   };
   renderRutina("Victoria", rutina);
