@@ -81,7 +81,7 @@ function renderRutina(persona, secciones) {
 
 function cargarVictoria() {
   const rutina = {
-    "🍑 Culo 🍑": [
+    "<img src='./img/culo.webp' width='30%'>": [
       "<strong>Hip trust:</strong> 10Kg 4 x 10 reps + negativa al fallo",
       "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
       "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 45Kg 3 x 10 reps",
@@ -90,7 +90,7 @@ function cargarVictoria() {
       "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 4 x 10 reps",
       "<strong>Hacka:</strong> (barra) 3 x 10 reps"
     ],
-    "🦵 Pierna 🦵": [
+    "<img src='./img/pierna.webp' width='30%'>": [
       "<strong>Press pierna sentada</strong> (ajustar a rango medio 🦵): 55Kg 4 x 10 reps",
       "<strong>Femoral tumbada:</strong> 10Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
