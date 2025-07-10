@@ -88,9 +88,7 @@ function cargarVictoria() {
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
       "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 4 x 10 reps",
-      "<strong>Hacka:</strong> (barra) 3 x 10 reps",
-      "<strong>Sentadilla goblet:</strong> 3 x 10 reps",
-      "<strong>Sentadilla sumo con mancuerna:</strong> 3 x 10 reps"
+      "<strong>Hacka:</strong> (barra) 3 x 10 reps"
     ],
     "🦵 Pierna 🦵": [
       "<strong>Press pierna sentada</strong> (ajustar a rango medio 🦵): 55Kg 4 x 10 reps",
@@ -113,9 +111,7 @@ function cargarDaniel() {
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
       "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 3 x 10 reps",
-      "<strong>Hacka:</strong> (barra) 3 x 10 reps",
-      "<strong>Sentadilla goblet:</strong> 3 x 10 reps",
-      "<strong>Sentadilla sumo con mancuerna:</strong> 3 x 10 reps"
+      "<strong>Hacka:</strong> (barra) 3 x 10 reps"
     ],
     "🦵 Pierna 🦵": [
       "<strong>Press pierna sentado</strong> (ajustar a rango medio 🦵): 95Kg 4 x 10 reps",
