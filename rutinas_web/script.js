@@ -97,8 +97,8 @@ function cargarVictoria() {
       "<strong>Femoral tumbada:</strong> 10Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 12.5Kg 3 x 10 reps",
-      "<strong>Abductor cadera:</strong> 75Kg 3 x 10 reps",
-      "<strong>Aductor cadera:</strong> 72.5Kg 3 x 10 reps"
+      "<strong>Abductor cadera:</strong> 82.5Kg 3 x 10 reps",
+      "<strong>Aductor cadera:</strong> 75Kg 3 x 10 reps"
     ]
   };
   renderRutina("Victoria", rutina);
@@ -122,8 +122,8 @@ function cargarDaniel() {
       "<strong>Femoral tumbado:</strong> 25Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 45Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 25Kg 3 x 10 reps",
-      "<strong>Abductor cadera:</strong> 100Kg 3 x 10 reps",
-      "<strong>Aductor cadera:</strong> 100Kg 3 x 10 reps"
+      "<strong>Abductor cadera:</strong> 152.5Kg 3 x 10 reps",
+      "<strong>Aductor cadera:</strong> 125Kg 3 x 10 reps"
     ]
   };
   renderRutina("Daniel", rutina);
