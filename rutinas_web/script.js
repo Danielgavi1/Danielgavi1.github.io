@@ -118,7 +118,6 @@ function cargarVictoria() {
       "<strong>Hacka:</strong> (barra) 3 x 10 reps"
     ],
     "<img src='./img/pierna.webp' width='25%'>": [
-      "<strong>Press pierna sentada</strong> (ajustar a rango medio 🦵): 55Kg 4 x 10 reps",
       "<strong>Femoral tumbada:</strong> 10Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 12.5Kg 3 x 10 reps",
@@ -145,7 +144,6 @@ function cargarDaniel() {
       "<strong>Hacka:</strong> (barra) 3 x 10 reps"
     ],
     "<img src='./img/pierna.webp' width='25%'>": [
-      "<strong>Press pierna sentado</strong> (ajustar a rango medio 🦵): 95Kg 4 x 10 reps",
       "<strong>Femoral tumbado:</strong> 25Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 45Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 25Kg 3 x 10 reps",
