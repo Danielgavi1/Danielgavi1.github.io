@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Rutinas</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://unpkg.com/fuzzysort@2.0.4/fuzzysort.min.js"></script>
+  <script src="./script.js" defer></script>
   <!-- Icono -->
   <link rel="icon" type="image/x-icon" href="./img/pesa.ico" />
   <!-- Iconos de alta resolución -->
@@ -16,14 +17,15 @@
   <nav>
     <span class="nav-title">🏋️ Rutinas</span>
     <div class="nav-right">
-      <button id="victoriaBtn" data-tooltip="Cargar rutina de Victoria">👧</button>
-      <button id="danielBtn" data-tooltip="Cargar rutina de Daniel">🧒</button>
-      <button id="darkModeToggle" data-tooltip="Cambiar modo oscuro/claro">🌙</button>
+      <button id="victoriaBtn" data-tooltip="Cargar rutina de Victoria" aria-label="Cargar rutina de Victoria">👧</button>
+      <button id="danielBtn" data-tooltip="Cargar rutina de Daniel" aria-label="Cargar rutina de Daniel">🧒</button>
+      <button id="darkModeToggle" data-tooltip="Cambiar modo oscuro/claro" aria-label="Cambiar modo oscuro/claro">🌙</button>
     </div>
   </nav>
   <div class="container">
     <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Buscar ejercicio..." class="search-input">
+      <input type="text" id="searchInput" placeholder="Buscar ejercicio..." class="search-input" aria-label="Buscar ejercicios en la rutina">
+      <span id="searchResults" class="search-results" aria-live="polite"></span>
     </div>
     <div id="contenido"></div>
   </div>

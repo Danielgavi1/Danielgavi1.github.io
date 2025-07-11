@@ -1,7 +1,7 @@
 function generarLista(titulo, ejercicios, persona) {
   let html = `<h2>${titulo}</h2><ul>`;
   ejercicios.forEach((ejercicio, i) => {
-    const id = `${persona}-${titulo}-${i}`;
+    const id = `${persona}-${titulo}-${i}`.replace(/[^a-zA-Z0-9-]/g, '-');
     const regex = /(<strong>.*?<\/strong>)(.*)/;
     const match = ejercicio.match(regex);
     let nombre = ejercicio, editableParte = "";
@@ -19,6 +19,75 @@ function generarLista(titulo, ejercicios, persona) {
   });
   html += '</ul>';
   return html;
+}
+
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+function configurarBuscador(persona) {
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+  let resultados = [];
+  let indiceActual = -1;
+
+  const updateSearch = debounce(() => {
+    const query = searchInput.value.trim().toLowerCase();
+    const ejercicios = document.querySelectorAll('li[data-exercise]');
+    resultados = [];
+    indiceActual = -1;
+
+    ejercicios.forEach(ejercicio => {
+      ejercicio.classList.remove('highlight');
+      ejercicio.classList.remove('hidden');
+    });
+
+    if (query) {
+      resultados = fuzzysort.go(query, Array.from(ejercicios), {
+        key: 'dataset.exercise',
+        threshold: -1000
+      }).map(result => result.obj);
+
+      if (resultados.length > 0) {
+        resultados.forEach(ejercicio => ejercicio.classList.add('highlight'));
+        ejercicios.forEach(ejercicio => {
+          if (!resultados.includes(ejercicio)) ejercicio.classList.add('hidden');
+        });
+        indiceActual = 0;
+        resultados[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        searchResults.textContent = `${resultados.length} ejercicio${resultados.length > 1 ? 's' : ''} encontrado${resultados.length > 1 ? 's' : ''}`;
+        searchResults.classList.remove('no-results');
+      } else {
+        searchInput.classList.add('no-results');
+        setTimeout(() => searchInput.classList.remove('no-results'), 500);
+        searchResults.textContent = 'No se encontraron ejercicios';
+        searchResults.classList.add('no-results');
+      }
+    } else {
+      searchResults.textContent = '';
+    }
+
+    localStorage.setItem(`searchQuery-${persona}`, searchInput.value);
+  }, 300);
+
+  searchInput.addEventListener('input', updateSearch);
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && resultados.length > 0) {
+      e.preventDefault();
+      if (indiceActual < resultados.length - 1) {
+        indiceActual++;
+        resultados[indiceActual].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  });
 }
 
 function renderRutina(persona, secciones) {
@@ -74,6 +143,10 @@ function renderRutina(persona, secciones) {
         localStorage.removeItem(`texto-${id}`);
       });
 
+      localStorage.removeItem(`searchQuery-${persona}`);
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchResults').textContent = '';
+
       if (persona === "Victoria") {
         cargarVictoria();
       } else {
@@ -83,27 +156,15 @@ function renderRutina(persona, secciones) {
   });
 
   // Configurar buscador
-  const searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.trim().toLowerCase();
-    const ejercicios = document.querySelectorAll('li[data-exercise]');
-    
-    let found = false;
-    ejercicios.forEach(ejercicio => {
-      const nombre = ejercicio.getAttribute('data-exercise');
-      if (query && nombre.includes(query)) {
-        ejercicio.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        ejercicio.classList.add('highlight');
-        setTimeout(() => ejercicio.classList.remove('highlight'), 2000);
-        found = true;
-      }
-    });
+  configurarBuscador(persona);
 
-    if (!found && query) {
-      searchInput.classList.add('no-results');
-      setTimeout(() => searchInput.classList.remove('no-results'), 500);
-    }
-  });
+  // Restaurar búsqueda guardada
+  const savedSearch = localStorage.getItem(`searchQuery-${persona}`);
+  if (savedSearch) {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.value = savedSearch;
+    searchInput.dispatchEvent(new Event('input'));
+  }
 }
 
 function cargarVictoria() {
