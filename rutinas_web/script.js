@@ -11,7 +11,7 @@ function generarLista(titulo, ejercicios, persona) {
     }
 
     html += `
-      <li>
+      <li data-exercise="${nombre.replace(/<strong>|<\/strong>/g, '').toLowerCase()}">
         <input type="checkbox" id="${id}">
         <label for="${id}">${nombre} <span id="editable-${id}">${editableParte}</span></label>
         <button type="button" class="edit-btn" data-id="${id}">Editar texto</button>
@@ -74,7 +74,34 @@ function renderRutina(persona, secciones) {
         localStorage.removeItem(`texto-${id}`);
       });
 
-      cargarVictoria(); // O cargarDaniel(), según corresponda
+      if (persona === "Victoria") {
+        cargarVictoria();
+      } else {
+        cargarDaniel();
+      }
+    }
+  });
+
+  // Configurar buscador
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    const ejercicios = document.querySelectorAll('li[data-exercise]');
+    
+    let found = false;
+    ejercicios.forEach(ejercicio => {
+      const nombre = ejercicio.getAttribute('data-exercise');
+      if (query && nombre.includes(query)) {
+        ejercicio.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        ejercicio.classList.add('highlight');
+        setTimeout(() => ejercicio.classList.remove('highlight'), 2000);
+        found = true;
+      }
+    });
+
+    if (!found && query) {
+      searchInput.classList.add('no-results');
+      setTimeout(() => searchInput.classList.remove('no-results'), 500);
     }
   });
 }
@@ -168,7 +195,10 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Configurar botones de cambio de rutina
+  document.getElementById("victoriaBtn").addEventListener("click", cargarVictoria);
+  document.getElementById("danielBtn").addEventListener("click", cargarDaniel);
+
   // Cargar rutina por defecto
   cargarVictoria();
 });
-

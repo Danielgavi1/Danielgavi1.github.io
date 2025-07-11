@@ -14,15 +14,18 @@
 </head>
 <body>
   <nav>
-    <div class="nav-title">🏋️ Rutinas</div>
+    <span class="nav-title">🏋️ Rutinas</span>
     <div class="nav-right">
-      <button onclick="cargarVictoria()">👧</button>
-      <button onclick="cargarDaniel()">🧒</button>
-      <button id="darkModeToggle">🌙</button>
+      <button id="victoriaBtn" data-tooltip="Cargar rutina de Victoria">👧</button>
+      <button id="danielBtn" data-tooltip="Cargar rutina de Daniel">🧒</button>
+      <button id="darkModeToggle" data-tooltip="Cambiar modo oscuro/claro">🌙</button>
     </div>
   </nav>
-  <div class="container" id="contenido">
-    <!-- Rutina cargada dinámicamente -->
+  <div class="container">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Buscar ejercicio..." class="search-input">
+    </div>
+    <div id="contenido"></div>
   </div>
 </body>
 </html>
