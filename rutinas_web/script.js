@@ -126,8 +126,8 @@ function cargarDaniel() {
       "<strong>Aductor cadera:</strong> 125Kg 3 x 10 reps"
     ],
     "<img src='./img/espalda.webp' width='30%'>": [
-      "<strong>Estirar hacia abajo:</strong> 27.5Kg 3 x 10 reps",
-      "<strong>Remo:</strong> 15Kg 3 x 10 reps"
+      "<strong>Estirar hacia abajo:</strong> 75Kg 3 x 10 reps",
+      "<strong>Remo:</strong> 75Kg 3 x 10 reps"
     ]
   };
   renderRutina("Daniel", rutina);
