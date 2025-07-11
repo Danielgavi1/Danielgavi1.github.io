@@ -81,7 +81,7 @@ function renderRutina(persona, secciones) {
 
 function cargarVictoria() {
   const rutina = {
-    "<img src='./img/culo.webp' width='25%'>": [
+    "<img src='./img/culo.webp' width='20%'>": [
       "<strong>Hip trust:</strong> 10Kg 4 x 10 reps + negativa al fallo",
       "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
       "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 45Kg 3 x 10 reps",
@@ -90,7 +90,7 @@ function cargarVictoria() {
       "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 4 x 10 reps",
       "<strong>Hacka:</strong> (barra) 3 x 10 reps"
     ],
-    "<img src='./img/pierna.webp' width='25%'>": [
+    "<img src='./img/pierna.webp' width='20%'>": [
       "<strong>Press pierna sentada</strong> (ajustar a rango medio 🦵): 55Kg 4 x 10 reps",
       "<strong>Femoral tumbada:</strong> 10Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
@@ -108,7 +108,7 @@ function cargarVictoria() {
 
 function cargarDaniel() {
   const rutina = {
-    "<img src='./img/culo.webp' width='30%'>": [
+    "<img src='./img/culo.webp' width='20%'>": [
       "<strong>Hip trust:</strong> 20Kg 4 x 10 reps",
       "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
       "<strong>Press pierna sentado</strong> (ajustar rango completo 🍑): 75Kg 3 x 10 reps",
@@ -117,7 +117,7 @@ function cargarDaniel() {
       "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 3 x 10 reps",
       "<strong>Hacka:</strong> (barra) 3 x 10 reps"
     ],
-    "<img src='./img/pierna.webp' width='25%'>": [
+    "<img src='./img/pierna.webp' width='20%'>": [
       "<strong>Press pierna sentado</strong> (ajustar a rango medio 🦵): 95Kg 4 x 10 reps",
       "<strong>Femoral tumbado:</strong> 25Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 45Kg 3 x 10 reps",
