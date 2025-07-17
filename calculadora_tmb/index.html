@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetabolicPro: Calculadora de TMB y GET</title>
+    <link rel="icon" href="./img/MetabolicPro.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <div class="theme-toggle-wrapper">
+        <input type="checkbox" id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
+        <label for="theme-toggle" class="theme-toggle-label">
+            <span class="icon sun-icon"><i class="fas fa-sun"></i></span>
+            <span class="icon moon-icon"><i class="fas fa-moon"></i></span>
+        </label>
+    </div>
+
+    <main class="container">
+        <header class="app-header">
+            <h1>MetabolicPro</h1>
+            <p class="tagline">Calculadora Avanzada de Tasa Metabólica Basal (TMB) y Gasto Energético Total (GET)</p>
+        </header>
+
+        <section class="calculator-form">
+            <div class="input-group">
+                <label for="sexo">Sexo:</label>
+                <select id="sexo" aria-label="Selecciona tu sexo">
+                    <option value="" disabled selected>-- Elige tu sexo --</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="femenino">Femenino</option>
+                </select>
+                <span class="error-message" id="sexo-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="edad">Edad:</label>
+                <input type="number" id="edad" placeholder="Ej: 30" min="10" max="100" aria-describedby="edad-msg">
+                <span class="info-message">Entre 10 y 100 años</span>
+                <span class="error-message" id="edad-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="peso">Peso (kg):</label>
+                <input type="number" id="peso" placeholder="Ej: 70.5" min="30" max="300" step="0.1" aria-describedby="peso-msg">
+                <span class="info-message">Entre 30 y 300 kg</span>
+                <span class="error-message" id="peso-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="altura">Altura (cm):</label>
+                <input type="number" id="altura" placeholder="Ej: 175" min="100" max="250" aria-describedby="altura-msg">
+                <span class="info-message">Entre 100 y 250 cm</span>
+                <span class="error-message" id="altura-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="actividad">Nivel de actividad física:</label>
+                <select id="actividad" aria-label="Selecciona el nivel de actividad">
+                    <option value="1.2">1. Sedentaria (poco o ningún ejercicio)</option>
+                    <option value="1.375">2. Ligera (ejercicio ligero 1-3 días/semana)</option>
+                    <option value="1.55">3. Moderada (ejercicio moderado 3-5 días/semana)</option>
+                    <option value="1.725">4. Intensa (ejercicio intenso 6-7 días/semana)</option>
+                    <option value="1.9">5. Muy Intensa (ejercicio muy intenso, trabajo físico, 2x día)</option>
+                </select>
+                <span class="error-message" id="actividad-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="formula">Fórmula de cálculo:</label>
+                <select id="formula" aria-label="Selecciona la fórmula de cálculo">
+                    <option value="harris">Harris-Benedict (Revisada)</option>
+                    <option value="mifflin">Mifflin-St Jeor (Más precisa)</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button type="button" id="calculate-btn" class="primary-btn">Calcular</button>
+                <button type="button" id="reset-btn" class="secondary-btn">Limpiar</button>
+            </div>
+        </section>
+
+        <section class="results-section" id="results-section">
+            <h2>Tus Resultados Metabólicos</h2>
+            <div class="result-box">
+                <h3>Tasa Metabólica Basal (TMB)</h3>
+                <p class="result-value" id="tmb-output">-- Kcal/día</p>
+                <span class="info-message">Energía que tu cuerpo necesita en reposo absoluto.</span>
+            </div>
+            <div class="result-box">
+                <h3>Gasto Energético Total (GET)</h3>
+                <p class="result-value-2" id="get-output">-- Kcal/día</p>
+                <span class="info-message">Calorías que quemas en un día, incluyendo la actividad.</span>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>&copy; 2025 MetabolicPro. Diseñado con ❤️ para una vida saludable.</p>
+    </footer>
+</body>
+</html>

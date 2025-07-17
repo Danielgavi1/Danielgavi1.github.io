@@ -1,0 +1,415 @@
+/* Variables CSS para un sistema de diseño flexible */
+:root {
+    --bg-color: #f0f4f8;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --primary-color: #4CAF50; /* Verde vibrante */
+    --primary-dark: #388E3C;
+    --primary-light: #81C784;
+    --secondary-color: #007bff; /* Azul complementario */
+    --secondary-light: #66b3ff;
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+    --border-color: #e0e0e0;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --shadow-dark: rgba(0, 0, 0, 0.15);
+    --font-family: 'Poppins', sans-serif;
+
+    /* Nuevas variables para el toggle */
+    --toggle-inactive-bg: #8c8c8c; /* Gris oscuro para el fondo inactivo del toggle */
+    --toggle-active-bg: var(--primary-light); /* Verde claro para el fondo activo */
+    --toggle-ball-color: #ffffff; /* Color de la "bola" del toggle */
+    --sun-color: #f39c12; /* Color para el ícono del sol */
+    --moon-color: #3498db; /* Color para el ícono de la luna */
+}
+
+/* Tema oscuro */
+body.dark-theme {
+    --bg-color: #2c3e50;
+    --card-bg: #34495e;
+    --text-color: #ecf0f1;
+    --primary-color: #81C784;
+    --primary-dark: #66BB6A;
+    --primary-light: #A5D6A7;
+    --secondary-color: #5DADE2;
+    --secondary-light: #A9CCE3;
+    --danger-color: #ff7961;
+    --success-color: #69f0ae;
+    --border-color: #446680;
+    --shadow-light: rgba(0, 0, 0, 0.25);
+    --shadow-dark: rgba(0, 0, 0, 0.4);
+
+    /* Ajustes para el toggle en tema oscuro */
+    --toggle-inactive-bg: #446680; /* Azul oscuro para el fondo inactivo del toggle */
+    --toggle-active-bg: var(--primary-dark); /* Verde oscuro para el fondo activo */
+    --sun-color: #ecf0f1; /* Sol blanco en tema oscuro */
+    --moon-color: #f1c40f; /* Luna amarilla en tema oscuro */
+}
+
+/* Estilos Generales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    position: relative; /* Para el toggle */
+}
+
+/* Toggle de Tema MEJORADO */
+.theme-toggle-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-toggle {
+    display: none; /* Ocultar el checkbox nativo */
+}
+
+.theme-toggle-label {
+    width: 70px; /* Ancho un poco mayor */
+    height: 34px; /* Altura un poco mayor */
+    background-color: var(--toggle-inactive-bg);
+    border-radius: 17px; /* radio para que sea ovalado */
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Espacio entre íconos */
+    padding: 0 5px; /* Espacio interno para los íconos */
+}
+
+.theme-toggle-label::before {
+    content: '';
+    position: absolute;
+    width: 30px; /* Tamaño de la "bola" */
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--toggle-ball-color);
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para la "bola" */
+}
+
+.theme-toggle:checked + .theme-toggle-label {
+    background-color: var(--toggle-active-bg);
+}
+
+.theme-toggle:checked + .theme-toggle-label::before {
+    transform: translateX(36px); /* Mover la "bola" a la derecha (70-30-2*2 = 36) */
+}
+
+/* Estilos de los íconos */
+.theme-toggle-label .icon {
+    font-size: 1.1em; /* Tamaño de los íconos */
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; /* Ocupar el mismo espacio que la bola */
+    height: 30px;
+}
+
+.sun-icon {
+    left: 4px; /* Posicionar el sol a la izquierda */
+    color: var(--sun-color);
+    opacity: 1; /* Visible inicialmente */
+}
+
+.moon-icon {
+    right: 4px; /* Posicionar la luna a la derecha */
+    color: var(--moon-color);
+    opacity: 0; /* Oculto inicialmente */
+}
+
+/* Cuando el toggle está en estado "checked" (tema oscuro) */
+.theme-toggle:checked + .theme-toggle-label .sun-icon {
+    opacity: 0; /* Ocultar el sol */
+    transform: translateX(-10px); /* Pequeña animación al desaparecer */
+}
+
+.theme-toggle:checked + .theme-toggle-label .moon-icon {
+    opacity: 1; /* Mostrar la luna */
+    transform: translateX(0); /* Asegurar posición normal */
+}
+
+
+/* Contenedor Principal */
+.container {
+    background-color: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px var(--shadow-dark);
+    padding: 40px;
+    max-width: 700px;
+    width: 100%;
+    animation: fadeInScale 0.8s ease-out forwards;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    margin-top: 50px; /* Espacio para el toggle */
+}
+
+/* Header de la Aplicación */
+.app-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.app-header h1 {
+    color: var(--primary-color);
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.app-header .tagline {
+    font-size: 1.1em;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* Formulario */
+.calculator-form .input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.calculator-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 1.05em;
+}
+
+.calculator-form input[type="number"],
+.calculator-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 1em;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    -webkit-appearance: none; /* Para Safari/Chrome */
+    -moz-appearance: none; /* Para Firefox */
+    appearance: none; /* Para otros */
+}
+
+.calculator-form input[type="number"]:focus,
+.calculator-form select:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.calculator-form .info-message {
+    font-size: 0.85em;
+    color: var(--text-color);
+    opacity: 0.6;
+    margin-top: 5px;
+    display: block;
+}
+
+.calculator-form .error-message {
+    font-size: 0.85em;
+    color: var(--danger-color);
+    margin-top: 5px;
+    display: block;
+    min-height: 18px; /* Para evitar saltos en el layout */
+}
+
+/* Botones */
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.primary-btn, .secondary-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-btn:hover {
+    background-color: var(--secondary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.secondary-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Sección de Resultados */
+.results-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    animation: fadeIn 1s ease-out forwards;
+    opacity: 0; /* Oculto inicialmente */
+}
+
+.results-section h2 {
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.result-box {
+    background-color: var(--bg-color);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.result-box h3 {
+    color: var(--text-color);
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.result-box .result-value {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+}
+.result-value-2 {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--danger-color);
+    margin-bottom: 10px;
+}
+
+/* Footer */
+.app-footer {
+    margin-top: 40px;
+    text-align: center;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
+/* Animaciones */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+    .app-header h1 {
+        font-size: 2.2em;
+    }
+    .result-box .result-value {
+        font-size: 1.8em;
+    }
+    .result-value-2 {
+        font-size: 1.8em;
+    }
+    .button-group {
+        flex-direction: column;
+    }
+    .primary-btn, .secondary-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+    .container {
+        padding: 20px;
+        margin-top: 40px;
+    }
+    .app-header h1 {
+        font-size: 1.8em;
+    }
+    .app-header .tagline {
+        font-size: 1em;
+    }
+    .result-box h3 {
+        font-size: 1.2em;
+    }
+    .result-box .result-value {
+        font-size: 1.6em;
+    }
+    .result-value-2 {
+        font-size: 1.6em;
+    }
+    .theme-toggle-wrapper {
+        top: 15px;
+        right: 15px;
+    }
+}
