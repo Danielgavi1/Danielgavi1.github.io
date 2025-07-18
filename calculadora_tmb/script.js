@@ -178,37 +178,3 @@ document.addEventListener('DOMContentLoaded', () => {
     actividadInput.addEventListener('change', () => { validateSelect(actividadInput, actividadError, 'nivel de actividad'); calculateMetabolicRates(); });
     formulaInput.addEventListener('change', calculateMetabolicRates); // ¡Esta es la clave para la fórmula!
 });
-
-
-// Registro del Service Worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(reg => console.log('Service Worker registrado:', reg))
-      .catch(err => console.error('Error al registrar SW:', err));
-  });
-}
-
-// Detectar instalación PWA
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  const installBtn = document.createElement('button');
-  installBtn.textContent = 'Instalar app';
-  installBtn.classList.add('primary-btn');
-  installBtn.style.position = 'fixed';
-  installBtn.style.bottom = '20px';
-  installBtn.style.left = '50%';
-  installBtn.style.transform = 'translateX(-50%)';
-  installBtn.style.zIndex = '9999';
-  document.body.appendChild(installBtn);
-
-  installBtn.addEventListener('click', () => {
-    e.prompt();
-    e.userChoice.then(choice => {
-      if (choice.outcome === 'accepted') {
-        console.log('Usuario aceptó instalar');
-      }
-      installBtn.remove();
-    });
-  });
-});
