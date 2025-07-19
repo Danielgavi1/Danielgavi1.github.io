@@ -27,11 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para calcular el IMC
     function getIMCCategory(imc) {
-        if (imc < 18.5) {
+        if (imc < 16) {
             return {
-                category: "Bajo peso",
+                category: "Bajo peso severo",
+                color: "#2980b9",
+                explanation: "Tu IMC es muy bajo. Esto puede representar un riesgo para tu salud. Consulta a un profesional."
+            };
+        } else if (imc >= 16 && imc < 17) {
+            return {
+                category: "Bajo peso moderado",
                 color: "#3498db",
-                explanation: "Tu peso está por debajo del rango saludable. Considera consultar a un profesional de la salud."
+                explanation: "Tu peso está por debajo del rango saludable. Podrías necesitar apoyo nutricional."
+            };
+        } else if (imc >= 17 && imc < 18.5) {
+            return {
+                category: "Bajo peso leve",
+                color: "#5dade2",
+                explanation: "Tu peso está ligeramente por debajo del rango saludable. Mejora tu alimentación y actividad física."
             };
         } else if (imc >= 18.5 && imc < 25) {
             return {
@@ -39,17 +51,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 color: "#2ecc71",
                 explanation: "¡Felicidades! Tu peso está dentro del rango saludable."
             };
-        } else if (imc >= 25 && imc < 30) {
+        } else if (imc >= 25 && imc < 27) {
             return {
-                category: "Sobrepeso",
+                category: "Sobrepeso leve",
+                color: "#f5b041",
+                explanation: "Tu peso está ligeramente elevado. Ejercicio moderado y buena alimentación pueden ayudarte."
+            };
+        } else if (imc >= 27 && imc < 30) {
+            return {
+                category: "Sobrepeso moderado",
                 color: "#f39c12",
-                explanation: "Tu peso está ligeramente por encima del rango saludable. Una dieta equilibrada y ejercicio regular pueden ayudar."
+                explanation: "Tienes sobrepeso. Es recomendable hacer cambios en tu estilo de vida para reducir riesgos."
+            };
+        } else if (imc >= 30 && imc < 35) {
+            return {
+                category: "Obesidad grado I",
+                color: "#e67e22",
+                explanation: "Obesidad leve. Consulta a un profesional para un plan de control de peso."
+            };
+        } else if (imc >= 35 && imc < 40) {
+            return {
+                category: "Obesidad grado II",
+                color: "#d35400",
+                explanation: "Obesidad moderada. Es importante buscar apoyo médico y nutricional."
             };
         } else {
             return {
-                category: "Obesidad",
-                color: "#e74c3c",
-                explanation: "Tu peso está significativamente por encima del rango saludable. Te recomendamos consultar a un profesional de la salud."
+                category: "Obesidad grado III (mórbida)",
+                color: "#c0392b",
+                explanation: "Obesidad severa. Requiere atención médica urgente para reducir riesgos graves."
             };
         }
     }
@@ -170,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearResultsDisplay();
     }
 
-    // Limpiar la visualización de resultados
+    // New function to clear the results display
     function clearResultsDisplay() {
         tmbOutput.textContent = '-- Kcal/día';
         getOutput.textContent = '-- Kcal/día';
@@ -214,18 +244,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function tryCalculate() {
-        // Realizar todas las validaciones
+        // Perform all validations
         const isSexoValid = validateSelect(sexoInput, sexoError, 'sexo');
         const isEdadValid = validateInput(edadInput, 10, 100, edadError, 'edad');
         const isPesoValid = validateInput(pesoInput, 30, 300, pesoError, 'peso');
         const isAlturaValid = validateInput(alturaInput, 100, 250, alturaError, 'altura');
         const isActividadValid = validateSelect(actividadInput, actividadError, 'nivel de actividad');
 
-        // Si TODAS las validaciones son correctas, realiza el cálculo
+        // If ALL validations pass, perform calculation
         if (isSexoValid && isEdadValid && isPesoValid && isAlturaValid && isActividadValid) {
             calculateMetabolicRates();
         } else {
-            // Si ALGUNA validación falla, limpiar la visualización de resultados
+            // If ANY validation fails, clear the results display
             clearResultsDisplay();
         }
     }
@@ -237,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sexoInput.addEventListener('change', tryCalculate);
     actividadInput.addEventListener('change', tryCalculate);
     formulaInput.addEventListener('change', tryCalculate);
-    calculateBtn.addEventListener('click', tryCalculate);
+    calculateBtn.addEventListener('click', tryCalculate); // Added calculate button event listener for explicit calculation
     resetBtn.addEventListener('click', resetForm);
 
     // Initial check when the page loads, in case there are pre-filled values
