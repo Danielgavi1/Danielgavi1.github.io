@@ -19,7 +19,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tmbOutput = document.getElementById('tmb-output');
     const getOutput = document.getElementById('get-output');
-    const caloricGoalInput = document.getElementById('caloric-goal');
+    // const caloricGoalInput = document.getElementById('caloric-goal'); // This element doesn't exist in index.html, can be removed
+
+    const imcOutput = document.getElementById('imc-output');
+    const imcClassification = document.getElementById('imc-classification');
+    const imcInfo = document.getElementById('imc-info');
+
+    // Función para calcular el IMC
+    function getIMCCategory(imc) {
+        if (imc < 18.5) {
+            return {
+                category: "Bajo peso",
+                color: "#3498db",
+                explanation: "Tu peso está por debajo del rango saludable. Considera consultar a un profesional de la salud."
+            };
+        } else if (imc >= 18.5 && imc < 25) {
+            return {
+                category: "Peso normal",
+                color: "#2ecc71",
+                explanation: "¡Felicidades! Tu peso está dentro del rango saludable."
+            };
+        } else if (imc >= 25 && imc < 30) {
+            return {
+                category: "Sobrepeso",
+                color: "#f39c12",
+                explanation: "Tu peso está ligeramente por encima del rango saludable. Una dieta equilibrada y ejercicio regular pueden ayudar."
+            };
+        } else {
+            return {
+                category: "Obesidad",
+                color: "#e74c3c",
+                explanation: "Tu peso está significativamente por encima del rango saludable. Te recomendamos consultar a un profesional de la salud."
+            };
+        }
+    }
 
     // Función para validar campos de entrada
     function validateInput(inputElement, min, max, errorMessageElement, fieldName) {
@@ -58,27 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función principal para calcular TMB y GET
     function calculateMetabolicRates() {
-        // Realizar todas las validaciones
-        const isSexoValid = validateSelect(sexoInput, sexoError, 'sexo');
-        const isEdadValid = validateInput(edadInput, 10, 100, edadError, 'edad');
-        const isPesoValid = validateInput(pesoInput, 30, 300, pesoError, 'peso');
-        const isAlturaValid = validateInput(alturaInput, 100, 250, alturaError, 'altura');
-        const isActividadValid = validateSelect(actividadInput, actividadError, 'nivel de actividad');
-
-        // Si alguna validación falla, detener el cálculo
-        if (!isSexoValid || !isEdadValid || !isPesoValid || !isAlturaValid || !isActividadValid) {
-            tmbOutput.textContent = '-- Kcal/día'; // Reiniciar si los datos son inválidos
-            getOutput.textContent = '-- Kcal/día'; // Reiniciar si los datos son inválidos
-            resultsSection.style.opacity = '0'; // Ocultar resultados si hay errores
-            return;
-        }
-
         const peso = parseFloat(pesoInput.value);
         const altura = parseFloat(alturaInput.value);
         const edad = parseFloat(edadInput.value);
         const sexo = sexoInput.value;
         const actividadFactor = parseFloat(actividadInput.value);
         const formula = formulaInput.value;
+
+        // Cálculo del IMC
+        const alturaEnMetros = altura / 100;
+        const imc = peso / (alturaEnMetros * alturaEnMetros);
+    
+        // Clasificación del IMC
+        const imcData = getIMCCategory(imc);
 
         let tmb = 0;
 
@@ -100,15 +125,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const get = tmb * actividadFactor;
 
+        // Actualizar resultados
         tmbOutput.textContent = `${tmb.toFixed(2)} Kcal/día`;
         getOutput.textContent = `${get.toFixed(2)} Kcal/día`;
+        
+        // Mostrar IMC
+        imcOutput.textContent = `${imc.toFixed(1)} kg/m²`;
+        imcClassification.querySelector('.classification-text').textContent = imcData.category;
+        imcClassification.style.backgroundColor = imcData.color + '20';
+        imcClassification.style.borderColor = imcData.color;
+        imcClassification.style.color = imcData.color;
+        imcInfo.textContent = imcData.explanation;
+        imcOutput.style.color = imcData.color;
 
-        // Mostrar sección de resultados con una animación
+        // Resultados con animación
         resultsSection.style.opacity = '1';
         resultsSection.style.transform = 'translateY(0)';
     }
 
-    // Función para restablecer todos los campos
+    // Restablecer todos los campos y resultados
     function resetForm() {
         sexoInput.value = '';
         edadInput.value = '';
@@ -116,9 +151,9 @@ document.addEventListener('DOMContentLoaded', () => {
         alturaInput.value = '';
         actividadInput.value = '1.2'; // Valor por defecto
         formulaInput.value = 'harris'; // Valor por defecto
-        caloricGoalInput.value = '';
+        // caloricGoalInput.value = ''; // Remove this line
 
-        // Limpiar mensajes de error y estilos
+        // Limpiar mensajes de error y estilos de invalidación
         sexoError.textContent = '';
         edadError.textContent = '';
         pesoError.textContent = '';
@@ -131,10 +166,22 @@ document.addEventListener('DOMContentLoaded', () => {
         alturaInput.classList.remove('invalid-input');
         actividadInput.classList.remove('invalid-input');
 
+        // Limpiar y ocultar resultados
+        clearResultsDisplay();
+    }
+
+    // Limpiar la visualización de resultados
+    function clearResultsDisplay() {
         tmbOutput.textContent = '-- Kcal/día';
         getOutput.textContent = '-- Kcal/día';
-
-        resultsSection.style.opacity = '0'; // Ocultar la sección de resultados
+        imcOutput.textContent = '-- kg/m²';
+        imcOutput.style.color = ''; // Reset color
+        imcClassification.querySelector('.classification-text').textContent = '--';
+        imcClassification.style.backgroundColor = ''; // Reset background
+        imcClassification.style.borderColor = ''; // Reset border
+        imcClassification.style.color = ''; // Reset text color
+        imcInfo.textContent = 'El IMC es una medida de tu peso en relación a tu altura.';
+        resultsSection.style.opacity = '0'; // Hide the section
     }
 
     // Funcionalidad del tema oscuro/claro
@@ -148,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Cargar el tema guardado o el preferido por el sistema
+    // Tema guardado o el preferido por el sistema
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         applyTheme(savedTheme);
@@ -166,15 +213,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Event Listeners
-    calculateBtn.addEventListener('click', calculateMetabolicRates);
+    function tryCalculate() {
+        // Realizar todas las validaciones
+        const isSexoValid = validateSelect(sexoInput, sexoError, 'sexo');
+        const isEdadValid = validateInput(edadInput, 10, 100, edadError, 'edad');
+        const isPesoValid = validateInput(pesoInput, 30, 300, pesoError, 'peso');
+        const isAlturaValid = validateInput(alturaInput, 100, 250, alturaError, 'altura');
+        const isActividadValid = validateSelect(actividadInput, actividadError, 'nivel de actividad');
+
+        // Si TODAS las validaciones son correctas, realiza el cálculo
+        if (isSexoValid && isEdadValid && isPesoValid && isAlturaValid && isActividadValid) {
+            calculateMetabolicRates();
+        } else {
+            // Si ALGUNA validación falla, limpiar la visualización de resultados
+            clearResultsDisplay();
+        }
+    }
+
+    // Eventos
+    edadInput.addEventListener('input', tryCalculate);
+    pesoInput.addEventListener('input', tryCalculate);
+    alturaInput.addEventListener('input', tryCalculate);
+    sexoInput.addEventListener('change', tryCalculate);
+    actividadInput.addEventListener('change', tryCalculate);
+    formulaInput.addEventListener('change', tryCalculate);
+    calculateBtn.addEventListener('click', tryCalculate);
     resetBtn.addEventListener('click', resetForm);
 
-    // Añadir validación en tiempo real y re-cálculo para los campos relevantes
-    edadInput.addEventListener('input', () => { validateInput(edadInput, 10, 100, edadError, 'edad'); calculateMetabolicRates(); });
-    pesoInput.addEventListener('input', () => { validateInput(pesoInput, 30, 300, pesoError, 'peso'); calculateMetabolicRates(); });
-    alturaInput.addEventListener('input', () => { validateInput(alturaInput, 100, 250, alturaError, 'altura'); calculateMetabolicRates(); });
-    sexoInput.addEventListener('change', () => { validateSelect(sexoInput, sexoError, 'sexo'); calculateMetabolicRates(); });
-    actividadInput.addEventListener('change', () => { validateSelect(actividadInput, actividadError, 'nivel de actividad'); calculateMetabolicRates(); });
-    formulaInput.addEventListener('change', calculateMetabolicRates); // ¡Esta es la clave para la fórmula!
+    // Initial check when the page loads, in case there are pre-filled values
+    // tryCalculate();
 });

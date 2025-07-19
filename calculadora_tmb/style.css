@@ -346,6 +346,37 @@ body {
     font-size: 0.9em;
 }
 
+/* Indicador de IMC */
+.imc-indicator {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 2px solid;
+    font-weight: 600;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.classification-text {
+    font-weight: 700;
+}
+
+/* Animación para el indicador de IMC */
+.result-box:hover .imc-indicator {
+    transform: scale(1.05);
+}
+
+
+
+/* Responsive para el IMC */
+@media (max-width: 480px) {
+    .imc-indicator {
+        font-size: 0.9em;
+        padding: 6px 12px;
+    }
+}
+
 /* Animaciones */
 @keyframes fadeInScale {
     from {
