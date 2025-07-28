@@ -30,7 +30,7 @@
   src: local('Segoe UI Bold'),
        url('../fonts/Segoe-UI-Bold.woff2') format('woff2'),
        url('../fonts/Segoe-UI-Bold.woff') format('woff');
-  font-weight: 700;
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
@@ -217,7 +217,7 @@ ul.navbar-nav {
 #inicio .h4 {
     color: var(--papitu-blue);
     font-size: 2rem;
-    font-weight: 700!important;
+    font-weight: 600!important;
     margin-bottom: 1.5rem;
 }
 
@@ -292,6 +292,7 @@ ul.navbar-nav {
 
     #inicio .h4 {
         font-size: 1.7rem;
+        font-weight: 510!important;
     }
 
     #inicio .lead {
