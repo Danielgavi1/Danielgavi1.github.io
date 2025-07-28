@@ -219,7 +219,8 @@ ul.navbar-nav {
 }
 
 #inicio .btn-primary {
-    background-color: #0b95b4; /* más oscuro */;
+    /* background-color: #0b95b4; más oscuro; */
+    background-color: #00768a;
     border: none;
     padding: 1rem 2.5rem;
     font-size: 1.15rem;
@@ -230,7 +231,7 @@ ul.navbar-nav {
 }
 
 #inicio .btn-primary:hover {
-    background-color: #007F99;
+    background-color: #008099d9;
     transform: translateY(-3px) scale(1.02);
     box-shadow: 0 8px 20px rgba(0, 151, 178, 0.4);
 }
