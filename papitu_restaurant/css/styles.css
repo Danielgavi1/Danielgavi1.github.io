@@ -2,35 +2,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap'); */
 
+/* Segoe UI Regular */
 @font-face {
-    font-family: 'Segoe UI Regular';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Segoe UI Regular'), url('../fonts/Segoe-UI.woff2') format('woff');
+  font-family: 'Segoe UI';
+  src: local('Segoe UI Regular'),
+       url('../fonts/Segoe-UI.woff2') format('woff2'),
+       url('../fonts/Segoe-UI.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* Importante para la carga */
 }
 
-
+/* Segoe UI Italic */
 @font-face {
-    font-family: 'Segoe UI Italic';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Segoe UI Italic'), url('../fonts/Segoe-UI-Italic.woff') format('woff');
+  font-family: 'Segoe UI';
+  src: local('Segoe UI Italic'),
+       url('../fonts/Segoe-UI-Italic.woff2') format('woff2'),
+       url('../fonts/Segoe-UI-Italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
 }
 
-
+/* Segoe UI Bold */
 @font-face {
-    font-family: 'Segoe UI Bold';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Segoe UI Bold'), url('../fonts/Segoe-UI-Bold.woff') format('woff');
+  font-family: 'Segoe UI';
+  src: local('Segoe UI Bold'),
+       url('../fonts/Segoe-UI-Bold.woff2') format('woff2'),
+       url('../fonts/Segoe-UI-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
-
+/* Segoe UI Bold Italic */
 @font-face {
-    font-family: 'Segoe UI Bold Italic';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Segoe UI Bold Italic'), url('../fonts/Segoe-UI-Bold-Italic.woff') format('woff');
+  font-family: 'Segoe UI';
+  src: local('Segoe UI Bold Italic'),
+       url('../fonts/Segoe-UI-Bold-Italic.woff2') format('woff2'),
+       url('../fonts/Segoe-UI-Bold-Italic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
 }
 
 
@@ -219,8 +232,7 @@ ul.navbar-nav {
 }
 
 #inicio .btn-primary {
-    /* background-color: #0b95b4; más oscuro; */
-    background-color: #00768a;
+    background-color: #0b95b4; /* más oscuro */
     border: none;
     padding: 1rem 2.5rem;
     font-size: 1.15rem;
@@ -284,6 +296,7 @@ ul.navbar-nav {
 
     #inicio .lead {
         font-size: 1.1rem;
+        font-weight: 500!important;
     }
 
     #inicio .btn-primary {
