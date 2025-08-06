@@ -1,7 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap'); */
-
 /* Segoe UI Regular */
 @font-face {
   font-family: 'Segoe UI';
@@ -55,10 +51,12 @@
   --text-grey: #555;
 }
 
+
 body {
   background-color: #fff;
   font-family: 'Segoe UI', sans-serif;
 }
+
 
 /* HEADER */
 header {
@@ -301,9 +299,9 @@ ul.navbar-nav {
         font-weight: 510!important;
     }
 
-    #inicio .lead {
-        font-size: 1.1rem;
-        font-weight: 450!important;
+    #inicio .lead-inicio {
+        font-size: 1.25rem;
+        font-weight: 500!important;
     }
 
     #inicio .btn-primary {
@@ -424,7 +422,7 @@ ul.navbar-nav {
     }
 
     #nosotros .lead-nosotros {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         font-weight: 500!important;
         padding-left: 1rem;
         padding-right: 1rem;
@@ -444,15 +442,15 @@ ul.navbar-nav {
 /* FIN NOSOTROS */
 
 /* GALERÍA */
-/* GALERÍA */
 #galeria {
-  background-color: #ffffff;
-  border-radius: 0rem;
+    background-color: rgb(19, 19, 19);
+    text-align: justify;
 }
 
 /* Título y texto */
 #galeria .display-4 {
-  color: rgb(0, 0, 0);
+  /* color: rgb(0, 0, 0); */
+  color: white;
   font-size: 3.2rem;
   font-weight: 650;
   margin-bottom: 1rem;
@@ -466,8 +464,9 @@ ul.navbar-nav {
 }
 
 #galeria .lead-galeria {
-  color: rgb(0, 0, 0);
-  font-size: 1.25rem;
+  /* color: var(--text-grey); */
+  color: white;
+  font-size: 1.2rem;
   max-width: 700px;
   margin: 0 auto 2.5rem auto;
   padding-left: 1rem;
@@ -546,6 +545,142 @@ ul.navbar-nav {
 /* FIN GALERÍA */
 
 
+
+
+
+
 /* DONDE ESTAMOS */
+#locales {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* Título */
+#locales .display-4 {
+  color: var(--dark-black);
+  font-size: 3.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+/* Subtítulo */
+#locales .subtitulo {
+  color: var(--papitu-blue);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+/* Texto introductorio */
+#locales .lead-donde-estamos {
+  color: var(--text-grey);
+  font-size: 1.25rem;
+  max-width: 700px;
+  margin: 0 auto 2.5rem auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Tarjetas */
+#locales .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#locales .card:hover {
+  transform: translateY(-5px) scale(1.015);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* #locales .ratio, #locales iframe {
+    max-width: 100% !important;
+    width: 100% !important;
+} */
+
+/* Títulos dentro de tarjetas */
+#locales .card-title {
+  color: var(--dark-black);
+  font-size: 1.6rem;
+  font-weight: 650;
+}
+
+/* Dirección */
+#locales .direccion {
+  color: var(--text-grey);
+  font-size: 0.95rem;
+}
+
+/* Descripción */
+#locales .descripcion {
+  font-size: 1rem;
+  color: var(--text-grey);
+}
+
+/* Botón personalizado para maps */
+.btn-mapa {
+  background-color: var(--papitu-blue);
+  color: #fff;
+  padding: 0.65rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-mapa:hover {
+  background-color: #067f97;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.btn-mapa:hover svg {
+  fill: #fff;
+}
+
+.btn-mapa:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 86, 168, 0.25);
+}
+
+/* Responsive ajustes */
+@media (max-width: 767.98px) {
+  #locales {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  #locales .display-4 {
+    font-size: 2.3rem;
+    font-weight: 750;
+  }
+
+  #locales .subtitulo {
+    font-size: 1.5rem;
+    font-weight: 510;
+  }
+
+  #locales .lead-donde-estamos {
+    font-size: 1.1rem;
+    text-align: justify;
+  }
+
+  #locales .card-title {
+    font-size: 1.4rem;
+  }
+
+  #locales .row {
+    margin-left: 0;
+    margin-right: 0;
+    }
+  #locales .col-lg-6 {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
 
 /* FIN DONDE ESTAMOS */

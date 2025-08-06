@@ -1,2 +1,2 @@
 // SEGURIDAD
-document.oncontextmenu = function(){return false;}
+// document.oncontextmenu = function(){return false;}
