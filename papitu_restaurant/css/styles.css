@@ -423,11 +423,13 @@ ul.navbar-nav {
 
     #nosotros .lead-nosotros {
         font-size: 1.2rem;
-        font-weight: 500!important;
+        font-weight: 500 !important;
         padding-left: 1rem;
         padding-right: 1rem;
-        text-align: justify;
+        text-align: start;
+        text-wrap: pretty;
     }
+
 
     #nosotros .btn-primary {
         padding: 0.7rem 1.8rem;
