@@ -442,3 +442,110 @@ ul.navbar-nav {
     }
 }
 /* FIN NOSOTROS */
+
+/* GALERÍA */
+/* GALERÍA */
+#galeria {
+  background-color: #ffffff;
+  border-radius: 0rem;
+}
+
+/* Título y texto */
+#galeria .display-4 {
+  color: rgb(0, 0, 0);
+  font-size: 3.2rem;
+  font-weight: 650;
+  margin-bottom: 1rem;
+}
+
+#galeria .h4 {
+  color: var(--papitu-blue);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+}
+
+#galeria .lead-galeria {
+  color: rgb(0, 0, 0);
+  font-size: 1.25rem;
+  max-width: 700px;
+  margin: 0 auto 2.5rem auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Carrusel contenedor */
+#carouselPapitu {
+  max-width: 900px;
+  margin: 0 auto; /* Centra el carrusel */
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* Imágenes */
+.galeria-img {
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease-in-out;
+}
+
+/* En móviles: cuadrado */
+@media (max-width: 767.98px) {
+  .galeria-img {
+    aspect-ratio: 15 / 15;
+  }
+}
+
+/* En pantallas grandes: panorámica */
+@media (min-width: 768px) {
+  .galeria-img {
+    aspect-ratio: 16 / 9;
+    max-height: 500px;
+  }
+}
+
+/* Hover */
+.carousel-item:hover .galeria-img {
+  transform: scale(1.01);
+}
+
+/* Botones del carrusel */
+.carousel-control-prev,
+.carousel-control-next {
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.4));
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: var(--papitu-blue);
+  border-radius: 50%;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Ajustes texto responsive */
+@media (max-width: 767.98px) {
+  #galeria .display-4 {
+    font-size: 2.2rem;
+  }
+
+  #galeria .h4 {
+    font-size: 1.4rem;
+  }
+
+  #galeria .lead-galeria {
+    font-size: 1.1rem;
+  }
+}
+
+/* FIN GALERÍA */
+
+
+/* DONDE ESTAMOS */
+
+/* FIN DONDE ESTAMOS */
