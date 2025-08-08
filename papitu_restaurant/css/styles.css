@@ -696,13 +696,6 @@ ul.navbar-nav {
 
 
 
-
-
-
-
-
-
-/* CONTACTO */
 /* CONTACTO */
 #contacto .display-4 {
     color: var(--dark-black);
@@ -753,7 +746,7 @@ ul.navbar-nav {
 #contacto .telefono {
     position: relative;
     display: inline-block;
-    color: var(--papitu-blue);
+    color: #05d5ff;
     text-decoration: none;
     transition: color 0.3s ease;
 }
@@ -794,6 +787,7 @@ ul.navbar-nav {
     background-color: #087a93;
     transform: translateY(-2px);
 }
+
 
 @media (max-width: 767.98px) {
     #contacto .display-4 {
