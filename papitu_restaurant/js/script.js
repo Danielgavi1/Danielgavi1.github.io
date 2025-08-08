@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { 
+    threshold: 0, // Carga cuando el elemento está a punto de entrar en el viewport
+    rootMargin: '300px 0px' // Carga el mapa 300px antes de que sea visible
+  });
 
   mapSections.forEach(section => observer.observe(section));
 });

@@ -692,3 +692,131 @@ ul.navbar-nav {
   }
 }
 /* FIN DONDE ESTAMOS */
+
+
+
+
+
+
+
+
+
+
+/* CONTACTO */
+/* CONTACTO */
+#contacto .display-4 {
+    color: var(--dark-black);
+    font-size: 3.2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+#contacto .subtitulo {
+    color: var(--papitu-blue);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+}
+
+#contacto .lead-contacto {
+    color: var(--text-grey);
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto 2.5rem auto;
+    padding: 0 1rem;
+}
+
+#contacto .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #2a2a2a;
+}
+
+#contacto .card:hover {
+    transform: translateY(-5px) scale(1.015);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+#contacto .card-title {
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 650;
+}
+
+#contacto .direccion,
+#contacto .descripcion {
+    color: white;
+    font-size: 0.95rem;
+}
+
+#contacto .telefono {
+    position: relative;
+    display: inline-block;
+    color: var(--papitu-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#contacto .telefono::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--papitu-blue);
+    transition: width 0.3s ease;
+}
+
+#contacto .telefono:hover::after {
+    width: 100%;
+}
+
+.cerrado {
+    color: red;
+}
+
+.horas {
+    color: #05d5ff;
+}
+
+#contacto .btn-mapa2 {
+    background-color: var(--papitu-blue);
+    color: white;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#contacto .btn-mapa2:hover {
+    background-color: #087a93;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 767.98px) {
+    #contacto .display-4 {
+        font-size: 2.3rem;
+        font-weight: 750;
+    }
+
+    #contacto .subtitulo {
+        font-size: 1.5rem;
+        font-weight: 510;
+    }
+
+    #contacto .lead-contacto {
+        font-size: 1.1rem;
+        font-weight: 500 !important;
+        padding-left: 3rem;
+        padding-right: 1rem;
+        text-align: start;
+        text-wrap: pretty;
+    }
+
+    #contacto .card-title {
+        font-size: 1.4rem;
+    }
+}
+/* FIN CONTACTO */
