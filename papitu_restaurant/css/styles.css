@@ -697,6 +697,10 @@ ul.navbar-nav {
 
 
 /* CONTACTO */
+#contacto {
+    overflow-x: hidden; /* Evita desbordamiento horizontal */
+}
+
 #contacto .display-4 {
     color: var(--dark-black);
     font-size: 3.2rem;
@@ -719,11 +723,15 @@ ul.navbar-nav {
     max-width: 700px;
     margin: 0 auto 2.5rem auto;
     padding: 0 1rem;
+    overflow-wrap: break-word; /* Evita desbordamiento de texto */
+    word-break: break-word;
 }
 
 #contacto .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     background-color: #2a2a2a;
+    max-width: 100%; /* Limita el ancho de la tarjeta */
+    box-sizing: border-box;
 }
 
 #contacto .card:hover {
@@ -741,6 +749,8 @@ ul.navbar-nav {
 #contacto .descripcion {
     color: white;
     font-size: 0.95rem;
+    overflow-wrap: break-word; /* Evita desbordamiento de texto */
+    word-break: break-word;
 }
 
 #contacto .telefono {
@@ -788,7 +798,6 @@ ul.navbar-nav {
     transform: translateY(-2px);
 }
 
-
 @media (max-width: 767.98px) {
     #contacto .display-4 {
         font-size: 2.3rem;
@@ -803,9 +812,8 @@ ul.navbar-nav {
     #contacto .lead-contacto {
         font-size: 1.1rem;
         font-weight: 500 !important;
-        padding-left: 3rem;
-        padding-right: 1rem;
-        text-align: start;
+        padding: 0 1rem; /* Ajusta el padding */
+        text-align: center; /* Centra el texto */
         text-wrap: pretty;
     }
 
@@ -817,6 +825,97 @@ ul.navbar-nav {
 
 
 /* FOOTER */
+.main-footer {
+    background-color: #161616;
+    color: #a0a0a0;
+    padding-top: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
 
+.footer-logo {
+    max-width: 130px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+.footer-logo:hover {
+    transform: scale(1.05);
+}
 
+.footer-heading {
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.footer-links li {
+    margin-bottom: 0.6rem;
+}
+
+.footer-links a, .legal-links a, .footer-phone {
+    color: #a0a0a0;
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+}
+.footer-links a:hover, .legal-links a:hover, .footer-phone:hover {
+    color: var(--papitu-blue);
+    padding-left: 5px;
+}
+
+.footer-phone {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #fff;
+    font-weight: 500;
+}
+.footer-phone:hover {
+    padding-left: 0; /* Evita desplazamiento */
+}
+
+.social-icons .social-icon {
+    color: #fff;
+    font-size: 1.3rem;
+    margin-right: 0.8rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+.social-icons .social-icon:hover {
+    color: var(--papitu-blue);
+    transform: scale(1.15);
+}
+
+.footer-divider {
+    border-top: 1px solid #333;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.copyright-section p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+.legal-links {
+    font-size: 0.85rem;
+}
+.legal-links a {
+    margin: 0 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .footer-heading {
+        margin-top: 1.5rem;
+    }
+}
+@media (max-width: 575.98px) {
+    .footer-links a:hover, .legal-links a:hover {
+        padding-left: 0; /* Evita movimientos en móvil */
+    }
+}
 /* FIN FOOTER */
