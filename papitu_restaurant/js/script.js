@@ -1,7 +1,7 @@
 // SEGURIDAD
 document.oncontextmenu = function(){return false;}
 
-
+// Activar el mapa solo cuando sea visible
 document.addEventListener('DOMContentLoaded', () => {
   const mapSections = document.querySelectorAll('.map-placeholder');
   const observer = new IntersectionObserver((entries, observer) => {
@@ -21,3 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   mapSections.forEach(section => observer.observe(section));
 });
+
+
+// Actualizar el año en el footer automáticamente
+document.getElementById("year").textContent = new Date().getFullYear();
