@@ -812,8 +812,8 @@ ul.navbar-nav {
     #contacto .lead-contacto {
         font-size: 1.1rem;
         font-weight: 500 !important;
-        padding: 0 1rem; /* Ajusta el padding */
-        text-align: center; /* Centra el texto */
+        padding: 0 1rem;
+        text-align: center;
         text-wrap: pretty;
     }
 
@@ -833,10 +833,20 @@ ul.navbar-nav {
 }
 
 .footer-logo {
-    max-width: 130px;
+    max-width: 110px;
     border-radius: 8px;
     transition: transform 0.3s ease;
+    display: block;
+    margin: 0 auto; /* Centrado horizontal */
 }
+
+.footer-brand {
+    display: flex;
+    justify-content: center; /* Centra el logo horizontalmente */
+    align-items: center; /* Centra verticalmente si es necesario */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+}
+
 .footer-logo:hover {
     transform: scale(1.05);
 }
@@ -852,7 +862,8 @@ ul.navbar-nav {
 
 .footer-text {
     font-size: 0.95rem;
-    line-height: 1.7;
+    line-height: 1.5;
+    text-wrap: pretty; /* Ajuste estético de salto de línea */
 }
 
 .footer-links li {
@@ -864,6 +875,7 @@ ul.navbar-nav {
     text-decoration: none;
     transition: color 0.3s ease, padding-left 0.3s ease;
 }
+
 .footer-links a:hover, .legal-links a:hover, .footer-phone:hover {
     color: var(--papitu-blue);
     padding-left: 5px;
@@ -874,20 +886,43 @@ ul.navbar-nav {
     margin-top: 0.5rem;
     color: #fff;
     font-weight: 500;
+    text-decoration: none;
+    position: relative;
 }
+
+.footer-phone::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--papitu-blue);
+    transition: width 0.3s ease;
+}
+
+.footer-phone:hover::after {
+    width: 100%;
+}
+
 .footer-phone:hover {
-    padding-left: 0; /* Evita desplazamiento */
+    color: var(--papitu-blue);
+    padding-left: 0;
 }
 
 .social-icons .social-icon {
-    color: #fff;
-    font-size: 1.3rem;
+    display: inline-block;
     margin-right: 0.8rem;
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
+
 .social-icons .social-icon:hover {
-    color: var(--papitu-blue);
     transform: scale(1.15);
+    opacity: 0.8;
+}
+
+.icono-red-social {
+    vertical-align: middle;
 }
 
 .footer-divider {
@@ -900,22 +935,59 @@ ul.navbar-nav {
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
 }
+
 .legal-links {
     font-size: 0.85rem;
 }
+
 .legal-links a {
     margin: 0 0.5rem;
 }
 
 /* Responsive */
+@media (min-width: 992px) {
+    .main-footer .col-lg-3:first-child {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Logo y texto a la izquierda */
+    }
+
+    .main-footer .col-lg-3:first-child .footer-brand {
+        justify-content: flex-start; /* Logo a la izquierda */
+    }
+
+    .main-footer .col-lg-3:first-child .footer-logo {
+        margin: 0; /* Quita el centrado automático */
+    }
+
+    .main-footer .col-lg-3:first-child .footer-text {
+        padding-right: 0;
+        max-width: 90%;
+        text-align: start;
+    }
+}
+
+
 @media (max-width: 991.98px) {
     .footer-heading {
         margin-top: 1.5rem;
     }
 }
+
 @media (max-width: 575.98px) {
     .footer-links a:hover, .legal-links a:hover {
-        padding-left: 0; /* Evita movimientos en móvil */
+        padding-left: 0;
+    }
+    .social-icons .social-icon {
+        margin-right: 0.5rem;
+    }
+    .icono-red-social {
+        width: 18px;
+        height: 18px;
+    }
+    .footer-text {
+        margin-left: 1rem;
+        margin-right: 1rem;
     }
 }
 /* FIN FOOTER */
