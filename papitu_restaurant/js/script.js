@@ -25,3 +25,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Actualizar el año en el footer automáticamente
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// Animación elementos al hacer scroll
+document.addEventListener('DOMContentLoaded', () => {
+    const elements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target); // solo una vez
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px' // ajustamos si queremos que aparezcan antes o después
+    });
+
+    elements.forEach(el => observer.observe(el));
+  });

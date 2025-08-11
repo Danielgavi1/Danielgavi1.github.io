@@ -52,6 +52,33 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Reset seguro */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
 body {
   background-color: #fff;
   font-family: 'Segoe UI', sans-serif;
@@ -829,7 +856,7 @@ ul.navbar-nav {
     background-color: #161616;
     color: #a0a0a0;
     padding-top: 1rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 .footer-logo {
@@ -991,3 +1018,30 @@ ul.navbar-nav {
     }
 }
 /* FIN FOOTER */
+
+
+.reveal-up,
+.reveal-left,
+.reveal-right {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-up {
+  transform: translateY(50px);
+}
+
+.reveal-left {
+  transform: translateX(-60px);
+}
+
+.reveal-right {
+  transform: translateX(60px);
+}
+
+.reveal-up.show,
+.reveal-left.show,
+.reveal-right.show {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
