@@ -72,47 +72,60 @@
     </script>
     <!-- Schema.org Markup Cerdanyola -->
     <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Restaurant",
-            "name": "PAPITU Restaurant - Cerdanyola",
-            "image": [
-                "https://danielgavi1.github.io/papitu_restaurant/img/local-exterior-papitu.webp",
-                "https://danielgavi1.github.io/papitu_restaurant/img/comida1.webp",
-                "https://danielgavi1.github.io/papitu_restaurant/img/comida2.webp"
-            ],
-            "description": "Cocina mediterránea moderna en Cerdanyola del Vallès. Tapas creativas y platos de autor en un ambiente único.",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Carrer Ample, 27",
-                "addressLocality": "Cerdanyola del Vallès",
-                "postalCode": "08290",
-                "addressRegion": "Barcelona",
-                "addressCountry": "ES"
+    {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "PAPITU Restaurant - Cerdanyola",
+        "image": [
+            "https://danielgavi1.github.io/papitu_restaurant/img/local-exterior-papitu.webp",
+            "https://danielgavi1.github.io/papitu_restaurant/img/comida1.webp",
+            "https://danielgavi1.github.io/papitu_restaurant/img/comida2.webp"
+        ],
+        "description": "Cocina mediterránea moderna en Cerdanyola del Vallès. Tapas creativas y platos de autor en un ambiente único.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Carrer Ample, 27",
+            "addressLocality": "Cerdanyola del Vallès",
+            "postalCode": "08290",
+            "addressRegion": "Barcelona",
+            "addressCountry": "ES"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 41.49075201995995,
+            "longitude": 2.1340108523034016
+        },
+        "telephone": "+34 930 085 338",
+        "servesCuisine": ["Mediterránea", "Tapas", "Platos de autor"],
+        "priceRange": "€€",
+        "url": "https://papiturestaurant.com",
+        "sameAs": [
+            "https://www.instagram.com/papitu.restaurant/",
+            "https://www.facebook.com/PapituRestaurant/?locale=es_ES"
+        ],
+        "openingHoursSpecification": [
+            {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday"],
+            "opens": null,
+            "closes": null
             },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 41.49075201995995,
-                "longitude": 2.1340108523034016
+            {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Wednesday","Thursday","Friday","Saturday","Sunday"],
+            "opens": "13:00",
+            "closes": "16:00",
+            "serviceType": "DineIn"
             },
-            "telephone": "+34 930 085 338",
-            "servesCuisine": ["Mediterránea", "Tapas", "Platos de autor"],
-            "priceRange": "€€",
-            "openingHours": [
-                "Mo Closed",
-                "Tu Closed",
-                "We 13:00-16:00",
-                "Th 13:00-16:00",
-                "Fr 13:00-16:00,21:00-23:00",
-                "Sa 13:00-16:00,21:00-23:00",
-                "Su 13:00-16:00"
-            ],
-            "url": "https://papiturestaurant.com",
-            "sameAs": [
-                "https://www.instagram.com/papitu.restaurant/",
-                "https://www.facebook.com/PapituRestaurant/?locale=es_ES"
-            ]
-        }
+            {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Wednesday","Thursday","Friday","Saturday"],
+            "opens": "20:00",
+            "closes": "22:30",
+            "serviceType": "Delivery"
+            }
+        ]
+    }
     </script>
 </head>
 <body>
