@@ -15,7 +15,7 @@
     <!-- Bootstrap CSS -->
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="./bootstrap/bootstrap_purified.css">
-    <title>PAPITU Restaurant - Cocina Mediterránea Moderna | Sant Cugat & Cerdanyola</title>
+    <title>PAPITU Restaurant - Cocina Mediterránea Moderna en Sant Cugat y Cerdanyola</title>
     <!-- Estilos nativos -->
     <link rel="stylesheet" href="./css/styles.css">
     <!-- Meta etiqueta para mejorar la seguridad -->
@@ -132,23 +132,65 @@
     <!-- HEADER -->
     <header class="main-header">
         <nav class="navbar navbar-expand-lg navbar-dark py-3 container">
-        <a class="navbar-brand" href="#" aria-label="Inicio Papitu Restaurant">
-            <img src="./img/logo-papitu.webp" alt="Logo Papitu Restaurant" fetchpriority="high"/>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPapitu" aria-controls="navbarPapitu" aria-expanded="false" aria-label="Abrir menú de navegación">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <a class="navbar-brand" href="#" aria-label="Inicio Papitu Restaurant">
+                <img src="./img/logo-papitu.webp" alt="Logo Papitu Restaurant" fetchpriority="high"/>
+            </a>
+            <!-- SELECTOR DE IDIOMA MOVILES-->
+            <div class="lang-switcher ms-lg-3 order-2 order-lg-last d-lg-none">
+                <button class="lang-toggle" id="langToggleMobile"
+                        aria-haspopup="true" aria-expanded="false" aria-controls="langOptionsMobile">
+                    <img src="./img/esp.webp" alt="ES" class="flag-icon"> ES
+                </button>
 
-        <section class="collapse navbar-collapse" id="navbarPapitu">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
-                <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
-                <li class="nav-item"><a class="nav-link" href="#menu">Nuestro menú</a></li>
-                <li class="nav-item"><a class="nav-link" href="#locales">Dónde estamos?</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-            </ul>
-        </section>
+                <div class="lang-options" id="langOptionsMobile" role="menu" aria-labelledby="langToggleMobile">
+                    <button class="lang-option" data-lang="es" role="menuitem">
+                        <img src="./img/esp.webp" alt="ES" class="flag-icon"> ES
+                    </button>
+                    <button class="lang-option" data-lang="ca" role="menuitem">
+                        <img src="./img/cat.webp" alt="CA" class="flag-icon"> CA
+                    </button>
+                    <button class="lang-option" data-lang="en" role="menuitem">
+                        <img src="./img/eng.webp" alt="EN" class="flag-icon"> EN
+                    </button>
+                </div>
+            </div>
+            <!-- FIN SELECTOR DE IDIOMA MOVILES-->
+            <button class="navbar-toggler order-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPapitu"
+                    aria-controls="navbarPapitu" aria-expanded="false" aria-label="Abrir menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <section class="collapse navbar-collapse" id="navbarPapitu">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#menu">Nuestro menú</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#locales">Dónde estamos?</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
+            </section>
+
+            <!-- SELECTOR DE IDIOMA ESCRITORIO-->
+            <div class="lang-switcher ms-lg-3 order-2 order-lg-last d-none d-lg-block">
+                <button class="lang-toggle" id="langToggleDesktop"
+                        aria-haspopup="true" aria-expanded="false" aria-controls="langOptionsDesktop">
+                    <img src="./img/esp.webp" alt="ES" class="flag-icon"> ES
+                </button>
+
+                <div class="lang-options" id="langOptionsDesktop" role="menu" aria-labelledby="langToggleDesktop">
+                    <button class="lang-option" data-lang="es" role="menuitem">
+                        <img src="./img/esp.webp" alt="ES" class="flag-icon"> ES
+                    </button>
+                    <button class="lang-option" data-lang="ca" role="menuitem">
+                        <img src="./img/cat.webp" alt="CA" class="flag-icon"> CA
+                    </button>
+                    <button class="lang-option" data-lang="en" role="menuitem">
+                        <img src="./img/eng.webp" alt="EN" class="flag-icon"> EN
+                    </button>
+                </div>
+            </div>
+            <!-- FIN SELECTOR DE IDIOMA ESCRITORIO-->
         </nav>
     </header>
     <!-- FIN HEADER -->
@@ -166,7 +208,7 @@
             </figure>
         </section>
         <!-- FIN INICIO -->
-
+        
         <!-- NOSOTROS -->
         <section id="nosotros" class="container reveal-left">
             <article class="row align-items-center">
@@ -200,6 +242,7 @@
             </article>
         </section>
         <!-- FIN NOSOTROS -->
+
 
         <!-- GALERÍA -->
         <section id="galeria" class="container-fluid py-4 reveal-up">

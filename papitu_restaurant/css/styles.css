@@ -183,6 +183,73 @@ ul.navbar-nav{
 }
 
 
+@media (max-width: 991.98px) {
+  .lang-switcher {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: static;
+    margin: 0;
+  }
+
+  .lang-toggle {
+    display: none; /* escondemos el botón en móvil */
+  }
+
+  .lang-options {
+    display: flex;
+    position: static;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    transition: none;
+    justify-content: center;
+    width: auto;
+    gap: .4rem; /* más estrecho */
+  }
+
+  .lang-option {
+    font-size: .8rem;     /* texto más pequeño */
+    padding: .3rem .4rem; /* menos espacio */
+  }
+
+  .flag-icon {
+    width: 23px;  /* más pequeña la banderita */
+  }
+}
+
+
+/* ——— Animación de dropdown solo en escritorio ——— */
+@media (min-width: 992px) {
+  .lang-options {
+    display: flex;          /* mantenemos flex, pero invisibles */
+    flex-direction: row;
+    gap: .3rem;
+    opacity: 0;
+    transform: translateY(-10px) scaleY(0.95); /* un pequeño desplazamiento y efecto “escalado” */
+    pointer-events: none;
+    transition: transform .2s ease-out, opacity .2s ease-out;
+    position: absolute;
+    top: 100%; right: 0;
+    margin-top: .5rem;
+    background-color: var(--dark-black);
+    border: 1px solid #222;
+    border-radius: .5rem;
+    padding: .3rem;
+    z-index: 999;
+  }
+
+  .lang-options.show {
+    opacity: 1;
+    transform: translateY(0) scaleY(1); /* animación al aparecer */
+    pointer-events: auto;
+  }
+}
 
 
 
