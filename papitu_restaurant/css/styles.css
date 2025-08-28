@@ -531,11 +531,12 @@ ul.navbar-nav{
 /* ========== RESPONSIVE MENÚ ========== */
 
 @media(max-width:576px){
-    .menu-section{padding:1.5rem .75rem}
-    .menu-container{padding:1.2rem 1rem;width:calc(100% - 1.5rem)}
+    .menu-section{padding:1.5rem .75rem;
+    background: linear-gradient(to bottom, var(--blue) 0%, #fff 90%);}
+    .menu-container{padding:1.2rem 1rem;width:calc(100% - 1.5rem); box-shadow: 0 4px 12px rgba(0,0,0,0.08);}
     .menu-container .lead-menu{margin-bottom:1.2rem;text-wrap:balance;hyphens:auto}
     .menu-buttons{gap:.75rem}
-    .btn-carta{padding:.5rem 1rem;font-size:.9rem}
+    .btn-carta{padding:.5rem 1rem;font-size:.9rem;}
 }
 
 /* ========== SECCIÓN LOCALES ========== */
