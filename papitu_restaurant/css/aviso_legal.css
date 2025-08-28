@@ -48,7 +48,7 @@
 }
 
 #aviso-legal tbody tr:last-child td {
-  border-bottom: none; /* elimina borde extra al final */
+  border-bottom: none;
 }
 
 #aviso-legal tbody tr:nth-child(even) {
