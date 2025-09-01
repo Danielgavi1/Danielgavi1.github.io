@@ -39,9 +39,20 @@ document.oncontextmenu=function(){return!1},document.addEventListener("DOMConten
 })();
 
 
+
 // MODAL
-function openModal() {
+function openModal(location) {
   document.getElementById("modalReservar").style.display = "flex";
+  // Agregamos el campo hidden
+  let hiddenInput = document.getElementById("ubicacion");
+  if (!hiddenInput) {
+    hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.id = "ubicacion";
+    hiddenInput.name = "ubicacion";
+    document.querySelector("#modalReservar form").appendChild(hiddenInput);
+  }
+  hiddenInput.value = location;
 }
 function closeModal() {
   document.getElementById("modalReservar").style.display = "none";
