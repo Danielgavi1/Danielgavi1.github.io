@@ -102,3 +102,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const fechaMin = `${año}-${mes}-${dia}T${horas}:${minutos}`;
   fechaInput.setAttribute("min", fechaMin);
 });
+
+// Campos ocultos para FormSubmit.co
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("#modalReservar form");
+  const emailInput = document.getElementById("email");
+  const ccFinal = document.getElementById("ccFinal");
+
+  form.addEventListener("submit", () => {
+    if (emailInput && ccFinal) {
+      // Copia correo empresa  + cliente
+      ccFinal.value = "u9d1muo1y2@cmhvzylmfc.com," + emailInput.value.trim();
+    }
+  });
+});
