@@ -27,6 +27,7 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/67280c6f03.js" crossorigin="anonymous" defer></script>
     <!-- Schema.org Markup Sant Cugat-->
+     <!-- Schema.org Markup Sant Cugat-->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -380,7 +381,6 @@
                 <!-- Local Sant Cugat -->
                 <article class="col-lg-6 reveal-right">
                     <section class="card border-0 shadow rounded-4 h-100">
-
                         <!-- Local Sant Cugat -->
                         <figure class="ratio ratio-16x9 rounded-top-4 overflow-hidden map-placeholder">
                             <iframe data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2989.148623222264!2d2.0795433757487682!3d41.479377490284634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4973f5833b073%3A0xce12796d032a42f9!2sPAPITU%20RESTAURANT%20COLL%20FAVA%20SANT%20CUGAT!5e0!3m2!1ses!2ses!4v1754497543855!5m2!1ses!2ses"
@@ -414,7 +414,7 @@
                                 </a>
 
                                 <!-- Botón Reservar -->
-                                <button class="btn-reservar" onclick="openModal('PAPITU Sant Cugat')"><i class="fa-solid fa-utensils me-2"></i>Reservar Mesa</button>
+                                <button class="btn-reservar" onclick="openModal('PAPITU Restaurant Sant Cugat')"><i class="fa-solid fa-utensils me-2"></i>Reservar Mesa</button>
                             </div>
                         </header>
                     </section>
@@ -454,7 +454,7 @@
                                     Ver en Google Maps
                                 </a>
                                 <!-- Botón Reservar -->
-                                <button class="btn-reservar" onclick="openModal('PAPITU Cerdanyola')"><i class="fa-solid fa-utensils me-2"></i>Reservar Mesa</button>
+                                <button class="btn-reservar" onclick="openModal('PAPITU Restaurant Cerdanyola')"><i class="fa-solid fa-utensils me-2"></i>Reservar Mesa</button>
                             </div>
                         </header>
                     </section>
@@ -466,7 +466,7 @@
         <div id="modalReservar" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <h2>Reservar en PAPITU</h2>
+                <h2 id="modalTitle">Reservar en PAPITU</h2>
                 <!-- FORMSUBMIT.CO -->
                 <form action="https://formsubmit.co/danielgaya200233@gmail.com" method="POST">
                     <label for="nombre"><i class="fa-solid fa-user"></i> Nombre:</label>
@@ -475,17 +475,21 @@
                     <label for="email"><i class="fa-solid fa-envelope"></i> Correo:</label>
                     <input type="email" id="email" name="email" required>
 
-
                     <label for="telefono"><i class="fa-solid fa-phone"></i> Teléfono:</label>
                     <input type="tel" id="telefono" name="telefono" maxlength="9" pattern="[0-9]{9}" inputmode="numeric" title="Introduce un número de teléfono de 9 dígitos" required>
 
                     <label for="personas"><i class="fa-solid fa-users"></i> Número de comensales:</label>
                     <input type="number" id="personas" name="comensales" min="1" required>
 
-                    <label for="fecha"><i class="fa-solid fa-calendar-days"></i> Fecha y hora de la reserva:</label>
-                    <input type="datetime-local" id="fecha" name="fecha" required>
+                    <label for="fecha"><i class="fa-solid fa-calendar-days"></i> Fecha de la reserva:</label>
+                    <input type="date" id="fecha" name="fecha" required>
 
-                    <!-- ✅ Correos ocultos -->
+                    <label for="hora"><i class="fa-solid fa-clock"></i> Hora de la reserva:</label>
+                    <input type="time" id="hora" name="hora" required step="900">
+
+                    <!-- Campo oculto para la ubicación -->
+                    <input type="hidden" id="ubicacion" name="ubicacion">
+
                     <!-- Copia Empresa + Cliente -->
                     <input type="hidden" id="ccFinal" name="_cc">
 

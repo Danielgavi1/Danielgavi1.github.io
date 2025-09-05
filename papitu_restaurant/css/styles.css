@@ -661,7 +661,6 @@ ul.navbar-nav{
 }
 
 .btn-reservar:hover {
-    /* un gradiente más oscuro */
     background: linear-gradient(45deg, #ec5c5c, #f0bf39);
     color: #fff;
     transform: translateY(-2px);
@@ -675,124 +674,121 @@ ul.navbar-nav{
 
 /* Modal */
 .modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1000; 
-  inset: 0; /* equivale a top:0; right:0; bottom:0; left:0 */
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(3px);
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  padding: 1rem;
-  overflow-y: auto;
-  
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    inset: 0; /* equivale a top:0; right:0; bottom:0; left:0 */
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    padding: 1rem;
 }
 
 #modalReservar {
-  display: none; /* Oculto por defecto */
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 1000;
+    display: none; /* Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
 }
-
 
 /* Animación entrada */
 @keyframes modalUp {
-  from { opacity: 0; transform: translateY(40px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; transform: translateY(40px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* Contenido */
 .modal-content {
-  background: linear-gradient(145deg, #ffffff, #f9f9f9);
-  padding: 2rem 2.2rem;
-  border-radius: 1.4rem;
-  max-width: 500px;
-  width: 100%;
-  position: relative;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-  animation: modalUp .4s ease;
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    padding: 2rem 2.2rem;
+    border-radius: 1.4rem;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    animation: modalUp .4s ease;
+    min-height: fit-content; /* Ajustar altura al contenido */
 }
 
 /* Título */
 .modal-content h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: var(--papitu-blue);
-  font-size: 1.8rem;
-  font-weight: 650;
-  border-bottom: 2px solid var(--papitu-blue);
-  padding-bottom: .6rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--papitu-blue);
+    font-size: 1.8rem;
+    font-weight: 650;
+    border-bottom: 2px solid var(--papitu-blue);
+    padding-bottom: .6rem;
 }
 
 /* Botón cerrar */
 .close {
-  position: absolute;
-  right: 18px;
-  top: 15px;
-  font-size: 1.8rem;
-  font-weight: bold;
-  cursor: pointer;
-  color: #888;
-  transition: color .3s, transform .2s;
+    position: absolute;
+    right: 18px;
+    top: 15px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #888;
+    transition: color .3s, transform .2s;
 }
+
 .close:hover {
-  color: var(--papitu-blue);
-  transform: rotate(90deg);
+    color: var(--papitu-blue);
+    transform: rotate(90deg);
 }
 
 /* Inputs */
 .modal-content label {
-  font-weight: 600;
-  color: var(--dark-black);
-  margin-bottom: .3rem;
-  display: block;
+    font-weight: 600;
+    color: var(--dark-black);
+    margin-bottom: .3rem;
+    display: block;
 }
 
-.modal-content input,
-.modal-content{
-  width: 100%;
-  padding: .75rem 1rem;
-  margin: .4rem 0 1rem;
-  border: 2px solid #eaeaea;
-  border-radius: .8rem;
-  font-size: .95rem;
-  transition: border-color .3s, box-shadow .3s;
+.modal-content input {
+    width: 90%;
+    padding: .65rem 1rem;
+    margin: .4rem 0 1rem;
+    border: 2px solid #eaeaea;
+    border-radius: .8rem;
+    font-size: .95rem;
+    transition: border-color .3s, box-shadow .3s;
 }
 
-.modal-content input:focus,
-.modal-content{
-  outline: none;
-  border-color: var(--papitu-blue);
-  box-shadow: 0 0 0 3px rgba(11, 149, 180, .2);
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--papitu-blue);
+    box-shadow: 0 0 0 3px rgba(11, 149, 180, .2);
 }
 
 /* Botón enviar */
 .btn-enviar {
-  background: linear-gradient(135deg, var(--papitu-blue), #067f97);
-  color: #fff;
-  padding: .8rem 2.2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: .5rem;
-  transition: transform .2s, box-shadow .3s;
-  width: 100%;
+    background: linear-gradient(135deg, var(--papitu-blue), #067f97);
+    color: #fff;
+    padding: .8rem 2.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: .5rem;
+    transition: transform .2s, box-shadow .3s;
+    width: 100%;
 }
 
 .btn-enviar:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
 }
 
 /* Labels e iconos */
@@ -800,16 +796,11 @@ label i {
     margin-right: 8px;
     font-size: 1.1em;
     vertical-align: middle;
-    /* background: linear-gradient(45deg, #FF6B6B, #FFD93D); */
     background: linear-gradient(45deg, #6bcbff, #ab3dff);
-    /* background: linear-gradient(45deg, #6ba9ff, #be3dff); */
-    /* background: linear-gradient(45deg, #0498b4, #b667ff); */
-
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: background 0.3s;
 }
-
 
 /* Botón con icono más vistoso */
 .btn-enviar i {
@@ -817,7 +808,65 @@ label i {
     color: white;
 }
 
+/* Media query para móviles (max-width: 576px) */
+@media (max-width: 576px) {
+    /* Reducir tamaño del modal */
+    .modal-content {
+        max-width: 350px; /* Reducir el ancho máximo */
+        padding: 1.5rem; /* Reducir el padding */
+        border-radius: 1rem; /* Reducir el radio de borde */
+    }
 
+    /* Ajustar el título */
+    .modal-content h2 {
+        margin-top: 0rem; /* Mantener separación del botón cerrar */
+        font-size: 1.3rem; /* Reducir tamaño de fuente */
+        line-height: 1.4; /* Mantener legibilidad */
+        margin-bottom: 1rem; /* Reducir margen inferior */
+        padding-bottom: .4rem; /* Reducir padding inferior */
+        border-bottom: 1.5px solid var(--papitu-blue); /* Reducir grosor del borde */
+    }
+
+    /* Estilo para el título con salto de línea */
+    .modal-content h2.split-title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem; /* Espacio entre las dos líneas */
+    }
+
+    /* Ajustar inputs */
+    .modal-content input {
+        padding: .5rem .8rem; /* Reducir padding */
+        font-size: .85rem; /* Reducir tamaño de fuente */
+        border-radius: .6rem; /* Reducir radio de borde */
+        margin: .3rem 0 .8rem; /* Reducir márgenes */
+    }
+
+    /* Ajustar labels */
+    .modal-content label {
+        font-size: .9rem; /* Reducir tamaño de fuente */
+        margin-bottom: .2rem; /* Reducir margen inferior */
+    }
+
+    /* Ajustar iconos de labels */
+    label i {
+        font-size: 1rem; /* Reducir tamaño de iconos */
+        margin-right: 6px; /* Reducir margen derecho */
+    }
+
+    /* Ajustar botón enviar */
+    .btn-enviar {
+        padding: .6rem 1.8rem; /* Reducir padding */
+        font-size: .9rem; /* Reducir tamaño de fuente */
+        border-radius: 999px; /* Mantener forma redondeada */
+    }
+
+    .btn-enviar i {
+        font-size: .9rem; /* Reducir tamaño del icono */
+        margin-right: 4px; /* Reducir margen derecho */
+    }
+}
 
 
 
