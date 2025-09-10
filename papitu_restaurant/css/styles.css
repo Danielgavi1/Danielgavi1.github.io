@@ -363,8 +363,23 @@ ul.navbar-nav{
     font-size:1.25rem;
     line-height:1.6;
     max-width:600px;
-    margin-bottom:2.5rem
+    margin-bottom:2.5rem;
+    text-align:start;
+    text-wrap:pretty;
 }
+
+/* Moviles texto */
+@media (max-width: 767.98px) {
+    #nosotros .lead-nosotros {
+        text-align: center;
+        color:var(--text-grey);
+        font-size:1.25rem;
+        line-height:1.6;
+        max-width:600px;
+        margin-bottom:2.5rem;
+    }
+}
+
 #nosotros .btn-primary{
     border:none;
     padding:.9rem 2.2rem;
@@ -395,6 +410,177 @@ ul.navbar-nav{
     transform:scale(1.03) rotateZ(3deg);
     box-shadow:0 15px 40px rgba(0,0,0,.35)
 }
+
+
+
+
+
+
+
+
+
+
+
+/* ========== SECCIÓN EQUIPO ========== */
+#equipo {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    background-color: #fff;
+}
+
+/* Título principal */
+#equipo .display-4 {
+    color: var(--dark-black);
+    font-size: 3.2rem;      
+    font-weight: 650;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+/* Subtítulo */
+#equipo .subtitulo {
+    font-size: 1.8rem;      
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--papitu-blue);
+}
+
+/* Texto introductorio */
+#equipo .lead-equipo {
+    color: var(--text-grey);
+    font-size: 1.25rem;     
+    line-height: 1.6;
+    max-width: 1000px;      
+    margin: 0 auto 4.5rem;
+    text-align: start;
+    text-wrap: pretty;
+}
+
+/* Card */
+#equipo .card {
+    border: 0;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .08);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+#equipo .card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .15);
+}
+
+/* Título dentro de la card */
+#equipo .card-title {
+    color: var(--dark-black);
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+/* Texto de descripción */
+#equipo .descripcion {
+    color: var(--text-grey);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+    text-align: start;
+    text-wrap: pretty;
+}
+
+/* Imagen dentro de la card */
+#equipo .equipo-img {
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 45%;
+    transition: transform .4s ease-in-out;
+}
+
+#equipo .card:hover .equipo-img {
+    transform: scale(1);
+}
+
+
+.emoji-cocinero-img {
+    height: 1em;
+    width: auto;
+    vertical-align: -0.15em;
+}
+
+.emoji-gorro-cocinero-img{
+    height: 1.3em;
+    width: auto;
+    vertical-align: -0.2em;
+}
+
+
+@media (max-width: 767.98px) {
+    #equipo {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    #equipo .display-4 {
+        font-size: 2rem;
+        text-align: center;
+    }
+    #equipo .subtitulo {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+    #equipo .lead-equipo,
+    #equipo .descripcion {
+        font-size: 1.25rem;
+        line-height: 1.6;
+        max-width: 600px;
+        margin: 0 auto 2.5rem;
+
+        /* Ajuste tipo 'pretty wrap' sin justificar */
+        text-align: start;             
+        -webkit-text-wrap: pretty;
+        text-wrap: pretty;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+
+        /* Padding lateral para que no quede pegado */
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .emoji-cocinero-img {
+        height: 1.35em;
+        vertical-align: -0.05em;
+    }
+    .emoji-gorro-cocinero-img {
+        height: 1.3em;
+        vertical-align: -0.25em;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ========== SECCIÓN GALERÍA ========== */
 #galeria{
@@ -1322,3 +1508,4 @@ label i {
         margin-right:1rem
     }
 }
+
