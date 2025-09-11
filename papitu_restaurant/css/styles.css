@@ -1303,8 +1303,8 @@ label i {
     opacity: 1;
     transform: translateX(0) translateY(0);
 }
-/* Añade a las secciones relevantes (ejemplo) */
-#inicio, #nosotros, #galeria, #menu, #locales, #contacto {
+
+#inicio, #nosotros, #equipo, #galeria, #menu, #locales, #contacto {
     overflow: hidden; /* Recorta desplazamientos internos */
 }
 
