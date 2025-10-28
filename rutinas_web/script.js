@@ -172,7 +172,7 @@ function cargarVictoria() {
     "<img src='./img/culo.webp' width='25%'>": [
       "<strong>Hip trust:</strong> 10Kg 4 x 10 reps + negativa al fallo",
       "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
-      "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 45Kg 3 x 10 reps",
+      "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 59Kg 3 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
       "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 4 x 10 reps",
@@ -181,9 +181,9 @@ function cargarVictoria() {
     "<img src='./img/pierna.webp' width='25%'>": [
       "<strong>Femoral tumbada:</strong> 10Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
-      "<strong>Curl de pierna:</strong> 12.5Kg 3 x 10 reps",
-      "<strong>Abductor cadera:</strong> 82.5Kg 3 x 10 reps",
-      "<strong>Aductor cadera:</strong> 75Kg 3 x 10 reps"
+      "<strong>Curl de pierna:</strong> 15Kg 3 x 10 reps",
+      "<strong>Abductor interno:</strong> 43Kg 3 x 10 reps",
+      "<strong>Aductor externo:</strong> 54Kg 3 x 10 reps"
     ],
     "<img src='./img/espalda.webp' width='30%'>": [
       "<strong>Estirar hacia abajo:</strong> 27.5Kg 3 x 10 reps",
@@ -198,7 +198,7 @@ function cargarDaniel() {
     "<img src='./img/culo.webp' width='25%'>": [
       "<strong>Hip trust:</strong> 20Kg 4 x 10 reps",
       "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
-      "<strong>Press pierna sentado</strong> (ajustar rango completo 🍑): 75Kg 3 x 10 reps",
+      "<strong>Press pierna sentado</strong> (ajustar rango completo 🍑): 87Kg 3 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
       "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 3 x 10 reps",
@@ -207,9 +207,9 @@ function cargarDaniel() {
     "<img src='./img/pierna.webp' width='25%'>": [
       "<strong>Femoral tumbado:</strong> 25Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 45Kg 3 x 10 reps",
-      "<strong>Curl de pierna:</strong> 25Kg 3 x 10 reps",
-      "<strong>Abductor cadera:</strong> 152.5Kg 3 x 10 reps",
-      "<strong>Aductor cadera:</strong> 125Kg 3 x 10 reps"
+      "<strong>Curl de pierna:</strong> 35Kg 3 x 10 reps",
+      "<strong>Abductor interno:</strong> 93Kg 3 x 10 reps",
+      "<strong>Aductor externo:</strong> 77Kg 3 x 10 reps"
     ],
     "<img src='./img/espalda.webp' width='30%'>": [
       "<strong>Estirar hacia abajo:</strong> 75Kg 3 x 10 reps",
