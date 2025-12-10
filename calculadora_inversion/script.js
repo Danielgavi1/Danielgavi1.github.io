@@ -45,10 +45,21 @@ document.addEventListener('DOMContentLoaded', () => {
             // Sync with Hidden Select
             strategySelect.value = card.dataset.value;
 
+            // Show/Hide Custom Input
+            const customInput = document.getElementById('custom-rate-container');
+            if (card.dataset.value === 'custom') {
+                customInput.classList.remove('hidden');
+            } else {
+                customInput.classList.add('hidden');
+            }
+
             // Trigger Update
             updateSimulation();
         });
     });
+
+    // Custom Rate Input Listener
+    document.getElementById('custom-rate').addEventListener('input', updateSimulation);
 
 
 
@@ -61,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         monthly: document.getElementById('monthly-contribution'),
         years: document.getElementById('years'),
         strategy: document.getElementById('strategy'),
+        customRate: document.getElementById('custom-rate'),
         yearsDisplay: document.getElementById('years-display'),
         inflation: document.getElementById('inflation-toggle'),
         tax: document.getElementById('tax-toggle'),
@@ -132,6 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'safe': annualRate = 0.10; break;
             case 'moderate': annualRate = 0.15; break;
             case 'aggressive': annualRate = 0.25; break;
+            case 'custom':
+                let customVal = parseFloat(inputs.customRate.value) || 0;
+                annualRate = customVal / 100;
+                break;
         }
 
         // Calculate Main Strategy
@@ -181,6 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let color = '#00c6ff'; // Default blue
         if (strategy === 'moderate') color = '#7928ca';
         if (strategy === 'aggressive') color = '#ff0080';
+        if (strategy === 'custom') color = '#10b981'; // Green for custom
 
         if (growthChart) {
             growthChart.destroy();

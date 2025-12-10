@@ -107,13 +107,31 @@
                             <span>~25% (IA/Nvidia)</span>
                         </div>
                     </div>
+                    <div class="strategy-card" data-value="custom">
+                        <div class="strat-icon">⚙️</div>
+                        <div class="strat-info">
+                            <h5>Personalizada</h5>
+                            <span>% a tu medida</span>
+                        </div>
+                    </div>
                 </div>
                 <!-- Hidden select to keep JS working without major refactor initially, or we update JS to listen to cards -->
                 <select id="strategy" class="hidden">
                     <option value="safe">Conservadora</option>
                     <option value="moderate">Tecnológica</option>
                     <option value="aggressive">Disruptiva</option>
+                    <option value="custom">Personalizada</option>
                 </select>
+
+                <!-- Custom Rate Input (Hidden by default) -->
+                <div id="custom-rate-container" class="input-group hidden"
+                    style="margin-bottom: 15px; border: 1px dashed var(--accent-color); padding: 10px; border-radius: 12px; background: rgba(16, 185, 129, 0.05);">
+                    <label style="color: #4ade80;">Rentabilidad Esperada (%)</label>
+                    <div class="input-wrapper">
+                        <span class="currency-prefix">%</span>
+                        <input type="number" id="custom-rate" value="50" min="0" max="1000">
+                    </div>
+                </div>
 
                 <div class="input-grid-2">
                     <div class="input-group">
