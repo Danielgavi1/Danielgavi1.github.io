@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inversión IA & Tech | Futuro Financiero</title>
+    <!-- Google Fonts: Outfit for a modern tech feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="logo">🚀 FutureWealth.AI</div>
+        <div class="nav-links">
+            <a href="#hero">Inicio</a>
+            <a href="#risk-quiz">Perfil de Riesgo</a>
+            <a href="#simulator">Simulador</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <h1>Descubre el Poder del Interés Compuesto con <span class="text-gradient">IA Generativa</span></h1>
+            <p>Simula tu futuro financiero invirtiendo en las tecnologías que están cambiando el mundo.</p>
+            <a href="#simulator" class="cta-button">Comenzar Simulación</a>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-card glass-card">
+                <div class="icon">📈</div>
+                <div class="stat">+35.4%</div>
+                <div class="label">Retorno Anual (IA)</div>
+            </div>
+            <div class="floating-card glass-card card-2">
+                <div class="icon">🤖</div>
+                <div class="stat">CAGR 40%</div>
+                <div class="label">Crecimiento Sector</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk Profile Quiz -->
+    <section id="risk-quiz" class="container">
+        <h2 class="section-title">1. Define tu Perfil de Riesgo</h2>
+        <div class="glass-panel quiz-panel">
+            <div id="quiz-container">
+                <div class="question-box">
+                    <h3>¿Cuál es tu reacción si tus inversiones bajan un 20% en un mes?</h3>
+                    <div class="options">
+                        <button class="option-btn" data-score="1">Vendo todo inmediatamente (Pánico)</button>
+                        <button class="option-btn" data-score="5">Me preocupo, pero espero (Cautela)</button>
+                        <button class="option-btn" data-score="10">Compro más barato (Oportunidad)</button>
+                    </div>
+                </div>
+                <!-- More questions could be added dynamically or statically here if needed, keeping it simple for v1 -->
+                <div class="risk-result hidden">
+                    <h3>Tu Perfil: <span id="risk-type">---</span></h3>
+                    <p id="risk-description">Responde la pregunta para ver tu perfil.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Simulator -->
+    <section id="simulator" class="container">
+        <h2 class="section-title">2. Simulador de Inversión</h2>
+        <div class="simulator-grid">
+            <!-- Controls -->
+            <div class="glass-panel controls-panel">
+
+                <!-- Strategy Selection (Visual Cards) -->
+                <label style="display:block; margin-bottom: 15px; color: var(--text-muted);">Estrategia de
+                    Inversión</label>
+                <div class="strategy-cards-container">
+                    <div class="strategy-card selected" data-value="safe">
+                        <div class="strat-icon">🛡️</div>
+                        <div class="strat-info">
+                            <h5>Conservadora</h5>
+                            <span>~10% (S&P 500)</span>
+                        </div>
+                    </div>
+                    <div class="strategy-card" data-value="moderate">
+                        <div class="strat-icon">💻</div>
+                        <div class="strat-info">
+                            <h5>Tecnológica</h5>
+                            <span>~15% (Nasdaq)</span>
+                        </div>
+                    </div>
+                    <div class="strategy-card" data-value="aggressive">
+                        <div class="strat-icon">🚀</div>
+                        <div class="strat-info">
+                            <h5>Disruptiva</h5>
+                            <span>~25% (IA/Nvidia)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hidden select to keep JS working without major refactor initially, or we update JS to listen to cards -->
+                <select id="strategy" class="hidden">
+                    <option value="safe">Conservadora</option>
+                    <option value="moderate">Tecnológica</option>
+                    <option value="aggressive">Disruptiva</option>
+                </select>
+
+                <div class="input-grid-2">
+                    <div class="input-group">
+                        <label>Inversión Inicial</label>
+                        <div class="input-wrapper">
+                            <span class="currency-prefix">$</span>
+                            <input type="number" id="initial-investment" value="1000" min="0">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Mensual</label>
+                        <div class="input-wrapper">
+                            <span class="currency-prefix">$</span>
+                            <input type="number" id="monthly-contribution" value="200" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Tiempo: <span id="years-display" style="color: var(--accent-color); font-weight:bold;">10
+                            Años</span></label>
+                    <input type="range" id="years" min="1" max="30" value="10" class="styled-range">
+                </div>
+
+                <!-- Advanced Options (Toggle Chips) -->
+                <div class="advanced-section">
+                    <h5 class="advanced-title">Opciones Avanzadas ⚙️</h5>
+                    <div class="toggles-container">
+                        <label class="toggle-chip">
+                            <input type="checkbox" id="inflation-toggle">
+                            <span class="chip-label">📉 Inflación Real</span>
+                        </label>
+                        <label class="toggle-chip">
+                            <input type="checkbox" id="tax-toggle">
+                            <span class="chip-label">🏛️ Impuestos</span>
+                        </label>
+                        <label class="toggle-chip">
+                            <input type="checkbox" id="compare-toggle">
+                            <span class="chip-label">🆚 Comparar S&P</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button id="calculate-btn" class="cta-button full-width" style="margin-top: 25px;">
+                    <span style="font-size: 1.2rem;">✨</span> Simular Futuro
+                </button>
+            </div>
+
+            <!-- Chart -->
+            <div class="glass-panel chart-panel">
+                <canvas id="growthChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="glass-card summary-item">
+                <h4>Total Invertido</h4>
+                <p id="total-contributed">$0</p>
+            </div>
+            <div class="glass-card summary-item highlight">
+                <h4>Valor Final Estimado</h4>
+                <p id="final-value">$0</p>
+            </div>
+            <div class="glass-card summary-item">
+                <h4>Interés Generado</h4>
+                <p id="total-interest">$0</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Disclaimer: Esta herramienta es solo para fines educativos y de simulación. Rentabilidades pasadas no
+            garantizan futuras.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
