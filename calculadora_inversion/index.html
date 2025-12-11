@@ -35,7 +35,7 @@
     <!-- Hero Section -->
     <section id="hero" class="hero-section">
         <div class="hero-content">
-            <h1>Descubre el Poder del Interés Compuesto con <span class="text-gradient">IA Generativa</span></h1>
+            <h1>Descubre el Poder del Interés Compuesto con <span class="text-gradient">IA Agéntica</span></h1>
             <p>Simula tu futuro financiero invirtiendo en las tecnologías que están cambiando el mundo.</p>
             <a href="#simulator" class="cta-button">Comenzar Simulación</a>
         </div>
@@ -142,7 +142,7 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        <label>Mensual</label>
+                        <label id="contribution-label">Mensual</label>
                         <div class="input-wrapper">
                             <span class="currency-prefix">$</span>
                             <input type="number" id="monthly-contribution" value="200" min="0">
@@ -150,10 +150,43 @@
                     </div>
                 </div>
 
+                <div class="input-grid-2">
+                    <div class="input-group">
+                        <label>Frecuencia de Aportación</label>
+                        <select id="contribution-frequency">
+                            <option value="12">Mensual</option>
+                            <option value="26">Quincenal</option>
+                            <option value="52">Semanal</option>
+                            <option value="1">Anual</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Momento Aportación</label>
+                        <select id="contribution-timing">
+                            <option value="end">Final de Periodo</option>
+                            <option value="begin">Inicio de Periodo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group"
+                    style="margin-top: 20px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+                    <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                        <span style="color: #a855f7; font-weight: bold;">🔮 AI Market Predictor</span>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="ai-mode-toggle">
+                            <span class="slider"></span>
+                        </div>
+                    </label>
+                    <p id="ai-description" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Simula
+                        escenarios
+                        optimistas y pesimistas basados en volatilidad.</p>
+                </div>
+
                 <div class="input-group">
                     <label>Tiempo: <span id="years-display" style="color: var(--accent-color); font-weight:bold;">10
                             Años</span></label>
-                    <input type="range" id="years" min="1" max="30" value="10" class="styled-range">
+                    <input type="range" id="years" min="1" max="50" value="10" class="styled-range">
                 </div>
 
                 <!-- Advanced Options (Toggle Chips) -->
@@ -173,6 +206,16 @@
                             <span class="chip-label">🆚 Comparar S&P</span>
                         </label>
                     </div>
+
+                    <!-- Tax Rate Input (Hidden by default) -->
+                    <div id="tax-rate-container" class="input-group hidden" style="margin-top: 15px; width: 150px;">
+                        <label style="font-size: 0.9rem;">Tasa Impuestos (%)</label>
+                        <div class="input-wrapper">
+                            <span class="currency-prefix" style="font-size: 0.9rem;">%</span>
+                            <input type="number" id="tax-rate" value="19" min="0" max="100"
+                                style="padding: 8px 8px 8px 25px;">
+                        </div>
+                    </div>
                 </div>
 
                 <button id="calculate-btn" class="cta-button full-width" style="margin-top: 25px;">
@@ -187,18 +230,36 @@
         </div>
 
         <!-- Summary Cards -->
-        <div class="summary-cards">
-            <div class="glass-card summary-item">
-                <h4>Total Invertido</h4>
-                <p id="total-contributed">$0</p>
+        <div class="charts-row" style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 30px;">
+            <!-- Summary Cards (Moved inside a container for layout) -->
+            <div class="summary-section">
+                <div class="summary-cards">
+                    <div class="glass-card summary-item">
+                        <h4>Total Invertido</h4>
+                        <p id="total-contributed">$0</p>
+                    </div>
+                    <div class="glass-card summary-item highlight">
+                        <h4>Valor Final Estimado</h4>
+                        <p id="final-value">$0</p>
+                    </div>
+                    <div class="glass-card summary-item">
+                        <h4>Interés Generado</h4>
+                        <p id="total-interest">$0</p>
+                    </div>
+                    <div class="glass-card summary-item" id="tax-card" style="display: none;">
+                        <h4>Impuestos Estimados</h4>
+                        <p id="estimated-tax" style="color: #ef4444;">$0</p>
+                    </div>
+                </div>
             </div>
-            <div class="glass-card summary-item highlight">
-                <h4>Valor Final Estimado</h4>
-                <p id="final-value">$0</p>
-            </div>
-            <div class="glass-card summary-item">
-                <h4>Interés Generado</h4>
-                <p id="total-interest">$0</p>
+
+            <!-- Distribution Chart -->
+            <div class="glass-panel donut-panel"
+                style="padding: 20px; display: flex; flex-direction: column; align-items: center;">
+                <h4 style="margin-bottom: 15px; font-size: 1rem; color: var(--text-muted);">Distribución de Activos</h4>
+                <div class="donut-chart-container">
+                    <canvas id="distributionChart"></canvas>
+                </div>
             </div>
         </div>
     </section>

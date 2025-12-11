@@ -65,7 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Simulator Logic ---
     const ctx = document.getElementById('growthChart').getContext('2d');
+    const donutCtx = document.getElementById('distributionChart').getContext('2d');
     let growthChart;
+    let distributionChart;
 
     const inputs = {
         initial: document.getElementById('initial-investment'),
@@ -76,13 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
         yearsDisplay: document.getElementById('years-display'),
         inflation: document.getElementById('inflation-toggle'),
         tax: document.getElementById('tax-toggle'),
-        compare: document.getElementById('compare-toggle')
+        compare: document.getElementById('compare-toggle'),
+        frequency: document.getElementById('contribution-frequency'),
+        timing: document.getElementById('contribution-timing'),
+        aiMode: document.getElementById('ai-mode-toggle'),
+        contributionLabel: document.getElementById('contribution-label'),
+        taxRate: document.getElementById('tax-rate'),
+        taxRateContainer: document.getElementById('tax-rate-container'),
+        aiDescription: document.getElementById('ai-description')
     };
 
     const outputs = {
         totalContributed: document.getElementById('total-contributed'),
         finalValue: document.getElementById('final-value'),
-        totalInterest: document.getElementById('total-interest')
+        totalInterest: document.getElementById('total-interest'),
+        taxCard: document.getElementById('tax-card'),
+        estimatedTax: document.getElementById('estimated-tax')
     };
 
     // Update Years Display
@@ -93,111 +104,216 @@ document.addEventListener('DOMContentLoaded', () => {
 
     inputs.strategy.addEventListener('change', updateSimulation);
     inputs.inflation.addEventListener('change', updateSimulation);
-    inputs.tax.addEventListener('change', updateSimulation);
+    inputs.tax.addEventListener('change', () => {
+        toggleTaxInput();
+        updateSimulation();
+    });
+    inputs.taxRate.addEventListener('input', updateSimulation);
     inputs.compare.addEventListener('change', updateSimulation);
+    inputs.frequency.addEventListener('change', (e) => {
+        updateContributionLabel();
+        updateSimulation();
+    });
+    inputs.timing.addEventListener('change', updateSimulation);
+    inputs.aiMode.addEventListener('change', updateSimulation);
     document.getElementById('calculate-btn').addEventListener('click', updateSimulation);
 
     // Initial Run
+    updateContributionLabel();
     updateSimulation();
 
-    function calculateGrowth(initial, monthly, years, rate, inflationAdjusted = false) {
+    function updateContributionLabel() {
+        const freq = parseInt(inputs.frequency.value);
+        let label = "Mensual";
+        switch (freq) {
+            case 12: label = "Aportación Mensual"; break;
+            case 26: label = "Aportación Quincenal"; break;
+            case 52: label = "Aportación Semanal"; break;
+            case 1: label = "Aportación Anual"; break;
+        }
+        inputs.contributionLabel.innerText = label;
+    }
+
+    function toggleTaxInput() {
+        if (inputs.tax.checked) {
+            inputs.taxRateContainer.classList.remove('hidden');
+        } else {
+            inputs.taxRateContainer.classList.add('hidden');
+        }
+    }
+
+    function calculateGrowth(initial, contribution, years, rate, frequency = 12, inflationAdjusted = false, volatility = 0, timing = 'end') {
         let currentBalance = initial;
         let totalInvested = initial;
         let effectiveRate = rate;
 
-        if (inflationAdjusted) {
-            // Real Rate formula: (1 + nominal) / (1 + inflation) - 1
-            // Assuming 2.5% inflation
-            effectiveRate = (1 + rate) / (1.025) - 1;
-        }
+        // Adjust rate for volatility if provided (simple randomization for demo)
+        // We will change the rate slightly each "year" to simulate noise if volatility > 0
 
         const dataPoints = [initial];
+        const periods = years; // We draw 1 point per year for the line chart (simplification)
 
-        for (let i = 1; i <= years; i++) {
-            // Add monthly contributions
-            // We approximate monthly growth by doing (monthly * 12) added to pool, then growing whole pool
-            // A precise monthly calc loop is better, but this year-by-year loop is fine for visual approx
-            currentBalance = (currentBalance + (monthly * 12)) * (1 + effectiveRate);
-            totalInvested += (monthly * 12);
-            dataPoints.push(currentBalance);
+        // For precise calculation, we need to loop per contribution period
+        // But for the chart data, we just want annual checkpoints.
+
+        // Inner function to calc future value with periodic contributions
+        // FV = P(1+r/n)^(nt) + PMT * ...
+        // Let's do a loop for total periods to be accurate with compounding
+
+        let freqRate = rate / frequency;
+
+        // If inflation adjusted, we adjust the *annual* rate first, then divide?
+        // Approx: Real Rate = (1+r)/(1+i) - 1. 
+        if (inflationAdjusted) {
+            const realAnnual = (1 + rate) / (1.025) - 1;
+            freqRate = realAnnual / frequency;
         }
 
-        return { dataPoints, finalBalance: currentBalance, totalInvested };
+        let balance = initial;
+        let invested = initial;
+
+        // Loop by total contribution events
+        const totalEvents = years * frequency;
+        const eventsPerYear = frequency;
+
+        let currentYear = 0;
+
+        // To plotting annual points, we need to capture balance at event k = 1*freq, 2*freq...
+
+        for (let i = 1; i <= totalEvents; i++) {
+            // Apply Volatility to rate per step (Monte Carlo 'light')
+            // Only if AI mode is on (volatility > 0)
+            let stepRate = freqRate;
+            if (volatility > 0) {
+                // Random drift +/- volatility scaled to period
+                const drift = (Math.random() - 0.5) * 2 * (volatility / Math.sqrt(frequency));
+                stepRate += drift;
+            }
+
+            if (timing === 'begin') {
+                // Annuity Due: Invest first, then grow
+                balance = (balance + contribution) * (1 + stepRate);
+            } else {
+                // Ordinary Annuity: Grow first, then invest at end
+                balance = balance * (1 + stepRate) + contribution;
+            }
+            invested += contribution;
+
+            // Checkpoint for Chart (End of Year)
+            if (i % eventsPerYear === 0) {
+                dataPoints.push(balance);
+                currentYear++;
+            }
+        }
+
+        return { dataPoints, finalBalance: balance, totalInvested: invested };
     }
 
     function updateSimulation() {
-        // Validation: Ensure no negative numbers
+        // Validation ensuring numbers
         let initial = parseFloat(inputs.initial.value) || 0;
         if (initial < 0) { initial = 0; inputs.initial.value = 0; }
 
-        let monthly = parseFloat(inputs.monthly.value) || 0;
-        if (monthly < 0) { monthly = 0; inputs.monthly.value = 0; }
+        let contributionAmount = parseFloat(inputs.monthly.value) || 0;
+        if (contributionAmount < 0) { contributionAmount = 0; inputs.monthly.value = 0; }
 
         const years = parseInt(inputs.years.value) || 10;
         const strategy = inputs.strategy.value;
         const useInflation = inputs.inflation.checked;
         const useTax = inputs.tax.checked;
         const doCompare = inputs.compare.checked;
+        const frequency = parseInt(inputs.frequency.value);
+        const aiMode = inputs.aiMode.checked;
+        const timing = inputs.timing.value;
 
         let annualRate;
+        // Volatility Factors (Standard Deviation approx)
+        let volFactor = 0;
+
         switch (strategy) {
-            case 'safe': annualRate = 0.10; break;
-            case 'moderate': annualRate = 0.15; break;
-            case 'aggressive': annualRate = 0.25; break;
+            case 'safe':
+                annualRate = 0.10;
+                volFactor = 0.05;
+                break;
+            case 'moderate':
+                annualRate = 0.15;
+                volFactor = 0.15;
+                break;
+            case 'aggressive':
+                annualRate = 0.25;
+                volFactor = 0.25;
+                break;
             case 'custom':
                 let customVal = parseFloat(inputs.customRate.value) || 0;
                 annualRate = customVal / 100;
+                volFactor = 0.10; // Default vol for custom
                 break;
         }
 
-        // Calculate Main Strategy
-        const mainResult = calculateGrowth(initial, monthly, years, annualRate, useInflation);
+        // Update AI Description
+        const volPercent = (volFactor * 100).toFixed(0);
+        inputs.aiDescription.innerText = `Simula escenarios optimistas (+${volPercent}%) y pesimistas (-${volPercent}%) basados en volatilidad.`;
 
-        // Calculate Comparison (S&P 500 ~ 10%) if enabled
+        // Calculate Main Strategy (Central Path)
+        const mainResult = calculateGrowth(initial, contributionAmount, years, annualRate, frequency, useInflation, 0, timing);
+
+        // AI Scenarios
+        let optimisticResult = null;
+        let pessimisticResult = null;
+
+        if (aiMode) {
+            // Optimistic: +Volatility Bias
+            // We can simulate this by just adding some flat Bonus to rate or running the random loop lucky
+            // For deterministic visual "Upper/Lower bounds", let's just shift rate
+            optimisticResult = calculateGrowth(initial, contributionAmount, years, annualRate + volFactor, frequency, useInflation, 0, timing);
+            pessimisticResult = calculateGrowth(initial, contributionAmount, years, annualRate - volFactor, frequency, useInflation, 0, timing);
+        }
+
+        // Comparison Result
         let compareResult = null;
         if (doCompare) {
-            // If main strategy IS safe (S&P500), compare with "Inflation Safe" Cash? Or just Nasdaq?
-            // Let's hardcode Comparison to always be S&P 500 Historical (10%)
-            compareResult = calculateGrowth(initial, monthly, years, 0.10, useInflation);
+            compareResult = calculateGrowth(initial, contributionAmount, years, 0.10, frequency, useInflation, 0, timing);
         }
 
-        // Apply Tax Logic (Only affects final visual number, usually not the chart growth curve itself)
-        // However, for visualization, it's confusing to show Pre-Tax chart and Post-Tax numbers.
-        // We will Apply Tax to the "Final Value" text ONLY, as taxes are paid on exit.
-
+        // Tax Logic
         let finalDisplayValue = mainResult.finalBalance;
         let finalInterest = mainResult.finalBalance - mainResult.totalInvested;
+        let taxAmount = 0;
 
         if (useTax) {
-            // Capital Gains Tax ~19%
-            const taxRate = 0.19;
-            const taxAmount = Math.max(0, finalInterest * taxRate);
+            const taxRatePercent = parseFloat(inputs.taxRate.value) || 19;
+            const taxRate = taxRatePercent / 100;
+            taxAmount = Math.max(0, finalInterest * taxRate);
             finalDisplayValue -= taxAmount;
-            finalInterest -= taxAmount;
-            // Note: Chart remains pre-tax growth accumulation
+
+            // Show Card
+            outputs.taxCard.style.display = 'block';
+            outputs.estimatedTax.innerText = formatCurrency(taxAmount);
+        } else {
+            outputs.taxCard.style.display = 'none';
         }
 
-        // Update UI Text
+        // Update Text
         outputs.totalContributed.innerText = formatCurrency(mainResult.totalInvested);
         outputs.finalValue.innerText = formatCurrency(finalDisplayValue);
-        outputs.totalInterest.innerText = formatCurrency(finalInterest);
+        outputs.totalInterest.innerText = formatCurrency(finalInterest - taxAmount); // Net Interest
 
-        // Labels
+        // Update Charts
         const labels = Array.from({ length: years + 1 }, (_, i) => `Año ${i}`);
 
-        // Update Chart
-        renderChart(labels, mainResult.dataPoints, compareResult ? compareResult.dataPoints : null, strategy);
+        renderChart(labels, mainResult.dataPoints, compareResult ? compareResult.dataPoints : null, optimisticResult, pessimisticResult, strategy);
+        renderDonut(mainResult.totalInvested, finalInterest - taxAmount, taxAmount);
     }
 
     function formatCurrency(num) {
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(num);
     }
 
-    function renderChart(labels, mainData, compareData, strategy) {
-        let color = '#00c6ff'; // Default blue
+    function renderChart(labels, mainData, compareData, optData, pessData, strategy) {
+        let color = '#00c6ff';
         if (strategy === 'moderate') color = '#7928ca';
         if (strategy === 'aggressive') color = '#ff0080';
-        if (strategy === 'custom') color = '#10b981'; // Green for custom
+        if (strategy === 'custom') color = '#10b981';
 
         if (growthChart) {
             growthChart.destroy();
@@ -205,63 +321,137 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
         gradient.addColorStop(0, color);
-        gradient.addColorStop(1, 'rgba(0,0,0,0)');
+        gradient.addColorStop(0.5, 'rgba(0,0,0,0)'); // Fade out faster
 
-        const datasets = [{
+        const datasets = [];
+
+        // 1. Optimistic Line (Top of Legend)
+        if (optData) {
+            datasets.push({
+                label: 'Optimista (AI)',
+                data: optData.dataPoints,
+                borderColor: '#10b981',
+                borderDash: [5, 5],
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.4,
+                fill: false,
+                order: 0 // Draw Priority
+            });
+        }
+
+        // 2. Main Line (Tu Portafolio)
+        datasets.push({
             label: 'Tu Portafolio',
             data: mainData,
             borderColor: color,
             backgroundColor: gradient,
             borderWidth: 3,
             fill: true,
-            tension: 0.4
-        }];
+            tension: 0.4,
+            order: 1
+        });
 
+        // 3. Pessimistic Line
+        if (pessData) {
+            datasets.push({
+                label: 'Pesimista (AI)',
+                data: pessData.dataPoints,
+                borderColor: '#ef4444',
+                borderDash: [5, 5],
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.4,
+                fill: false,
+                order: 2
+            });
+        }
+
+        // Comparison (Bottom of Legend)
         if (compareData) {
             datasets.push({
-                label: 'S&P 500 (Referencia)',
+                label: 'S&P 500',
                 data: compareData,
                 borderColor: '#ffffff',
-                borderDash: [5, 5], // Dashed line
+                borderDash: [5, 5],
                 borderWidth: 2,
                 fill: false,
                 tension: 0.4,
-                pointRadius: 0
+                pointRadius: 0,
+                order: 3
             });
         }
 
         growthChart = new Chart(ctx, {
             type: 'line',
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
+            data: { labels, datasets },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        labels: { color: 'white' }
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
+                    legend: { labels: { color: 'white' } },
+                    tooltip: { mode: 'index', intersect: false },
+                    annotation: {
+                        annotations: {
+                            // Example First Million Line (requires plugin, maybe not loaded. If not loaded, this is ignored)
+                            millionLine: {
+                                type: 'line',
+                                yMin: 1000000,
+                                yMax: 1000000,
+                                borderColor: 'gold',
+                                borderWidth: 2,
+                                borderDash: [10, 5],
+                                label: { content: '🏆 $1M', enabled: true, position: 'end' }
+                            }
+                        }
                     }
                 },
                 scales: {
-                    y: {
-                        grid: { color: 'rgba(255,255,255,0.1)' },
-                        ticks: { color: '#b3b3b3' }
-                    },
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: '#b3b3b3' }
+                    y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#b3b3b3' } },
+                    x: { grid: { display: false }, ticks: { color: '#b3b3b3' } }
+                }
+            }
+        });
+    }
+
+    function renderDonut(invested, interest, tax) {
+        if (distributionChart) distributionChart.destroy();
+
+        let data = [invested, interest];
+        let bgColors = ['rgba(255, 255, 255, 0.2)', '#00c6ff'];
+        let labels = ['Inversión', 'Ganancia Neta'];
+
+        if (tax > 0) {
+            data.push(tax);
+            bgColors.push('#ef4444');
+            labels.push('Impuestos');
+        }
+
+        distributionChart = new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: bgColors,
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let val = formatCurrency(context.raw);
+                                return `${context.label}: ${val}`;
+                            }
+                        }
                     }
-                },
-                interaction: {
-                    mode: 'nearest',
-                    axis: 'x',
-                    intersect: false
                 }
             }
         });
