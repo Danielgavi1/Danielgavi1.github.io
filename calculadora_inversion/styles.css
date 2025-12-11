@@ -293,6 +293,7 @@ h3 {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 30px;
+    align-items: start;
 }
 
 @media (max-width: 900px) {
@@ -310,7 +311,9 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 400px;
+    min-height: 600px;
+    position: sticky;
+    top: 110px;
 }
 
 .input-group {
