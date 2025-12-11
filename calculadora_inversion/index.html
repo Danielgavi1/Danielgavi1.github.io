@@ -139,14 +139,14 @@
                         <label>Inversión Inicial</label>
                         <div class="input-wrapper">
                             <span class="currency-prefix">$</span>
-                            <input type="number" id="initial-investment" value="1000" min="0">
+                            <input type="text" inputmode="numeric" id="initial-investment" value="1000">
                         </div>
                     </div>
                     <div class="input-group">
                         <label id="contribution-label">Mensual</label>
                         <div class="input-wrapper">
                             <span class="currency-prefix">$</span>
-                            <input type="number" id="monthly-contribution" value="200" min="0">
+                            <input type="text" inputmode="numeric" id="monthly-contribution" value="200">
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,17 @@
                 <div class="input-group"
                     style="margin-top: 20px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
                     <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
-                        <span style="color: #a855f7; font-weight: bold;">🔮 AI Market Predictor</span>
+                        <div style="display:flex; align-items:center;">
+                            <span style="color: #a855f7; font-weight: bold;">🔮 AI Market Predictor</span>
+                            <div class="tooltip-container">
+                                <div class="tooltip-icon">?</div>
+                                <div class="tooltip-content">
+                                    Simula la <strong>Volatilidad</strong> del mercado. Genera escenarios optimistas
+                                    (bull market) y pesimistas (bear market) basados en la desviación estándar
+                                    histórica.
+                                </div>
+                            </div>
+                        </div>
                         <div class="toggle-switch">
                             <input type="checkbox" id="ai-mode-toggle">
                             <span class="slider"></span>
@@ -204,7 +214,17 @@
                         </label>
                         <label class="toggle-chip">
                             <input type="checkbox" id="compare-toggle">
-                            <span class="chip-label">🆚 Comparar S&P</span>
+                            <span class="chip-label">
+                                🆚 Comparar S&P
+                                <div class="tooltip-container"
+                                    style="display:inline-flex; width:auto; margin-left:5px;">
+                                    <div class="tooltip-icon" style="width:16px; height:16px; font-size:0.6rem;">?</div>
+                                    <div class="tooltip-content" style="width: 200px; bottom: 150%;">
+                                        El <strong>S&P 500</strong> es el índice bursátil de las 500 empresas más
+                                        grandes de EE.UU. Es el "benchmark" estándar del mercado (retorno medio ~10%).
+                                    </div>
+                                </div>
+                            </span>
                         </label>
                     </div>
 

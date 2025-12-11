@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- Helper: Currency Formatting ---
+    const formatCurrencyInput = (input) => {
+        let value = input.value.replace(/,/g, '');
+        let number = parseFloat(value);
+        if (!isNaN(number)) {
+            input.value = number.toLocaleString('en-US');
+        }
+    };
+
+    const cleanCurrencyInput = (input) => {
+        input.value = input.value.replace(/,/g, '');
+    };
+
+    const parseRawValue = (val) => {
+        if (!val) return 0;
+        if (typeof val !== 'string') return parseFloat(val) || 0;
+        return parseFloat(val.replace(/,/g, '')) || 0;
+    };
+
     // --- Risk Quiz Logic ---
     const optionBtns = document.querySelectorAll('.option-btn');
     const riskResult = document.querySelector('.risk-result');
@@ -116,7 +135,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     inputs.timing.addEventListener('change', updateSimulation);
     inputs.aiMode.addEventListener('change', updateSimulation);
+    inputs.timing.addEventListener('change', updateSimulation);
+    inputs.aiMode.addEventListener('change', updateSimulation);
     document.getElementById('calculate-btn').addEventListener('click', updateSimulation);
+
+    // --- Currency Inputs Listeners ---
+    const currencyInputs = [inputs.initial, inputs.monthly];
+    currencyInputs.forEach(input => {
+        // Initial format
+        formatCurrencyInput(input);
+        
+        input.addEventListener('focus', () => cleanCurrencyInput(input));
+        input.addEventListener('blur', () => {
+            formatCurrencyInput(input);
+            updateSimulation(); // Update on blur
+        });
+        // Also update on enter
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') input.blur();
+        });
+    });
 
     // Initial Run
     updateContributionLabel();
@@ -210,11 +248,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateSimulation() {
-        // Validation ensuring numbers
-        let initial = parseFloat(inputs.initial.value) || 0;
+        // Validation ensuring numbers with safe parsing for commas
+        let initial = parseRawValue(inputs.initial.value);
         if (initial < 0) { initial = 0; inputs.initial.value = 0; }
 
-        let contributionAmount = parseFloat(inputs.monthly.value) || 0;
+        let contributionAmount = parseRawValue(inputs.monthly.value);
         if (contributionAmount < 0) { contributionAmount = 0; inputs.monthly.value = 0; }
 
         const years = parseInt(inputs.years.value) || 10;
