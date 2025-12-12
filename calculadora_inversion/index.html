@@ -23,9 +23,43 @@
         <div class="globe globe-3"></div>
     </div>
 
+
     <!-- Navigation -->
     <nav class="glass-nav">
         <div class="logo">🚀 FutureWealth.AI</div>
+        <div class="nav-actions">
+            <!-- Currency Custom Dropdown -->
+            <div class="custom-dropdown">
+                <div class="custom-dropdown-selected" data-dropdown="currency">
+                    <span class="dropdown-text">USD ($)</span>
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="custom-dropdown-options" id="currency-options">
+                    <div class="custom-option" data-value="USD">USD ($)</div>
+                    <div class="custom-option" data-value="EUR">EUR (€)</div>
+                </div>
+                <select id="currency-selector" class="hidden">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                </select>
+            </div>
+
+            <!-- Theme Custom Dropdown -->
+            <div class="custom-dropdown">
+                <div class="custom-dropdown-selected" data-dropdown="theme">
+                    <span class="dropdown-text">Cyberpunk</span>
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                <div class="custom-dropdown-options" id="theme-options">
+                    <div class="custom-option" data-value="cyberpunk">Cyberpunk</div>
+                    <div class="custom-option" data-value="oled">OLED Dark</div>
+                </div>
+                <select id="theme-selector" class="hidden">
+                    <option value="cyberpunk">Cyberpunk</option>
+                    <option value="oled">OLED Dark</option>
+                </select>
+            </div>
+        </div>
         <div class="nav-links">
             <a href="#hero">Inicio</a>
             <a href="#risk-quiz">Perfil de Riesgo</a>
@@ -129,7 +163,7 @@
                     style="margin-bottom: 15px; border: 1px dashed var(--accent-color); padding: 10px; border-radius: 12px; background: rgba(16, 185, 129, 0.05);">
                     <label style="color: #4ade80;">Rentabilidad Esperada (%)</label>
                     <div class="input-wrapper">
-                        <span class="currency-prefix">%</span>
+                        <span class="static-prefix">%</span>
                         <input type="number" id="custom-rate" value="50" min="0" max="1000">
                     </div>
                 </div>
@@ -154,19 +188,41 @@
                 <div class="input-grid-2">
                     <div class="input-group">
                         <label>Frecuencia de Aportación</label>
-                        <select id="contribution-frequency">
-                            <option value="12">Mensual</option>
-                            <option value="26">Quincenal</option>
-                            <option value="52">Semanal</option>
-                            <option value="1">Anual</option>
-                        </select>
+                        <div class="custom-dropdown">
+                            <div class="custom-dropdown-selected" data-dropdown="frequency">
+                                <span class="dropdown-text">Mensual</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </div>
+                            <div class="custom-dropdown-options">
+                                <div class="custom-option selected" data-value="12">Mensual</div>
+                                <div class="custom-option" data-value="26">Quincenal</div>
+                                <div class="custom-option" data-value="52">Semanal</div>
+                                <div class="custom-option" data-value="1">Anual</div>
+                            </div>
+                            <select id="contribution-frequency" class="hidden">
+                                <option value="12">Mensual</option>
+                                <option value="26">Quincenal</option>
+                                <option value="52">Semanal</option>
+                                <option value="1">Anual</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label>Momento Aportación</label>
-                        <select id="contribution-timing">
-                            <option value="end">Final de Periodo</option>
-                            <option value="begin">Inicio de Periodo</option>
-                        </select>
+                        <div class="custom-dropdown">
+                            <div class="custom-dropdown-selected" data-dropdown="timing">
+                                <span class="dropdown-text">Inicio de Periodo</span>
+                                <span class="dropdown-arrow">▼</span>
+                            </div>
+                            <div class="custom-dropdown-options">
+                                <div class="custom-option selected" data-value="begin">Inicio de Periodo</div>
+                                <div class="custom-option" data-value="end">Final de Periodo</div>
+                            </div>
+                            <select id="contribution-timing" class="hidden">
+                                <option value="begin">Inicio de Periodo</option>
+                                <option value="end">Final de Periodo</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -177,10 +233,10 @@
                             <span style="color: #a855f7; font-weight: bold;">🔮 AI Market Predictor</span>
                             <div class="tooltip-container">
                                 <div class="tooltip-icon">?</div>
-                                <div class="tooltip-content">
-                                    Simula la <strong>Volatilidad</strong> del mercado. Genera escenarios optimistas
-                                    (bull market) y pesimistas (bear market) basados en la desviación estándar
-                                    histórica.
+                                <div class="tooltip-content" style="width: 250px;">
+                                    <strong>Modelo de Predicción</strong><br>
+                                    Simula la incertidumbre del mercado. Elige entre <strong>Bandas Simples</strong>
+                                    (rango fijo) o <strong>Monte Carlo</strong> (simulación probabilística avanzada).
                                 </div>
                             </div>
                         </div>
@@ -189,9 +245,38 @@
                             <span class="slider"></span>
                         </div>
                     </label>
-                    <p id="ai-description" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Simula
-                        escenarios
-                        optimistas y pesimistas basados en volatilidad.</p>
+                    <div id="ai-model-container" class="hidden ai-selector-container">
+                        <label class="ai-select-label">Modelo de Predicción</label>
+                        <div class="ai-model-options">
+                            <label class="ai-model-option selected">
+                                <input type="radio" name="ai-model" value="monte-carlo" checked>
+                                <span class="option-content">
+                                    <span class="option-icon">🎲</span>
+                                    <span class="option-text">
+                                        <strong>Monte Carlo Real</strong>
+                                        <small>10,000 Simulaciones</small>
+                                    </span>
+                                </span>
+                            </label>
+                            <label class="ai-model-option">
+                                <input type="radio" name="ai-model" value="simple-bands">
+                                <span class="option-content">
+                                    <span class="option-icon">📊</span>
+                                    <span class="option-text">
+                                        <strong>Bandas Simples</strong>
+                                        <small>+/- Volatilidad %</small>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                        <!-- Hidden select for backward compatibility -->
+                        <select id="ai-model-selector" class="hidden">
+                            <option value="monte-carlo">Monte Carlo Real (10,000 Sims)</option>
+                            <option value="simple-bands">Bandas Simples (+/- %)</option>
+                        </select>
+                    </div>
+                    <p id="ai-description" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Simula
+                        escenarios optimistas y pesimistas.</p>
                 </div>
 
                 <div class="input-group">
@@ -232,7 +317,7 @@
                     <div id="tax-rate-container" class="input-group hidden" style="margin-top: 15px; width: 150px;">
                         <label style="font-size: 0.9rem;">Tasa Impuestos (%)</label>
                         <div class="input-wrapper">
-                            <span class="currency-prefix" style="font-size: 0.9rem;">%</span>
+                            <span class="static-prefix" style="font-size: 0.9rem;">%</span>
                             <input type="number" id="tax-rate" value="19" min="0" max="100"
                                 style="padding: 8px 8px 8px 25px;">
                         </div>

@@ -1,5 +1,159 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- State & Config ---
+    const appState = {
+        currency: 'USD',
+        theme: 'cyberpunk',
+        currencySymbol: '$'
+    };
+
+    // --- Inputs References (Late binding for some) ---
+    const inputs = {
+        initial: document.getElementById('initial-investment'),
+        monthly: document.getElementById('monthly-contribution'),
+        years: document.getElementById('years'),
+        strategy: document.getElementById('strategy'),
+        customRate: document.getElementById('custom-rate'),
+        yearsDisplay: document.getElementById('years-display'),
+        inflation: document.getElementById('inflation-toggle'),
+        tax: document.getElementById('tax-toggle'),
+        compare: document.getElementById('compare-toggle'),
+        frequency: document.getElementById('contribution-frequency'),
+        timing: document.getElementById('contribution-timing'),
+        aiMode: document.getElementById('ai-mode-toggle'),
+        contributionLabel: document.getElementById('contribution-label'),
+        taxRate: document.getElementById('tax-rate'),
+        taxRateContainer: document.getElementById('tax-rate-container'),
+        aiDescription: document.getElementById('ai-description'),
+        // New Inputs
+        currencySelector: document.getElementById('currency-selector'),
+        themeSelector: document.getElementById('theme-selector'),
+        aiModelSelector: document.getElementById('ai-model-selector'),
+        aiModelContainer: document.getElementById('ai-model-container')
+    };
+
+    const outputs = {
+        totalContributed: document.getElementById('total-contributed'),
+        finalValue: document.getElementById('final-value'),
+        totalInterest: document.getElementById('total-interest'),
+        taxCard: document.getElementById('tax-card'),
+        estimatedTax: document.getElementById('estimated-tax')
+    };
+
+    // --- Helper: URL State Management (Deep Links) ---
+    const updateURL = () => {
+        const params = new URLSearchParams();
+        params.set('initial', inputs.initial.value.replace(/,/g, ''));
+        params.set('monthly', inputs.monthly.value.replace(/,/g, ''));
+        params.set('years', inputs.years.value);
+        params.set('strategy', inputs.strategy.value);
+        params.set('currency', appState.currency);
+        params.set('theme', appState.theme);
+        params.set('ai', inputs.aiMode.checked);
+
+        window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+    };
+
+    const loadFromURL = () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('initial')) inputs.initial.value = parseFloat(params.get('initial')).toLocaleString('en-US');
+        if (params.has('monthly')) inputs.monthly.value = parseFloat(params.get('monthly')).toLocaleString('en-US');
+        if (params.has('years')) {
+            inputs.years.value = params.get('years');
+            inputs.yearsDisplay.innerText = `${inputs.years.value} Años`;
+        }
+        if (params.has('currency')) {
+            appState.currency = params.get('currency');
+            inputs.currencySelector.value = appState.currency;
+            updateCurrencySymbol();
+        }
+        if (params.has('theme')) {
+            setTheme(params.get('theme'));
+            inputs.themeSelector.value = params.get('theme');
+        }
+        if (params.has('ai')) inputs.aiMode.checked = params.get('ai') === 'true';
+        if (params.has('strategy')) {
+            const strat = params.get('strategy');
+            // Trigger click on card
+            document.querySelector(`.strategy-card[data-value="${strat}"]`)?.click();
+        }
+    };
+
+    // --- Helper: Currency ---
+    const updateCurrencySymbol = () => {
+        appState.currencySymbol = appState.currency === 'USD' ? '$' : (appState.currency === 'EUR' ? '€' : 'Mex$');
+        document.querySelectorAll('.currency-prefix').forEach(el => el.innerText = appState.currencySymbol);
+    };
+
+    const formatCurrencyValue = (num) => {
+        return new Intl.NumberFormat(appState.currency === 'USD' ? 'en-US' : 'es-ES', {
+            style: 'currency',
+            currency: appState.currency,
+            maximumFractionDigits: 0
+        }).format(num);
+    };
+
+    // --- Helper: Themes ---
+    const setTheme = (themeName) => {
+        document.documentElement.setAttribute('data-theme', themeName);
+        appState.theme = themeName;
+    };
+
+    // --- Custom Dropdown Handler ---
+    const initCustomDropdowns = () => {
+        const dropdowns = document.querySelectorAll('.custom-dropdown');
+
+        dropdowns.forEach(dropdown => {
+            const selected = dropdown.querySelector('.custom-dropdown-selected');
+            const optionsContainer = dropdown.querySelector('.custom-dropdown-options');
+            const options = dropdown.querySelectorAll('.custom-option');
+            const hiddenSelect = dropdown.querySelector('select');
+            const dropdownType = selected.getAttribute('data-dropdown');
+
+            // Toggle dropdown
+            selected.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Close other dropdowns
+                dropdowns.forEach(d => {
+                    if (d !== dropdown) d.classList.remove('active');
+                });
+                dropdown.classList.toggle('active');
+            });
+
+            // Select option
+            options.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const value = option.getAttribute('data-value');
+                    const text = option.textContent;
+
+                    // Update display
+                    dropdown.querySelector('.dropdown-text').textContent = text;
+
+                    // Update hidden select
+                    hiddenSelect.value = value;
+
+                    // Update selected class
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+
+                    // Trigger change event on hidden select
+                    const event = new Event('change', { bubbles: true });
+                    hiddenSelect.dispatchEvent(event);
+
+                    // Close dropdown
+                    dropdown.classList.remove('active');
+                });
+            });
+        });
+
+        // Close on outside click
+        document.addEventListener('click', () => {
+            dropdowns.forEach(d => d.classList.remove('active'));
+        });
+    };
+
+
     // --- Helper: Currency Formatting ---
     const formatCurrencyInput = (input) => {
         let value = input.value.replace(/,/g, '');
@@ -88,32 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let growthChart;
     let distributionChart;
 
-    const inputs = {
-        initial: document.getElementById('initial-investment'),
-        monthly: document.getElementById('monthly-contribution'),
-        years: document.getElementById('years'),
-        strategy: document.getElementById('strategy'),
-        customRate: document.getElementById('custom-rate'),
-        yearsDisplay: document.getElementById('years-display'),
-        inflation: document.getElementById('inflation-toggle'),
-        tax: document.getElementById('tax-toggle'),
-        compare: document.getElementById('compare-toggle'),
-        frequency: document.getElementById('contribution-frequency'),
-        timing: document.getElementById('contribution-timing'),
-        aiMode: document.getElementById('ai-mode-toggle'),
-        contributionLabel: document.getElementById('contribution-label'),
-        taxRate: document.getElementById('tax-rate'),
-        taxRateContainer: document.getElementById('tax-rate-container'),
-        aiDescription: document.getElementById('ai-description')
-    };
-
-    const outputs = {
-        totalContributed: document.getElementById('total-contributed'),
-        finalValue: document.getElementById('final-value'),
-        totalInterest: document.getElementById('total-interest'),
-        taxCard: document.getElementById('tax-card'),
-        estimatedTax: document.getElementById('estimated-tax')
-    };
+    // Removed duplicated inputs/outputs declarations
 
     // Update Years Display
     inputs.years.addEventListener('input', (e) => {
@@ -134,9 +263,54 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSimulation();
     });
     inputs.timing.addEventListener('change', updateSimulation);
-    inputs.aiMode.addEventListener('change', updateSimulation);
     inputs.timing.addEventListener('change', updateSimulation);
-    inputs.aiMode.addEventListener('change', updateSimulation);
+    inputs.aiMode.addEventListener('change', () => {
+        toggleAiContainer();
+        updateSimulation();
+    });
+
+    // AI Model Radio Buttons Handler
+    const aiModelRadios = document.querySelectorAll('input[name="ai-model"]');
+    aiModelRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            // Update hidden select
+            inputs.aiModelSelector.value = e.target.value;
+
+            // Update visual selection
+            document.querySelectorAll('.ai-model-option').forEach(opt => opt.classList.remove('selected'));
+            e.target.closest('.ai-model-option').classList.add('selected');
+
+            // Trigger simulation update
+            updateSimulation();
+        });
+    });
+
+    inputs.aiModelSelector.addEventListener('change', updateSimulation);
+    inputs.currencySelector.addEventListener('change', (e) => {
+        appState.currency = e.target.value;
+        updateCurrencySymbol();
+        updateSimulation();
+        updateURL();
+    });
+    inputs.themeSelector.addEventListener('change', (e) => {
+        setTheme(e.target.value);
+        updateURL();
+    });
+
+    // Global listener for URL updates on any change
+    // We add a debounce to not spam history
+    let timeout;
+    const triggerUpdateURL = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(updateURL, 500);
+    };
+
+    // Attach to everything
+    Object.values(inputs).forEach(el => {
+        if (el && el.addEventListener) el.addEventListener('change', triggerUpdateURL);
+        if (el && el.addEventListener) el.addEventListener('input', triggerUpdateURL);
+    });
+
     document.getElementById('calculate-btn').addEventListener('click', updateSimulation);
 
     // --- Currency Inputs Listeners ---
@@ -144,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currencyInputs.forEach(input => {
         // Initial format
         formatCurrencyInput(input);
-        
+
         input.addEventListener('focus', () => cleanCurrencyInput(input));
         input.addEventListener('blur', () => {
             formatCurrencyInput(input);
@@ -156,7 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initial Run
+
+    // Initial Run & Load
+    initCustomDropdowns(); // Initialize custom dropdowns
+    loadFromURL(); // Load params first
+    updateCurrencySymbol(); // Set initial symbol
     updateContributionLabel();
     updateSimulation();
 
@@ -172,6 +350,8 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.contributionLabel.innerText = label;
     }
 
+
+
     function toggleTaxInput() {
         if (inputs.tax.checked) {
             inputs.taxRateContainer.classList.remove('hidden');
@@ -180,151 +360,195 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function calculateGrowth(initial, contribution, years, rate, frequency = 12, inflationAdjusted = false, volatility = 0, timing = 'end') {
-        let currentBalance = initial;
-        let totalInvested = initial;
-        let effectiveRate = rate;
+    function toggleAiContainer() {
+        if (inputs.aiMode.checked) {
+            inputs.aiModelContainer.classList.remove('hidden');
+        } else {
+            inputs.aiModelContainer.classList.add('hidden');
+        }
+    }
 
-        // Adjust rate for volatility if provided (simple randomization for demo)
-        // We will change the rate slightly each "year" to simulate noise if volatility > 0
+    // --- Monte Carlo Engine ---
+    function calculatePaths(initial, contribution, years, rate, frequency, volatility, iterations = 10000) {
+        const totalEvents = years * frequency;
+        const freqRate = rate / frequency;
+        const drift = freqRate - 0.5 * (volatility * volatility) / frequency; // Geometric Brownian Motion Drift
+        const volStep = volatility / Math.sqrt(frequency);
+        const timing = inputs.timing.value;
+        const inflationAdjusted = inputs.inflation.checked;
 
-        const dataPoints = [initial];
-        const periods = years; // We draw 1 point per year for the line chart (simplification)
+        // Storage for percentiles
+        // We need an array of arrays: checks[yearIndex][iterationIndex] -> balance
+        // Actually we only need checks at annual intervals for the chart
+        const annualChecks = Array.from({ length: years + 1 }, () => []);
 
-        // For precise calculation, we need to loop per contribution period
-        // But for the chart data, we just want annual checkpoints.
+        // Initial Balance for all
+        for (let j = 0; j < iterations; j++) annualChecks[0].push(initial);
 
-        // Inner function to calc future value with periodic contributions
-        // FV = P(1+r/n)^(nt) + PMT * ...
-        // Let's do a loop for total periods to be accurate with compounding
+        // Run Sim
+        for (let i = 0; i < iterations; i++) {
+            let balance = initial;
+            let currentYear = 0;
 
-        let freqRate = rate / frequency;
+            for (let step = 1; step <= totalEvents; step++) {
+                // Random Shock
+                const shock = (Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3; // Approx Gaussian
+                const periodicRate = drift + volStep * shock;
 
-        // If inflation adjusted, we adjust the *annual* rate first, then divide?
-        // Approx: Real Rate = (1+r)/(1+i) - 1. 
-        if (inflationAdjusted) {
-            const realAnnual = (1 + rate) / (1.025) - 1;
-            freqRate = realAnnual / frequency;
+                if (timing === 'begin') {
+                    balance = (balance + contribution) * (1 + periodicRate);
+                } else {
+                    balance = balance * (1 + periodicRate) + contribution;
+                }
+
+                // Inflation Adjustment (simplified: deflate balance at end of year)
+                // Or better: Just use Real Rate in drift?
+                // Let's keep it simple: Real Rate passed in 'rate' param is better.
+                // If inflation toggle is on, earlier we adjusted 'rate'.
+
+                // Store Annual checkpoint
+                if (step % frequency === 0) {
+                    currentYear++;
+                    annualChecks[currentYear].push(balance);
+                }
+            }
         }
 
+        // Calculate Percentiles per Year
+        const p10 = []; // Worst 10%
+        const p50 = []; // Median
+        const p90 = []; // Best 10%
+
+        annualChecks.forEach(yearlyBalances => {
+            yearlyBalances.sort((a, b) => a - b);
+            p10.push(yearlyBalances[Math.floor(iterations * 0.10)]);
+            p50.push(yearlyBalances[Math.floor(iterations * 0.50)]);
+            p90.push(yearlyBalances[Math.floor(iterations * 0.90)]);
+        });
+
+        // Calculate average invested (deterministic)
+        const totalInvested = initial + (contribution * totalEvents);
+
+        return { p10, p50, p90, totalInvested, finalMedian: p50[p50.length - 1] };
+    }
+
+    function calculateSimpleGrowth(initial, contribution, years, rate, frequency, timing) {
         let balance = initial;
         let invested = initial;
-
-        // Loop by total contribution events
         const totalEvents = years * frequency;
-        const eventsPerYear = frequency;
-
-        let currentYear = 0;
-
-        // To plotting annual points, we need to capture balance at event k = 1*freq, 2*freq...
+        const freqRate = rate / frequency;
+        const dataPoints = [initial];
 
         for (let i = 1; i <= totalEvents; i++) {
-            // Apply Volatility to rate per step (Monte Carlo 'light')
-            // Only if AI mode is on (volatility > 0)
-            let stepRate = freqRate;
-            if (volatility > 0) {
-                // Random drift +/- volatility scaled to period
-                const drift = (Math.random() - 0.5) * 2 * (volatility / Math.sqrt(frequency));
-                stepRate += drift;
-            }
-
             if (timing === 'begin') {
-                // Annuity Due: Invest first, then grow
-                balance = (balance + contribution) * (1 + stepRate);
+                balance = (balance + contribution) * (1 + freqRate);
             } else {
-                // Ordinary Annuity: Grow first, then invest at end
-                balance = balance * (1 + stepRate) + contribution;
+                balance = balance * (1 + freqRate) + contribution;
             }
             invested += contribution;
-
-            // Checkpoint for Chart (End of Year)
-            if (i % eventsPerYear === 0) {
-                dataPoints.push(balance);
-                currentYear++;
-            }
+            if (i % frequency === 0) dataPoints.push(balance);
         }
-
         return { dataPoints, finalBalance: balance, totalInvested: invested };
     }
 
     function updateSimulation() {
-        // Validation ensuring numbers with safe parsing for commas
         let initial = parseRawValue(inputs.initial.value);
-        if (initial < 0) { initial = 0; inputs.initial.value = 0; }
-
         let contributionAmount = parseRawValue(inputs.monthly.value);
-        if (contributionAmount < 0) { contributionAmount = 0; inputs.monthly.value = 0; }
-
         const years = parseInt(inputs.years.value) || 10;
         const strategy = inputs.strategy.value;
         const useInflation = inputs.inflation.checked;
-        const useTax = inputs.tax.checked;
-        const doCompare = inputs.compare.checked;
         const frequency = parseInt(inputs.frequency.value);
         const aiMode = inputs.aiMode.checked;
         const timing = inputs.timing.value;
 
-        let annualRate;
-        // Volatility Factors (Standard Deviation approx)
-        let volFactor = 0;
+
+
+        // Configuration
+        let annualRate = 0.10;
+        let volatility = 0.15;
 
         switch (strategy) {
-            case 'safe':
-                annualRate = 0.10;
-                volFactor = 0.05;
-                break;
-            case 'moderate':
-                annualRate = 0.15;
-                volFactor = 0.15;
-                break;
-            case 'aggressive':
-                annualRate = 0.25;
-                volFactor = 0.25;
-                break;
+            case 'safe': annualRate = 0.10; volatility = 0.05; break;
+            case 'moderate': annualRate = 0.15; volatility = 0.15; break;
+            case 'aggressive': annualRate = 0.25; volatility = 0.25; break;
             case 'custom':
-                let customVal = parseFloat(inputs.customRate.value) || 0;
-                annualRate = customVal / 100;
-                volFactor = 0.10; // Default vol for custom
+                annualRate = (parseFloat(inputs.customRate.value) || 0) / 100;
+                // Volatility proportional to rate (similar ratio as aggressive: 0.25/0.25 = 1.0)
+                // Using a more conservative ratio of 0.67 (like moderate: 0.15/0.15 = 1.0)
+                volatility = annualRate * 0.67;
                 break;
         }
 
-        // Update AI Description
-        const volPercent = (volFactor * 100).toFixed(0);
-        inputs.aiDescription.innerText = `Simula escenarios optimistas (+${volPercent}%) y pesimistas (-${volPercent}%) basados en volatilidad.`;
+        // Inflation adjustment to Rate
+        if (useInflation) {
+            // Fisher Equation: (1+Real) = (1+Nominal)/(1+Inf)
+            annualRate = (1 + annualRate) / 1.03 - 1; // Assuming 3% inflation
+        }
 
-        // Calculate Main Strategy (Central Path)
-        const mainResult = calculateGrowth(initial, contributionAmount, years, annualRate, frequency, useInflation, 0, timing);
-
-        // AI Scenarios
-        let optimisticResult = null;
-        let pessimisticResult = null;
+        const aiModel = inputs.aiModelSelector.value;
+        const volPercent = (volatility * 100).toFixed(0);
 
         if (aiMode) {
-            // Optimistic: +Volatility Bias
-            // We can simulate this by just adding some flat Bonus to rate or running the random loop lucky
-            // For deterministic visual "Upper/Lower bounds", let's just shift rate
-            optimisticResult = calculateGrowth(initial, contributionAmount, years, annualRate + volFactor, frequency, useInflation, 0, timing);
-            pessimisticResult = calculateGrowth(initial, contributionAmount, years, annualRate - volFactor, frequency, useInflation, 0, timing);
+            if (aiModel === 'monte-carlo') {
+                inputs.aiDescription.innerHTML = `<strong>Monte Carlo Real (10,000 Sims)</strong><br>Simulando 10,000 escenarios posibles con volatilidad del ${volPercent}%. Mostrando rango probable (P10 - P90).`;
+            } else {
+                inputs.aiDescription.innerHTML = `<strong>Bandas Simples (+/- %)</strong><br>Simula escenarios optimistas (+${volPercent}%) y pesimistas (-${volPercent}%) basados en volatilidad.`;
+            }
+        } else {
+            inputs.aiDescription.innerText = "Simulación determinista. Activa AI Mode para ver riesgos.";
         }
 
-        // Comparison Result
-        let compareResult = null;
-        if (doCompare) {
-            compareResult = calculateGrowth(initial, contributionAmount, years, 0.10, frequency, useInflation, 0, timing);
+        let mainData, p10Data, p90Data, finalVal, investedVal;
+
+        if (aiMode) {
+            if (aiModel === 'monte-carlo') {
+                // Run Monte Carlo
+                const sim = calculatePaths(initial, contributionAmount, years, annualRate, frequency, volatility, 10000);
+                mainData = sim.p50; // Median line
+                p10Data = sim.p10; // p10 is array
+                p90Data = sim.p90; // p90 is array
+                finalVal = sim.finalMedian;
+                investedVal = sim.totalInvested;
+            } else {
+                // Run Simple Bands
+                // Optimization: just calc simple growth with adjusted rates
+                const simMain = calculateSimpleGrowth(initial, contributionAmount, years, annualRate, frequency, timing);
+                const simOpt = calculateSimpleGrowth(initial, contributionAmount, years, annualRate + volatility, frequency, timing);
+                const simPess = calculateSimpleGrowth(initial, contributionAmount, years, annualRate - volatility, frequency, timing);
+
+                mainData = simMain.dataPoints;
+                p10Data = simPess.dataPoints; // Reuse variables: p10Data will act as Pessimistic line data
+                p90Data = simOpt.dataPoints;  // Reuse variables: p90Data will act as Optimistic line data
+                finalVal = simMain.finalBalance;
+                investedVal = simMain.totalInvested;
+            }
+        } else {
+            // Simple deterministic
+            const sim = calculateSimpleGrowth(initial, contributionAmount, years, annualRate, frequency, timing);
+            mainData = sim.dataPoints;
+            p10Data = null;
+            p90Data = null;
+            finalVal = sim.finalBalance;
+            investedVal = sim.totalInvested;
+        }
+
+        // Comparison (S&P 500 Legacy)
+        let compareData = null;
+        if (inputs.compare.checked) {
+            let spRate = 0.10;
+            if (useInflation) spRate = (1.10 / 1.03) - 1;
+            const spSim = calculateSimpleGrowth(initial, contributionAmount, years, spRate, frequency, timing);
+            compareData = spSim.dataPoints;
         }
 
         // Tax Logic
-        let finalDisplayValue = mainResult.finalBalance;
-        let finalInterest = mainResult.finalBalance - mainResult.totalInvested;
+        const finalInterest = finalVal - investedVal;
         let taxAmount = 0;
-
-        if (useTax) {
-            const taxRatePercent = parseFloat(inputs.taxRate.value) || 19;
-            const taxRate = taxRatePercent / 100;
+        let displayVal = finalVal;
+        if (inputs.tax.checked) {
+            const taxRate = (parseFloat(inputs.taxRate.value) || 0) / 100;
             taxAmount = Math.max(0, finalInterest * taxRate);
-            finalDisplayValue -= taxAmount;
-
-            // Show Card
+            displayVal -= taxAmount;
             outputs.taxCard.style.display = 'block';
             outputs.estimatedTax.innerText = formatCurrency(taxAmount);
         } else {
@@ -332,80 +556,79 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Update Text
-        outputs.totalContributed.innerText = formatCurrency(mainResult.totalInvested);
-        outputs.finalValue.innerText = formatCurrency(finalDisplayValue);
-        outputs.totalInterest.innerText = formatCurrency(finalInterest - taxAmount); // Net Interest
+        outputs.totalContributed.innerText = formatCurrency(investedVal);
+        outputs.finalValue.innerText = formatCurrency(displayVal);
+        outputs.totalInterest.innerText = formatCurrency(finalInterest - taxAmount);
 
-        // Update Charts
+        // Render Scale
         const labels = Array.from({ length: years + 1 }, (_, i) => `Año ${i}`);
-
-        renderChart(labels, mainResult.dataPoints, compareResult ? compareResult.dataPoints : null, optimisticResult, pessimisticResult, strategy);
-        renderDonut(mainResult.totalInvested, finalInterest - taxAmount, taxAmount);
+        renderChart(labels, mainData, compareData, p90Data, p10Data, strategy); // Note param order
+        renderDonut(investedVal, finalInterest - taxAmount, taxAmount);
     }
 
     function formatCurrency(num) {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(num);
+        return formatCurrencyValue(num);
     }
 
-    function renderChart(labels, mainData, compareData, optData, pessData, strategy) {
+    // Updated Render Chart for Cone
+    function renderChart(labels, mainData, compareData, p90Data, p10Data, strategy) {
         let color = '#00c6ff';
         if (strategy === 'moderate') color = '#7928ca';
         if (strategy === 'aggressive') color = '#ff0080';
         if (strategy === 'custom') color = '#10b981';
 
-        if (growthChart) {
-            growthChart.destroy();
-        }
-
-        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, color);
-        gradient.addColorStop(0.5, 'rgba(0,0,0,0)'); // Fade out faster
+        if (growthChart) growthChart.destroy();
 
         const datasets = [];
 
-        // 1. Optimistic Line (Top of Legend)
-        if (optData) {
-            datasets.push({
-                label: 'Optimista (AI)',
-                data: optData.dataPoints,
-                borderColor: '#10b981',
-                borderDash: [5, 5],
-                borderWidth: 2,
-                pointRadius: 0,
-                tension: 0.4,
-                fill: false,
-                order: 0 // Draw Priority
-            });
-        }
+        const aiModel = inputs.aiModelSelector.value;
+        const aiMode = inputs.aiMode.checked;
+        const isMonteCarlo = aiMode && aiModel === 'monte-carlo';
 
-        // 2. Main Line (Tu Portafolio)
-        datasets.push({
-            label: 'Tu Portafolio',
-            data: mainData,
-            borderColor: color,
-            backgroundColor: gradient,
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            order: 1
-        });
-
-        // 3. Pessimistic Line
-        if (pessData) {
+        // 1. Optimistic (P90)
+        if (p90Data) {
             datasets.push({
-                label: 'Pesimista (AI)',
-                data: pessData.dataPoints,
-                borderColor: '#ef4444',
+                label: 'Optimista',
+                data: p90Data,
+                borderColor: '#10b981', // Green
                 borderDash: [5, 5],
-                borderWidth: 2,
+                borderWidth: 1, // Thin line for Monte Carlo
+                backgroundColor: isMonteCarlo ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
                 pointRadius: 0,
+                fill: isMonteCarlo ? 2 : false, // Fill to dataset index 2 (Pessimistic)
                 tension: 0.4,
-                fill: false,
                 order: 2
             });
         }
 
-        // Comparison (Bottom of Legend)
+        // 2. Media (Median) - Main Projection
+        datasets.push({
+            label: 'Media',
+            data: mainData,
+            borderColor: color,
+            backgroundColor: color,
+            borderWidth: 3,
+            fill: false,
+            tension: 0.4,
+            order: 1
+        });
+
+        // 3. Pessimistic (P10)
+        if (p10Data) {
+            datasets.push({
+                label: 'Pesimista',
+                data: p10Data,
+                borderColor: '#ef4444', // Red
+                borderDash: [5, 5],
+                borderWidth: 1,
+                pointRadius: 0,
+                fill: false,
+                tension: 0.4,
+                order: 3
+            });
+        }
+
+        // 4. Comparison (S&P 500)
         if (compareData) {
             datasets.push({
                 label: 'S&P 500',
@@ -413,10 +636,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 borderColor: '#ffffff',
                 borderDash: [5, 5],
                 borderWidth: 2,
-                fill: false,
-                tension: 0.4,
                 pointRadius: 0,
-                order: 3
+                tension: 0.4,
+                fill: false,
+                order: 0 // Draw on very top
             });
         }
 
@@ -427,20 +650,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { labels: { color: 'white' } },
-                    tooltip: { mode: 'index', intersect: false },
-                    annotation: {
-                        annotations: {
-                            // Example First Million Line (requires plugin, maybe not loaded. If not loaded, this is ignored)
-                            millionLine: {
-                                type: 'line',
-                                yMin: 1000000,
-                                yMax: 1000000,
-                                borderColor: 'gold',
-                                borderWidth: 2,
-                                borderDash: [10, 5],
-                                label: { content: '🏆 $1M', enabled: true, position: 'end' }
+                    legend: {
+                        labels: {
+                            color: 'white',
+                            generateLabels: (chart) => {
+                                const original = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                                const order = ['Optimista', 'Media', 'Pesimista', 'S&P 500'];
+                                return original.sort((a, b) => {
+                                    let idxA = order.indexOf(a.text);
+                                    let idxB = order.indexOf(b.text);
+                                    // Handle unknown items (push to end)
+                                    if (idxA === -1) idxA = 99;
+                                    if (idxB === -1) idxB = 99;
+                                    return idxA - idxB;
+                                });
                             }
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        itemSort: function (a, b, data) {
+                            const order = ['Optimista', 'Media', 'Pesimista', 'S&P 500'];
+                            const labelA = data.datasets[a.datasetIndex].label;
+                            const labelB = data.datasets[b.datasetIndex].label;
+                            let idxA = order.indexOf(labelA);
+                            let idxB = order.indexOf(labelB);
+
+                            // Handle items not in the list (push to bottom)
+                            if (idxA === -1) idxA = 99;
+                            if (idxB === -1) idxB = 99;
+
+                            return idxA - idxB;
                         }
                     }
                 },
