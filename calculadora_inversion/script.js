@@ -370,51 +370,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Monte Carlo Engine ---
     function calculatePaths(initial, contribution, years, rate, frequency, volatility, iterations = 10000) {
-        const totalEvents = years * frequency;
-        const freqRate = rate / frequency;
-        const drift = freqRate - 0.5 * (volatility * volatility) / frequency; // Geometric Brownian Motion Drift
-        const volStep = volatility / Math.sqrt(frequency);
+        // Always use monthly compounding (12 times per year)
+        // Only use 'frequency' for when contributions are added
+        const compoundingFrequency = 12;
+        const totalEvents = years * compoundingFrequency;
+        const monthlyRate = rate / compoundingFrequency;
+        const drift = monthlyRate - 0.5 * (volatility * volatility) / compoundingFrequency;
+        const volStep = volatility / Math.sqrt(compoundingFrequency);
         const timing = inputs.timing.value;
-        const inflationAdjusted = inputs.inflation.checked;
 
-        // Storage for percentiles
-        // We need an array of arrays: checks[yearIndex][iterationIndex] -> balance
-        // Actually we only need checks at annual intervals for the chart
+        // How many compounding events between each contribution
+        const eventsPerContribution = compoundingFrequency / frequency;
+
+        // Storage for percentiles at annual intervals
         const annualChecks = Array.from({ length: years + 1 }, () => []);
 
         // Initial Balance for all
         for (let j = 0; j < iterations; j++) annualChecks[0].push(initial);
 
-        // Run Sim
+        // Run Simulations
         for (let i = 0; i < iterations; i++) {
             let balance = initial;
             let currentYear = 0;
+            let nextContributionAt = eventsPerContribution;
 
             for (let step = 1; step <= totalEvents; step++) {
-                // Random Shock
-                const shock = (Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3; // Approx Gaussian
+                // Random Shock (approximate Gaussian using central limit theorem)
+                const shock = (Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3;
                 const periodicRate = drift + volStep * shock;
 
-                if (timing === 'begin') {
+                // Check if we should add contribution this period
+                const shouldAddContribution = (step >= nextContributionAt);
+
+                if (shouldAddContribution && timing === 'begin') {
                     balance = (balance + contribution) * (1 + periodicRate);
-                } else {
+                    nextContributionAt += eventsPerContribution;
+                } else if (shouldAddContribution && timing === 'end') {
                     balance = balance * (1 + periodicRate) + contribution;
+                    nextContributionAt += eventsPerContribution;
+                } else {
+                    // Just compound, no contribution
+                    balance = balance * (1 + periodicRate);
                 }
 
-                // Inflation Adjustment (simplified: deflate balance at end of year)
-                // Or better: Just use Real Rate in drift?
-                // Let's keep it simple: Real Rate passed in 'rate' param is better.
-                // If inflation toggle is on, earlier we adjusted 'rate'.
-
                 // Store Annual checkpoint
-                if (step % frequency === 0) {
+                if (step % compoundingFrequency === 0) {
                     currentYear++;
                     annualChecks[currentYear].push(balance);
                 }
             }
         }
 
-        // Calculate Percentiles per Year
+        // Calculate percentiles
         const p10 = []; // Worst 10%
         const p50 = []; // Median
         const p90 = []; // Best 10%
@@ -426,8 +433,9 @@ document.addEventListener('DOMContentLoaded', () => {
             p90.push(yearlyBalances[Math.floor(iterations * 0.90)]);
         });
 
-        // Calculate average invested (deterministic)
-        const totalInvested = initial + (contribution * totalEvents);
+        // Calculate total invested (based on actual contribution frequency, not compounding)
+        const actualContributions = years * frequency;
+        const totalInvested = initial + (contribution * actualContributions);
 
         return { p10, p50, p90, totalInvested, finalMedian: p50[p50.length - 1] };
     }
@@ -435,19 +443,42 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateSimpleGrowth(initial, contribution, years, rate, frequency, timing) {
         let balance = initial;
         let invested = initial;
-        const totalEvents = years * frequency;
-        const freqRate = rate / frequency;
-        const dataPoints = [initial];
 
-        for (let i = 1; i <= totalEvents; i++) {
-            if (timing === 'begin') {
-                balance = (balance + contribution) * (1 + freqRate);
+        // Always use monthly compounding for interest (12 times per year)
+        // But use 'frequency' only for when contributions are added
+        const compoundingFrequency = 12; // Always monthly compounding
+        const totalCompoundingEvents = years * compoundingFrequency;
+        const monthlyRate = rate / compoundingFrequency;
+
+        // How many compounding events between each contribution
+        const compoundingEventsPerContribution = compoundingFrequency / frequency;
+
+        const dataPoints = [initial];
+        let nextContributionAt = compoundingEventsPerContribution;
+
+        for (let i = 1; i <= totalCompoundingEvents; i++) {
+            // Check if we should add contribution this period
+            const shouldAddContribution = (i >= nextContributionAt);
+
+            if (shouldAddContribution && timing === 'begin') {
+                balance = (balance + contribution) * (1 + monthlyRate);
+                invested += contribution;
+                nextContributionAt += compoundingEventsPerContribution;
+            } else if (shouldAddContribution && timing === 'end') {
+                balance = balance * (1 + monthlyRate) + contribution;
+                invested += contribution;
+                nextContributionAt += compoundingEventsPerContribution;
             } else {
-                balance = balance * (1 + freqRate) + contribution;
+                // Just compound, no contribution
+                balance = balance * (1 + monthlyRate);
             }
-            invested += contribution;
-            if (i % frequency === 0) dataPoints.push(balance);
+
+            // Store annual snapshots
+            if (i % compoundingFrequency === 0) {
+                dataPoints.push(balance);
+            }
         }
+
         return { dataPoints, finalBalance: balance, totalInvested: invested };
     }
 
