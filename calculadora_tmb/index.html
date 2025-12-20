@@ -1,113 +1,435 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MetabolicPro: Calculadora de TMB y GET</title>
+    <title>MetabolicPro Royal | Calculadora Premium</title>
     <link rel="icon" href="./img/MetabolicPro.png" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts: Playfair Display for Headings, Manrope for UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js for 3D Visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="./script.js" defer></script>
 </head>
+
 <body>
-    <div class="theme-toggle-wrapper">
-        <input type="checkbox" id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
-        <label for="theme-toggle" class="theme-toggle-label">
-            <span class="icon sun-icon"><i class="fas fa-sun"></i></span>
-            <span class="icon moon-icon"><i class="fas fa-moon"></i></span>
-        </label>
-    </div>
-
-    <main class="container">
-        <header class="app-header">
-            <h1>MetabolicPro</h1>
-            <p class="tagline">Calculadora Avanzada de Tasa Metabólica Basal (TMB) y Gasto Energético Total (GET)</p>
-        </header>
-
-        <section class="calculator-form">
-            <div class="input-group">
-                <label for="sexo">Sexo:</label>
-                <select id="sexo" aria-label="Selecciona tu sexo">
-                    <option value="" disabled selected>-- Elige tu sexo --</option>
-                    <option value="masculino">Masculino</option>
-                    <option value="femenino">Femenino</option>
-                </select>
-                <span class="error-message" id="sexo-error"></span>
-            </div>
-
-            <div class="input-group">
-                <label for="edad">Edad:</label>
-                <input type="number" id="edad" placeholder="Ej: 30" min="10" max="100" aria-describedby="edad-msg">
-                <span class="info-message">Entre 10 y 100 años</span>
-                <span class="error-message" id="edad-error"></span>
-            </div>
-
-            <div class="input-group">
-                <label for="peso">Peso (kg):</label>
-                <input type="number" id="peso" placeholder="Ej: 70.5" min="30" max="300" step="0.1" aria-describedby="peso-msg">
-                <span class="info-message">Entre 30 y 300 kg</span>
-                <span class="error-message" id="peso-error"></span>
-            </div>
-
-            <div class="input-group">
-                <label for="altura">Altura (cm):</label>
-                <input type="number" id="altura" placeholder="Ej: 175" min="100" max="250" aria-describedby="altura-msg">
-                <span class="info-message">Entre 100 y 250 cm</span>
-                <span class="error-message" id="altura-error"></span>
-            </div>
-
-            <div class="input-group">
-                <label for="actividad">Nivel de actividad física:</label>
-                <select id="actividad" aria-label="Selecciona el nivel de actividad">
-                    <option value="1.2">1. Sedentaria (poco o ningún ejercicio)</option>
-                    <option value="1.375">2. Ligera (ejercicio ligero 1-3 días/semana)</option>
-                    <option value="1.55">3. Moderada (ejercicio moderado 3-5 días/semana)</option>
-                    <option value="1.725">4. Intensa (ejercicio intenso 6-7 días/semana)</option>
-                    <option value="1.9">5. Muy Intensa (ejercicio muy intenso, trabajo físico, 2x día)</option>
-                </select>
-                <span class="error-message" id="actividad-error"></span>
-            </div>
-
-            <div class="input-group">
-                <label for="formula">Fórmula de cálculo:</label>
-                <select id="formula" aria-label="Selecciona la fórmula de cálculo">
-                    <option value="harris">Harris-Benedict (Revisada)</option>
-                    <option value="mifflin">Mifflin-St Jeor (Más precisa)</option>
-                </select>
-            </div>
-
-            <div class="button-group">
-                <button type="button" id="calculate-btn" class="primary-btn">Calcular</button>
-                <button type="button" id="reset-btn" class="secondary-btn">Limpiar</button>
-            </div>
-        </section>
-
-        <section class="results-section" id="results-section">
-            <h2>Tus Resultados Metabólicos</h2>
-            <div class="result-box">
-                <h3>Tasa Metabólica Basal (TMB)</h3>
-                <p class="result-value" id="tmb-output">-- Kcal/día</p>
-                <span class="info-message">Energía que tu cuerpo necesita en reposo absoluto.</span>
-            </div>
-            <div class="result-box">
-                <h3>Gasto Energético Total (GET)</h3>
-                <p class="result-value-2" id="get-output">-- Kcal/día</p>
-                <span class="info-message">Calorías que quemas en un día, incluyendo la actividad.</span>
-            </div>
-            <div class="result-box">
-                <h3>Índice de Masa Corporal (IMC)</h3>
-                <p class="result-value" id="imc-output">-- kg/m²</p>
-                <div id="imc-classification" class="imc-indicator">
-                    <span class="classification-text">--</span>
+    <div class="app-container">
+        <!-- Sidebar: Inputs -->
+        <aside class="sidebar">
+            <header class="sidebar-header">
+                <div class="logo-wrapper">
+                    <i class="fa-solid fa-crown logo-icon"></i>
+                    <h1>MetabolicPro</h1>
                 </div>
-                <span class="info-message" id="imc-info">El IMC es una medida de tu peso en relación a tu altura.</span>
-            </div>
-        </section>
-    </main>
+                <p class="tagline">Royal Edition</p>
 
-    <footer class="app-footer">
-        <p>&copy; 2025 MetabolicPro. Diseñado con ❤️ para una vida saludable.</p>
-    </footer>
+                <div class="theme-toggle-wrapper">
+                    <input type="checkbox" id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
+                    <label for="theme-toggle" class="theme-toggle-label">
+                        <span class="icon sun-icon"><i class="fas fa-sun"></i></span>
+                        <span class="icon moon-icon"><i class="fas fa-moon"></i></span>
+                    </label>
+                </div>
+            </header>
+
+            <form class="calculator-form" id="calculator-form">
+
+                <!-- Personal Data Section -->
+                <div class="form-section">
+                    <h3><i class="fa-regular fa-user"></i> Datos Personales</h3>
+
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="sexo">Sexo</label>
+                            <div class="select-wrapper">
+                                <select id="sexo">
+                                    <option value="masculino">Hombre</option>
+                                    <option value="femenino">Mujer</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="edad">Edad</label>
+                            <input type="number" id="edad" placeholder="25" min="10" max="100">
+                        </div>
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="peso">Peso Actual (kg)</label>
+                            <input type="number" id="peso" placeholder="70.5" min="30" max="300" step="0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="peso-objetivo">Peso Meta (kg)</label>
+                            <input type="number" id="peso-objetivo" placeholder="65" min="30" max="300" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="altura">Altura (cm)</label>
+                        <input type="number" id="altura" placeholder="175" min="100" max="250">
+                    </div>
+                </div>
+
+                <!-- Advanced Metrics Section -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-chart-line"></i> Métricas Avanzadas</h3>
+
+                    <div class="input-group">
+                        <label for="actividad">Nivel de Actividad</label>
+                        <div class="select-wrapper">
+                            <select id="actividad">
+                                <option value="1.2">Sedentario (Oficina, sin ejercicio)</option>
+                                <option value="1.375">Ligero (1-3 días/sem)</option>
+                                <option value="1.55">Moderado (3-5 días/sem)</option>
+                                <option value="1.725">Activo (6-7 días/sem)</option>
+                                <option value="1.9">Atleta (2x día, físico intenso)</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label for="grasa" class="optional-label">
+                                % Grasa <span class="badge-opt">Opcional</span>
+                                <span class="tooltip-icon" title="Necesario para la fórmula Katch-McArdle"><i
+                                        class="fa-solid fa-circle-info"></i></span>
+                            </label>
+                            <input type="number" id="grasa" placeholder="15" min="1" max="80" step="0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="formula">Fórmula</label>
+                            <div class="select-wrapper">
+                                <select id="formula">
+                                    <option value="mifflin">Mifflin-St Jeor (Estándar)</option>
+                                    <option value="harris">Harris-Benedict</option>
+                                    <option value="katch">Katch-McArdle (Precisa)</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal Section -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-bullseye"></i> Estrategia Nutricional</h3>
+
+                    <div class="input-group">
+                        <label for="objetivo">Objetivo</label>
+                        <div class="select-wrapper goal-select">
+                            <select id="objetivo">
+                                <option value="deficit_agresivo">📉 Déficit Agresivo (-25%)</option>
+                                <option value="deficit_moderado">📉 Déficit Moderado (-20%)</option>
+                                <option value="mantenimiento" selected>⚖️ Mantenimiento</option>
+                                <option value="superavit_ligero">📈 Volumen Limpio (+10%)</option>
+                                <option value="superavit_agresivo">🚀 Volumen Agresivo (+20%)</option>
+                                <option value="custom">🛠️ Personalizado</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </div>
+                    </div>
+
+                    <!-- Hidden by default: Custom Calories -->
+                    <div class="input-group" id="custom-calories-group" style="display: none;">
+                        <label for="calorias-custom">Meta de Calorías Diarias</label>
+                        <input type="number" id="calorias-custom" placeholder="Ej: 1800" min="500" max="10000">
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <button type="button" id="reset-btn" class="btn btn-secondary">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <!-- Note: Calculation is mostly automatic/reactive, but this provides explicit action -->
+                    <button type="button" id="calculate-btn" class="btn btn-primary">
+                        Calcular Plan
+                    </button>
+                </div>
+            </form>
+        </aside>
+
+        <!-- Main Content: Dashboard -->
+        <main class="dashboard" id="results-dashboard">
+            <!-- Header for Mobile/Context -->
+            <div class="dashboard-header-mobile">
+                <h2>Tu Resumen Metabólico</h2>
+            </div>
+
+            <!-- Top Cards: TMB & GET & IMC -->
+            <section class="kpi-grid">
+                <div class="kpi-card glass-card">
+                    <div class="skeleton skeleton-circle hidden" id="skeleton-tmb-icon"></div>
+                    <div class="kpi-icon" id="tmb-icon"><i class="fa-solid fa-fire"></i></div>
+                    <div class="kpi-content">
+                        <h4>
+                            Metabolismo Basal (TMB)
+                            <div class="tooltip-container">
+                                <i class="fa-solid fa-circle-info tooltip-trigger"></i>
+                                <div class="tooltip-content">
+                                    <h5>TMB - Tasa Metabólica Basal</h5>
+                                    <p>Calorías que tu cuerpo quema en reposo total para mantener funciones vitales como
+                                        respiración, circulación y temperatura corporal.</p>
+                                </div>
+                            </div>
+                        </h4>
+                        <div class="skeleton skeleton-text large hidden" id="skeleton-tmb"></div>
+                        <div class="kpi-value" id="tmb-value"><span id="tmb-output">--</span> <small>kcal</small></div>
+                        <p class="kpi-desc">Energía en reposo absoluto</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card glass-card main-kpi">
+                    <div class="skeleton skeleton-circle hidden" id="skeleton-get-icon"></div>
+                    <div class="kpi-icon" id="get-icon"><i class="fa-solid fa-person-running"></i></div>
+                    <div class="kpi-content">
+                        <h4>
+                            Gasto Total (GET)
+                            <div class="tooltip-container">
+                                <i class="fa-solid fa-circle-info tooltip-trigger"></i>
+                                <div class="tooltip-content">
+                                    <h5>GET - Gasto Energético Total</h5>
+                                    <p>Calorías totales que quemas al día incluyendo actividad física. Es tu TMB
+                                        multiplicado por tu nivel de actividad.</p>
+                                </div>
+                            </div>
+                        </h4>
+                        <div class="skeleton skeleton-text large hidden" id="skeleton-get"></div>
+                        <div class="kpi-value highlight" id="get-value"><span id="get-output">--</span>
+                            <small>kcal</small>
+                        </div>
+                        <p class="kpi-desc">Mantenimiento real diario</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card glass-card">
+                    <div class="skeleton skeleton-circle hidden" id="skeleton-imc-icon"></div>
+                    <div class="kpi-icon" id="imc-icon"><i class="fa-solid fa-weight-scale"></i></div>
+                    <div class="kpi-content">
+                        <h4>
+                            IMC
+                            <div class="tooltip-container">
+                                <i class="fa-solid fa-circle-info tooltip-trigger"></i>
+                                <div class="tooltip-content">
+                                    <h5>IMC - Índice de Masa Corporal</h5>
+                                    <p>Relación entre tu peso y altura. Nota: No considera masa muscular, es solo una
+                                        referencia general.</p>
+                                </div>
+                            </div>
+                        </h4>
+                        <div class="skeleton skeleton-text large hidden" id="skeleton-imc"></div>
+                        <div class="kpi-value" id="imc-value"><span id="imc-output">--</span></div>
+                        <div class="status-badge" id="imc-classification">--</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Target Calories & Macros -->
+            <section class="target-section glass-card">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-crosshairs"></i> Meta Diaria</h2>
+                    <div class="target-calories">
+                        <span id="calories-output">--</span> kcal
+                    </div>
+                </div>
+
+                <!-- Macros Grid -->
+                <div class="macros-grid">
+                    <div class="macro-item protein">
+                        <div class="macro-header">
+                            <span class="dot"></span> Proteínas
+                            <div class="tooltip-container">
+                                <i class="fa-solid fa-circle-info tooltip-trigger"
+                                    style="font-size: 0.75rem; margin-left: 4px;"></i>
+                                <div class="tooltip-content">
+                                    <h5>Proteínas</h5>
+                                    <p>Esenciales para mantener y construir músculo. 4 calorías por gramo. Prioridad #1
+                                        en déficit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skeleton skeleton-text large hidden" id="skeleton-protein"></div>
+                        <div class="macro-val" id="protein-val"><span id="protein-g">--</span>g</div>
+                        <div class="skeleton skeleton-bar hidden" id="skeleton-protein-bar"></div>
+                        <div class="macro-bar" id="protein-bar-container">
+                            <div class="fill" style="width: 0%" id="protein-bar"></div>
+                        </div>
+                        <div class="macro-cal"><span id="protein-cals">--</span> kcal</div>
+                    </div>
+
+                    <div class="macro-item carbs">
+                        <div class="macro-header">
+                            <span class="dot"></span> Carbohidratos
+                            <div class="tooltip-container">
+                                <i class="fa-solid fa-circle-info tooltip-trigger"
+                                    style="font-size: 0.75rem; margin-left: 4px;"></i>
+                                <div class="tooltip-content">
+                                    <h5>Carbohidratos</h5>
+                                    <p>Energía principal para entrenamientos intensos. 4 calorías por gramo. Aumenta en
+                                        superávit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skeleton skeleton-text large hidden" id="skeleton-carbs"></div>
+                        <div class="macro-val" id="carbs-val"><span id="carbs-g">--</span>g</div>
+                        <div class="skeleton skeleton-bar hidden" id="skeleton-carbs-bar"></div>
+                        <div class="macro-bar" id="carbs-bar-container">
+                            <div class="fill" style="width: 0%" id="carbs-bar"></div>
+                        </div>
+                        <div class="macro-cal"><span id="carbs-cals">--</span> kcal</div>
+                    </div>
+
+                    <div class="macro-item fats">
+                        <div class="macro-header">
+                            <span class="dot"></span> Grasas
+                            <div class="tooltip-container">
+                                <i class="fa-solid fa-circle-info tooltip-trigger"
+                                    style="font-size: 0.75rem; margin-left: 4px;"></i>
+                                <div class="tooltip-content">
+                                    <h5>Grasas</h5>
+                                    <p>Vitales para hormonas y salud. 9 calorías por gramo. No reducir por debajo de
+                                        0.8g/kg.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skeleton skeleton-text large hidden" id="skeleton-fats"></div>
+                        <div class="macro-val" id="fats-val"><span id="fats-g">--</span>g</div>
+                        <div class="skeleton skeleton-bar hidden" id="skeleton-fats-bar"></div>
+                        <div class="macro-bar" id="fats-bar-container">
+                            <div class="fill" style="width: 0%" id="fats-bar"></div>
+                        </div>
+                        <div class="macro-cal"><span id="fats-cals">--</span> kcal</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3D Body Composition Visualization (NEW) -->
+            <section class="body3d-section glass-card" id="body3d-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-cube"></i> Composición Corporal 3D</h2>
+                    <div class="body3d-controls">
+                        <button type="button" class="btn-icon" id="rotate-toggle" title="Auto-rotación">
+                            <i class="fa-solid fa-rotate"></i>
+                        </button>
+                        <button type="button" class="btn-icon" id="reset-view" title="Resetear vista">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="body3d-container">
+                    <div class="body3d-canvas-wrapper" id="body3d-canvas-wrapper">
+                        <!-- Three.js Canvas will be injected here or managed here -->
+                        <canvas id="body3d-canvas"></canvas>
+                        <div class="body3d-loader hidden" id="body3d-loader">
+                            <i class="fa-solid fa-spinner fa-spin"></i>
+                            <p>Generando modelo 3D...</p>
+                        </div>
+                    </div>
+
+                    <div class="body3d-info">
+                        <div class="composition-legend">
+                            <h4>Leyenda de Composición</h4>
+                            <div class="legend-item">
+                                <span class="legend-color muscle"></span>
+                                <div class="legend-text">
+                                    <strong>Masa Magra</strong>
+                                    <span id="lean-mass-percentage">--</span>%
+                                </div>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color fat"></span>
+                                <div class="legend-text">
+                                    <strong>Grasa Corporal</strong>
+                                    <span id="fat-mass-percentage">--</span>%
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="body3d-stats">
+                            <div class="stat-item">
+                                <i class="fa-solid fa-dumbbell"></i>
+                                <div>
+                                    <small>Masa Magra</small>
+                                    <strong id="lean-mass-kg">-- kg</strong>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fa-solid fa-droplet"></i>
+                                <div>
+                                    <small>Grasa Corporal</small>
+                                    <strong id="fat-mass-kg">-- kg</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="body3d-tip">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <p>Usa el mouse para rotar el modelo y explorar tu composición corporal en 3D. El modelo se
+                                ajusta a tu % de grasa.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Time Projection Section (NEW) -->
+            <section class="projection-section glass-card" id="projection-card" style="display: none;">
+                <div class="projection-content">
+                    <div class="projection-icon">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <div class="projection-details">
+                        <h3>Estimación de Tiempo</h3>
+                        <p class="projection-text">
+                            Llegarás a tu meta de <span id="proj-weight" class="highlight-text">-- kg</span> en
+                            aproximadamente
+                            <span id="proj-weeks" class="highlight-gold">-- semanas</span>.
+                        </p>
+                        <p class="projection-date">Fecha estimada: <span id="proj-date">--/--/----</span></p>
+                    </div>
+                </div>
+                <div class="projection-alert" id="proj-alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Ajusta tu objetivo para ver la proyección.</span>
+                </div>
+            </section>
+
+            <!-- Extras: Water & Details -->
+            <section class="extras-grid">
+                <!-- Water Card -->
+                <div class="extra-card glass-card water-card">
+                    <h3><i class="fa-solid fa-droplet"></i> Hidratación</h3>
+                    <div class="water-content">
+                        <div class="water-glass">
+                            <i class="fa-solid fa-glass-water"></i>
+                        </div>
+                        <div class="water-text">
+                            <span class="water-val" id="water-output">-- L</span>
+                            <span class="water-sub">Diarios recomendados</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary / Advice Card -->
+                <div class="extra-card glass-card advice-card">
+                    <h3><i class="fa-solid fa-lightbulb"></i> Recomendación</h3>
+                    <p id="advice-text">Completa tus datos para recibir una recomendación personalizada basada en tu
+                        objetivo.</p>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
+
 </html>
