@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pase de Acceso</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="validador.css">
+</head>
+
+<body>
+    <div class="top-nav">
+        <a href="../index.html" class="back-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+        </a>
+        <div class="menu-dots">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                <circle cx="12" cy="5" r="2" />
+                <circle cx="12" cy="12" r="2" />
+                <circle cx="12" cy="19" r="2" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- NFC Icon -->
+    <div class="nfc-icon-container">
+        <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+            <!-- Outer Circle -->
+            <circle cx="50" cy="50" r="45" stroke="#ffcc80" stroke-width="4" />
+
+            <!-- Waves (4 centered, shorter arcs) -->
+            <!-- Wave 1 (Inner) -->
+            <path class="nfc-wave wave-1" d="M36.6 43.7 A 15 15 0 0 1 36.6 56.3" stroke="#ffcc80" stroke-width="5"
+                stroke-linecap="round" />
+            <!-- Wave 2 -->
+            <path class="nfc-wave wave-2" d="M45.6 39.5 A 25 25 0 0 1 45.6 60.5" stroke="#ffcc80" stroke-width="5"
+                stroke-linecap="round" />
+            <!-- Wave 3 -->
+            <path class="nfc-wave wave-3" d="M54.7 35.2 A 35 35 0 0 1 54.7 64.8" stroke="#ffcc80" stroke-width="5"
+                stroke-linecap="round" />
+            <!-- Wave 4 (Outer) -->
+            <path class="nfc-wave wave-4" d="M63.8 31.0 A 45 45 0 0 1 63.8 69.0" stroke="#ffcc80" stroke-width="5"
+                stroke-linecap="round" />
+        </svg>
+    </div>
+
+    <div class="access-card">
+        <div class="card-header">
+            <div class="header-logo">
+                <img src="AF_logo.png" alt="AF Logo"
+                    style="width: 50px; height: 50px; border-radius: 50%; margin-left: -7px;">
+                <span>Anytime Fitness</span>
+            </div>
+        </div>
+
+        <h1 class="card-title">Pase de Acceso AF</h1>
+
+        <div class="user-details">
+            <div class="detail-row">
+                <div class="detail-label">Nombre del socio</div>
+                <div class="detail-label right">Contrato</div>
+            </div>
+            <div class="detail-row-value">
+                <div class="detail-value">Alex Alchapar Callen</div>
+                <div class="detail-value right">Activo</div>
+            </div>
+        </div>
+
+        <div class="member-since">
+            <div class="detail-label">Socio desde</div>
+            <div class="detail-value">06/10/2025</div>
+        </div>
+
+        <div class="card-footer">
+            <div class="wave-bg"></div>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="logo_white.png" alt="AF" class="footer-af-icon"> ACCESS PASS
+                </div>
+                <div class="tap-phone-icon">
+                    <img src="phone_logo.png" alt="Phone Logo" class="phone-shake">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

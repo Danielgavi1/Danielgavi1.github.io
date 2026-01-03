@@ -1,0 +1,262 @@
+:root {
+    --bg-dark: #1b120c;
+    /* Very dark background */
+    --card-bg: #ffffff;
+    --purple-primary: #4a0072;
+    --purple-wave: #6200ea;
+    --text-dark: #000000;
+    --text-muted: #666666;
+    --font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.top-nav {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.nfc-icon-container {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Custom NFC Icon to match image (Circle with waves) */
+.nfc-icon-container svg {
+    /* No rotation needed for this design */
+}
+
+.nfc-wave {
+    opacity: 0.4;
+    /* Start dim */
+    animation: nfc-sequence 1.5s 1 forwards ease-in-out;
+}
+
+.wave-1 {
+    animation-delay: 0s;
+}
+
+.wave-2 {
+    animation-delay: 0.1s;
+}
+
+.wave-3 {
+    animation-delay: 0.2s;
+}
+
+.wave-4 {
+    animation-delay: 0.3s;
+}
+
+@keyframes nfc-sequence {
+    0% {
+        opacity: 0.4;
+        stroke: #ffcc80;
+    }
+
+    25% {
+        opacity: 1;
+        stroke: #ffe0b2;
+    }
+
+    /* Peak 1 */
+    50% {
+        opacity: 0.4;
+        stroke: #ffcc80;
+    }
+
+    /* End 1 */
+    75% {
+        opacity: 1;
+        stroke: #ffe0b2;
+    }
+
+    /* Peak 2 */
+    100% {
+        opacity: 1;
+        stroke: #ffe0b2;
+    }
+
+    /* Stay On */
+}
+
+/* The Card */
+.access-card {
+    background: var(--card-bg);
+    width: 90%;
+    max-width: 360px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.card-header {
+    padding: 24px 24px 10px 24px;
+    border-bottom: 1px solid #eeeeee;
+    /* Separator line */
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.logo-circle {
+    width: 24px;
+    height: 24px;
+    background: #512da8;
+    /* Purple circle */
+    border-radius: 50%;
+    color: white;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.card-title {
+    padding: 0 24px;
+    margin: 10px 0 30px 0;
+    /* Spacing */
+    font-size: 28px;
+    font-weight: 600;
+    /* Regular/Semi-bold look */
+    color: black;
+    letter-spacing: -0.5px;
+}
+
+.user-details {
+    padding: 0 24px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    /* Add padding to space out the border */
+    border-bottom: 1px solid #eeeeee;
+    /* Separator line */
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.detail-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.detail-label.right {
+    text-align: right;
+}
+
+.detail-row-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.detail-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+}
+
+.detail-value.right {
+    text-align: right;
+}
+
+.member-since {
+    padding: 0 24px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Footer with Wave */
+.card-footer {
+    height: 120px;
+    background: #4a0072;
+    /* Dark purple base */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    overflow: hidden;
+}
+
+/* Wave Background Pattern */
+.wave-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('purple_bg.png') no-repeat center center;
+    background-size: cover;
+    opacity: 1;
+    /* Ensure full visibility of the image */
+}
+
+
+.footer-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.footer-logo {
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.5px;
+    background-color: #460396;
+    /* Requested background rectangle */
+    padding: 3px 5px;
+    /* Reduced padding for smaller rectangle */
+    margin-left: 15px;
+    /* Moved slightly to the right as requested */
+}
+
+.footer-af-icon {
+    height: 50px;
+    width: auto;
+    margin-right: 7px;
+}
+
+.tap-phone-icon img {
+    height: 77px;
+    /* Increased from 75px */
+    width: auto;
+    display: block;
+    margin-right: 4px;
+    /* Moves icon slightly to the left */
+    margin-bottom: 10px;
+}
