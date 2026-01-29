@@ -243,6 +243,10 @@ h3 {
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
     /* Smooth springy hover */
     will-change: transform;
+    border: 2px solid #D4AF37;
+    /* Luxury Gold Border */
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.15);
+    /* Soft Gold Shadow */
 }
 
 .collection-item:hover {
