@@ -39,7 +39,7 @@ function addTest(btn) {
     }
 
     // Check Prize Unlocks
-    const prizeThresholds = [8, 15, 30, 40, 50];
+    const prizeThresholds = [8, 15, 30, 40, 50, 60, 70];
     if (prizeThresholds.includes(savings)) {
         fireGlamConfetti();
         showModal('NUEVA RECOMPENSA DESBLOQUEADA', `Has alcanzado ${savings} créditos. Una nueva recompensa está disponible en el Closet.`);
