@@ -1,83 +1,115 @@
+// State Management
 let savings = localStorage.getItem('savings') ? parseInt(localStorage.getItem('savings')) : 0;
-const savingsElement = document.getElementById('savings');
+let totalTests = localStorage.getItem('totalTests') ? parseInt(localStorage.getItem('totalTests')) : 0;
+let level = 1;
 
-// Inicializar el valor al cargar
-updateSavings();
+// UI Elements
+const ui = {
+    savings: document.getElementById('savings'),
+    level: document.getElementById('userLevel'),
+    modal: document.getElementById('modal-overlay'),
+    modalTitle: document.getElementById('modal-title'),
+    modalMsg: document.getElementById('modal-msg')
+};
 
-function addTest() {
+function init() {
+    updateUI();
+}
+
+function addTest(btn) {
+    // Capture old level before update
+    const previousLevel = level;
+
     savings += 1;
-    updateSavings();
-    saveToLocalStorage();
-    checkAchievements();
+    totalTests += 1;
+    saveData();
+    updateUI(); // This updates the global 'level' variable
+
+    // Glamorous Confetti
+    fireGlamConfetti();
+
+    // Check Level Up
+    // We compare the NEW global 'level' (updated by updateUI) with the OLD 'previousLevel'
+    if (level > previousLevel) {
+        const rankName = getRankName(level);
+        setTimeout(() => {
+            fireGlamConfetti();
+            showModal('ESTADO DE ALAS ACTUALIZADO', `¡Felicidades! Ahora eres una ${rankName} (Nivel ${level}).`);
+        }, 500);
+    }
+
+    // Check Prize Unlocks
+    const prizeThresholds = [8, 15, 30, 40, 50];
+    if (prizeThresholds.includes(savings)) {
+        fireGlamConfetti();
+        showModal('NUEVA RECOMPENSA DESBLOQUEADA', `Has alcanzado ${savings} créditos. Una nueva recompensa está disponible en el Closet.`);
+    }
 }
 
 function removeTest() {
     if (savings > 0) {
         savings -= 1;
-        updateSavings();
-        saveToLocalStorage();
+        if (totalTests > 0) totalTests -= 1;
+        saveData();
+        updateUI();
     }
 }
 
-function updateSavings() {
-    savingsElement.textContent = savings+'€';
+function getRankName(lvl) {
+    if (lvl === 1) return "Angel In Training";
+    if (lvl === 2) return "Pink Angel";
+    if (lvl === 3) return "Silver Angel";
+    if (lvl === 4) return "Gold Angel";
+    if (lvl >= 5) return "Supermodel Angel";
+    return "Angel";
 }
 
-function saveToLocalStorage() {
+function updateUI() {
+    if (ui.savings) ui.savings.textContent = savings;
+
+    level = Math.floor(totalTests / 10) + 1;
+    if (ui.level) ui.level.textContent = getRankName(level);
+
+    // Update Next Tier
+    const nextTierEl = document.querySelector('.status-next');
+    if (nextTierEl) {
+        if (level >= 5) {
+            nextTierEl.textContent = "MAXIMUM STATUS ACHIEVED";
+            nextTierEl.style.color = "#D4AF37";
+        } else {
+            nextTierEl.textContent = `NEXT TIER: ${getRankName(level + 1).toUpperCase()}`;
+        }
+    }
+}
+
+function saveData() {
     localStorage.setItem('savings', savings);
+    localStorage.setItem('totalTests', totalTests);
 }
 
-function checkAchievements() {
-    let message = '';
-    switch (savings) {
-        // case 60:
-        //     message = '¡Vale para una experiencia de cine con butacas VIP! 🎬';
-        //     break;
-        // case 70: 
-        //     message = '¡Vale para un museo! 🖼️';
-        //     break;
-        // case 80: 
-        //     message = '¡Concierto a la luz de las velas! 🎶🕯️';
-        //     break;
-        // case 90: 
-        //     message = '¡Vale para un spa! 🧖‍♀️';
-        //     break;
-        // case 100: 
-        //     message = '¡Cena en un restaurante de lujo! 🍾';
-        //     break;
-
-        case 8:
-            message = '¡Vas por buen camino! 🎉 Has desbloqueado un nuevo premio!';
-            break;
-        case 15: 
-            message = 'Premio de 15€ Entradas al cine (peli al gusto) 🍿';
-            break;
-        case 30: 
-            message = 'Premio de 30€ ¡Cena temática en casa! 🍴';
-            break;
-        case 40: 
-            message = 'Premio de 40€ ¡Entradas para Naturlandia! 🌳';
-            break;
-        case 50: 
-            message = 'Premio de 50€ ¡Cena para dos desbloqueada! 🍽️🍣';
-            break;
-        case 60: 
-            message = 'Premio de 60€ enseña las capturas a tu niño';
-            break;
-        case 70: 
-            message = 'Premio de 70€ enseña las capturas a tu niño';
-            break;
-        case 80: 
-            message = 'Premio de 80€ enseña las capturas a tu niño';
-            break;
-        case 90: 
-            message = 'Premio de 90€ enseña las capturas a tu niño';
-            break;
-        case 100: 
-            message = 'Premio de 100€ enseña las capturas a tu niño';
-            break;
+function showModal(title, msg) {
+    if (ui.modalTitle) ui.modalTitle.textContent = title;
+    if (ui.modalMsg) ui.modalMsg.textContent = msg;
+    if (ui.modal) ui.modal.style.display = 'flex';
 }
-    if (message) {
-        alert(message);
+
+function closeModal() {
+    if (ui.modal) ui.modal.style.display = 'none';
+}
+
+function fireGlamConfetti() {
+    if (typeof confetti === 'function') {
+        confetti({
+            particleCount: 60,
+            spread: 60,
+            origin: { y: 0.6 },
+            colors: ['#E91E63', '#000000', '#D4AF37'], // Hot Pink, Black, Gold
+            scalar: 1
+        });
     }
 }
+
+window.showModal = showModal;
+window.closeModal = closeModal;
+
+init();

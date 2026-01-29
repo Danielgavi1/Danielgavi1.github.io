@@ -1,16 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premios Comprados</title>
-    <link rel="stylesheet" href="../css/premios_comprados.css">
-    <script src="../js/premios_comprados.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Purchase History</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
-    <h1>Premios Comprados</h1>
-    <ul>
-        <!-- Los premios comprados se mostrarán aquí -->
-    </ul>
+    <div class="app-container">
+        <header class="header">
+            <a href="./premios.html"
+                style="position:absolute; left:20px; top:40px; color: white; text-decoration:none; z-index: 100; font-size: 1.2rem; padding: 10px;">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="brand-title">HISTORY</h1>
+            <div class="brand-subtitle">YOUR ACQUISITIONS</div>
+        </header>
+
+        <div id="comprados-container" style="padding: 20px; margin-top: -30px; position: relative; z-index: 10;">
+            <!-- Items -->
+        </div>
+
+        <div id="empty-state" style="text-align: center; margin-top: 50px; display: none;">
+            <p style="color: #999; font-style: italic; font-family: 'Playfair Display';">Your collection is empty.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <button onclick="borrarHistorial()" class="btn-deluxe-secondary">
+                CLEAR HISTORY
+            </button>
+        </div>
+
+        <nav class="vs-nav">
+            <a href="../index.html" class="vs-nav-link">
+                <i class="fas fa-star"></i>
+            </a>
+            <a href="./premios.html" class="vs-nav-link active">
+                <i class="fas fa-heart"></i>
+            </a>
+            <a href="./tienda.html" class="vs-nav-link">
+                <i class="fas fa-shopping-bag"></i>
+            </a>
+        </nav>
+    </div>
+
+    <script src="../js/shared.js"></script>
+    <script src="../js/premios_comprados.js"></script>
 </body>
+
 </html>

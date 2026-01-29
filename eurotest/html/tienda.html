@@ -1,145 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda de Premios</title>
-    <link rel="stylesheet" href="../css/tienda.css">
-    <script src="../js/tienda.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Collection</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
-    <header class="header">
-        <h1>Tienda de Premios 🛍️</h1>
-    </header>
+    <div class="app-container">
+        <header class="header">
+            <h1 class="brand-title">COLLECTION</h1>
+            <div class="brand-subtitle">New Arrivals</div>
+            <div style="margin-top: 20px; font-family:'Playfair Display'; font-size: 1.5rem; color: #FFF;">
+                <span id="savings-display">0</span> <span
+                    style="font-size:0.8rem; letter-spacing:2px; vertical-align:middle;">CREDITS</span>
+            </div>
+        </header>
 
-    <main class="main-content">
-        <section class="product-grid">
-            <!-- Premio 1 -->
-            <article class="product-card" data-price="8">
-                <img src="../img/cafe_pastel.webp" alt="Premio Café y Pastel" class="product-image">
-                <h2 class="product-title">8€ Café y pastel ☕🍰</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
+        <!-- Overlapping Grid -->
+        <div style="margin-top: -30px; position:relative; z-index:10;">
+            <div class="collection-grid">
+                <!-- Items -->
+                <article class="collection-item store-item" data-price="8">
+                    <div class="item-icon">
+                        <img src="../img/cafe_pastel.webp" alt="Cafe"
+                            style="width: 90%; height: auto; border-radius: 10px;">
+                    </div>
+                    <div class="item-name">Café y Pastel</div>
+                    <div class="item-price">8 Credits</div>
 
-            <!-- Premio 2 -->
-            <article class="product-card" data-price="15">
-                <img src="../img/cine.webp" alt="Premio Entradas al cine" class="product-image">
-                <h2 class="product-title">15€ Entradas al cine 🍿</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
+                    <div class="qty-control">
+                        <button class="qty-btn decrement">-</button>
+                        <span class="qty-val quantity">0</span>
+                        <button class="qty-btn increment">+</button>
+                    </div>
 
-            <!-- Premio 3 -->
-            <article class="product-card" data-price="30">
-                <img src="../img/cena_tematica_casa.webp" alt="Premio 3" class="product-image">
-                <h2 class="product-title">30€ Cena temática en casa🍴</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
+                    <button class="item-btn store-btn">ADD TO BAG</button>
+                </article>
 
-            <!-- Premio 4 -->
-            <article class="product-card" data-price="40">
-                <img src="../img/naturland.webp" alt="Premio 4" class="product-image naturlandia" style="border-radius: 10px!important;">
-                <h2 class="product-title">40€ Entradas a Naturlandia 🌳</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
+                <article class="collection-item store-item" data-price="15">
+                    <div class="item-icon">
+                        <img src="../img/cine.webp" alt="Cine" style="width: 90%; height: auto; border-radius: 10px;">
+                    </div>
+                    <div class="item-name">Entradas Cine</div>
+                    <div class="item-price">15 Credits</div>
+                    <div class="qty-control">
+                        <button class="qty-btn decrement">-</button>
+                        <span class="qty-val quantity">0</span>
+                        <button class="qty-btn increment">+</button>
+                    </div>
+                    <button class="item-btn store-btn">ADD TO BAG</button>
+                </article>
 
+                <article class="collection-item store-item" data-price="30">
+                    <div class="item-icon">
+                        <img src="../img/cena_tematica_casa.webp" alt="Cena Casa"
+                            style="width: 90%; height: auto; border-radius: 10px;">
+                    </div>
+                    <div class="item-name">Cena Temática</div>
+                    <div class="item-price">30 Credits</div>
+                    <div class="qty-control">
+                        <button class="qty-btn decrement">-</button>
+                        <span class="qty-val quantity">0</span>
+                        <button class="qty-btn increment">+</button>
+                    </div>
+                    <button class="item-btn store-btn">ADD TO BAG</button>
+                </article>
 
-            <!-- Premio 5 -->
-            <article class="product-card" data-price="50">
-                <img src="../img/cena_para_dos.webp" alt="Premio 5" class="product-image">
-                <h2 class="product-title">50€ Cena para dos 🍽️🍣</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
+                <article class="collection-item store-item" data-price="40">
+                    <div class="item-icon">
+                        <img src="../img/naturland.webp" alt="Naturlandia"
+                            style="width: 90%; height: auto; border-radius: 10px;">
+                    </div>
+                    <div class="item-name">Naturlandia</div>
+                    <div class="item-price">40 Credits</div>
+                    <div class="qty-control">
+                        <button class="qty-btn decrement">-</button>
+                        <span class="qty-val quantity">0</span>
+                        <button class="qty-btn increment">+</button>
+                    </div>
+                    <button class="item-btn store-btn">ADD TO BAG</button>
+                </article>
 
-            <!-- Premio 6 -->
-            <article class="product-card" data-price="60">
-                <img src="../img/candado.webp" alt="Premio 6" class="product-image">
-                <h2 class="product-title">Premio 6 🔒</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
+                <article class="collection-item store-item" data-price="50">
+                    <div class="item-icon">
+                        <img src="../img/cena_para_dos.webp" alt="Cena Dos"
+                            style="width: 90%; height: auto; border-radius: 10px;">
+                    </div>
+                    <div class="item-name">Cena Para Dos</div>
+                    <div class="item-price">50 Credits</div>
+                    <div class="qty-control">
+                        <button class="qty-btn decrement">-</button>
+                        <span class="qty-val quantity">0</span>
+                        <button class="qty-btn increment">+</button>
+                    </div>
+                    <button class="item-btn store-btn">ADD TO BAG</button>
+                </article>
+            </div>
+        </div>
 
-            <!-- Premio 7 -->
-            <article class="product-card" data-price="70">
-                <img src="../img/candado.webp" alt="Premio 7" class="product-image">
-                <h2 class="product-title">Premio 7 🔒</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
+        <nav class="vs-nav">
+            <a href="../index.html" class="vs-nav-link">
+                <i class="fas fa-star"></i>
+            </a>
+            <a href="./premios.html" class="vs-nav-link">
+                <i class="fas fa-heart"></i>
+            </a>
+            <a href="#" class="vs-nav-link active">
+                <i class="fas fa-shopping-bag"></i>
+            </a>
+        </nav>
+    </div>
 
-            <!-- Premio 8 -->
-            <article class="product-card" data-price="80">
-                <img src="../img/candado.webp" alt="Premio 8" class="product-image">
-                <h2 class="product-title">Premio 8 🔒</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
+    <!-- Modal -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-title" style="margin-bottom: 10px;">Bag Updated</h2>
+            <p id="modal-msg" style="font-family: 'Montserrat'; font-size: 0.9rem; color: #666; margin-bottom: 30px;">
+                Excellent choice.</p>
+            <button class="runway-btn" style="width: 100%; padding: 15px;" onclick="closeModal()">CLOSE</button>
+        </div>
+    </div>
 
-            <!-- Premio 9 -->
-            <article class="product-card" data-price="90">
-                <img src="../img/candado.webp" alt="Premio 9" class="product-image">
-                <h2 class="product-title">Premio 9 🔒</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
-
-            <!-- Premio 10 -->
-            <article class="product-card" data-price="100">
-                <img src="../img/candado.webp" alt="Premio 10" class="product-image">
-                <h2 class="product-title">Premio 10 🔒</h2>
-                <div class="counter">
-                    <button class="decrement">-</button>
-                    <span class="quantity">0</span>
-                    <button class="increment">+</button>
-                </div>
-                <button class="buy">Comprar</button>
-            </article>
-        </section>
-
-        <button class="comprados" onclick="window.location.href='./premios_comprados.html'">
-            <i class="fas fa-gift"></i> <!-- Icono de regalo -->
-        </button>
-    </main>
+    <script src="../js/shared.js"></script>
+    <script src="../js/tienda.js"></script>
 </body>
+
 </html>

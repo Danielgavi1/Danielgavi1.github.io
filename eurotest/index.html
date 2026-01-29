@@ -1,50 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EuroTest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VIP Dashboard</title>
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/index.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
+
 <body>
-    <nav class="app-bar">
-        <a href="./html/premios.html" class="icon-button">
-            <i class="fas fa-gift"></i>
-        </a>
-    </nav>
-    
-    <main class="main-content">
-        <div class="hero-section">
-            <h1 class="app-title">
-                <span class="highlight">Euro</span>Test
-            </h1>
-            <p class="app-subtitle">Controla tus tests y descubre recompensas</p>
-        </div>
+    <div class="app-container">
+        <!-- Luxury Header -->
+        <header class="header">
+            <h1 class="brand-title">VICTORIA</h1>
+            <div class="brand-subtitle">VIP ACCESS ONLY</div>
+        </header>
 
-        <div class="savings-card">
-            <div class="savings-header">
-                <i class="fas fa-coins"></i>
-                <h2>Fondo Actual</h2>
+        <!-- Floating VIP Card -->
+        <div class="vip-card">
+            <!-- Status -->
+            <div class="wings-icon"><i class="fas fa-crown"></i></div>
+            <div class="status-level" id="userLevel">Angel In Training</div>
+            <div class="status-next">Next Tier: Pink Angel</div>
+
+            <!-- Balance -->
+            <div class="balance-display">
+                <div class="balance-amount" id="savings">0</div>
+                <div class="balance-label">VIP CREDITS</div>
             </div>
-            <div class="savings-amount" id="savings">0€</div>
-        </div>
 
-        <div class="actions-container">
-            <div class="button-group">
-                <button class="primary-button" onclick="addTest()">
-                    <i class="fas fa-plus"></i> Test completado
-                </button>
-                <button class="secondary-button" onclick="removeTest()">
-                    <i class="fas fa-minus"></i> Ajustar cuenta
+            <!-- Action -->
+            <div class="runway-btn-container">
+                <button class="runway-btn" onclick="addTest(this)">
+                    WALK THE RUNWAY
                 </button>
             </div>
-            
-            <a href="./html/tienda.html" class="cta-button">
-                <i class="fas fa-shopping-bag"></i> Ver recompensas
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="removeTest()"
+                    style="background:none; border:none; text-transform:uppercase; font-size: 0.65rem; letter-spacing: 2px; cursor: pointer; color: #AAA;">
+                    Undo Last Step
+                </button>
+            </div>
+        </div>
+
+        <!-- Spacer for nav -->
+        <div style="height: 50px;"></div>
+
+        <!-- Floating Nav -->
+        <nav class="vs-nav">
+            <a href="#" class="vs-nav-link active">
+                <i class="fas fa-star"></i>
             </a>
+            <a href="./html/premios.html" class="vs-nav-link">
+                <i class="fas fa-heart"></i>
+            </a>
+            <a href="./html/tienda.html" class="vs-nav-link">
+                <i class="fas fa-shopping-bag"></i>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Deluxe Modal -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modal-title">DIVINE!</h2>
+            <p id="modal-msg" style="font-family: 'Montserrat'; font-size: 0.9rem; color: #666; margin-bottom: 30px;">
+                You are radiating elegance.</p>
+            <button class="runway-btn" style="width: 100%; padding: 15px;" onclick="closeModal()">CONTINUE</button>
         </div>
-    </main>
+    </div>
+
+    <script src="./js/index.js"></script>
 </body>
+
 </html>

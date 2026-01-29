@@ -1,28 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EuroTest Premios</title>
-    <link rel="stylesheet" href="../css/premios.css">
-    <script src="../js/premios.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Closet</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
-    <div class="container">
-        <h1>🏆 Premios Desbloqueados 🏆</h1>
-        <p>Consulta los premios desbloqueados y los que <br> te faltan por alcanzar. ✨</p>
-        <ul id="achievements-list">
-            <li id="prize8" class="locked">🔒</li>
-            <li id="prize15" class="locked">🔒</li>
-            <li id="prize30" class="locked">🔒</li>
-            <li id="prize40" class="locked">🔒</li>
-            <li id="prize50" class="locked">🔒</li>
-            <li id="prize60" class="locked">🔒</li>
-            <li id="prize70" class="locked">🔒</li>
-            <li id="prize80" class="locked">🔒</li>
-            <li id="prize90" class="locked">🔒</li>
-            <li id="prize100" class="locked">🔒</li>
-        </ul>
+    <div class="app-container">
+        <header class="header">
+            <h1 class="brand-title">THE CLOSET</h1>
+            <div class="brand-subtitle">Your Rewards</div>
+        </header>
+
+        <!-- Overlapping List -->
+        <div style="margin-top: -30px; padding-bottom: 100px;">
+            <ul class="closet-list" id="achievements-list">
+                <!-- JS Populates/Toggles -->
+                <li id="prize8" class="closet-item locked">
+                    <div>
+                        <div style="font-weight: 600;">Café y Pastel</div>
+                        <div style="font-size: 0.75rem; color: #999;">8 Credits</div>
+                    </div>
+                    <div class="status-icon"><i class="fas fa-lock"></i></div>
+                </li>
+                <li id="prize15" class="closet-item locked">
+                    <div>
+                        <div style="font-weight: 600;">Entradas Cine</div>
+                        <div style="font-size: 0.75rem; color: #999;">15 Credits</div>
+                    </div>
+                    <div class="status-icon"><i class="fas fa-lock"></i></div>
+                </li>
+                <li id="prize30" class="closet-item locked">
+                    <div>
+                        <div style="font-weight: 600;">Cena Temática</div>
+                        <div style="font-size: 0.75rem; color: #999;">30 Credits</div>
+                    </div>
+                    <div class="status-icon"><i class="fas fa-lock"></i></div>
+                </li>
+                <li id="prize40" class="closet-item locked">
+                    <div>
+                        <div style="font-weight: 600;">Naturlandia</div>
+                        <div style="font-size: 0.75rem; color: #999;">40 Credits</div>
+                    </div>
+                    <div class="status-icon"><i class="fas fa-lock"></i></div>
+                </li>
+                <li id="prize50" class="closet-item locked">
+                    <div>
+                        <div style="font-weight: 600;">Cena Para Dos</div>
+                        <div style="font-size: 0.75rem; color: #999;">50 Credits</div>
+                    </div>
+                    <div class="status-icon"><i class="fas fa-lock"></i></div>
+                </li>
+            </ul>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="./premios_comprados.html"
+                    style="background: white; padding: 10px 20px; border-radius: 30px; color: var(--vs-black); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">Purchase
+                    History</a>
+            </div>
+        </div>
+
+        <nav class="vs-nav">
+            <a href="../index.html" class="vs-nav-link">
+                <i class="fas fa-star"></i>
+            </a>
+            <a href="#" class="vs-nav-link active">
+                <i class="fas fa-heart"></i>
+            </a>
+            <a href="./tienda.html" class="vs-nav-link">
+                <i class="fas fa-shopping-bag"></i>
+            </a>
+        </nav>
     </div>
+
+    <script src="../js/shared.js"></script>
+    <script src="../js/premios.js"></script>
 </body>
+
 </html>

@@ -1,201 +1,523 @@
-/* style.css */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-    --primary: #7C3AED;
-    --secondary: #A78BFA;
-    --background: #fde1f6;
-    --surface: #FFFFFF;
-    --text: #1E293B;
-    --success: #34D399;
-    --error: #F87171;
-    --border: #E2E8F0;
+    /* VS VIP Deluxe Palette */
+    --vs-pink: #E91E63;
+    --vs-pink-deep: #C2185B;
+    --vs-black: #050505;
+    /* Deep luxury black */
+
+    /* Metallic Gold Gradient */
+    --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 50%, #B38728 100%);
+    --gold-text: #B38728;
+
+    --bg-stripes: repeating-linear-gradient(90deg,
+            #FFF0F5,
+            #FFF0F5 40px,
+            #FFD6E7 40px,
+            #FFD6E7 80px);
+
+    --text-main: #111111;
+    --text-light: #FFFFFF;
+
+    /* Spacing & Borders - VIP Curves */
+    --radius-xl: 30px;
+    --radius-pill: 50px;
+
+    /* Effects */
+    --shadow-deluxe: 0 15px 35px rgba(233, 30, 99, 0.15);
+    --shadow-gold: 0 5px 15px rgba(191, 149, 63, 0.3);
+
+    --glass-deluxe: rgba(255, 255, 255, 0.95);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    font-style: italic;
-    background: var(--background);
-    color: var(--text);
+    background: var(--bg-stripes);
+    color: var(--text-main);
+    font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
-.app-bar {
-    padding: 1.5rem;
-    display: flex;
-    justify-content: flex-end;
-    background: var(--surface);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.icon-button {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.icon-button:hover {
-    background: var(--secondary);
-    transform: translateY(-2px);
-}
-
-.main-content {
-    flex: 1;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2.5rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.hero-section {
-    text-align: center;
-    padding: 2rem 0;
-}
-
-.app-title {
+h1,
+h2,
+h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.8rem;
-    margin-bottom: 1rem;
-    color: var(--text);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.highlight {
-    color: var(--primary);
-}
-
-.app-subtitle {
-    color: #64748B;
-    font-size: 1.1rem;
-    max-width: 300px;
+.app-container {
+    max-width: 440px;
     margin: 0 auto;
+    background: transparent;
+    min-height: 100vh;
+    padding-bottom: 90px;
 }
 
-.savings-card {
-    background: var(--surface);
-    width: 100%;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+/* --- Components --- */
+
+/* Header Card */
+.header {
+    background: var(--vs-black);
+    color: white;
+    padding: 40px 20px 50px 20px;
     text-align: center;
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+    box-shadow: var(--shadow-deluxe);
+    position: relative;
+    border-bottom: 3px solid #BF953F;
 }
 
-.savings-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
+.brand-title {
+    font-size: 2rem;
+    letter-spacing: 3px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Gold Text */
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
 }
 
-.savings-header i {
-    font-size: 1.4rem;
-    color: var(--primary);
+.brand-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #FFF;
+    margin-top: 5px;
+    opacity: 0.8;
 }
 
-.savings-amount {
-    font-size: 2.6rem;
+/* Main Card Container for Content */
+.vip-card {
+    background: var(--glass-deluxe);
+    margin: -30px 20px 20px 20px;
+    /* Overlap header */
+    border-radius: var(--radius-xl);
+    padding: 30px 20px;
+    box-shadow: var(--shadow-deluxe);
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Wings Icon */
+.wings-icon {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.status-level {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--vs-black);
+    margin-bottom: 5px;
+}
+
+.status-next {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Balance */
+.balance-display {
+    margin-top: 30px;
+    padding: 20px;
+    background: #FFF;
+    border-radius: var(--radius-xl);
+    border: 1px solid #EEE;
+    box-shadow: inset 0 0 20px rgba(191, 149, 63, 0.05);
+    /* Subtle gold inner glow */
+}
+
+.balance-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: var(--vs-pink);
+    line-height: 1;
+}
+
+.balance-label {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: #999;
+    margin-top: 5px;
+}
+
+/* Runway Button (Pill) */
+.runway-btn-container {
+    margin-top: 30px;
+}
+
+.runway-btn {
+    background: var(--vs-black);
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    border-radius: var(--radius-pill);
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
     font-weight: 600;
-    color: var(--primary);
-    letter-spacing: -1px;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-gold);
+    transition: all 0.3s ease;
+    background-image: linear-gradient(135deg, #222 0%, #000 100%);
+    position: relative;
+    overflow: hidden;
+    animation: pulseButton 3s infinite;
 }
 
-.actions-container {
+@keyframes pulseButton {
+    0% {
+        box-shadow: 0 5px 15px rgba(191, 149, 63, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 5px 25px rgba(233, 30, 99, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 5px 15px rgba(191, 149, 63, 0.3);
+    }
+}
+
+.runway-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: skewX(-20deg) translateX(-150%);
+    transition: 0.5s;
+}
+
+.runway-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.runway-btn:hover::before {
+    transform: skewX(-20deg) translateX(150%);
+}
+
+/* Collection Grid (Rounded) */
+.collection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 0 20px;
+    margin-top: 20px;
+}
+
+.collection-item {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 25px 15px;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    justify-content: space-between;
+    height: 100%;
+    /* Fill the grid cell */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    /* Smooth springy hover */
+    will-change: transform;
 }
 
-.button-group {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
+.collection-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    /* Pop effect */
+    border-color: #FBCFE8;
+    box-shadow: 0 15px 30px rgba(233, 30, 99, 0.15);
+    /* Pink Glow */
 }
 
-.primary-button, .secondary-button, .cta-button {
-    padding: 1rem 1.8rem;
-    border: none;
-    border-radius: 10px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.item-icon {
+    height: 120px;
+    /* Fixed height for image area */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.8rem;
-}
-
-.primary-button {
-    background: var(--success);
-    color: white;
-    flex: 1;
-}
-
-.secondary-button {
-    background: var(--error);
-    color: white;
-    flex: 1;
-}
-
-.cta-button {
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
+    margin-bottom: 10px;
     width: 100%;
 }
 
-.primary-button:hover, .secondary-button:hover, .cta-button:hover {
+.item-icon img {
+    max-height: 100%;
+    width: auto;
+    /* Maintain aspect ratio */
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+}
+
+.collection-item:hover .item-icon img {
+    transform: scale(1.1);
+    /* Subtle zoom on image */
+}
+
+.item-name {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    font-family: 'Montserrat', sans-serif;
+    /* Consistent Sans-Serif as requested */
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--vs-black);
+}
+
+.item-price {
+    color: var(--gold-text);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.item-btn {
+    margin-top: 15px;
+    background: white;
+    color: var(--vs-black);
+    border: 2px solid var(--vs-black);
+    padding: 10px 20px;
+    border-radius: var(--radius-pill);
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    margin-top: auto;
+    /* Push to bottom if content is short */
+}
+
+.item-btn.active {
+    background: var(--vs-pink);
+    border-color: var(--vs-pink);
+    color: white;
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+}
+
+/* Quantity Control */
+.qty-control {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.qty-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #F5F5F5;
+    border: none;
+    color: var(--vs-black);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Closet List (Rounded Cards) */
+.closet-list {
+    list-style: none;
+    padding: 0 20px;
+    margin-top: -20px;
+    /* Pull into header space if needed, or normal flow */
+    position: relative;
+    z-index: 10;
+}
+
+.closet-item {
+    background: white;
+    margin-bottom: 15px;
+    border-radius: var(--radius-xl);
+    padding: 25px;
+    /* More breathing room */
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /* Space between icon and text */
+    justify-content: space-between;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.closet-item.locked {
+    opacity: 0.6;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.status-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #F5F5F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #CCC;
+}
+
+.unlocked .status-icon {
+    background: var(--gold-gradient);
+    color: var(--vs-black);
+}
+
+/* Nav (Floating Pill) */
+.vs-nav {
+    position: fixed;
+    bottom: 25px;
+    left: 20px;
+    right: 20px;
+    background: var(--vs-black);
+    border-radius: var(--radius-pill);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: var(--shadow-deluxe);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+}
+
+.vs-nav-link {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.vs-nav-link.active {
+    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 768px) {
-    .main-content {
-        padding: 1.5rem;
-        gap: 2rem;
+.vs-nav-link.active::after {
+    content: '•';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--vs-pink);
+    font-size: 1.5rem;
+}
+
+/* Modal Luxury */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    width: 85%;
+    max-width: 360px;
+    border-radius: 40px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--vs-pink);
+}
+
+.modal-content h2 {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+/* Secondary Deluxe Button */
+.btn-deluxe-secondary {
+    background: transparent;
+    border: 1px solid #D4AF37;
+    color: var(--vs-black);
+    padding: 12px 30px;
+    border-radius: var(--radius-pill);
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+}
+
+.btn-deluxe-secondary:hover {
+    background: var(--vs-pink);
+    color: white;
+    border-color: var(--vs-pink);
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
+}
+
+/* Enhanced Closet Item for History */
+.closet-item {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid transparent;
+}
+
+.closet-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    border-color: #FBCFE8;
+}
+
+/* Animations */
+.vip-card,
+.collection-item,
+.closet-item {
+    animation: fadeUp 0.6s ease-out backwards;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-    
-    .app-title {
-        font-size: 2.4rem;
-    }
-    
-    .button-group {
-        flex-direction: column;
-    }
-    
-    .savings-amount {
-        font-size: 2.2rem;
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-@media (max-width: 480px) {
-    .app-title {
-        font-size: 2rem;
+.wings-icon {
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+
+    0%,
+    100% {
+        transform: translateY(0);
     }
-    
-    .app-subtitle {
-        font-size: 1rem;
-    }
-    
-    .savings-card {
-        padding: 1.5rem;
+
+    50% {
+        transform: translateY(-5px);
     }
 }
