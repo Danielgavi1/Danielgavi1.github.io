@@ -170,20 +170,19 @@ function renderRutina(persona, secciones) {
 function cargarVictoria() {
   const rutina = {
     "<img src='./img/culo.webp' width='25%'>": [
-      "<strong>Hip trust:</strong> 10Kg 4 x 10 reps + negativa al fallo",
-      "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
+      "<strong>Hip trust:</strong> 15Kg 4 x 10 reps + negativa al fallo",
+      "<strong>Patada de glúteo:</strong> 6.8Kg 4 x 10 reps",
       "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 59Kg 3 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
-      "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 4 x 10 reps",
+      "<strong>Abductor focalizado glúteo 🍑:</strong> 47Kg 4 x 10 reps",
       "<strong>Hacka:</strong> (barra) 3 x 10 reps"
     ],
     "<img src='./img/pierna.webp' width='25%'>": [
-      "<strong>Femoral tumbada:</strong> 10Kg 3 x 10 reps",
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 15Kg 3 x 10 reps",
-      "<strong>Abductor interno:</strong> 43Kg 3 x 10 reps",
-      "<strong>Aductor externo:</strong> 54Kg 3 x 10 reps"
+      "<strong>Abductor interno:</strong> 47Kg 3 x 10 reps",
+      "<strong>Aductor externo:</strong> 56Kg 3 x 10 reps"
     ],
     "<img src='./img/espalda.webp' width='30%'>": [
       "<strong>Estirar hacia abajo:</strong> 27.5Kg 3 x 10 reps",
