@@ -170,8 +170,8 @@ function renderRutina(persona, secciones) {
 function cargarVictoria() {
   const rutina = {
     "<img src='./img/culo.webp' width='25%'>": [
-      "<strong>Hip trust:</strong> 15Kg 4 x 10 reps + negativa al fallo",
-      "<strong>Patada de glúteo:</strong> 6.8Kg 4 x 10 reps",
+      "<strong>Hip trust:</strong> 17.5Kg 4 x 10 reps + negativa al fallo",
+      "<strong>Patada de glúteo:</strong> 9Kg 4 x 10 reps",
       "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 59Kg 3 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
