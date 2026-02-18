@@ -182,7 +182,7 @@ function cargarVictoria() {
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 15Kg 3 x 10 reps",
       "<strong>Abductor interno:</strong> 47Kg 3 x 10 reps",
-      "<strong>Aductor externo:</strong> 56Kg 3 x 10 reps"
+      "<strong>Abductor externo:</strong> 59Kg 3 x 10 reps"
     ],
     "<img src='./img/espalda.webp' width='30%'>": [
       "<strong>Estirar hacia abajo:</strong> 27.5Kg 3 x 10 reps",
