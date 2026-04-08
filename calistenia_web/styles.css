@@ -133,6 +133,7 @@ nav {
   padding: 0.9rem 1rem 0;
   background: linear-gradient(180deg, rgba(8, 13, 27, 0.88) 0%, rgba(8, 13, 27, 0.4) 100%);
   backdrop-filter: blur(18px);
+  padding-bottom: 15px;
 }
 
 .nav-tab {
@@ -760,6 +761,7 @@ nav {
     top: 70px;
     gap: 0.5rem;
     padding: 0.8rem 0.9rem 0;
+    padding-bottom: 15px;
   }
 
   .section {
