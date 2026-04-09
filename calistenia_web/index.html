@@ -1,164 +1,163 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>CALI.BEAST — Entrenamiento Calistenia</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<script src="scripts.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>CALI.BEAST — Entrenamiento Calistenia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="./scripts.js"></script>
 </head>
-<body>
+  <body>
+    <header>
+      <div class="logo">CALI<span>.</span>BEAST</div>
+      <span class="header-badge">v1.0</span>
+    </header>
 
-<header>
-  <div class="logo">CALI<span>.</span>BEAST</div>
-  <span class="header-badge">v1.0</span>
-</header>
+    <nav>
+      <button class="nav-tab active" onclick="switchTab('reps', this)">
+        <span class="tab-icon">🎲</span>Reps
+      </button>
+      <button class="nav-tab" onclick="switchTab('timer', this)">
+        <span class="tab-icon">⏱️</span>Timer
+      </button>
+      <button class="nav-tab" onclick="switchTab('ranking', this)">
+        <span class="tab-icon">🏆</span>Ranking
+      </button>
+    </nav>
 
-<nav>
-  <button class="nav-tab active" onclick="switchTab('reps', this)">
-    <span class="tab-icon">🎲</span>Reps
-  </button>
-  <button class="nav-tab" onclick="switchTab('timer', this)">
-    <span class="tab-icon">⏱️</span>Timer
-  </button>
-  <button class="nav-tab" onclick="switchTab('ranking', this)">
-    <span class="tab-icon">🏆</span>Ranking
-  </button>
-</nav>
+    <!-- SECTION: REPS -->
+    <section id="tab-reps" class="section active">
+      <div class="section-title">REPS GENERATOR</div>
+      <div class="section-sub">Piensa en tu ejercicio y pulsa para generar</div>
 
-<!-- SECTION: REPS -->
-<section id="tab-reps" class="section active">
-  <div class="section-title">REPS GENERATOR</div>
-  <div class="section-sub">Piensa en tu ejercicio y pulsa para generar</div>
-
-  <div class="card">
-    <div class="reps-display">
-      <span class="reps-number" id="repsNumber">—</span>
-      <div class="reps-label">REPETICIONES</div>
-    </div>
-    <button class="btn btn-accent" onclick="generateReps()">🎲 GENERAR NÚMERO</button>
-  </div>
-
-  <div class="card">
-    <span class="label">Rango de repeticiones</span>
-    <div class="range-row">
-      <div class="range-group">
-        <span class="label" style="font-size:0.65rem">MÍNIMO</span>
-        <input type="number" class="range-input" id="repMin" value="1" min="1" max="100">
-      </div>
-      <div class="range-sep">—</div>
-      <div class="range-group">
-        <span class="label" style="font-size:0.65rem">MÁXIMO</span>
-        <input type="number" class="range-input" id="repMax" value="10" min="1" max="200">
-      </div>
-    </div>
-
-    <span class="label" style="margin-top:0.5rem">Historial de esta sesión</span>
-    <div id="repsHistory" style="display:flex;flex-wrap:wrap;gap:8px;min-height:32px;">
-      <span style="color:var(--muted);font-size:0.8rem;font-weight:500;">Sin historial aún</span>
-    </div>
-    <button class="btn btn-outline" style="margin-top:1rem;" onclick="clearRepsHistory()">🗑 Limpiar historial</button>
-  </div>
-</section>
-
-<!-- SECTION: TIMER -->
-<section id="tab-timer" class="section">
-  <div class="section-title">CRONÓMETRO</div>
-  <div class="section-sub">Mide tu tiempo de rutina</div>
-
-  <div class="card accent2">
-    <div class="timer-display">
-      <div class="timer-clock" id="timerDisplay">00:00</div>
-      <div class="timer-ms" id="timerMs">.000</div>
-      <div class="timer-status" id="timerStatus">LISTO</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-accent2" id="timerStartBtn" onclick="timerToggle()">▶ INICIAR</button>
-      <button class="btn btn-outline2" onclick="timerReset()">↺ RESET</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <span class="label">Guardar resultado en ranking</span>
-    <input type="text" class="input-field" id="playerName" placeholder="Tu nombre / alias" maxlength="30">
-
-    <div class="time-source-toggle">
-      <button class="time-src-btn active" id="srcTimer" onclick="selectTimeSource('timer')">⏱ Usar cronómetro</button>
-      <button class="time-src-btn" id="srcManual" onclick="selectTimeSource('manual')">✏️ Introducir manual</button>
-    </div>
-
-    <div id="manualTimeFields" style="display:none; margin-bottom:0.8rem;">
-      <span class="label" style="margin-top:0.6rem;">Tiempo manual</span>
-      <div class="manual-time-row">
-        <div class="manual-time-group">
-          <span class="label" style="font-size:0.65rem; text-align:center;">HORAS</span>
-          <input type="number" class="range-input" id="manualH" value="0" min="0" max="23" placeholder="00">
+      <div class="card">
+        <div class="reps-display">
+          <span class="reps-number" id="repsNumber">—</span>
+          <div class="reps-label">REPETICIONES</div>
         </div>
-        <span class="manual-time-sep">:</span>
-        <div class="manual-time-group">
-          <span class="label" style="font-size:0.65rem; text-align:center;">MIN</span>
-          <input type="number" class="range-input" id="manualM" value="0" min="0" max="59" placeholder="00">
+        <button class="btn btn-accent" onclick="generateReps()">🎲 GENERAR NÚMERO</button>
+      </div>
+
+      <div class="card">
+        <span class="label">Rango de repeticiones</span>
+        <div class="range-row">
+          <div class="range-group">
+            <span class="label" style="font-size:0.65rem">MÍNIMO</span>
+            <input type="number" class="range-input" id="repMin" value="1" min="1" max="100">
+          </div>
+          <div class="range-sep">—</div>
+          <div class="range-group">
+            <span class="label" style="font-size:0.65rem">MÁXIMO</span>
+            <input type="number" class="range-input" id="repMax" value="10" min="1" max="200">
+          </div>
         </div>
-        <span class="manual-time-sep">:</span>
-        <div class="manual-time-group">
-          <span class="label" style="font-size:0.65rem; text-align:center;">SEG</span>
-          <input type="number" class="range-input" id="manualS" value="0" min="0" max="59" placeholder="00">
+
+        <span class="label" style="margin-top:0.5rem">Historial de esta sesión</span>
+        <div id="repsHistory" style="display:flex;flex-wrap:wrap;gap:8px;min-height:32px;">
+          <span style="color:var(--muted);font-size:0.8rem;font-weight:500;">Sin historial aún</span>
+        </div>
+        <button class="btn btn-outline" style="margin-top:1rem;" onclick="clearRepsHistory()">🗑 Limpiar historial</button>
+      </div>
+    </section>
+
+    <!-- SECTION: TIMER -->
+    <section id="tab-timer" class="section">
+      <div class="section-title">CRONÓMETRO</div>
+      <div class="section-sub">Mide tu tiempo de rutina</div>
+
+      <div class="card accent2">
+        <div class="timer-display">
+          <div class="timer-clock" id="timerDisplay">00:00</div>
+          <div class="timer-ms" id="timerMs">.000</div>
+          <div class="timer-status" id="timerStatus">LISTO</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-accent2" id="timerStartBtn" onclick="timerToggle()">▶ INICIAR</button>
+          <button class="btn btn-outline2" onclick="timerReset()">↺ RESET</button>
         </div>
       </div>
+
+      <div class="card">
+        <span class="label">Guardar resultado en ranking</span>
+        <input type="text" class="input-field" id="playerName" placeholder="Tu nombre / alias" maxlength="30">
+
+        <div class="time-source-toggle">
+          <button class="time-src-btn active" id="srcTimer" onclick="selectTimeSource('timer')">⏱ Usar cronómetro</button>
+          <button class="time-src-btn" id="srcManual" onclick="selectTimeSource('manual')">✏️ Introducir manual</button>
+        </div>
+
+        <div id="manualTimeFields" style="display:none; margin-bottom:0.8rem;">
+          <span class="label" style="margin-top:0.6rem;">Tiempo manual</span>
+          <div class="manual-time-row">
+            <div class="manual-time-group">
+              <span class="label" style="font-size:0.65rem; text-align:center;">HORAS</span>
+              <input type="number" class="range-input" id="manualH" value="0" min="0" max="23" placeholder="00">
+            </div>
+            <span class="manual-time-sep">:</span>
+            <div class="manual-time-group">
+              <span class="label" style="font-size:0.65rem; text-align:center;">MIN</span>
+              <input type="number" class="range-input" id="manualM" value="0" min="0" max="59" placeholder="00">
+            </div>
+            <span class="manual-time-sep">:</span>
+            <div class="manual-time-group">
+              <span class="label" style="font-size:0.65rem; text-align:center;">SEG</span>
+              <input type="number" class="range-input" id="manualS" value="0" min="0" max="59" placeholder="00">
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-accent" onclick="saveToRanking()">🏆 GUARDAR EN RANKING</button>
+      </div>
+    </section>
+
+    <!-- SECTION: RANKING -->
+    <section id="tab-ranking" class="section">
+      <div class="section-title">RANKING</div>
+      <div class="section-sub">Mejores tiempos — el más rápido arriba</div>
+
+      <div class="stats-row">
+        <div class="stat-chip">
+          <div class="stat-val" id="statTotal">0</div>
+          <div class="stat-lbl">Registros</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-val" id="statBest">—</div>
+          <div class="stat-lbl">Mejor Tiempo</div>
+        </div>
+      </div>
+
+      <ul class="ranking-list" id="rankingList"></ul>
+
+      <div class="card" style="margin-top:1.4rem">
+        <span class="label">Sincronización</span>
+
+        <p id="syncInfo" style="font-size:0.75rem;color:var(--muted);margin-top:0.6rem;font-weight:500;line-height:1.5;">
+          Cargando ranking...
+        </p>
+
+        <div class="btn-row" style="margin-top:1rem;">
+          <button class="btn btn-outline" onclick="loadRanking(true)">🔄 Actualizar ranking</button>
+          <button class="btn btn-outline2" onclick="showAdminNotice()">ℹ️ Gestión admin</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-title" id="modalTitle">Confirmar</div>
+        <p id="modalText" style="color:var(--muted);font-size:0.9rem;font-weight:600;margin-bottom:1.4rem;line-height:1.5;"></p>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+          <button class="btn btn-accent3" id="modalConfirmBtn">Confirmar</button>
+        </div>
+      </div>
     </div>
-
-    <button class="btn btn-accent" onclick="saveToRanking()">🏆 GUARDAR EN RANKING</button>
-  </div>
-</section>
-
-<!-- SECTION: RANKING -->
-<section id="tab-ranking" class="section">
-  <div class="section-title">RANKING</div>
-  <div class="section-sub">Mejores tiempos — el más rápido arriba</div>
-
-  <div class="stats-row">
-    <div class="stat-chip">
-      <div class="stat-val" id="statTotal">0</div>
-      <div class="stat-lbl">Registros</div>
-    </div>
-    <div class="stat-chip">
-      <div class="stat-val" id="statBest">—</div>
-      <div class="stat-lbl">Mejor Tiempo</div>
-    </div>
-  </div>
-
-  <ul class="ranking-list" id="rankingList"></ul>
-
-  <div class="card" style="margin-top:1.4rem">
-    <span class="label">Importar / Exportar datos</span>
-    <div class="btn-row">
-      <button class="btn btn-outline" onclick="exportRanking()">📤 Exportar JSON</button>
-      <button class="btn btn-outline" onclick="document.getElementById('importFile').click()">📥 Importar JSON</button>
-    </div>
-    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importRanking(event)">
-    <p style="font-size:0.75rem;color:var(--muted);margin-top:0.6rem;font-weight:500;line-height:1.5;">
-      Exporta el ranking como archivo JSON y compártelo entre dispositivos. Al importar, los datos se fusionan sin duplicados.
-    </p>
-    <button class="btn btn-outline2" style="margin-top:1rem" onclick="confirmClearRanking()">🗑 Borrar todo el ranking</button>
-  </div>
-</section>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="modalTitle">Confirmar</div>
-    <p id="modalText" style="color:var(--muted);font-size:0.9rem;font-weight:600;margin-bottom:1.4rem;line-height:1.5;"></p>
-    <div class="btn-row">
-      <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-accent3" id="modalConfirmBtn">Confirmar</button>
-    </div>
-  </div>
-</div>
-</body>
+  </body>
 </html>

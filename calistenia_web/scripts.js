@@ -1,24 +1,49 @@
-// ===== STATE =====
-let ranking = JSON.parse(localStorage.getItem('calibeast_ranking') || '[]');
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+// ============================
+// CONFIG
+// ============================
+const SUPABASE_URL = 'https://qnjutwgnoythmxmvrijy.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_j12MaBN7UScMEnBvyfGrag_v90DsQBs';
+const TABLE_NAME = 'ranking';
+const CACHE_KEY = 'calibeast_ranking_cache';
+
+const hasSupabaseConfig = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ============================
+// STATE
+// ============================
+let ranking = JSON.parse(localStorage.getItem(CACHE_KEY) || '[]');
 let timerInterval = null;
 let timerRunning = false;
 let timerStart = 0;
 let timerElapsed = 0;
 let repsHistory = [];
+let useManualTime = false;
+let realtimeChannel = null;
 
-// ===== TABS =====
+// ============================
+// TABS
+// ============================
 function switchTab(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach((s) => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach((b) => b.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
   btn.classList.add('active');
 }
 
-// ===== RANDOM REPS =====
+// ============================
+// RANDOM REPS
+// ============================
 function generateReps() {
-  const min = parseInt(document.getElementById('repMin').value) || 1;
-  const max = parseInt(document.getElementById('repMax').value) || 20;
-  if (min > max) { showToast('⚠️ Min no puede ser mayor que Max'); return; }
+  const min = parseInt(document.getElementById('repMin').value, 10) || 1;
+  const max = parseInt(document.getElementById('repMax').value, 10) || 20;
+
+  if (min > max) {
+    showToast('⚠️ Min no puede ser mayor que Max');
+    return;
+  }
 
   const el = document.getElementById('repsNumber');
   el.classList.add('spinning');
@@ -26,7 +51,8 @@ function generateReps() {
   let count = 0;
   const interval = setInterval(() => {
     el.textContent = Math.floor(Math.random() * (max - min + 1)) + min;
-    count++;
+    count += 1;
+
     if (count >= 16) {
       clearInterval(interval);
       el.classList.remove('spinning');
@@ -46,10 +72,12 @@ function addRepsHistory(n) {
 
 function renderRepsHistory() {
   const el = document.getElementById('repsHistory');
+
   if (!repsHistory.length) {
     el.innerHTML = '<span style="color:var(--muted);font-size:0.8rem;font-weight:500;">Sin historial aún</span>';
     return;
   }
+
   el.innerHTML = repsHistory.map((n, i) => `
     <span style="
       background:${i === 0 ? 'rgba(200,255,0,0.15)' : 'var(--surface2)'};
@@ -60,7 +88,8 @@ function renderRepsHistory() {
       font-size:0.9rem;
       padding:5px 12px;
       border-radius:20px;
-    ">${n}</span>`).join('');
+    ">${n}</span>
+  `).join('');
 }
 
 function clearRepsHistory() {
@@ -70,16 +99,21 @@ function clearRepsHistory() {
   showToast('🗑 Historial limpiado');
 }
 
-// ===== TIMER =====
+// ============================
+// TIMER
+// ============================
 function formatTime(ms) {
   const h = Math.floor(ms / 3600000);
   const m = Math.floor((ms % 3600000) / 60000);
   const s = Math.floor((ms % 60000) / 1000);
+
   if (h > 0) return `${pad(h)}:${pad(m)}:${pad(s)}`;
   return `${pad(m)}:${pad(s)}`;
 }
 
-function pad(n) { return n.toString().padStart(2, '0'); }
+function pad(n) {
+  return n.toString().padStart(2, '0');
+}
 
 function updateTimerDisplay() {
   const now = timerRunning ? Date.now() - timerStart + timerElapsed : timerElapsed;
@@ -120,9 +154,9 @@ function timerReset() {
   document.getElementById('timerStatus').classList.remove('active');
 }
 
-// ===== TIME SOURCE =====
-let useManualTime = false;
-
+// ============================
+// TIME SOURCE
+// ============================
 function selectTimeSource(src) {
   useManualTime = src === 'manual';
   document.getElementById('srcTimer').classList.toggle('active', !useManualTime);
@@ -130,132 +164,182 @@ function selectTimeSource(src) {
   document.getElementById('manualTimeFields').style.display = useManualTime ? 'block' : 'none';
 }
 
-function saveToRanking() {
+function getCurrentTimeMs() {
+  if (useManualTime) {
+    const h = parseInt(document.getElementById('manualH').value, 10) || 0;
+    const m = parseInt(document.getElementById('manualM').value, 10) || 0;
+    const s = parseInt(document.getElementById('manualS').value, 10) || 0;
+
+    if (h === 0 && m === 0 && s === 0) {
+      throw new Error('⚠️ Introduce un tiempo válido');
+    }
+
+    return (h * 3600 + m * 60 + s) * 1000;
+  }
+
+  if (timerElapsed === 0 && !timerRunning) {
+    throw new Error('⚠️ El cronómetro está en 0');
+  }
+
+  return timerRunning ? timerElapsed + (Date.now() - timerStart) : timerElapsed;
+}
+
+// ============================
+// CLOUD RANKING
+// ============================
+async function saveToRanking() {
   const name = document.getElementById('playerName').value.trim();
-  if (!name) { showToast('⚠️ Pon tu nombre'); return; }
+
+  if (!name) {
+    showToast('⚠️ Pon tu nombre');
+    return;
+  }
+
+  if (!hasSupabaseConfig) {
+    showToast('⚠️ Falta configurar Supabase');
+    setSyncInfo('Falta configurar SUPABASE_URL y SUPABASE_ANON_KEY.');
+    return;
+  }
 
   let totalMs;
-
-  if (useManualTime) {
-    const h = parseInt(document.getElementById('manualH').value) || 0;
-    const m = parseInt(document.getElementById('manualM').value) || 0;
-    const s = parseInt(document.getElementById('manualS').value) || 0;
-    if (h === 0 && m === 0 && s === 0) { showToast('⚠️ Introduce un tiempo válido'); return; }
-    totalMs = (h * 3600 + m * 60 + s) * 1000;
-  } else {
-    if (timerElapsed === 0 && !timerRunning) { showToast('⚠️ El cronómetro está en 0'); return; }
-    totalMs = timerRunning ? timerElapsed + (Date.now() - timerStart) : timerElapsed;
+  try {
+    totalMs = getCurrentTimeMs();
+  } catch (error) {
+    showToast(error.message);
+    return;
   }
 
   const entry = {
-    id: Date.now(),
-    name,
-    timeMs: totalMs,
-    timeStr: formatTime(totalMs) + '.' + (totalMs % 1000).toString().padStart(3, '0'),
-    date: new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit' })
+    name: name.slice(0, 30),
+    time_ms: totalMs,
+    time_str: `${formatTime(totalMs)}.${(totalMs % 1000).toString().padStart(3, '0')}`,
+    event_date: new Date().toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit'
+    })
   };
 
-  ranking.push(entry);
-  ranking.sort((a, b) => a.timeMs - b.timeMs);
-  saveRanking();
-  renderRanking();
-  showToast('🏆 ¡' + name + ' guardado en el ranking!');
+  setSyncInfo('Guardando tiempo en la nube...');
+
+  const { error } = await supabase.from(TABLE_NAME).insert(entry);
+
+  if (error) {
+    console.error('Error insert:', error);
+    showToast('❌ No se pudo guardar');
+    setSyncInfo('Error al guardar. Revisa tabla, RLS y permisos.');
+    return;
+  }
+
+  document.getElementById('playerName').value = '';
+  timerReset();
+  showToast(`🏆 ¡${entry.name} guardado en el ranking!`);
+  setSyncInfo('Tiempo guardado. Sincronizando...');
   if (navigator.vibrate) navigator.vibrate([30, 50, 100]);
+
+  await loadRanking();
 }
 
-// ===== RANKING =====
-function saveRanking() {
-  localStorage.setItem('calibeast_ranking', JSON.stringify(ranking));
+async function loadRanking(showFeedback = false) {
+  if (!hasSupabaseConfig) {
+    renderRanking();
+    setSyncInfo('Modo local: falta configurar Supabase.');
+    return;
+  }
+
+  if (showFeedback) setSyncInfo('Actualizando ranking...');
+
+  const { data, error } = await supabase
+    .from(TABLE_NAME)
+    .select('id, name, time_ms, time_str, event_date, created_at')
+    .order('time_ms', { ascending: true })
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error('Error select:', error);
+    setSyncInfo('No se pudo leer la nube. Revisa tabla, RLS y permisos.');
+    renderRanking();
+    return;
+  }
+
+  ranking = Array.isArray(data) ? data : [];
+  localStorage.setItem(CACHE_KEY, JSON.stringify(ranking));
+  renderRanking();
+  setSyncInfo(`Sincronizado correctamente. Última actualización: ${new Date().toLocaleTimeString('es-ES')}.`);
 }
 
 function renderRanking() {
   const list = document.getElementById('rankingList');
   document.getElementById('statTotal').textContent = ranking.length;
-  document.getElementById('statBest').textContent = ranking.length ? formatTime(ranking[0].timeMs) : '—';
+  document.getElementById('statBest').textContent = ranking.length ? formatTime(ranking[0].time_ms) : '—';
 
   if (!ranking.length) {
     list.innerHTML = `
       <div class="empty-state">
         <span class="empty-icon">🏆</span>
         <div class="empty-text">Sin registros aún.<br>¡Completa tu primera rutina!</div>
-      </div>`;
+      </div>
+    `;
     return;
   }
 
-  const medals = ['p1', 'p2', 'p3'];
   const medalClass = ['gold', 'silver', 'bronze'];
 
   list.innerHTML = ranking.map((entry, i) => `
     <li class="ranking-item ${medalClass[i] || ''}">
-      <div class="rank-pos ${medals[i] || ''}">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</div>
+      <div class="rank-pos">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</div>
       <div class="rank-info">
         <div class="rank-name">${escHtml(entry.name)}</div>
-        <div class="rank-date">${entry.date || ''}</div>
+        <div class="rank-date">${entry.event_date || ''}</div>
       </div>
-      <div class="rank-time">${entry.timeStr}</div>
-      <button class="rank-delete" onclick="deleteEntry(${entry.id})" title="Eliminar">✕</button>
-    </li>`).join('');
+      <div class="rank-time">${entry.time_str}</div>
+    </li>
+  `).join('');
 }
 
-function deleteEntry(id) {
-  ranking = ranking.filter(e => e.id !== id);
-  saveRanking();
-  renderRanking();
-  showToast('🗑 Entrada eliminada');
+function setupRealtime() {
+  if (!hasSupabaseConfig) return;
+  if (realtimeChannel) return;
+
+  realtimeChannel = supabase
+    .channel('ranking-live')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: TABLE_NAME },
+      async () => {
+        await loadRanking();
+      }
+    )
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') {
+        setSyncInfo('Conectado en tiempo real. Los cambios se verán automáticamente.');
+      }
+    });
 }
 
-function confirmClearRanking() {
-  showModal('Borrar Ranking', '¿Seguro que quieres eliminar TODOS los registros? Esta acción no se puede deshacer.', () => {
-    ranking = [];
-    saveRanking();
-    renderRanking();
-    showToast('🗑 Ranking borrado');
-  });
+function showAdminNotice() {
+  showModal(
+    'Gestión admin',
+    'En la versión pública no conviene dejar borrar o vaciar el ranking, porque cualquier persona podría hacerlo. Esa parte debería estar en una zona privada de administración.',
+    null
+  );
 }
 
-// ===== EXPORT / IMPORT =====
-function exportRanking() {
-  if (!ranking.length) { showToast('⚠️ El ranking está vacío'); return; }
-  const data = JSON.stringify({ version: 1, exported: new Date().toISOString(), ranking }, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'calibeast_ranking_' + Date.now() + '.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('📤 Ranking exportado');
+// ============================
+// UTILS
+// ============================
+function escHtml(str = '') {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
-function importRanking(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const data = JSON.parse(e.target.result);
-      const imported = data.ranking || data;
-      if (!Array.isArray(imported)) throw new Error('Formato inválido');
-      const existingIds = new Set(ranking.map(r => r.id));
-      let added = 0;
-      imported.forEach(entry => {
-        if (!existingIds.has(entry.id)) { ranking.push(entry); added++; }
-      });
-      ranking.sort((a, b) => a.timeMs - b.timeMs);
-      saveRanking();
-      renderRanking();
-      showToast(`✅ ${added} nuevas entradas importadas`);
-    } catch {
-      showToast('❌ Error al leer el archivo');
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
-
-// ===== UTILS =====
-function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function setSyncInfo(text) {
+  const el = document.getElementById('syncInfo');
+  if (el) el.textContent = text;
 }
 
 let toastTimeout;
@@ -267,10 +351,13 @@ function showToast(msg) {
   toastTimeout = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-function showModal(title, text, onConfirm) {
+function showModal(title, text, onConfirm = null) {
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalText').textContent = text;
-  document.getElementById('modalConfirmBtn').onclick = () => { onConfirm(); closeModal(); };
+  document.getElementById('modalConfirmBtn').onclick = () => {
+    if (typeof onConfirm === 'function') onConfirm();
+    closeModal();
+  };
   document.getElementById('modalOverlay').classList.add('open');
 }
 
@@ -279,6 +366,26 @@ function closeModal(e) {
   document.getElementById('modalOverlay').classList.remove('open');
 }
 
-// ===== INIT =====
-renderRanking();
-updateTimerDisplay();
+// ============================
+// INIT
+// ============================
+async function init() {
+  renderRanking();
+  renderRepsHistory();
+  updateTimerDisplay();
+  await loadRanking();
+  setupRealtime();
+}
+
+window.switchTab = switchTab;
+window.generateReps = generateReps;
+window.clearRepsHistory = clearRepsHistory;
+window.timerToggle = timerToggle;
+window.timerReset = timerReset;
+window.selectTimeSource = selectTimeSource;
+window.saveToRanking = saveToRanking;
+window.loadRanking = loadRanking;
+window.showAdminNotice = showAdminNotice;
+window.closeModal = closeModal;
+
+window.addEventListener('DOMContentLoaded', init);
