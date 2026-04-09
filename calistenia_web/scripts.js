@@ -424,8 +424,8 @@ function renderRanking() {
 
   document.getElementById('statTotal').textContent = ranking.length;
   document.getElementById('statBest').textContent = ranking.length
-    ? formatTime(Number(ranking[0].time_ms || 0))
-    : '—';
+  ? (ranking[0].time_str || `${formatTime(Number(ranking[0].time_ms || 0))}.${String(Number(ranking[0].time_ms || 0) % 1000).padStart(3, '0')}`)
+  : '—';
 
   if (!ranking.length) {
     list.innerHTML = `
