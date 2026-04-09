@@ -62,16 +62,8 @@ function clearOwnerToken() {
   localStorage.removeItem(PLAYER_TOKEN_KEY);
 }
 
-function getEntryByName(name) {
-  const target = normalizeName(name);
-  if (!target) return null;
-  return ranking.find((entry) => normalizeName(entry.name) === target) || null;
-}
-
 function getMyEntry() {
-  const claimedName = getClaimedName();
-  if (!claimedName) return null;
-  return getEntryByName(claimedName);
+  return ranking.find((entry) => entry.is_mine) || null;
 }
 
 function renderPlayerStatus() {
@@ -83,26 +75,31 @@ function renderPlayerStatus() {
   const claimedName = getClaimedName();
   const myEntry = getMyEntry();
 
-  if (claimedName && inputEl && !inputEl.value.trim()) {
-    inputEl.value = claimedName;
-  }
-
   if (myEntry) {
+    if (inputEl && !inputEl.value.trim()) {
+      inputEl.value = myEntry.name;
+    }
+
     if (helpEl) {
       helpEl.innerHTML = `Este navegador está usando el alias <strong>${escHtml(myEntry.name)}</strong>. Si guardas otro tiempo con ese mismo nombre, se actualizará tu marca.`;
     }
+
     if (saveBtn) saveBtn.textContent = '♻️ ACTUALIZAR MI TIEMPO';
     if (deleteBtn) deleteBtn.disabled = false;
     return;
   }
 
+  if (claimedName && inputEl && !inputEl.value.trim()) {
+    inputEl.value = claimedName;
+  }
+
   if (claimedName) {
     if (helpEl) {
-      helpEl.innerHTML = `Este navegador recuerda el alias <strong>${escHtml(claimedName)}</strong>. Si ya no existe en el ranking, puedes volver a guardarlo o escribir otro nombre libre.`;
+      helpEl.innerHTML = `Este navegador recuerda el alias <strong>${escHtml(claimedName)}</strong>. Si ese alias ya lo usa otra persona, tendrás que elegir otro.`;
     }
   } else {
     if (helpEl) {
-      helpEl.textContent = 'El alias que elijas quedará ligado a este navegador. Si ya existe en la base de datos, te avisaré.';
+      helpEl.textContent = 'El alias que elijas quedará ligado a este navegador. No pueden existir dos usuarios con el mismo nombre.';
     }
   }
 
@@ -277,7 +274,6 @@ function getCurrentTimeMs() {
 async function saveToRanking() {
   const inputEl = document.getElementById('playerName');
   const rawName = String(inputEl.value || '').trim().replace(/\s+/g, ' ');
-  const nameKey = normalizeName(rawName);
 
   if (!rawName) {
     showToast('⚠️ Pon tu nombre');
@@ -287,16 +283,6 @@ async function saveToRanking() {
   if (!hasSupabaseConfig) {
     showToast('⚠️ Falta configurar Supabase');
     setSyncInfo('Falta configurar SUPABASE_URL y SUPABASE_ANON_KEY.');
-    return;
-  }
-
-  const claimedName = getClaimedName();
-  const claimedKey = normalizeName(claimedName);
-  const myEntry = getMyEntry();
-
-  if (myEntry && claimedKey && claimedKey !== nameKey) {
-    showToast(`⚠️ Este navegador ya usa el alias "${myEntry.name}"`);
-    setSyncInfo('Para cambiar de alias, primero borra tu marca actual.');
     return;
   }
 
@@ -353,10 +339,9 @@ async function saveToRanking() {
 }
 
 async function deleteMyEntry() {
-  const claimedName = getClaimedName();
   const myEntry = getMyEntry();
 
-  if (!claimedName && !myEntry) {
+  if (!myEntry) {
     showToast('⚠️ No tienes ninguna marca asociada en este navegador');
     return;
   }
@@ -364,8 +349,7 @@ async function deleteMyEntry() {
   setSyncInfo('Borrando tu marca...');
 
   const { data, error } = await supabase.rpc('delete_my_ranking_entry', {
-    p_owner_token: getOwnerToken(),
-    p_name: claimedName || myEntry?.name || ''
+    p_owner_token: getOwnerToken()
   });
 
   if (error) {
@@ -408,23 +392,21 @@ function confirmDeleteMyEntry() {
 
 async function loadRanking(showFeedback = false) {
   if (!hasSupabaseConfig) {
-    renderRanking();
     setSyncInfo('Modo local: falta configurar Supabase.');
+    renderRanking();
     renderPlayerStatus();
     return;
   }
 
   if (showFeedback) setSyncInfo('Actualizando ranking...');
 
-  const { data, error } = await supabase
-    .from(TABLE_NAME)
-    .select('id, name, time_ms, time_str, event_date, created_at')
-    .order('time_ms', { ascending: true })
-    .order('created_at', { ascending: true });
+  const { data, error } = await supabase.rpc('get_public_ranking', {
+    p_owner_token: getOwnerToken()
+  });
 
   if (error) {
-    console.error('Error select:', error);
-    setSyncInfo('No se pudo leer la nube. Revisa permisos de lectura.');
+    console.error('Error get_public_ranking:', error);
+    setSyncInfo('No se pudo leer la nube. Revisa las funciones SQL de Supabase.');
     renderRanking();
     renderPlayerStatus();
     return;
@@ -439,11 +421,10 @@ async function loadRanking(showFeedback = false) {
 
 function renderRanking() {
   const list = document.getElementById('rankingList');
-  const claimedKey = normalizeName(getClaimedName());
 
   document.getElementById('statTotal').textContent = ranking.length;
   document.getElementById('statBest').textContent = ranking.length
-    ? formatTime(ranking[0].time_ms)
+    ? formatTime(Number(ranking[0].time_ms || 0))
     : '—';
 
   if (!ranking.length) {
@@ -459,15 +440,13 @@ function renderRanking() {
   const medalClass = ['gold', 'silver', 'bronze'];
 
   list.innerHTML = ranking.map((entry, i) => {
-    const isMine = claimedKey && normalizeName(entry.name) === claimedKey;
-
     return `
       <li class="ranking-item ${medalClass[i] || ''}">
         <div class="rank-pos">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</div>
         <div class="rank-info">
           <div class="rank-name">
             ${escHtml(entry.name)}
-            ${isMine ? '<span style="margin-left:8px;padding:3px 8px;border-radius:999px;background:rgba(124,58,237,0.18);border:1px solid rgba(167,139,250,0.35);font-size:0.7rem;font-weight:800;letter-spacing:0.03em;color:#ddd6fe;vertical-align:middle;">TÚ</span>' : ''}
+            ${entry.is_mine ? '<span style="margin-left:8px;padding:3px 8px;border-radius:999px;background:rgba(124,58,237,0.18);border:1px solid rgba(167,139,250,0.35);font-size:0.7rem;font-weight:800;letter-spacing:0.03em;color:#ddd6fe;vertical-align:middle;">TÚ</span>' : ''}
           </div>
           <div class="rank-date">${entry.event_date || ''}</div>
         </div>
@@ -542,7 +521,6 @@ function closeModal(e) {
 // INIT
 // ============================
 async function init() {
-  renderRanking();
   renderRepsHistory();
   updateTimerDisplay();
   renderPlayerStatus();
@@ -552,8 +530,7 @@ async function init() {
   const inputEl = document.getElementById('playerName');
   if (inputEl) {
     inputEl.addEventListener('blur', () => {
-      const value = inputEl.value.trim().replace(/\s+/g, ' ');
-      inputEl.value = value;
+      inputEl.value = inputEl.value.trim().replace(/\s+/g, ' ');
       renderPlayerStatus();
     });
   }
