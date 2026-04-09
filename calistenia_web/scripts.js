@@ -7,6 +7,8 @@ const SUPABASE_URL = 'https://qnjutwgnoythmxmvrijy.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_j12MaBN7UScMEnBvyfGrag_v90DsQBs';
 const TABLE_NAME = 'ranking';
 const CACHE_KEY = 'calibeast_ranking_cache';
+const PLAYER_NAME_KEY = 'calibeast_player_name';
+const PLAYER_TOKEN_KEY = 'calibeast_player_token';
 
 const hasSupabaseConfig = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -22,6 +24,91 @@ let timerElapsed = 0;
 let repsHistory = [];
 let useManualTime = false;
 let realtimeChannel = null;
+
+// ============================
+// PLAYER / ALIAS
+// ============================
+function normalizeName(name = '') {
+  return String(name).trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function getClaimedName() {
+  return localStorage.getItem(PLAYER_NAME_KEY) || '';
+}
+
+function setClaimedName(name) {
+  localStorage.setItem(PLAYER_NAME_KEY, String(name).trim().replace(/\s+/g, ' '));
+}
+
+function clearClaimedName() {
+  localStorage.removeItem(PLAYER_NAME_KEY);
+}
+
+function getOwnerToken() {
+  let token = localStorage.getItem(PLAYER_TOKEN_KEY);
+
+  if (!token) {
+    token = crypto.randomUUID
+      ? crypto.randomUUID()
+      : `cb_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+
+    localStorage.setItem(PLAYER_TOKEN_KEY, token);
+  }
+
+  return token;
+}
+
+function clearOwnerToken() {
+  localStorage.removeItem(PLAYER_TOKEN_KEY);
+}
+
+function getEntryByName(name) {
+  const target = normalizeName(name);
+  if (!target) return null;
+  return ranking.find((entry) => normalizeName(entry.name) === target) || null;
+}
+
+function getMyEntry() {
+  const claimedName = getClaimedName();
+  if (!claimedName) return null;
+  return getEntryByName(claimedName);
+}
+
+function renderPlayerStatus() {
+  const helpEl = document.getElementById('playerHelp');
+  const inputEl = document.getElementById('playerName');
+  const saveBtn = document.getElementById('saveRankingBtn');
+  const deleteBtn = document.getElementById('deleteMyEntryBtn');
+
+  const claimedName = getClaimedName();
+  const myEntry = getMyEntry();
+
+  if (claimedName && inputEl && !inputEl.value.trim()) {
+    inputEl.value = claimedName;
+  }
+
+  if (myEntry) {
+    if (helpEl) {
+      helpEl.innerHTML = `Este navegador está usando el alias <strong>${escHtml(myEntry.name)}</strong>. Si guardas otro tiempo con ese mismo nombre, se actualizará tu marca.`;
+    }
+    if (saveBtn) saveBtn.textContent = '♻️ ACTUALIZAR MI TIEMPO';
+    if (deleteBtn) deleteBtn.disabled = false;
+    return;
+  }
+
+  if (claimedName) {
+    if (helpEl) {
+      helpEl.innerHTML = `Este navegador recuerda el alias <strong>${escHtml(claimedName)}</strong>. Si ya no existe en el ranking, puedes volver a guardarlo o escribir otro nombre libre.`;
+    }
+  } else {
+    if (helpEl) {
+      helpEl.textContent = 'El alias que elijas quedará ligado a este navegador. Si ya existe en la base de datos, te avisaré.';
+    }
+  }
+
+  if (saveBtn) saveBtn.textContent = '🏆 GUARDAR EN RANKING';
+  if (deleteBtn) deleteBtn.disabled = true;
+}
 
 // ============================
 // TABS
@@ -188,9 +275,11 @@ function getCurrentTimeMs() {
 // CLOUD RANKING
 // ============================
 async function saveToRanking() {
-  const name = document.getElementById('playerName').value.trim();
+  const inputEl = document.getElementById('playerName');
+  const rawName = String(inputEl.value || '').trim().replace(/\s+/g, ' ');
+  const nameKey = normalizeName(rawName);
 
-  if (!name) {
+  if (!rawName) {
     showToast('⚠️ Pon tu nombre');
     return;
   }
@@ -198,6 +287,16 @@ async function saveToRanking() {
   if (!hasSupabaseConfig) {
     showToast('⚠️ Falta configurar Supabase');
     setSyncInfo('Falta configurar SUPABASE_URL y SUPABASE_ANON_KEY.');
+    return;
+  }
+
+  const claimedName = getClaimedName();
+  const claimedKey = normalizeName(claimedName);
+  const myEntry = getMyEntry();
+
+  if (myEntry && claimedKey && claimedKey !== nameKey) {
+    showToast(`⚠️ Este navegador ya usa el alias "${myEntry.name}"`);
+    setSyncInfo('Para cambiar de alias, primero borra tu marca actual.');
     return;
   }
 
@@ -209,41 +308,109 @@ async function saveToRanking() {
     return;
   }
 
-  const entry = {
-    name: name.slice(0, 30),
-    time_ms: totalMs,
-    time_str: `${formatTime(totalMs)}.${(totalMs % 1000).toString().padStart(3, '0')}`,
-    event_date: new Date().toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: '2-digit'
-    })
-  };
+  const timeStr = `${formatTime(totalMs)}.${(totalMs % 1000).toString().padStart(3, '0')}`;
+  const eventDate = new Date().toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit'
+  });
 
-  setSyncInfo('Guardando tiempo en la nube...');
+  setSyncInfo('Guardando o actualizando tu tiempo...');
 
-  const { error } = await supabase.from(TABLE_NAME).insert(entry);
+  const { data, error } = await supabase.rpc('upsert_my_ranking_entry', {
+    p_name: rawName,
+    p_time_ms: totalMs,
+    p_time_str: timeStr,
+    p_event_date: eventDate,
+    p_owner_token: getOwnerToken()
+  });
 
   if (error) {
-    console.error('Error insert:', error);
+    console.error('Error upsert rpc:', error);
+
+    if (String(error.message || '').includes('ALIAS_TAKEN')) {
+      showToast('⚠️ Ese nombre ya existe en el ranking');
+      setSyncInfo('Ese alias ya está ocupado. Elige otro diferente.');
+      return;
+    }
+
     showToast('❌ No se pudo guardar');
-    setSyncInfo('Error al guardar. Revisa tabla, RLS y permisos.');
+    setSyncInfo('Error al guardar o actualizar en Supabase.');
     return;
   }
 
-  document.getElementById('playerName').value = '';
+  const savedName = data?.name || rawName;
+
+  setClaimedName(savedName);
+  inputEl.value = savedName;
   timerReset();
-  showToast(`🏆 ¡${entry.name} guardado en el ranking!`);
-  setSyncInfo('Tiempo guardado. Sincronizando...');
+  showToast('🏆 Tiempo guardado correctamente');
+  setSyncInfo('Sincronizando ranking...');
   if (navigator.vibrate) navigator.vibrate([30, 50, 100]);
 
   await loadRanking();
+  renderPlayerStatus();
+}
+
+async function deleteMyEntry() {
+  const claimedName = getClaimedName();
+  const myEntry = getMyEntry();
+
+  if (!claimedName && !myEntry) {
+    showToast('⚠️ No tienes ninguna marca asociada en este navegador');
+    return;
+  }
+
+  setSyncInfo('Borrando tu marca...');
+
+  const { data, error } = await supabase.rpc('delete_my_ranking_entry', {
+    p_owner_token: getOwnerToken(),
+    p_name: claimedName || myEntry?.name || ''
+  });
+
+  if (error) {
+    console.error('Error delete rpc:', error);
+    showToast('❌ No se pudo borrar');
+    setSyncInfo('Error al borrar en Supabase.');
+    return;
+  }
+
+  if (Number(data || 0) < 1) {
+    showToast('⚠️ No se encontró tu marca para borrar');
+    setSyncInfo('No se encontró ninguna fila vinculada a este navegador.');
+    return;
+  }
+
+  clearClaimedName();
+  clearOwnerToken();
+  document.getElementById('playerName').value = '';
+  showToast('🗑 Tu marca ha sido eliminada');
+  setSyncInfo('Marca borrada correctamente.');
+
+  await loadRanking();
+  renderPlayerStatus();
+}
+
+function confirmDeleteMyEntry() {
+  const myEntry = getMyEntry();
+
+  if (!myEntry) {
+    showToast('⚠️ No tienes ninguna marca guardada en este navegador');
+    return;
+  }
+
+  showModal(
+    'Borrar mi marca',
+    `¿Seguro que quieres borrar tu tiempo (${myEntry.name} — ${myEntry.time_str})?`,
+    deleteMyEntry
+  );
 }
 
 async function loadRanking(showFeedback = false) {
   if (!hasSupabaseConfig) {
     renderRanking();
     setSyncInfo('Modo local: falta configurar Supabase.');
+    renderPlayerStatus();
     return;
   }
 
@@ -257,21 +424,27 @@ async function loadRanking(showFeedback = false) {
 
   if (error) {
     console.error('Error select:', error);
-    setSyncInfo('No se pudo leer la nube. Revisa tabla, RLS y permisos.');
+    setSyncInfo('No se pudo leer la nube. Revisa permisos de lectura.');
     renderRanking();
+    renderPlayerStatus();
     return;
   }
 
   ranking = Array.isArray(data) ? data : [];
   localStorage.setItem(CACHE_KEY, JSON.stringify(ranking));
   renderRanking();
+  renderPlayerStatus();
   setSyncInfo(`Sincronizado correctamente. Última actualización: ${new Date().toLocaleTimeString('es-ES')}.`);
 }
 
 function renderRanking() {
   const list = document.getElementById('rankingList');
+  const claimedKey = normalizeName(getClaimedName());
+
   document.getElementById('statTotal').textContent = ranking.length;
-  document.getElementById('statBest').textContent = ranking.length ? formatTime(ranking[0].time_ms) : '—';
+  document.getElementById('statBest').textContent = ranking.length
+    ? formatTime(ranking[0].time_ms)
+    : '—';
 
   if (!ranking.length) {
     list.innerHTML = `
@@ -285,16 +458,23 @@ function renderRanking() {
 
   const medalClass = ['gold', 'silver', 'bronze'];
 
-  list.innerHTML = ranking.map((entry, i) => `
-    <li class="ranking-item ${medalClass[i] || ''}">
-      <div class="rank-pos">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</div>
-      <div class="rank-info">
-        <div class="rank-name">${escHtml(entry.name)}</div>
-        <div class="rank-date">${entry.event_date || ''}</div>
-      </div>
-      <div class="rank-time">${entry.time_str}</div>
-    </li>
-  `).join('');
+  list.innerHTML = ranking.map((entry, i) => {
+    const isMine = claimedKey && normalizeName(entry.name) === claimedKey;
+
+    return `
+      <li class="ranking-item ${medalClass[i] || ''}">
+        <div class="rank-pos">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</div>
+        <div class="rank-info">
+          <div class="rank-name">
+            ${escHtml(entry.name)}
+            ${isMine ? '<span style="margin-left:8px;padding:3px 8px;border-radius:999px;background:rgba(124,58,237,0.18);border:1px solid rgba(167,139,250,0.35);font-size:0.7rem;font-weight:800;letter-spacing:0.03em;color:#ddd6fe;vertical-align:middle;">TÚ</span>' : ''}
+          </div>
+          <div class="rank-date">${entry.event_date || ''}</div>
+        </div>
+        <div class="rank-time">${entry.time_str}</div>
+      </li>
+    `;
+  }).join('');
 }
 
 function setupRealtime() {
@@ -315,14 +495,6 @@ function setupRealtime() {
         setSyncInfo('Conectado en tiempo real. Los cambios se verán automáticamente.');
       }
     });
-}
-
-function showAdminNotice() {
-  showModal(
-    'Gestión admin',
-    'En la versión pública no conviene dejar borrar o vaciar el ranking, porque cualquier persona podría hacerlo. Esa parte debería estar en una zona privada de administración.',
-    null
-  );
 }
 
 // ============================
@@ -373,8 +545,18 @@ async function init() {
   renderRanking();
   renderRepsHistory();
   updateTimerDisplay();
+  renderPlayerStatus();
   await loadRanking();
   setupRealtime();
+
+  const inputEl = document.getElementById('playerName');
+  if (inputEl) {
+    inputEl.addEventListener('blur', () => {
+      const value = inputEl.value.trim().replace(/\s+/g, ' ');
+      inputEl.value = value;
+      renderPlayerStatus();
+    });
+  }
 }
 
 window.switchTab = switchTab;
@@ -385,7 +567,7 @@ window.timerReset = timerReset;
 window.selectTimeSource = selectTimeSource;
 window.saveToRanking = saveToRanking;
 window.loadRanking = loadRanking;
-window.showAdminNotice = showAdminNotice;
+window.confirmDeleteMyEntry = confirmDeleteMyEntry;
 window.closeModal = closeModal;
 
 window.addEventListener('DOMContentLoaded', init);

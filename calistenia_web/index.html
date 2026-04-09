@@ -81,7 +81,11 @@
 
       <div class="card">
         <span class="label">Guardar resultado en ranking</span>
-        <input type="text" class="input-field" id="playerName" placeholder="Tu nombre / alias" maxlength="30">
+        <input type="text" class="input-field" id="playerName" placeholder="Tu nombre / alias" maxlength="30" autocomplete="nickname">
+
+        <p id="playerHelp" style="font-size:0.78rem;color:var(--muted);margin:-0.15rem 0 0.9rem;font-weight:500;line-height:1.5;">
+          El alias que elijas quedará ligado a este navegador.
+        </p>
 
         <div class="time-source-toggle">
           <button class="time-src-btn active" id="srcTimer" onclick="selectTimeSource('timer')">⏱ Usar cronómetro</button>
@@ -108,7 +112,7 @@
           </div>
         </div>
 
-        <button class="btn btn-accent" onclick="saveToRanking()">🏆 GUARDAR EN RANKING</button>
+        <button class="btn btn-accent" id="saveRankingBtn" onclick="saveToRanking()">🏆 GUARDAR EN RANKING</button>
       </div>
     </section>
 
@@ -139,7 +143,7 @@
 
         <div class="btn-row" style="margin-top:1rem;">
           <button class="btn btn-outline" onclick="loadRanking(true)">🔄 Actualizar ranking</button>
-          <button class="btn btn-outline2" onclick="showAdminNotice()">ℹ️ Gestión admin</button>
+          <button class="btn btn-outline2" id="deleteMyEntryBtn" onclick="confirmDeleteMyEntry()">🗑 Borrar mi marca</button>
         </div>
       </div>
     </section>
