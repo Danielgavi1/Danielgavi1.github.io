@@ -11,159 +11,224 @@
   <link rel="apple-touch-icon" sizes="180x180" href="img/calibeast_logo.ico">
   <link rel="icon" type="image/x-icon" sizes="16x16" href="img/calibeast_logo.ico">
 </head>
-  <body>
-    <header>
-      <div class="logo">CALI<span>.</span>BEAST</div>
-      <span class="header-badge">v1.0</span>
-    </header>
+<body>
+  <header>
+    <div class="logo">CALI<span>.</span>BEAST</div>
+    <span class="header-badge">v 1.5</span>
+  </header>
 
-    <nav>
-      <button class="nav-tab active" onclick="switchTab('reps', this)">
-        <span class="tab-icon">🎲</span>Reps
-      </button>
-      <button class="nav-tab" onclick="switchTab('timer', this)">
-        <span class="tab-icon">⏱️</span>Timer
-      </button>
-      <button class="nav-tab" onclick="switchTab('ranking', this)">
-        <span class="tab-icon">🏆</span>Ranking
-      </button>
-    </nav>
+  <nav class="nav-scroll">
+    <button class="nav-tab active" onclick="switchTab('reps', this)">
+      <span class="tab-icon">🎲</span>Reps
+    </button>
 
-    <!-- SECTION: REPS -->
-    <section id="tab-reps" class="section active">
-      <div class="section-title">REPS GENERATOR</div>
-      <div class="section-sub">Piensa en tu ejercicio y pulsa para generar</div>
+    <button class="nav-tab" onclick="switchTab('timer', this)">
+      <span class="tab-icon">⏱️</span>Timer
+    </button>
 
-      <div class="card">
-        <div class="reps-display">
-          <span class="reps-number" id="repsNumber">—</span>
-          <div class="reps-label">REPETICIONES</div>
+    <button class="nav-tab" onclick="switchTab('ranking', this)">
+      <span class="tab-icon">🏆</span>Ranking
+    </button>
+
+    <button class="nav-tab" onclick="switchTab('roulette', this)">
+      <span class="tab-icon">🎯</span>Ruleta
+    </button>
+  </nav>
+
+  <!-- SECTION: REPS -->
+  <section id="tab-reps" class="section active">
+    <div class="section-title">REPS GENERATOR</div>
+    <div class="section-sub">Piensa en tu ejercicio y pulsa para generar</div>
+
+    <div class="card">
+      <div class="reps-display">
+        <span class="reps-number" id="repsNumber">—</span>
+        <div class="reps-label">REPETICIONES</div>
+      </div>
+      <button class="btn btn-accent" onclick="generateReps()">🎲 GENERAR NÚMERO</button>
+    </div>
+
+    <div class="card">
+      <span class="label">Rango de repeticiones</span>
+      <div class="range-row">
+        <div class="range-group">
+          <span class="label" style="font-size:0.65rem">MÍNIMO</span>
+          <input type="number" class="range-input" id="repMin" value="1" min="1" max="100">
         </div>
-        <button class="btn btn-accent" onclick="generateReps()">🎲 GENERAR NÚMERO</button>
+        <div class="range-sep">—</div>
+        <div class="range-group">
+          <span class="label" style="font-size:0.65rem">MÁXIMO</span>
+          <input type="number" class="range-input" id="repMax" value="10" min="1" max="200">
+        </div>
       </div>
 
-      <div class="card">
-        <span class="label">Rango de repeticiones</span>
-        <div class="range-row">
-          <div class="range-group">
-            <span class="label" style="font-size:0.65rem">MÍNIMO</span>
-            <input type="number" class="range-input" id="repMin" value="1" min="1" max="100">
+      <span class="label" style="margin-top:0.5rem">Historial de esta sesión</span>
+      <div id="repsHistory" style="display:flex;flex-wrap:wrap;gap:8px;min-height:32px;">
+        <span style="color:var(--muted);font-size:0.8rem;font-weight:500;">Sin historial aún</span>
+      </div>
+      <button class="btn btn-outline" style="margin-top:1rem;" onclick="clearRepsHistory()">🗑 Limpiar historial</button>
+    </div>
+  </section>
+
+  <!-- SECTION: TIMER -->
+  <section id="tab-timer" class="section">
+    <div class="section-title">CRONÓMETRO</div>
+    <div class="section-sub">Mide tu tiempo de rutina</div>
+
+    <div class="card accent2">
+      <div class="timer-display">
+        <div class="timer-clock" id="timerDisplay">00:00</div>
+        <div class="timer-ms" id="timerMs">.000</div>
+        <div class="timer-status" id="timerStatus">LISTO</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-accent2" id="timerStartBtn" onclick="timerToggle()">▶ INICIAR</button>
+        <button class="btn btn-outline2" onclick="timerReset()">↺ RESET</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="label">Guardar resultado en ranking</span>
+      <input type="text" class="input-field" id="playerName" placeholder="Tu nombre / alias" maxlength="30" autocomplete="nickname">
+
+      <p id="playerHelp" style="font-size:0.78rem;color:var(--muted);margin:-0.15rem 0 0.9rem;font-weight:500;line-height:1.5;">
+        El alias que elijas quedará ligado a este navegador.
+      </p>
+
+      <div class="time-source-toggle">
+        <button class="time-src-btn active" id="srcTimer" onclick="selectTimeSource('timer')">⏱ Usar cronómetro</button>
+        <button class="time-src-btn" id="srcManual" onclick="selectTimeSource('manual')">✏️ Introducir manual</button>
+      </div>
+
+      <div id="manualTimeFields" style="display:none; margin-bottom:0.8rem;">
+        <span class="label" style="margin-top:0.6rem;">Tiempo manual</span>
+        <div class="manual-time-row">
+          <div class="manual-time-group">
+            <span class="label" style="font-size:0.65rem; text-align:center;">HORAS</span>
+            <input type="number" class="range-input" id="manualH" value="0" min="0" max="23" placeholder="00">
           </div>
-          <div class="range-sep">—</div>
-          <div class="range-group">
-            <span class="label" style="font-size:0.65rem">MÁXIMO</span>
-            <input type="number" class="range-input" id="repMax" value="10" min="1" max="200">
+          <span class="manual-time-sep">:</span>
+          <div class="manual-time-group">
+            <span class="label" style="font-size:0.65rem; text-align:center;">MIN</span>
+            <input type="number" class="range-input" id="manualM" value="0" min="0" max="59" placeholder="00">
+          </div>
+          <span class="manual-time-sep">:</span>
+          <div class="manual-time-group">
+            <span class="label" style="font-size:0.65rem; text-align:center;">SEG</span>
+            <input type="number" class="range-input" id="manualS" value="0" min="0" max="59" placeholder="00">
           </div>
         </div>
-
-        <span class="label" style="margin-top:0.5rem">Historial de esta sesión</span>
-        <div id="repsHistory" style="display:flex;flex-wrap:wrap;gap:8px;min-height:32px;">
-          <span style="color:var(--muted);font-size:0.8rem;font-weight:500;">Sin historial aún</span>
-        </div>
-        <button class="btn btn-outline" style="margin-top:1rem;" onclick="clearRepsHistory()">🗑 Limpiar historial</button>
-      </div>
-    </section>
-
-    <!-- SECTION: TIMER -->
-    <section id="tab-timer" class="section">
-      <div class="section-title">CRONÓMETRO</div>
-      <div class="section-sub">Mide tu tiempo de rutina</div>
-
-      <div class="card accent2">
-        <div class="timer-display">
-          <div class="timer-clock" id="timerDisplay">00:00</div>
-          <div class="timer-ms" id="timerMs">.000</div>
-          <div class="timer-status" id="timerStatus">LISTO</div>
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-accent2" id="timerStartBtn" onclick="timerToggle()">▶ INICIAR</button>
-          <button class="btn btn-outline2" onclick="timerReset()">↺ RESET</button>
-        </div>
       </div>
 
-      <div class="card">
-        <span class="label">Guardar resultado en ranking</span>
-        <input type="text" class="input-field" id="playerName" placeholder="Tu nombre / alias" maxlength="30" autocomplete="nickname">
+      <button class="btn btn-accent" id="saveRankingBtn" onclick="saveToRanking()">🏆 GUARDAR EN RANKING</button>
+    </div>
+  </section>
 
-        <p id="playerHelp" style="font-size:0.78rem;color:var(--muted);margin:-0.15rem 0 0.9rem;font-weight:500;line-height:1.5;">
-          El alias que elijas quedará ligado a este navegador.
-        </p>
+  <!-- SECTION: RANKING -->
+  <section id="tab-ranking" class="section">
+    <div class="section-title">RANKING</div>
+    <div class="section-sub">Mejores tiempos — el más rápido arriba</div>
 
-        <div class="time-source-toggle">
-          <button class="time-src-btn active" id="srcTimer" onclick="selectTimeSource('timer')">⏱ Usar cronómetro</button>
-          <button class="time-src-btn" id="srcManual" onclick="selectTimeSource('manual')">✏️ Introducir manual</button>
-        </div>
+    <div class="stats-row">
+      <div class="stat-chip">
+        <div class="stat-val" id="statTotal">0</div>
+        <div class="stat-lbl">Registros</div>
+      </div>
+      <div class="stat-chip">
+        <div class="stat-val" id="statBest">—</div>
+        <div class="stat-lbl">Mejor Tiempo</div>
+      </div>
+    </div>
 
-        <div id="manualTimeFields" style="display:none; margin-bottom:0.8rem;">
-          <span class="label" style="margin-top:0.6rem;">Tiempo manual</span>
-          <div class="manual-time-row">
-            <div class="manual-time-group">
-              <span class="label" style="font-size:0.65rem; text-align:center;">HORAS</span>
-              <input type="number" class="range-input" id="manualH" value="0" min="0" max="23" placeholder="00">
-            </div>
-            <span class="manual-time-sep">:</span>
-            <div class="manual-time-group">
-              <span class="label" style="font-size:0.65rem; text-align:center;">MIN</span>
-              <input type="number" class="range-input" id="manualM" value="0" min="0" max="59" placeholder="00">
-            </div>
-            <span class="manual-time-sep">:</span>
-            <div class="manual-time-group">
-              <span class="label" style="font-size:0.65rem; text-align:center;">SEG</span>
-              <input type="number" class="range-input" id="manualS" value="0" min="0" max="59" placeholder="00">
-            </div>
+    <ul class="ranking-list" id="rankingList"></ul>
+
+    <div class="card" style="margin-top:1.4rem">
+      <span class="label">Sincronización</span>
+
+      <p id="syncInfo" style="font-size:0.75rem;color:var(--muted);margin-top:0.6rem;font-weight:500;line-height:1.5;">
+        Cargando ranking...
+      </p>
+
+      <div class="btn-row" style="margin-top:1rem;">
+        <button class="btn btn-outline" onclick="loadRanking(true)">🔄 Actualizar ranking</button>
+        <button class="btn btn-outline2" id="deleteMyEntryBtn" onclick="confirmDeleteMyEntry()">🗑 Borrar mi marca</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: ROULETTE -->
+  <section id="tab-roulette" class="section">
+    <div class="section-title">RULETA DE EJERCICIOS</div>
+    <div class="section-sub">Gira la ruleta y deja que te toque ejercicio + repeticiones</div>
+
+    <div class="card roulette-card">
+      <div class="roulette-stage">
+        <div class="roulette-pointer">▼</div>
+
+        <div class="exercise-wheel" id="exerciseWheel">
+          <div class="exercise-wheel__glow"></div>
+          <div class="exercise-wheel__labels" id="exerciseWheelLabels"></div>
+
+          <div class="exercise-wheel__center">
+            <span class="exercise-wheel__center-top">CALI</span>
+            <strong class="exercise-wheel__center-main">SPIN</strong>
           </div>
         </div>
-
-        <button class="btn btn-accent" id="saveRankingBtn" onclick="saveToRanking()">🏆 GUARDAR EN RANKING</button>
-      </div>
-    </section>
-
-    <!-- SECTION: RANKING -->
-    <section id="tab-ranking" class="section">
-      <div class="section-title">RANKING</div>
-      <div class="section-sub">Mejores tiempos — el más rápido arriba</div>
-
-      <div class="stats-row">
-        <div class="stat-chip">
-          <div class="stat-val" id="statTotal">0</div>
-          <div class="stat-lbl">Registros</div>
-        </div>
-        <div class="stat-chip">
-          <div class="stat-val" id="statBest">—</div>
-          <div class="stat-lbl">Mejor Tiempo</div>
-        </div>
       </div>
 
-      <ul class="ranking-list" id="rankingList"></ul>
+      <button class="btn btn-accent" id="rouletteSpinBtn" onclick="spinExerciseRoulette()">
+        🎯 GIRAR RULETA
+      </button>
+    </div>
 
-      <div class="card" style="margin-top:1.4rem">
-        <span class="label">Sincronización</span>
+    <div class="card accent2">
+      <span class="label">Resultado</span>
 
-        <p id="syncInfo" style="font-size:0.75rem;color:var(--muted);margin-top:0.6rem;font-weight:500;line-height:1.5;">
-          Cargando ranking...
-        </p>
-
-        <div class="btn-row" style="margin-top:1rem;">
-          <button class="btn btn-outline" onclick="loadRanking(true)">🔄 Actualizar ranking</button>
-          <button class="btn btn-outline2" id="deleteMyEntryBtn" onclick="confirmDeleteMyEntry()">🗑 Borrar mi marca</button>
-        </div>
+      <div class="roulette-result" id="rouletteResult">
+        <div class="roulette-result__exercise" id="rouletteExercise">Pulsa girar</div>
+        <div class="roulette-result__reps" id="rouletteReps">— reps</div>
+        <div class="roulette-result__meta" id="rouletteMeta">La ruleta elegirá por ti</div>
       </div>
-    </section>
+    </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
+    <div class="card">
+      <span class="label">Rango de repeticiones para la ruleta</span>
 
-    <!-- MODAL -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-      <div class="modal">
-        <div class="modal-handle"></div>
-        <div class="modal-title" id="modalTitle">Confirmar</div>
-        <p id="modalText" style="color:var(--muted);font-size:0.9rem;font-weight:600;margin-bottom:1.4rem;line-height:1.5;"></p>
-        <div class="btn-row">
-          <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-          <button class="btn btn-accent3" id="modalConfirmBtn">Confirmar</button>
+      <div class="range-row">
+        <div class="range-group">
+          <span class="label" style="font-size:0.65rem">MÍNIMO</span>
+          <input type="number" class="range-input" id="rouletteRepMin" value="1" min="1" max="200">
+        </div>
+
+        <div class="range-sep">—</div>
+
+        <div class="range-group">
+          <span class="label" style="font-size:0.65rem">MÁXIMO</span>
+          <input type="number" class="range-input" id="rouletteRepMax" value="10" min="1" max="300">
         </div>
       </div>
     </div>
-  </body>
+
+    <div class="card">
+      <span class="label">Ejercicios dentro de la ruleta</span>
+      <div class="roulette-exercise-list" id="rouletteExerciseList"></div>
+    </div>
+  </section>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="modalTitle">Confirmar</div>
+      <p id="modalText" style="color:var(--muted);font-size:0.9rem;font-weight:600;margin-bottom:1.4rem;line-height:1.5;"></p>
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-accent3" id="modalConfirmBtn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

@@ -127,16 +127,25 @@ nav {
   position: sticky;
   top: 76px;
   z-index: 99;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 0.65rem;
-  padding: 0.9rem 1rem 0;
+  padding: 0.9rem 1rem 0.95rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
   background: linear-gradient(180deg, rgba(8, 13, 27, 0.88) 0%, rgba(8, 13, 27, 0.4) 100%);
   backdrop-filter: blur(18px);
-  padding-bottom: 15px;
+}
+
+nav::-webkit-scrollbar {
+  display: none;
 }
 
 .nav-tab {
+  flex: 0 0 clamp(132px, 34vw, 180px);
+  min-width: 132px;
+  scroll-snap-align: start;
   border: 1px solid transparent;
   background: rgba(255, 255, 255, 0.04);
   color: var(--muted);
@@ -458,6 +467,12 @@ nav {
   transform: translateY(0);
 }
 
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-accent {
   color: #fff;
   background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
@@ -751,6 +766,209 @@ nav {
   margin-bottom: 1rem;
 }
 
+/* ============================
+   ROULETTE
+============================ */
+.roulette-card {
+  text-align: center;
+}
+
+.roulette-stage {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem 0 1.1rem;
+}
+
+.roulette-pointer {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  font-size: 1.55rem;
+  color: #facc15;
+  text-shadow: 0 0 18px rgba(250, 204, 21, 0.55);
+}
+
+.exercise-wheel {
+  --roulette-rotate: 0deg;
+  position: relative;
+  width: min(82vw, 360px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 10px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 28px 60px rgba(3, 8, 20, 0.45),
+    inset 0 0 0 10px rgba(255, 255, 255, 0.04),
+    0 0 35px rgba(124, 58, 237, 0.2);
+  transform: rotate(var(--roulette-rotate));
+  transition: transform 4.6s cubic-bezier(0.11, 0.89, 0.18, 1);
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.exercise-wheel.spinning {
+  filter: saturate(1.15) brightness(1.02);
+}
+
+.exercise-wheel__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.18), transparent 38%),
+    radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.2), transparent 64%);
+  pointer-events: none;
+}
+
+.exercise-wheel__labels {
+  position: absolute;
+  inset: 0;
+}
+
+.exercise-wheel__label {
+  position: absolute;
+  width: 96px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.exercise-wheel__label span {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.15rem;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,0.3));
+}
+
+.exercise-wheel__label strong {
+  display: block;
+  font-size: 0.72rem;
+  line-height: 1.15;
+  color: rgba(255,255,255,0.96);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.35);
+}
+
+.exercise-wheel__center {
+  position: absolute;
+  inset: 50%;
+  width: 108px;
+  height: 108px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 40%),
+    linear-gradient(180deg, rgba(16, 24, 40, 0.96), rgba(9, 14, 28, 0.98));
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow:
+    0 15px 35px rgba(2, 6, 23, 0.5),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.exercise-wheel__center-top {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #a78bfa;
+}
+
+.exercise-wheel__center-main {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: -0.05em;
+  color: #fff;
+}
+
+.roulette-result {
+  text-align: center;
+  padding: 0.55rem 0 0.2rem;
+  transform: scale(0.98);
+  opacity: 0.82;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.roulette-result.show {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.roulette-result__exercise {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.55rem, 6vw, 2.4rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  color: var(--text);
+}
+
+.roulette-result__reps {
+  margin-top: 0.65rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.1rem, 9vw, 3.5rem);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.08em;
+  color: #c4b5fd;
+  text-shadow: 0 0 24px rgba(124, 58, 237, 0.18);
+}
+
+.roulette-result__meta {
+  margin-top: 0.65rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.roulette-exercise-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.roulette-exercise-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 58px;
+  padding: 0.8rem 0.9rem;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.roulette-exercise-chip span {
+  flex: 0 0 auto;
+  font-size: 1rem;
+}
+
+.roulette-exercise-chip strong {
+  display: block;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.roulette-exercise-chip.active {
+  background: rgba(124, 58, 237, 0.18);
+  border-color: rgba(167, 139, 250, 0.42);
+  color: #fff;
+  box-shadow: 0 12px 26px rgba(76, 29, 149, 0.22);
+  transform: translateY(-1px) scale(1.02);
+}
+
 @media (max-width: 560px) {
   header {
     height: 70px;
@@ -760,8 +978,7 @@ nav {
   nav {
     top: 70px;
     gap: 0.5rem;
-    padding: 0.8rem 0.9rem 0;
-    padding-bottom: 15px;
+    padding: 0.8rem 0.9rem 0.95rem;
   }
 
   .section {
@@ -797,5 +1014,42 @@ nav {
     min-width: auto;
     width: calc(100% - 1.4rem);
     white-space: normal;
+  }
+
+  .nav-tab {
+    flex-basis: 138px;
+  }
+
+  .exercise-wheel__label {
+    width: 78px;
+  }
+
+  .exercise-wheel__label strong {
+    font-size: 0.64rem;
+  }
+
+  .exercise-wheel__center {
+    width: 92px;
+    height: 92px;
+  }
+
+  .exercise-wheel__center-main {
+    font-size: 1.1rem;
+  }
+
+  .roulette-exercise-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  }
+
+  .roulette-exercise-chip {
+    min-height: 54px;
+    padding: 0.72rem 0.78rem;
+    font-size: 0.76rem;
+    border-radius: 16px;
+  }
+
+  .roulette-exercise-chip span {
+    font-size: 0.95rem;
   }
 }

@@ -26,6 +26,34 @@ let useManualTime = false;
 let realtimeChannel = null;
 
 // ============================
+// ROULETTE STATE
+// ============================
+const exerciseRouletteItems = [
+  { name: 'Dominadas Prono', emoji: '🦍' },
+  { name: 'Flexiones Diamante', emoji: '💎' },
+  { name: 'Dominadas Neutras', emoji: '💀' },
+  { name: 'Flexiones explosivas', emoji: '💥' },
+  { name: 'Dominadas Supino', emoji: '🔥' },
+  { name: 'Fondos Paralela', emoji: '🦾' },
+  { name: 'Dominadas explosivas', emoji: '🚀' },
+  { name: 'Fondos en Barra', emoji: '😎' }
+];
+
+const exerciseRoulettePalette = [
+  '#8b5cf6',
+  '#06b6d4',
+  '#22c55e',
+  '#f59e0b',
+  '#ef4444',
+  '#ec4899',
+  '#3b82f6',
+  '#14b8a6'
+];
+
+let rouletteSpinning = false;
+let rouletteCurrentRotation = 0;
+
+// ============================
 // PLAYER / ALIAS
 // ============================
 function normalizeName(name = '') {
@@ -269,6 +297,200 @@ function getCurrentTimeMs() {
 }
 
 // ============================
+// EXERCISE ROULETTE
+// ============================
+function buildRouletteGradient() {
+  const total = exerciseRouletteItems.length;
+  const step = 360 / total;
+
+  const stops = exerciseRouletteItems.map((_, i) => {
+    const start = i * step;
+    const end = (i + 1) * step;
+    const color = exerciseRoulettePalette[i % exerciseRoulettePalette.length];
+    return `${color} ${start}deg ${end}deg`;
+  });
+
+  return `conic-gradient(from -90deg, ${stops.join(', ')})`;
+}
+
+function renderExerciseWheel() {
+  const wheel = document.getElementById('exerciseWheel');
+  const labels = document.getElementById('exerciseWheelLabels');
+
+  if (!wheel || !labels) return;
+
+  wheel.style.background = buildRouletteGradient();
+
+  const total = exerciseRouletteItems.length;
+  const step = 360 / total;
+  const radius = 126;
+
+  labels.innerHTML = exerciseRouletteItems.map((item, index) => {
+    const angle = (step * index) - 90 + (step / 2);
+
+    return `
+      <div
+        class="exercise-wheel__label"
+        style="
+          left: 50%;
+          top: 50%;
+          transform:
+            translate(-50%, -50%)
+            rotate(${angle}deg)
+            translate(${radius}px)
+            rotate(${-angle}deg);
+        "
+      >
+        <span>${item.emoji}</span>
+        <strong>${item.name}</strong>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderRouletteExerciseList(activeIndex = -1) {
+  const list = document.getElementById('rouletteExerciseList');
+  if (!list) return;
+
+  list.innerHTML = exerciseRouletteItems.map((item, index) => `
+    <div class="roulette-exercise-chip ${index === activeIndex ? 'active' : ''}">
+      <span>${item.emoji}</span>
+      <strong>${item.name}</strong>
+    </div>
+  `).join('');
+}
+
+function getRouletteRepRange() {
+  const min = parseInt(document.getElementById('rouletteRepMin')?.value, 10) || 1;
+  const max = parseInt(document.getElementById('rouletteRepMax')?.value, 10) || 20;
+
+  if (min > max) {
+    throw new Error('⚠️ En la ruleta el mínimo no puede ser mayor que el máximo');
+  }
+
+  return { min, max };
+}
+
+function randomBetween(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getWheelRotationDegrees(element) {
+  const style = window.getComputedStyle(element);
+  const transform = style.transform;
+
+  if (!transform || transform === 'none') return 0;
+
+  const matrix2d = transform.match(/^matrix\((.+)\)$/);
+  if (matrix2d) {
+    const values = matrix2d[1].split(',').map(v => parseFloat(v.trim()));
+    const a = values[0];
+    const b = values[1];
+    const angle = Math.atan2(b, a) * (180 / Math.PI);
+    return (angle + 360) % 360;
+  }
+
+  const matrix3d = transform.match(/^matrix3d\((.+)\)$/);
+  if (matrix3d) {
+    const values = matrix3d[1].split(',').map(v => parseFloat(v.trim()));
+    const a = values[0];
+    const b = values[1];
+    const angle = Math.atan2(b, a) * (180 / Math.PI);
+    return (angle + 360) % 360;
+  }
+
+  return 0;
+}
+
+function getWinningRouletteIndexFromRotation(rotationDeg) {
+  const total = exerciseRouletteItems.length;
+  const step = 360 / total;
+
+  const normalized = (360 - rotationDeg) % 360;
+  const rawIndex = Math.round((normalized - step / 2) / step);
+  return ((rawIndex % total) + total) % total;
+}
+
+function setRouletteResult(item, reps) {
+  const exerciseEl = document.getElementById('rouletteExercise');
+  const repsEl = document.getElementById('rouletteReps');
+  const metaEl = document.getElementById('rouletteMeta');
+  const resultEl = document.getElementById('rouletteResult');
+
+  if (!exerciseEl || !repsEl || !metaEl || !resultEl) return;
+
+  exerciseEl.textContent = `${item.emoji} ${item.name}`;
+  repsEl.textContent = `${reps} reps`;
+  metaEl.textContent = 'Hazlo ahora mismo y vuelve a girar cuando acabes';
+  resultEl.classList.add('show');
+}
+
+function spinExerciseRoulette() {
+  if (rouletteSpinning) return;
+
+  let range;
+  try {
+    range = getRouletteRepRange();
+  } catch (error) {
+    showToast(error.message);
+    return;
+  }
+
+  const wheel = document.getElementById('exerciseWheel');
+  const spinBtn = document.getElementById('rouletteSpinBtn');
+
+  if (!wheel || !spinBtn) return;
+
+  rouletteSpinning = true;
+  spinBtn.disabled = true;
+  spinBtn.textContent = '🌀 GIRANDO...';
+
+  const previewIndex = Math.floor(Math.random() * exerciseRouletteItems.length);
+  const previewReps = randomBetween(range.min, range.max);
+
+  const total = exerciseRouletteItems.length;
+  const step = 360 / total;
+  const segmentCenter = (previewIndex * step) + (step / 2);
+
+  const extraTurns = 6 + Math.floor(Math.random() * 3);
+  const targetRotation = rouletteCurrentRotation + (extraTurns * 360) + (360 - segmentCenter);
+
+  wheel.style.setProperty('--roulette-rotate', `${targetRotation}deg`);
+  wheel.classList.add('spinning');
+
+  renderRouletteExerciseList(-1);
+
+  const handleSpinEnd = () => {
+    wheel.removeEventListener('transitionend', handleSpinEnd);
+
+    const actualRotation = getWheelRotationDegrees(wheel);
+    rouletteCurrentRotation = actualRotation;
+
+    const winningIndex = getWinningRouletteIndexFromRotation(actualRotation);
+    const winningItem = exerciseRouletteItems[winningIndex];
+    const winningReps = previewReps;
+
+    rouletteSpinning = false;
+    spinBtn.disabled = false;
+    spinBtn.textContent = '🎯 GIRAR RULETA';
+    wheel.classList.remove('spinning');
+
+    setRouletteResult(winningItem, winningReps);
+    renderRouletteExerciseList(winningIndex);
+
+    if (navigator.vibrate) navigator.vibrate([30, 40, 90]);
+    showToast(`🎯 ${winningItem.name} — ${winningReps} reps`);
+  };
+
+  wheel.addEventListener('transitionend', handleSpinEnd, { once: true });
+}
+
+function initExerciseRoulette() {
+  renderExerciseWheel();
+  renderRouletteExerciseList();
+}
+
+// ============================
 // CLOUD RANKING
 // ============================
 async function saveToRanking() {
@@ -424,8 +646,8 @@ function renderRanking() {
 
   document.getElementById('statTotal').textContent = ranking.length;
   document.getElementById('statBest').textContent = ranking.length
-  ? (ranking[0].time_str || `${formatTime(Number(ranking[0].time_ms || 0))}.${String(Number(ranking[0].time_ms || 0) % 1000).padStart(3, '0')}`)
-  : '—';
+    ? (ranking[0].time_str || `${formatTime(Number(ranking[0].time_ms || 0))}.${String(Number(ranking[0].time_ms || 0) % 1000).padStart(3, '0')}`)
+    : '—';
 
   if (!ranking.length) {
     list.innerHTML = `
@@ -439,21 +661,19 @@ function renderRanking() {
 
   const medalClass = ['gold', 'silver', 'bronze'];
 
-  list.innerHTML = ranking.map((entry, i) => {
-    return `
-      <li class="ranking-item ${medalClass[i] || ''}">
-        <div class="rank-pos">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</div>
-        <div class="rank-info">
-          <div class="rank-name">
-            ${escHtml(entry.name)}
-            ${entry.is_mine ? '<span style="margin-left:8px;padding:3px 8px;border-radius:999px;background:rgba(124,58,237,0.18);border:1px solid rgba(167,139,250,0.35);font-size:0.7rem;font-weight:800;letter-spacing:0.03em;color:#ddd6fe;vertical-align:middle;">TÚ</span>' : ''}
-          </div>
-          <div class="rank-date">${entry.event_date || ''}</div>
+  list.innerHTML = ranking.map((entry, i) => `
+    <li class="ranking-item ${medalClass[i] || ''}">
+      <div class="rank-pos">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</div>
+      <div class="rank-info">
+        <div class="rank-name">
+          ${escHtml(entry.name)}
+          ${entry.is_mine ? '<span style="margin-left:8px;padding:3px 8px;border-radius:999px;background:rgba(124,58,237,0.18);border:1px solid rgba(167,139,250,0.35);font-size:0.7rem;font-weight:800;letter-spacing:0.03em;color:#ddd6fe;vertical-align:middle;">TÚ</span>' : ''}
         </div>
-        <div class="rank-time">${entry.time_str}</div>
-      </li>
-    `;
-  }).join('');
+        <div class="rank-date">${entry.event_date || ''}</div>
+      </div>
+      <div class="rank-time">${entry.time_str}</div>
+    </li>
+  `).join('');
 }
 
 function setupRealtime() {
@@ -521,9 +741,11 @@ function closeModal(e) {
 // INIT
 // ============================
 async function init() {
+  renderRanking();
   renderRepsHistory();
   updateTimerDisplay();
   renderPlayerStatus();
+  initExerciseRoulette();
   await loadRanking();
   setupRealtime();
 
@@ -546,5 +768,6 @@ window.saveToRanking = saveToRanking;
 window.loadRanking = loadRanking;
 window.confirmDeleteMyEntry = confirmDeleteMyEntry;
 window.closeModal = closeModal;
+window.spinExerciseRoulette = spinExerciseRoulette;
 
 window.addEventListener('DOMContentLoaded', init);
