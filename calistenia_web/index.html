@@ -14,7 +14,7 @@
 <body>
   <header>
     <div class="logo">CALI<span>.</span>BEAST</div>
-    <span class="header-badge">v 1.5</span>
+    <span class="header-badge">v 2.0</span>
   </header>
 
   <nav class="nav-scroll">
@@ -32,6 +32,10 @@
 
     <button class="nav-tab" onclick="switchTab('roulette', this)">
       <span class="tab-icon">🎯</span>Ruleta
+    </button>
+
+    <button class="nav-tab" onclick="switchTab('challenges', this)">
+      <span class="tab-icon">⚡</span>Retos
     </button>
   </nav>
 
@@ -213,6 +217,32 @@
       <span class="label">Ejercicios dentro de la ruleta</span>
       <div class="roulette-exercise-list" id="rouletteExerciseList"></div>
     </div>
+  </section>
+
+  <!-- SECTION: CHALLENGES -->
+  <section id="tab-challenges" class="section">
+    <div class="section-title">RETOS DE CALISTENIA</div>
+    <div class="section-sub">Elige tu nivel y completa los retos</div>
+
+    <div class="card">
+      <span class="label">Dificultad</span>
+      <div class="challenges-level-filters">
+        <button class="challenges-level-btn active" data-nivel="Fácil" onclick="setLevelFilter('Fácil')">🟢 Fácil</button>
+        <button class="challenges-level-btn" data-nivel="Intermedio" onclick="setLevelFilter('Intermedio')">🟡 Intermedio</button>
+        <button class="challenges-level-btn" data-nivel="Avanzado" onclick="setLevelFilter('Avanzado')">🔴 Avanzado</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="label">Tipo de reto</span>
+      <div class="challenges-type-filters">
+        <button class="challenges-type-btn active" data-tipo="todos" onclick="setTypeFilter(null)">📋 Todos</button>
+        <button class="challenges-type-btn" data-tipo="Tirón" onclick="setTypeFilter('Tirón')">💪 Tirón</button>
+        <button class="challenges-type-btn" data-tipo="Empuje" onclick="setTypeFilter('Empuje')">💪 Empuje</button>
+      </div>
+    </div>
+
+    <div id="challengesContainer" class="card"></div>
   </section>
 
   <!-- TOAST -->

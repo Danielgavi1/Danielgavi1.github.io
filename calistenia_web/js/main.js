@@ -11,6 +11,7 @@ import {
   setupPlayerNameBlur,
   setupRealtime
 } from './sections/ranking.js';
+import { initChallenges, selectChallenge, toggleChallengeComplete, setLevelFilter, setTypeFilter } from './sections/challenges.js';
 
 async function init() {
   renderRanking();
@@ -18,6 +19,7 @@ async function init() {
   updateTimerDisplay();
   renderPlayerStatus();
   initExerciseRoulette();
+  initChallenges();
   await loadRanking();
   setupRealtime();
   setupPlayerNameBlur();
@@ -35,5 +37,9 @@ window.loadRanking = loadRanking;
 window.confirmDeleteMyEntry = confirmDeleteMyEntry;
 window.closeModal = closeModal;
 window.spinExerciseRoulette = spinExerciseRoulette;
+window.selectChallenge = selectChallenge;
+window.toggleChallengeComplete = toggleChallengeComplete;
+window.setLevelFilter = setLevelFilter;
+window.setTypeFilter = setTypeFilter;
 
 window.addEventListener('DOMContentLoaded', init);
