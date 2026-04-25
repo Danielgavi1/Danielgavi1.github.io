@@ -132,7 +132,7 @@ const challengesData = [
         nombre: 'Neutras Variadas',
         descripcion: 'Combina los agarres neutros para máximo estímulo',
         ejercicios: [
-            { nombre: 'Dominadas Neutras (agarre normal)', reps: 25, emoji: '🤝' },
+            { nombre: 'Dominadas Neutras (agarre cerrado)', reps: 25, emoji: '🤝' },
             { nombre: 'Dominadas Neutras (agarre normal)', reps: 20, emoji: '🦍' },
             { nombre: 'Dominadas Neutras (agarre abierto)', reps: 15, emoji: '💀' },
         ]
@@ -145,8 +145,8 @@ const challengesData = [
         descripcion: 'Un brazo tira, el otro guía: la base del tirón a un brazo',
         ejercicios: [
             { nombre: 'Dominadas Arqueras', reps: 18, emoji: '🏹' },
-            { nombre: 'Dominadas Neutras (agarre normal)', reps: 20, emoji: '🦍' },
-            { nombre: 'Dominadas Prono (agarre abierto)', reps: 25, emoji: '💀' },
+            { nombre: 'Dominadas Neutras (agarre normal)', reps: 20, emoji: '💀' },
+            { nombre: 'Dominadas Prono (agarre abierto)', reps: 25, emoji: '🦍' },
         ]
     },
     {
