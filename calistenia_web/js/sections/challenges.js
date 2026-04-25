@@ -32,8 +32,8 @@ const challengesData = [
         nombre: 'Dominadas Asistidas con Goma',
         descripcion: 'La goma te ayuda a completar el recorrido completo',
         ejercicios: [
-            { nombre: 'Dominadas Asistidas con Goma', reps: 15, emoji: '🎗️' },
-            { nombre: 'Dominadas Australianas', reps: 20, emoji: '🦘' },
+            { nombre: 'Dominadas Asistidas con Goma', reps: 20, emoji: '🎗️' },
+            { nombre: 'Dominadas Australianas', reps: 25, emoji: '🦘' },
             { nombre: 'Dead Hang (aguantar colgado)', reps: 90, unit: 'segundos', emoji: '🏋️' },
         ]
     },
@@ -70,9 +70,9 @@ const challengesData = [
         nombre: 'Dominadas Supino Abiertas',
         descripcion: 'Agarre ancho supino: más anchura de espalda',
         ejercicios: [
-            { nombre: 'Dominadas Supino (agarre abierto)', reps: 12, emoji: '💀' },
-            { nombre: 'Dominadas Supino (agarre normal)', reps: 15, emoji: '🦍' },
-            { nombre: 'Dominadas Supino (agarre cerrado)', reps: 12, emoji: '🤝' },
+            { nombre: 'Dominadas Supino (agarre abierto)', reps: 15, emoji: '💀' },
+            { nombre: 'Dominadas Supino (agarre normal)', reps: 18, emoji: '🦍' },
+            { nombre: 'Dominadas Supino (agarre cerrado)', reps: 15, emoji: '🤝' },
         ]
     },
     {
@@ -82,7 +82,7 @@ const challengesData = [
         nombre: 'Dominadas Prono',
         descripcion: 'El agarre clásico: palmas hacia fuera, dorsal al máximo',
         ejercicios: [
-            { nombre: 'Dominadas Prono (agarre normal)', reps: 15, emoji: '🦍' },
+            { nombre: 'Dominadas Prono (agarre normal)', reps: 18, emoji: '🦍' },
             { nombre: 'Dominadas Supino (agarre normal)', reps: 15, emoji: '🦍' },
             { nombre: 'Dominadas Australianas', reps: 25, emoji: '🦘' },
         ]
@@ -94,7 +94,7 @@ const challengesData = [
         nombre: 'Dominadas Prono Cerradas',
         descripcion: 'Prono con agarre estrecho: más tríceps largo y dorsal bajo',
         ejercicios: [
-            { nombre: 'Dominadas Prono (agarre cerrado)', reps: 15, emoji: '🤝' },
+            { nombre: 'Dominadas Prono (agarre cerrado)', reps: 18, emoji: '🤝' },
             { nombre: 'Dominadas Prono (agarre normal)', reps: 15, emoji: '🦍' },
             { nombre: 'Dominadas Supino (agarre normal)', reps: 15, emoji: '🦍' },
         ]
@@ -106,9 +106,9 @@ const challengesData = [
         nombre: 'Dominadas Prono Abiertas',
         descripcion: 'Agarre bien abierto: el mayor estímulo de anchura dorsal',
         ejercicios: [
-            { nombre: 'Dominadas Prono (agarre abierto)', reps: 15, emoji: '💀' },
-            { nombre: 'Dominadas Prono (agarre normal)', reps: 15, emoji: '🦍' },
-            { nombre: 'Dominadas Prono (agarre cerrado)', reps: 15, emoji: '🤝' },
+            { nombre: 'Dominadas Prono (agarre abierto)', reps: 18, emoji: '💀' },
+            { nombre: 'Dominadas Prono (agarre normal)', reps: 18, emoji: '🦍' },
+            { nombre: 'Dominadas Prono (agarre cerrado)', reps: 18, emoji: '🤝' },
         ]
     },
     {
@@ -118,9 +118,9 @@ const challengesData = [
         nombre: 'Dominadas Neutras',
         descripcion: 'Palmas enfrentadas: la posición más natural y completa',
         ejercicios: [
-            { nombre: 'Dominadas Neutras (agarre normal)', reps: 15, emoji: '🦍' },
-            { nombre: 'Dominadas Prono (agarre normal)', reps: 15, emoji: '🦍' },
-            { nombre: 'Dominadas Supino (agarre normal)', reps: 15, emoji: '🦍' },
+            { nombre: 'Dominadas Neutras (agarre normal)', reps: 20, emoji: '💀' },
+            { nombre: 'Dominadas Prono (agarre normal)', reps: 20, emoji: '🦍' },
+            { nombre: 'Dominadas Supino (agarre normal)', reps: 20, emoji: '🦍' },
         ]
     },
 
@@ -132,9 +132,9 @@ const challengesData = [
         nombre: 'Neutras Variadas',
         descripcion: 'Combina los agarres neutros para máximo estímulo',
         ejercicios: [
-            { nombre: 'Dominadas Neutras (agarre normal)', reps: 20, emoji: '🤝' },
-            { nombre: 'Dominadas Neutras (agarre abierto)', reps: 15, emoji: '💀' },
+            { nombre: 'Dominadas Neutras (agarre normal)', reps: 25, emoji: '🤝' },
             { nombre: 'Dominadas Neutras (agarre normal)', reps: 20, emoji: '🦍' },
+            { nombre: 'Dominadas Neutras (agarre abierto)', reps: 15, emoji: '💀' },
         ]
     },
     {
@@ -144,9 +144,9 @@ const challengesData = [
         nombre: 'Dominadas Arqueras',
         descripcion: 'Un brazo tira, el otro guía: la base del tirón a un brazo',
         ejercicios: [
-            { nombre: 'Dominadas Arqueras', reps: 15, emoji: '🏹' },
-            { nombre: 'Dominadas Neutras (agarre normal)', reps: 15, emoji: '🦍' },
-            { nombre: 'Dominadas Prono (agarre abierto)', reps: 15, emoji: '💀' },
+            { nombre: 'Dominadas Arqueras', reps: 18, emoji: '🏹' },
+            { nombre: 'Dominadas Neutras (agarre normal)', reps: 20, emoji: '🦍' },
+            { nombre: 'Dominadas Prono (agarre abierto)', reps: 25, emoji: '💀' },
         ]
     },
     {
@@ -156,7 +156,7 @@ const challengesData = [
         nombre: 'Dominadas Explosivas',
         descripcion: 'Sube rápido y con potencia: trabaja la fuerza reactiva',
         ejercicios: [
-            { nombre: 'Dominadas Explosivas', reps: 12, emoji: '💥' },
+            { nombre: 'Dominadas Explosivas', reps: 15, emoji: '💥' },
             { nombre: 'Dominadas Arqueras', reps: 15, emoji: '🏹' },
             { nombre: 'Dominadas Prono (agarre normal)', reps: 20, emoji: '🦍' },
         ]
@@ -168,9 +168,9 @@ const challengesData = [
         nombre: 'Dominadas Explosivas Abiertas',
         descripcion: 'Explosión con agarre abierto: preámbulo del muscle-up',
         ejercicios: [
-            { nombre: 'Dominadas Prono Explosivas (agarre abierto)', reps: 10, emoji: '💀💥' },
-            { nombre: 'Dominadas Prono Explosivas', reps: 15, emoji: '💥' },
-            { nombre: 'Dominadas Arqueras', reps: 10, emoji: '🏹' },
+            { nombre: 'Dominadas Prono Explosivas (agarre abierto)', reps: 15, emoji: '💀💥' },
+            { nombre: 'Dominadas Prono Explosivas', reps: 18, emoji: '💥' },
+            { nombre: 'Dominadas Arqueras', reps: 15, emoji: '🏹' },
         ]
     },
     {
@@ -182,7 +182,7 @@ const challengesData = [
         ejercicios: [
             { nombre: 'Muscle-Up', reps: 8, emoji: '💫' },
             { nombre: 'Dominadas Prono Explosivas', reps: 15, emoji: '💥' },
-            { nombre: 'Dominadas Prono con Lastre (5–10 kg)', reps: 10, emoji: '⚖️' },
+            { nombre: 'Dominadas Prono con Lastre (10 kg)', reps: 10, emoji: '⚖️' },
         ]
     },
 
@@ -240,11 +240,11 @@ const challengesData = [
         nivel: 'Fácil',
         tipo: 'Empuje',
         nombre: 'Fondos en Barra',
-        descripcion: 'Tu primer fondo: tríceps, pecho y hombros en una sola barra',
+        descripcion: 'Los Fondos en barra: tríceps, pecho y hombros en una sola barra',
         ejercicios: [
-            { nombre: 'Fondos (en 1 sola barra)', reps: 10, emoji: '🤸' },
-            { nombre: 'Flexiones Diamante', reps: 10, emoji: '💎' },
-            { nombre: 'Flexiones Normales', reps: 15, emoji: '💪' },
+            { nombre: 'Fondos (en 1 sola barra)', reps: 12, emoji: '🤸' },
+            { nombre: 'Flexiones Diamante', reps: 15, emoji: '💎' },
+            { nombre: 'Flexiones Normales', reps: 18, emoji: '💪' },
         ]
     },
 
@@ -257,7 +257,7 @@ const challengesData = [
         descripcion: 'El squat del tren superior: pecho, tríceps y hombros',
         ejercicios: [
             { nombre: 'Fondos en Paralelas', reps: 15, emoji: '🤸' },
-            { nombre: 'Fondos (en 1 sola barra)', reps: 15, emoji: '🤸' },
+            { nombre: 'Fondos (en 1 sola barra)', reps: 18, emoji: '🤸' },
             { nombre: 'Flexiones Diamante', reps: 20, emoji: '💎' },
         ]
     },
@@ -268,9 +268,9 @@ const challengesData = [
         nombre: 'Flexiones Abiertas',
         descripcion: 'Manos bien separadas: más pecho y menos tríceps',
         ejercicios: [
-            { nombre: 'Flexiones Abiertas', reps: 15, emoji: '🙌' },
+            { nombre: 'Flexiones Abiertas', reps: 18, emoji: '🙌' },
             { nombre: 'Flexiones Normales', reps: 25, emoji: '💪' },
-            { nombre: 'Fondos en Paralelas', reps: 15, emoji: '🤸' },
+            { nombre: 'Fondos en Paralelas', reps: 20, emoji: '🤸' },
         ]
     },
     {
@@ -281,8 +281,8 @@ const challengesData = [
         descripcion: 'Un brazo lidera el movimiento: preámbulo al empuje a un brazo',
         ejercicios: [
             { nombre: 'Flexiones Arqueras', reps: 15, emoji: '🏹' },
-            { nombre: 'Flexiones Abiertas', reps: 15, emoji: '🙌' },
-            { nombre: 'Fondos en Paralelas', reps: 15, emoji: '🤸' },
+            { nombre: 'Flexiones Abiertas', reps: 18, emoji: '🙌' },
+            { nombre: 'Fondos en Paralelas', reps: 20, emoji: '🤸' },
         ]
     },
     {
@@ -294,7 +294,7 @@ const challengesData = [
         ejercicios: [
             { nombre: 'Flexiones con Palmada', reps: 12, emoji: '👏' },
             { nombre: 'Flexiones Normales', reps: 20, emoji: '💪' },
-            { nombre: 'Fondos en Paralelas', reps: 20, emoji: '🤸' },
+            { nombre: 'Fondos en Paralelas', reps: 25, emoji: '🤸' },
         ]
     },
     {
@@ -304,9 +304,9 @@ const challengesData = [
         nombre: 'Flexiones Lean Planche',
         descripcion: 'Cuerpo inclinado hacia adelante: activa la palanca del planche (recuerda hacer bien el hollow)',
         ejercicios: [
-            { nombre: 'Flexiones Lean Planche', reps: 10, emoji: '📐' },
-            { nombre: 'Flexiones Arqueras', reps: 15, emoji: '🏹' },
-            { nombre: 'Fondos en Paralelas', reps: 20, emoji: '🤸' },
+            { nombre: 'Flexiones Lean Planche', reps: 18, emoji: '📐' },
+            { nombre: 'Flexiones Arqueras', reps: 18, emoji: '🏹' },
+            { nombre: 'Fondos en Paralelas', reps: 30, emoji: '🤸' },
         ]
     },
 
@@ -318,9 +318,9 @@ const challengesData = [
         nombre: 'Flexiones a un Brazo',
         descripcion: 'Solo un brazo empuja: la cumbre del empuje unilateral',
         ejercicios: [
-            { nombre: 'Flexiones a un Brazo', reps: 8, emoji: '☝️' },
-            { nombre: 'Flexiones Arqueras', reps: 15, emoji: '🏹' },
-            { nombre: 'Flexiones con Palmada', reps: 15, emoji: '👏' },
+            { nombre: 'Flexiones a un Brazo', reps: 12, emoji: '☝️' },
+            { nombre: 'Flexiones Arqueras', reps: 20, emoji: '🏹' },
+            { nombre: 'Flexiones con Palmada', reps: 18, emoji: '👏' },
         ]
     },
     {
@@ -330,9 +330,9 @@ const challengesData = [
         nombre: 'Anillas',
         descripcion: 'Superficie inestable: máxima activación estabilizadora',
         ejercicios: [
-            { nombre: 'Fondos en Anillas', reps: 12, emoji: '🔴' },
-            { nombre: 'Flexiones en Anillas', reps: 20, emoji: '🔴' },
-            { nombre: 'Fondos en Paralelas', reps: 25, emoji: '🤸' },
+            { nombre: 'Fondos en Anillas', reps: 18, emoji: '🔴' },
+            { nombre: 'Flexiones en Anillas', reps: 25, emoji: '🔴' },
+            { nombre: 'Fondos en Paralelas', reps: 35, emoji: '🤸' },
         ]
     },
     {
@@ -343,8 +343,8 @@ const challengesData = [
         descripcion: 'Pies en banco: máxima carga en pecho alto y hombros',
         ejercicios: [
             { nombre: 'Flexiones Declinadas (con banco)', reps: 20, emoji: '📉' },
-            { nombre: 'Flexiones a un Brazo', reps: 12, emoji: '☝️' },
-            { nombre: 'Flexiones Lean Planche', reps: 15, emoji: '📐' },
+            { nombre: 'Flexiones a un Brazo', reps: 15, emoji: '☝️' },
+            { nombre: 'Flexiones Lean Planche', reps: 20, emoji: '📐' },
         ]
     },
     {
@@ -355,8 +355,8 @@ const challengesData = [
         descripcion: 'Caderas arriba y cuerpo en V: trabaja los hombros desde el suelo',
         ejercicios: [
             { nombre: 'Flexiones Pike', reps: 20, emoji: '🔺' },
-            { nombre: 'Flexiones Declinadas (con banco)', reps: 15, emoji: '📉' },
-            { nombre: 'Flexiones Lean Planche', reps: 12, emoji: '📐' },
+            { nombre: 'Flexiones Declinadas (con banco)', reps: 18, emoji: '📉' },
+            { nombre: 'Flexiones Lean Planche', reps: 20, emoji: '📐' },
         ]
     },
     {
@@ -367,7 +367,7 @@ const challengesData = [
         descripcion: 'La cima del empuje: pino libre con flexión completa',
         ejercicios: [
             { nombre: 'Flexiones de Pino Asistidas', reps: 15, emoji: '🤲' },
-            { nombre: 'Pino (aguantar)', reps: 30, unit: 'segundos', emoji: '⏱️' },
+            { nombre: 'Pino (aguantar)', reps: 60, unit: 'segundos', emoji: '⏱️' },
             { nombre: 'Flexiones de Pino', reps: 5, emoji: '🤲' },
         ]
     },
