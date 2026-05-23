@@ -12,6 +12,7 @@ import {
   setupRealtime
 } from './sections/ranking.js';
 import { initChallenges, selectChallenge, toggleChallengeComplete, setLevelFilter, setTypeFilter } from './sections/challenges.js';
+import { initSkills, openSkill, openPhase, openPhase_skill, completeSession } from './sections/skills.js';
 
 async function init() {
   renderRanking();
@@ -20,6 +21,7 @@ async function init() {
   renderPlayerStatus();
   initExerciseRoulette();
   initChallenges();
+  initSkills();
   await loadRanking();
   setupRealtime();
   setupPlayerNameBlur();
@@ -41,5 +43,9 @@ window.selectChallenge = selectChallenge;
 window.toggleChallengeComplete = toggleChallengeComplete;
 window.setLevelFilter = setLevelFilter;
 window.setTypeFilter = setTypeFilter;
+window.openSkill = openSkill;
+window.openPhase = openPhase;
+window.openPhase_skill = openPhase_skill;
+window.completeSession = completeSession;
 
 window.addEventListener('DOMContentLoaded', init);

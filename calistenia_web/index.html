@@ -14,7 +14,7 @@
 <body>
   <header>
     <div class="logo">CALI<span>.</span>BEAST</div>
-    <span class="header-badge">v 2.0</span>
+    <span class="header-badge">v 2.5</span>
   </header>
 
   <nav class="nav-scroll">
@@ -36,6 +36,9 @@
 
     <button class="nav-tab" onclick="switchTab('challenges', this)">
       <span class="tab-icon">⚡</span>Retos
+    </button>
+    <button class="nav-tab" onclick="switchTab('skills', this)">
+      <span class="tab-icon">🎓</span>Aprende
     </button>
   </nav>
 
@@ -243,6 +246,13 @@
     </div>
 
     <div id="challengesContainer" class="card"></div>
+  </section>
+
+  <!-- SKILLS / RUTAS -->
+  <section id="tab-skills" class="section">
+    <div class="section-title">RUTAS DE APRENDIZAJE</div>
+    <div class="section-sub">Progresa paso a paso hacia los trucos más difíciles</div>
+    <div id="skillsContainer"></div>
   </section>
 
   <!-- TOAST -->
