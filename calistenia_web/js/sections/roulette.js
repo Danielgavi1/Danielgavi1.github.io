@@ -167,12 +167,13 @@ export function spinExerciseRoulette() {
 
   const wheel = document.getElementById('exerciseWheel');
   const spinBtn = document.getElementById('rouletteSpinBtn');
+  const centerMain = spinBtn?.querySelector('.exercise-wheel__center-main');
 
   if (!wheel || !spinBtn) return;
 
   rouletteSpinning = true;
-  spinBtn.disabled = true;
-  spinBtn.textContent = '🌀 GIRANDO...';
+  spinBtn.style.pointerEvents = 'none';
+  if (centerMain) centerMain.textContent = '🌀';
 
   const previewIndex = Math.floor(Math.random() * exerciseRouletteItems.length);
   const previewReps = randomBetween(range.min, range.max);
@@ -200,8 +201,8 @@ export function spinExerciseRoulette() {
     const winningReps = previewReps;
 
     rouletteSpinning = false;
-    spinBtn.disabled = false;
-    spinBtn.textContent = '🎯 GIRAR RULETA';
+    spinBtn.style.pointerEvents = '';
+    if (centerMain) centerMain.textContent = 'SPIN';
     wheel.classList.remove('spinning');
 
     setRouletteResult(winningItem, winningReps);
