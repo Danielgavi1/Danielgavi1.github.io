@@ -129,13 +129,14 @@ nav {
   z-index: 99;
   display: flex;
   gap: 0.65rem;
-  padding: 0.9rem 1rem 0.95rem;
+  padding: 0.9rem 40vw 0.95rem;
   overflow-x: auto;
   overflow-y: hidden;
-  scroll-snap-type: x proximity;
+  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   background: linear-gradient(180deg, rgba(8, 13, 27, 0.88) 0%, rgba(8, 13, 27, 0.4) 100%);
   backdrop-filter: blur(18px);
+  scroll-behavior: smooth;
 }
 
 nav::-webkit-scrollbar {
@@ -145,7 +146,7 @@ nav::-webkit-scrollbar {
 .nav-tab {
   flex: 0 0 clamp(132px, 34vw, 180px);
   min-width: 132px;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   border: 1px solid transparent;
   background: rgba(255, 255, 255, 0.04);
   color: var(--muted);

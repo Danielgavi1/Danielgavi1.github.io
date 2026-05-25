@@ -6,6 +6,16 @@ export function switchTab(id, btn) {
   document.querySelectorAll('.nav-tab').forEach((b) => b.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
   btn.classList.add('active');
+
+  // Scroll the nav so the active tab is centered
+  const nav = btn.closest('nav');
+  if (nav) {
+    const navWidth = nav.offsetWidth;
+    const btnLeft = btn.offsetLeft;
+    const btnWidth = btn.offsetWidth;
+    const targetScroll = btnLeft - (navWidth / 2) + (btnWidth / 2);
+    nav.scrollTo({ left: targetScroll, behavior: 'smooth' });
+  }
 }
 
 export function escHtml(str = '') {
