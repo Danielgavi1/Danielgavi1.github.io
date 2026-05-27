@@ -104,40 +104,21 @@ function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getWheelRotationDegrees(element) {
-  const style = window.getComputedStyle(element);
-  const transform = style.transform;
-
-  if (!transform || transform === 'none') return 0;
-
-  const matrix2d = transform.match(/^matrix\((.+)\)$/);
-  if (matrix2d) {
-    const values = matrix2d[1].split(',').map(v => parseFloat(v.trim()));
-    const a = values[0];
-    const b = values[1];
-    const angle = Math.atan2(b, a) * (180 / Math.PI);
-    return (angle + 360) % 360;
-  }
-
-  const matrix3d = transform.match(/^matrix3d\((.+)\)$/);
-  if (matrix3d) {
-    const values = matrix3d[1].split(',').map(v => parseFloat(v.trim()));
-    const a = values[0];
-    const b = values[1];
-    const angle = Math.atan2(b, a) * (180 / Math.PI);
-    return (angle + 360) % 360;
-  }
-
-  return 0;
-}
-
-function getWinningRouletteIndexFromRotation(rotationDeg) {
+function getWinningRouletteIndexFromRotation(totalRotationDeg) {
+  // The wheel rotates clockwise. The pointer is at the top (0°).
+  // The gradient starts with `from -90deg`, so segment 0 is centered at the top.
+  // We only need to know where the top of the wheel (0°) maps to after rotation.
   const total = exerciseRouletteItems.length;
   const step = 360 / total;
 
-  const normalized = (360 - rotationDeg) % 360;
-  const rawIndex = Math.round((normalized - step / 2) / step);
-  return ((rawIndex % total) + total) % total;
+  // Normalize the total rotation to [0, 360)
+  const normalized = ((totalRotationDeg % 360) + 360) % 360;
+  // The segment whose center aligns with the pointer (top = 0°)
+  // Segment i is centered at i * step degrees (from -90deg offset already in gradient).
+  // After rotating by `normalized`, the pointer now points to (360 - normalized) on the original wheel.
+  const pointerOnWheel = (360 - normalized + 360) % 360;
+  const index = Math.floor(pointerOnWheel / step);
+  return ((index % total) + total) % total;
 }
 
 function setRouletteResult(item, reps) {
@@ -193,10 +174,10 @@ export function spinExerciseRoulette() {
   const handleSpinEnd = () => {
     wheel.removeEventListener('transitionend', handleSpinEnd);
 
-    const actualRotation = getWheelRotationDegrees(wheel);
-    rouletteCurrentRotation = actualRotation;
+    // Use targetRotation directly (reliable) instead of reading CSS matrix (imprecise)
+    rouletteCurrentRotation = targetRotation;
 
-    const winningIndex = getWinningRouletteIndexFromRotation(actualRotation);
+    const winningIndex = getWinningRouletteIndexFromRotation(targetRotation);
     const winningItem = exerciseRouletteItems[winningIndex];
     const winningReps = previewReps;
 
