@@ -1,7 +1,7 @@
 import { closeModal, switchTab } from './core/ui.js';
 import { clearRepsHistory, generateReps, renderRepsHistory } from './sections/reps.js';
 import { getCurrentTimeMs, selectTimeSource, timerReset, timerToggle, updateTimerDisplay } from './sections/timer.js';
-import { initExerciseRoulette, spinExerciseRoulette } from './sections/roulette.js';
+import { initExerciseRoulette, spinExerciseRoulette, endRouletteSession } from './sections/roulette.js';
 import {
   confirmDeleteMyEntry,
   loadRanking,
@@ -39,6 +39,7 @@ window.loadRanking = loadRanking;
 window.confirmDeleteMyEntry = confirmDeleteMyEntry;
 window.closeModal = closeModal;
 window.spinExerciseRoulette = spinExerciseRoulette;
+window.endRouletteSession = endRouletteSession;
 window.selectChallenge = selectChallenge;
 window.toggleChallengeComplete = toggleChallengeComplete;
 window.setLevelFilter = setLevelFilter;

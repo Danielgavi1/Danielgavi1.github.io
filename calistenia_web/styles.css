@@ -1864,3 +1864,122 @@ nav::-webkit-scrollbar {
   flex-shrink: 0;
   display: block;
 }
+/* ── Roulette: End Session button ─────────────────────────── */
+.roulette-end-session-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+  width: 100%;
+  border-color: rgba(167, 139, 250, 0.35);
+  color: #c4b5fd;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  position: relative;
+}
+
+.session-giro-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #7c3aed;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ── Session summary inside modal ────────────────────────── */
+.session-summary {
+  text-align: left;
+}
+
+.session-summary__stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.session-summary__stat {
+  flex: 1;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: 14px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+}
+
+.session-summary__stat-val {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 700;
+  color: #c4b5fd;
+  line-height: 1;
+}
+
+.session-summary__stat-lbl {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-top: 0.3rem;
+  text-transform: uppercase;
+}
+
+.session-summary__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.session-summary__row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(148,163,184,0.1);
+  border-radius: 12px;
+  padding: 0.6rem 0.85rem;
+}
+
+.session-summary__emoji {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.session-summary__name {
+  flex: 1;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.session-summary__reps {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #c4b5fd;
+  flex-shrink: 0;
+}
+
+.session-summary__times {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  flex-shrink: 0;
+  min-width: 20px;
+  text-align: right;
+}
