@@ -1983,3 +1983,19 @@ nav::-webkit-scrollbar {
   min-width: 20px;
   text-align: right;
 }
+
+
+/* ── Swipe-to-dismiss: make handle easier to grab on mobile ── */
+.modal-handle {
+  position: relative;
+  cursor: grab;
+  touch-action: none;
+}
+.modal-handle::before {
+  content: '';
+  position: absolute;
+  inset: -14px -40px;   /* extends the tap area without changing visual */
+}
+.modal-handle:active {
+  cursor: grabbing;
+}
