@@ -186,6 +186,49 @@
             <strong class="exercise-wheel__center-main">SPIN</strong>
           </div>
         </div>
+
+        <!-- ⚔️ Survival Badge + Popover (desktop) -->
+        <div class="survival-teaser" id="survivalTeaser" onclick="toggleSurvivalPopover(event)" title="Modo Supervivencia">
+          <span class="survival-teaser-icon">⚔️</span>
+          <span class="survival-teaser-label">SURVIVAL</span>
+        </div>
+
+        <div class="survival-popover survival-popover--desktop" id="survivalPopoverDesktop">
+          <div class="survival-popover-arrow"></div>
+          <button class="survival-popover-close" onclick="closeSurvivalPopover()">✕</button>
+          <div class="surv-popover-header">
+            <div class="survival-popover-title">⚔️ Modo Supervivencia</div>
+            <label class="toggle-switch surv-toggle-inline">
+              <input type="checkbox" id="survivalToggleDesktop" onchange="onSurvivalToggleChange(this.checked)">
+              <span class="toggle-track"></span>
+            </label>
+          </div>
+          <div class="survival-popover-desc">Las reps aumentan cada giro. ¿Cuántas oleadas aguantas?</div>
+          <!-- Stats (visibles cuando está activo) -->
+          <div class="surv-inline-stats" id="survivalStatsDesktop" style="display:none">
+            <div class="survival-wave-row">
+              <div class="survival-wave-pill">
+                <span class="survival-wave-label">OLEADA</span>
+                <span class="survival-wave-num" id="survivalWaveDesktop">1</span>
+              </div>
+              <div class="survival-range-pill">
+                Próximas reps: <strong id="survivalRangeDesktop">3–8</strong>
+              </div>
+            </div>
+            <button class="btn btn-accent3 survival-fail-btn" id="survivalFailBtnDesktop"
+                    onclick="survivalFail()" style="display:none">
+              💀 No pude — fin de supervivencia
+            </button>
+          </div>
+          <!-- Info (visible cuando está inactivo) -->
+          <div class="surv-inline-info" id="survivalInfoDesktop">
+            <div class="survival-popover-pills">
+              <span class="surv-pill">Oleada 1: 3–8</span>
+              <span class="surv-pill">Oleada 2: 5–10</span>
+              <span class="surv-pill">Oleada 3: 7–12</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <button class="btn btn-outline roulette-end-session-btn" id="rouletteEndSessionBtn"
@@ -193,6 +236,51 @@
         <span class="session-giro-badge" id="sessionGiroBadge">0</span>
         Revisar sesión
       </button>
+
+      <!-- Panel Supervivencia (móvil): accordion debajo de la ruleta -->
+      <div class="survival-mobile-panel" id="survivalMobilePanel">
+        <div class="surv-mobile-header" onclick="toggleSurvivalMobilePanel()">
+          <span class="surv-mobile-header-label">⚔️ Modo Supervivencia</span>
+          <div class="surv-mobile-header-right">
+            <span class="surv-mobile-chevron">▾</span>
+          </div>
+        </div>
+        <div class="survival-mobile-body">
+          <!-- Toggle row -->
+          <div class="surv-mobile-toggle-row">
+            <span class="surv-mobile-toggle-label">Activar modo</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="survivalToggleMobile" onchange="onSurvivalToggleChange(this.checked)">
+              <span class="toggle-track"></span>
+            </label>
+          </div>
+          <!-- Info estática (cuando desactivado) -->
+          <div class="surv-mobile-info" id="survivalInfoMobile">
+            <p class="survival-popover-desc" style="margin:0 0 8px">Las reps aumentan con cada giro. ¿Cuántas oleadas aguantas antes de fallar?</p>
+            <div class="survival-popover-pills">
+              <span class="surv-pill">Oleada 1: 3–8</span>
+              <span class="surv-pill">Oleada 2: 5–10</span>
+              <span class="surv-pill">Oleada 3: 7–12</span>
+            </div>
+          </div>
+          <!-- Stats (cuando activado) -->
+          <div class="surv-mobile-stats" id="survivalStatsMobile" style="display:none">
+            <div class="survival-wave-row">
+              <div class="survival-wave-pill">
+                <span class="survival-wave-label">OLEADA</span>
+                <span class="survival-wave-num" id="survivalWaveMobile">1</span>
+              </div>
+              <div class="survival-range-pill">
+                Próximas reps: <strong id="survivalRangeMobile">3–8</strong>
+              </div>
+            </div>
+            <button class="btn btn-accent3 survival-fail-btn" id="survivalFailBtnMobile"
+                    onclick="survivalFail()" style="display:none">
+              💀 No pude — fin de supervivencia
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="card accent2">
@@ -227,6 +315,34 @@
       <span class="label">Ejercicios dentro de la ruleta</span>
       <div class="roulette-exercise-list" id="rouletteExerciseList"></div>
     </div>
+
+    <!-- 🧬 MUSCLE DETECTOR -->
+    <div class="card" id="muscleDetectorCard">
+      <span class="label">🧬 Músculos trabajados</span>
+      <div id="muscleMap" class="muscle-map">
+        <p class="muscle-empty">Aún no has girado. Los músculos aparecerán aquí.</p>
+      </div>
+      <div id="balanceAlert" class="balance-alert" style="display:none"></div>
+    </div>
+
+    <!-- 📋 ROUTINE GENERATOR -->
+    <div class="card" id="routineCard">
+      <span class="label">📋 Generador de rutinas</span>
+      <p class="feat-desc" style="margin:0.4rem 0 0.9rem">Crea un plan pre-sorteado y equilibrado para hoy. Usa el rango de reps configurado arriba.</p>
+      <div class="routine-controls">
+        <div class="range-group" style="flex:0 0 auto">
+          <span class="label" style="font-size:0.65rem">EJERCICIOS</span>
+          <input type="number" class="range-input" id="routineGiros" value="8" min="3" max="8">
+        </div>
+        <button class="btn btn-accent routine-gen-btn" onclick="generateRoutine()">
+          🎲 Crear rutina de hoy
+        </button>
+      </div>
+      <div id="routineList"></div>
+    </div>
+
+
+
   </section>
 
   <!-- SECTION: CHALLENGES -->
