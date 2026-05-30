@@ -812,10 +812,12 @@ nav::-webkit-scrollbar {
   transition: transform 4.6s cubic-bezier(0.11, 0.89, 0.18, 1);
   overflow: hidden;
   margin: 0 auto;
+  will-change: auto;
 }
 
 .exercise-wheel.spinning {
-  filter: saturate(1.15) brightness(1.02);
+  /* filter: saturate(1.15) brightness(1.02); — eliminado: fuerza re-composite en cada frame */
+  will-change: transform;
 }
 
 .exercise-wheel__glow {
@@ -1886,8 +1888,9 @@ nav::-webkit-scrollbar {
   background: rgba(239, 68, 68, 0.12);
   border: 1.5px solid rgba(239, 68, 68, 0.3);
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  /* backdrop-filter eliminado: caro en móvil y afecta rendimiento de la rueda */
+  /* backdrop-filter: blur(6px); */
+  /* -webkit-backdrop-filter: blur(6px); */
   box-shadow: 0 0 14px rgba(239, 68, 68, 0.15);
   animation: survivalPulse 3s ease-in-out infinite;
 }
