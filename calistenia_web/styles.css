@@ -2069,6 +2069,9 @@ nav::-webkit-scrollbar {
     user-select: none;
     transition: background 0.2s, border-color 0.2s;
     animation: survivalPulse 3s ease-in-out infinite;
+    /* Eliminar delay de 300ms en tap móvil */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   .surv-mobile-header-label {
     font-size: 0.78rem;
@@ -2101,24 +2104,23 @@ nav::-webkit-scrollbar {
     animation: none;
   }
 
-  /* Body accordion — grid trick para animación suave sin max-height */
+  /* Body accordion — height animado por JS para máximo rendimiento en móvil */
   .survival-mobile-body-wrapper {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    height: 0;
+    /* Transición solo de height: mucho más ligero que grid-template-rows */
+    transition: height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     background: rgba(239, 68, 68, 0.04);
     border: 1.5px solid rgba(239, 68, 68, 0.22);
     border-top: none;
     border-radius: 0 0 10px 10px;
-    overflow: hidden;
-  }
-  .survival-mobile-panel.expanded .survival-mobile-body-wrapper {
-    grid-template-rows: 1fr;
+    /* Capa de composición propia para no repintar el resto de la página */
+    transform: translateZ(0);
   }
   .survival-mobile-body {
     overflow: hidden;
     opacity: 0;
-    transition: opacity 0.22s ease;
+    transition: opacity 0.2s ease;
     min-height: 0;
   }
   .survival-mobile-panel.expanded .survival-mobile-body {

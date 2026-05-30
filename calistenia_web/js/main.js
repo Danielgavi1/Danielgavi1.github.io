@@ -105,11 +105,47 @@ window.closeSurvivalPopover = function() {
   document.getElementById('survivalPopoverDesktop')?.classList.remove('open');
 };
 
-// Mobile accordion toggle
+// Mobile accordion toggle — animación fluida por JS (sin jank en móvil)
 window.toggleSurvivalMobilePanel = function() {
   const panel = document.getElementById('survivalMobilePanel');
   if (!panel) return;
-  panel.classList.toggle('expanded');
+
+  const wrapper = panel.querySelector('.survival-mobile-body-wrapper');
+  const body    = panel.querySelector('.survival-mobile-body');
+  if (!wrapper || !body) { panel.classList.toggle('expanded'); return; }
+
+  const isExpanded = panel.classList.contains('expanded');
+
+  // Pista al compositor para preparar la capa antes de animar
+  wrapper.style.willChange = 'height';
+
+  if (isExpanded) {
+    // ── CERRAR ──
+    // Fijar height explícito antes de animar a 0 (sin esto no hay transición)
+    wrapper.style.height = wrapper.scrollHeight + 'px';
+    void wrapper.offsetHeight; // forzar reflow para que el navegador registre el valor
+    wrapper.style.height = '0px';
+    panel.classList.remove('expanded');
+
+    wrapper.addEventListener('transitionend', function cleanup() {
+      wrapper.style.willChange = 'auto';
+      wrapper.removeEventListener('transitionend', cleanup);
+    });
+
+  } else {
+    // ── ABRIR ──
+    panel.classList.add('expanded'); // aplica padding:12px al body vía CSS → afecta scrollHeight
+    const targetH = body.scrollHeight; // mide la altura real incluyendo padding
+    wrapper.style.height = '0px';
+    void wrapper.offsetHeight; // forzar reflow
+    wrapper.style.height = targetH + 'px';
+
+    wrapper.addEventListener('transitionend', function cleanup() {
+      wrapper.style.height = 'auto'; // permite reflow libre si el contenido cambia luego
+      wrapper.style.willChange = 'auto';
+      wrapper.removeEventListener('transitionend', cleanup);
+    });
+  }
 };
 
 // Activate from desktop popover — just toggle on
@@ -121,7 +157,9 @@ window.activateSurvivalFromPopover = function() {
 window.scrollToSurvival = function() {
   // No longer needed (card removed), but keep for safety
   document.getElementById('survivalPopoverDesktop')?.classList.remove('open');
-  document.getElementById('survivalMobilePanel')?.classList.remove('expanded');
+  // Usar la función de toggle si el panel está abierto, para animar el cierre
+  const panel = document.getElementById('survivalMobilePanel');
+  if (panel?.classList.contains('expanded')) window.toggleSurvivalMobilePanel();
 };
 
 window.addEventListener('DOMContentLoaded', init);
