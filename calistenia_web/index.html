@@ -19,20 +19,12 @@
 <body>
   <header>
     <div class="logo">CALI<span>.</span>BEAST</div>
-    <span class="header-badge">v 2.5</span>
+    <span class="header-badge">v 2.7</span>
   </header>
 
   <nav class="nav-scroll">
     <button class="nav-tab active" onclick="switchTab('reps', this)">
       <span class="tab-icon">🎲</span>Reps
-    </button>
-
-    <button class="nav-tab" onclick="switchTab('timer', this)">
-      <span class="tab-icon">⏱️</span>Timer
-    </button>
-
-    <button class="nav-tab" onclick="switchTab('ranking', this)">
-      <span class="tab-icon">🏆</span>Ranking
     </button>
 
     <button class="nav-tab" onclick="switchTab('roulette', this)">
@@ -44,6 +36,14 @@
     </button>
     <button class="nav-tab" onclick="switchTab('skills', this)">
       <span class="tab-icon">🎓</span>Aprende
+    </button>
+
+        <button class="nav-tab" onclick="switchTab('timer', this)">
+      <span class="tab-icon">⏱️</span>Timer
+    </button>
+
+    <button class="nav-tab" onclick="switchTab('ranking', this)">
+      <span class="tab-icon">🏆</span>Ranking
     </button>
   </nav>
 
@@ -328,11 +328,11 @@
     <!-- 📋 ROUTINE GENERATOR -->
     <div class="card" id="routineCard">
       <span class="label">📋 Generador de rutinas</span>
-      <p class="feat-desc" style="margin:0.4rem 0 0.9rem">Crea un plan pre-sorteado y equilibrado para hoy. Usa el rango de reps configurado arriba.</p>
+      <p class="feat-desc" style="margin:0.4rem 0 0.9rem">Crea un plan equilibrado para hoy. Usa el rango de reps configurado arriba.</p>
       <div class="routine-controls">
         <div class="range-group" style="flex:0 0 auto">
           <span class="label" style="font-size:0.65rem">EJERCICIOS</span>
-          <input type="number" class="range-input" id="routineGiros" value="8" min="3" max="8">
+          <input type="number" class="range-input" id="routineGiros" value="5" min="3" max="8">
         </div>
         <button class="btn btn-accent routine-gen-btn" onclick="generateRoutine()">
           🎲 Crear rutina de hoy
@@ -385,9 +385,11 @@
   <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
     <div class="modal">
       <div class="modal-handle"></div>
-      <div class="modal-title" id="modalTitle">Confirmar</div>
-      <p id="modalText" style="color:var(--muted);font-size:0.9rem;font-weight:600;margin-bottom:1.4rem;line-height:1.5;"></p>
-      <div class="btn-row">
+      <div class="modal-scroll-body">
+        <div class="modal-title" id="modalTitle">Confirmar</div>
+        <p id="modalText" style="color:var(--muted);font-size:0.9rem;font-weight:600;margin-bottom:1.4rem;line-height:1.5;"></p>
+      </div>
+      <div class="btn-row modal-btn-row">
         <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
         <button class="btn btn-accent3" id="modalConfirmBtn">Confirmar</button>
       </div>

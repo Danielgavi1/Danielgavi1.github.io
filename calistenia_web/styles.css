@@ -736,14 +736,18 @@ nav::-webkit-scrollbar {
 
 .modal {
   width: 100%;
+  max-height: 72dvh;
+  display: flex;
+  flex-direction: column;
   padding: 1.4rem 1rem 1.9rem;
   border-top-left-radius: 28px;
   border-top-right-radius: 28px;
   border: 1px solid rgba(148, 163, 184, 0.12);
   border-bottom: 0;
-  background: linear-gradient(180deg, rgba(18, 25, 53, 0.96) 0%, rgba(11, 18, 34, 0.98) 100%);
+  background: linear-gradient(180deg, rgb(18, 25, 53) 0%, rgb(11, 18, 34) 100%);
   transform: translateY(100%);
   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
 .modal-overlay.open .modal {
@@ -2226,8 +2230,7 @@ nav::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 240px;
-  overflow-y: auto;
+  overflow-y: visible;
 }
 
 .session-summary__row {
@@ -2272,6 +2275,26 @@ nav::-webkit-scrollbar {
   text-align: right;
 }
 
+
+/* ── Modal scroll body (keeps content scrollable, buttons fixed) ── */
+.modal-scroll-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* hide scrollbar visually but keep scroll functional */
+  scrollbar-width: none;
+  min-height: 0;
+}
+.modal-scroll-body::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-btn-row {
+  flex-shrink: 0;
+  padding-top: 0.75rem;
+  margin-top: 0;
+}
 
 /* ── Swipe-to-dismiss: make handle easier to grab on mobile ── */
 .modal-handle {
