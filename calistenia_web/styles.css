@@ -2426,6 +2426,53 @@ nav::-webkit-scrollbar {
 .survival-range-pill strong { color: #c4b5fd; }
 .survival-fail-btn { width: 100%; margin-top: 0.85rem; }
 
+/* SURVIVAL LOCK — REP RANGE */
+#rouletteRepRangeCard {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#rouletteRepRangeCard.survival-locked {
+  border-color: rgba(239, 68, 68, 0.55) !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.18), inset 0 0 18px rgba(239, 68, 68, 0.06);
+  pointer-events: none;
+}
+#rouletteRepRangeCard.survival-locked .range-input {
+  opacity: 0.45;
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.06);
+  cursor: not-allowed;
+}
+#rouletteRepRangeCard.survival-locked .range-sep {
+  color: #f87171;
+  opacity: 0.5;
+}
+#rouletteRepRangeCard.survival-locked .label {
+  opacity: 0.5;
+}
+.survival-lock-badge {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f87171;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  padding: 0.3rem 0.65rem;
+  margin-bottom: 0.75rem;
+  animation: survivalPulse 2s ease-in-out infinite;
+}
+#rouletteRepRangeCard.survival-locked .survival-lock-badge {
+  display: flex;
+}
+@keyframes survivalPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+  50%       { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15); }
+}
+
 /* ============================
    MUSCLE DETECTOR
 ============================ */

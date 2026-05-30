@@ -19,16 +19,12 @@
 <body>
   <header>
     <div class="logo">CALI<span>.</span>BEAST</div>
-    <span class="header-badge">v 2.7</span>
+    <span class="header-badge">v 2.8</span>
   </header>
 
   <nav class="nav-scroll">
     <button class="nav-tab active" onclick="switchTab('reps', this)">
       <span class="tab-icon">🎲</span>Reps
-    </button>
-
-    <button class="nav-tab" onclick="switchTab('challenges', this)">
-      <span class="tab-icon">⚡</span>Retos
     </button>
 
     <button class="nav-tab" onclick="switchTab('roulette', this)">
@@ -39,7 +35,11 @@
       <span class="tab-icon">🎓</span>Aprende
     </button>
 
-        <button class="nav-tab" onclick="switchTab('timer', this)">
+    <button class="nav-tab" onclick="switchTab('challenges', this)">
+      <span class="tab-icon">⚡</span>Retos
+    </button>
+
+    <button class="nav-tab" onclick="switchTab('timer', this)">
       <span class="tab-icon">⏱️</span>Timer
     </button>
 
@@ -294,8 +294,9 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" id="rouletteRepRangeCard">
       <span class="label">Rango de repeticiones para la ruleta</span>
+      <div class="survival-lock-badge" id="survivalLockBadge">⚔️ Modo Supervivencia activo</div>
 
       <div class="range-row">
         <div class="range-group">

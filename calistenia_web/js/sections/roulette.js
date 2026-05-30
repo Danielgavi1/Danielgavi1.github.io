@@ -31,6 +31,13 @@ let sessionMuscles    = {};      // muscle → count
 function ensureSessionStarted() {
   if (!sessionStartTime) {
     sessionStartTime = Date.now();
+    // Unlock reps range card
+    const repRangeCard2 = document.getElementById('rouletteRepRangeCard');
+    if (repRangeCard2) repRangeCard2.classList.remove('survival-locked');
+    ['rouletteRepMin', 'rouletteRepMax'].forEach(id => {
+      const el2 = document.getElementById(id); if (el2) el2.disabled = false;
+    });
+
     updateSessionUI();
   }
 }
@@ -82,6 +89,13 @@ export function toggleSurvivalMode(enabled) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
+  // Lock / unlock reps range card
+  const repRangeCard = document.getElementById('rouletteRepRangeCard');
+  if (repRangeCard) repRangeCard.classList.toggle('survival-locked', enabled);
+  ['rouletteRepMin', 'rouletteRepMax'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = enabled;
+  });
   if (enabled) {
     updateSurvivalUI();
     showToast('⚔️ ¡Modo Supervivencia activado! Las reps aumentan con cada giro.');
@@ -132,6 +146,13 @@ export function survivalFail() {
   ['survivalFailBtnDesktop', 'survivalFailBtnMobile'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
+  });
+  // Unlock reps range card
+  const repRangeCard = document.getElementById('rouletteRepRangeCard');
+  if (repRangeCard) repRangeCard.classList.remove('survival-locked');
+  ['rouletteRepMin', 'rouletteRepMax'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = false;
   });
   showToast(`💀 Supervivencia terminada — llegaste a la oleada ${finalWave}`);
 }
@@ -310,7 +331,14 @@ export function toggleRoutineItem(idx) {
         const ex = exerciseRouletteItems.find(r => r.name === e.name);
         if (ex) ex.muscles.forEach(m => { sessionMuscles[m] = (sessionMuscles[m] || 0) + 1; });
       });
-      updateSessionUI();
+      // Unlock reps range card
+    const repRangeCard2 = document.getElementById('rouletteRepRangeCard');
+    if (repRangeCard2) repRangeCard2.classList.remove('survival-locked');
+    ['rouletteRepMin', 'rouletteRepMax'].forEach(id => {
+      const el2 = document.getElementById(id); if (el2) el2.disabled = false;
+    });
+
+    updateSessionUI();
       renderMuscleDetector();
       renderBalanceAlert();
     }
@@ -629,6 +657,13 @@ export function endRouletteSession() {
     });
     ['survivalFailBtnDesktop', 'survivalFailBtnMobile'].forEach(id => {
       const el = document.getElementById(id); if (el) el.style.display = 'none';
+    });
+
+    // Unlock reps range card
+    const repRangeCard2 = document.getElementById('rouletteRepRangeCard');
+    if (repRangeCard2) repRangeCard2.classList.remove('survival-locked');
+    ['rouletteRepMin', 'rouletteRepMax'].forEach(id => {
+      const el2 = document.getElementById(id); if (el2) el2.disabled = false;
     });
 
     updateSessionUI();
