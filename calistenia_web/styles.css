@@ -2098,19 +2098,27 @@ nav::-webkit-scrollbar {
     animation: none;
   }
 
-  /* Body accordion */
-  .survival-mobile-body {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.32s ease, opacity 0.25s ease;
+  /* Body accordion — grid trick para animación suave sin max-height */
+  .survival-mobile-body-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     background: rgba(239, 68, 68, 0.04);
     border: 1.5px solid rgba(239, 68, 68, 0.22);
     border-top: none;
     border-radius: 0 0 10px 10px;
+    overflow: hidden;
+  }
+  .survival-mobile-panel.expanded .survival-mobile-body-wrapper {
+    grid-template-rows: 1fr;
+  }
+  .survival-mobile-body {
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+    min-height: 0;
   }
   .survival-mobile-panel.expanded .survival-mobile-body {
-    max-height: 320px;
     opacity: 1;
     padding: 12px;
   }

@@ -248,9 +248,10 @@ export function generateRoutine() {
   if (girosInput) girosInput.value = rawVal;
   const n = rawVal;
 
-  let range;
-  try { range = getRouletteRepRange(); }
-  catch (e) { showToast(e.message); return; }
+  const routineMin = parseInt(document.getElementById('routineRepMin')?.value, 10) || 5;
+  const routineMax = parseInt(document.getElementById('routineRepMax')?.value, 10) || 12;
+  if (routineMin > routineMax) { showToast('⚠️ El mínimo no puede ser mayor que el máximo'); return; }
+  const range = { min: routineMin, max: routineMax };
 
   let tempHistory = [];
   routinePlan = [];

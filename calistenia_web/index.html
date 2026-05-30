@@ -27,13 +27,14 @@
       <span class="tab-icon">🎲</span>Reps
     </button>
 
+    <button class="nav-tab" onclick="switchTab('challenges', this)">
+      <span class="tab-icon">⚡</span>Retos
+    </button>
+
     <button class="nav-tab" onclick="switchTab('roulette', this)">
       <span class="tab-icon">🎯</span>Ruleta
     </button>
 
-    <button class="nav-tab" onclick="switchTab('challenges', this)">
-      <span class="tab-icon">⚡</span>Retos
-    </button>
     <button class="nav-tab" onclick="switchTab('skills', this)">
       <span class="tab-icon">🎓</span>Aprende
     </button>
@@ -245,7 +246,7 @@
             <span class="surv-mobile-chevron">▾</span>
           </div>
         </div>
-        <div class="survival-mobile-body">
+        <div class="survival-mobile-body-wrapper"><div class="survival-mobile-body">
           <!-- Toggle row -->
           <div class="surv-mobile-toggle-row">
             <span class="surv-mobile-toggle-label">Activar modo</span>
@@ -279,7 +280,7 @@
               💀 No pude — fin de supervivencia
             </button>
           </div>
-        </div>
+        </div></div>
       </div>
     </div>
 
@@ -328,14 +329,22 @@
     <!-- 📋 ROUTINE GENERATOR -->
     <div class="card" id="routineCard">
       <span class="label">📋 Generador de rutinas</span>
-      <p class="feat-desc" style="margin:0.4rem 0 0.9rem">Crea un plan equilibrado para hoy. Usa el rango de reps configurado arriba.</p>
+      <p class="feat-desc" style="margin:0.4rem 0 0.9rem">Crea un plan equilibrado para hoy.</p>
       <div class="routine-controls">
         <div class="range-group" style="flex:0 0 auto">
           <span class="label" style="font-size:0.65rem">EJERCICIOS</span>
           <input type="number" class="range-input" id="routineGiros" value="5" min="3" max="8">
         </div>
+        <div class="range-group" style="flex:0 0 auto">
+          <span class="label" style="font-size:0.65rem">REPS MÍN</span>
+          <input type="number" class="range-input" id="routineRepMin" value="5" min="1" max="99">
+        </div>
+        <div class="range-group" style="flex:0 0 auto">
+          <span class="label" style="font-size:0.65rem">REPS MÁX</span>
+          <input type="number" class="range-input" id="routineRepMax" value="12" min="1" max="99">
+        </div>
         <button class="btn btn-accent routine-gen-btn" onclick="generateRoutine()">
-          🎲 Crear rutina de hoy
+          🎲 Crear Rutina
         </button>
       </div>
       <div id="routineList"></div>
