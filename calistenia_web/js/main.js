@@ -121,13 +121,22 @@ window.toggleSurvivalMobilePanel = function() {
 
   if (isExpanded) {
     // ── CERRAR ──
-    // Fijar height explícito antes de animar a 0 (sin esto no hay transición)
+    // Congelar el padding del body inline ANTES de quitar la clase.
+    // Sin esto, al quitar 'expanded' el padding desaparece de golpe y
+    // todo el contenido se desplaza visualmente mientras la altura baja.
+    body.style.padding = window.getComputedStyle(body).padding;
+
     wrapper.style.height = wrapper.scrollHeight + 'px';
-    void wrapper.offsetHeight; // forzar reflow para que el navegador registre el valor
+    void wrapper.offsetHeight; // forzar reflow para que el browser registre el valor
     wrapper.style.height = '0px';
+
+    // Quitar 'expanded' ahora: chevron y header vuelven (OK),
+    // pero el padding ya está congelado vía inline → el body no salta
     panel.classList.remove('expanded');
 
-    wrapper.addEventListener('transitionend', function cleanup() {
+    wrapper.addEventListener('transitionend', function cleanup(e) {
+      if (e.propertyName !== 'height') return; // ignorar opacity u otros transitionend
+      body.style.padding = '';        // limpiar cuando el panel ya está oculto
       wrapper.style.willChange = 'auto';
       wrapper.removeEventListener('transitionend', cleanup);
     });
@@ -135,12 +144,13 @@ window.toggleSurvivalMobilePanel = function() {
   } else {
     // ── ABRIR ──
     panel.classList.add('expanded'); // aplica padding:12px al body vía CSS → afecta scrollHeight
-    const targetH = body.scrollHeight; // mide la altura real incluyendo padding
+    const targetH = body.scrollHeight; // altura real incluyendo padding
     wrapper.style.height = '0px';
     void wrapper.offsetHeight; // forzar reflow
     wrapper.style.height = targetH + 'px';
 
-    wrapper.addEventListener('transitionend', function cleanup() {
+    wrapper.addEventListener('transitionend', function cleanup(e) {
+      if (e.propertyName !== 'height') return;
       wrapper.style.height = 'auto'; // permite reflow libre si el contenido cambia luego
       wrapper.style.willChange = 'auto';
       wrapper.removeEventListener('transitionend', cleanup);
