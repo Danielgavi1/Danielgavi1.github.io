@@ -7,7 +7,7 @@ export const skillsData = [
   {
     id: 'muscle-up',
     nombre: 'Muscle-Up',
-    img: 'img/muscle-up.png',
+    img: 'img/muscle-up.webp',
     descripcion: 'El rey de la barra: tirón explosivo + transición + empuje en un solo movimiento.',
     tiempoEstimado: '3 – 6 meses',
     cssClass: 'color-purple',
@@ -85,7 +85,7 @@ export const skillsData = [
   {
     id: 'front-lever',
     nombre: 'Front Lever',
-    img: 'img/front-lever.png',
+    img: 'img/front-lever.webp',
     descripcion: 'Cuerpo completamente horizontal suspendido de la barra. Fuerza de core y espalda extrema.',
     tiempoEstimado: '6 – 12 meses',
     cssClass: 'color-cyan',
@@ -163,7 +163,7 @@ export const skillsData = [
   {
     id: 'planche',
     nombre: 'Full Planche',
-    img: 'img/full-planche.png',
+    img: 'img/full-planche.webp',
     descripcion: 'El movimiento más técnico de la calistenia. Cuerpo horizontal boca abajo, brazos extendidos.',
     tiempoEstimado: '1 – 2 años',
     cssClass: 'color-red',
@@ -241,7 +241,7 @@ export const skillsData = [
   {
     id: 'handstand',
     nombre: 'Handstand',
-    img: 'img/handstand.png',
+    img: 'img/handstand.webp',
     descripcion: 'Equilibrio puro en manos sin apoyo. La base de toda la calistenia aérea.',
     tiempoEstimado: '2 – 6 meses',
     cssClass: 'color-green',
@@ -306,7 +306,7 @@ export const skillsData = [
   {
     id: 'back-lever',
     nombre: 'Back Lever',
-    img: 'img/back-lever.png',
+    img: 'img/back-lever.webp',
     descripcion: 'Cuerpo horizontal boca abajo suspendido de la barra. El primo más accesible del front lever.',
     tiempoEstimado: '2 – 4 meses',
     cssClass: 'color-amber',
@@ -371,7 +371,7 @@ export const skillsData = [
   {
     id: 'human-flag',
     nombre: 'Human Flag',
-    img: 'img/human-flag.png',
+    img: 'img/human-flag.webp',
     descripcion: 'Cuerpo horizontal sujeto a un poste vertical. Fuerza lateral de todo el cuerpo.',
     tiempoEstimado: '4 – 6 meses',
     cssClass: 'color-purple',
