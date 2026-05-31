@@ -172,4 +172,4 @@ window.scrollToSurvival = function() {
   if (panel?.classList.contains('expanded')) window.toggleSurvivalMobilePanel();
 };
 
-window.addEventListener('DOMContentLoaded', init);
+init();

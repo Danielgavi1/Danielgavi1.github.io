@@ -512,7 +512,7 @@ function renderSkillList() {
           <div class="skill-card ${skill.cssClass}" onclick="openSkill('${skill.id}')">
             <div class="skill-card__top-bar" style="background:${skill.barColor}"></div>
             <div class="skill-card__img-wrap">
-              <img src="${skill.img}" alt="${skill.nombre}" class="skill-card__img">
+              <img src="${skill.img}" alt="${skill.nombre}" class="skill-card__img" loading="lazy">
             </div>
             <div class="skill-card__name">${skill.nombre}</div>
             <div class="skill-card__time">⏱ ${skill.tiempoEstimado}</div>
@@ -545,7 +545,7 @@ function renderSkillDetail(skillId) {
 
     <div class="skill-detail__header">
       <div class="skill-detail__img-wrap">
-        <img src="${skill.img}" alt="${skill.nombre}" class="skill-detail__img">
+        <img src="${skill.img}" alt="${skill.nombre}" class="skill-detail__img" loading="lazy">
       </div>
       <div>
         <div class="skill-detail__title">${skill.nombre}</div>
@@ -640,7 +640,7 @@ function renderPhaseDetail(skillId, phaseIndex) {
 
     <div class="phase-detail__header">
       <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem">
-        <img src="${skill.img}" alt="${skill.nombre}" class="skill-phase-detail__img">
+        <img src="${skill.img}" alt="${skill.nombre}" class="skill-phase-detail__img" loading="lazy">
         <div>
           <div class="phase-detail__title">${phase.nombre}</div>
           <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;margin-top:0.25rem">
