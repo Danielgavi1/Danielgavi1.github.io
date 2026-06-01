@@ -1,4 +1,4 @@
-import { closeModal, switchTab } from './core/ui.js';
+import { closeModal, switchTab, VALID_TABS } from './core/ui.js';
 import { clearRepsHistory, generateReps, renderRepsHistory } from './sections/reps.js';
 import { getCurrentTimeMs, selectTimeSource, timerReset, timerToggle, updateTimerDisplay } from './sections/timer.js';
 import { initExerciseRoulette, spinExerciseRoulette, endRouletteSession, toggleSurvivalMode, survivalFail, generateRoutine, toggleRoutineItem } from './sections/roulette.js';
@@ -26,11 +26,86 @@ async function init() {
   setupRealtime();
   setupPlayerNameBlur();
 
-  // nothing extra needed — onSurvivalToggleChange handles sync
+  // Bind all static HTML buttons via addEventListener
+  setupEvents();
+
+  // ── Hash routing: restore tab from URL on load ────────────
+  const initHash = location.hash.slice(1);
+  if (VALID_TABS.includes(initHash)) {
+    switchTab(initHash);
+  } else {
+    history.replaceState(null, '', '#reps');
+  }
+
+  // ── Hash routing: back / forward navigation ───────────────
+  window.addEventListener('hashchange', () => {
+    const id = location.hash.slice(1);
+    if (VALID_TABS.includes(id)) switchTab(id);
+  });
 }
 
-// Mantiene compatibles los onclick="..." que ya tienes en el HTML.
-window.switchTab = switchTab;
+// ── Event listeners for all static HTML buttons ───────────────
+function setupEvents() {
+  // Nav tabs
+  document.querySelectorAll('.nav-tab').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
+  // Reps
+  document.getElementById('generateRepsBtn')?.addEventListener('click', generateReps);
+  document.getElementById('clearHistoryBtn')?.addEventListener('click', clearRepsHistory);
+
+  // Timer
+  document.getElementById('timerStartBtn')?.addEventListener('click', timerToggle);
+  document.getElementById('timerResetBtn')?.addEventListener('click', timerReset);
+  document.getElementById('srcTimer')?.addEventListener('click', () => selectTimeSource('timer'));
+  document.getElementById('srcManual')?.addEventListener('click', () => selectTimeSource('manual'));
+  document.getElementById('saveRankingBtn')?.addEventListener('click', saveToRanking);
+
+  // Ranking
+  document.getElementById('updateRankingBtn')?.addEventListener('click', () => loadRanking(true));
+  document.getElementById('deleteMyEntryBtn')?.addEventListener('click', confirmDeleteMyEntry);
+
+  // Modal
+  document.getElementById('modalOverlay')?.addEventListener('click', closeModal);
+  document.getElementById('modalCancelBtn')?.addEventListener('click', closeModal);
+
+  // Roulette
+  document.getElementById('rouletteSpinBtn')?.addEventListener('click', spinExerciseRoulette);
+  document.getElementById('rouletteEndSessionBtn')?.addEventListener('click', endRouletteSession);
+  document.getElementById('routineGenBtn')?.addEventListener('click', generateRoutine);
+
+  // Survival popover (desktop)
+  document.getElementById('survivalTeaser')?.addEventListener('click', e => window.toggleSurvivalPopover(e));
+  document.getElementById('survivalPopoverCloseBtn')?.addEventListener('click', window.closeSurvivalPopover);
+
+  // Survival toggles — sync both checkboxes
+  ['survivalToggleDesktop', 'survivalToggleMobile'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', function () {
+      window.onSurvivalToggleChange(this.checked);
+    });
+  });
+
+  // Survival fail buttons
+  document.getElementById('survivalFailBtnDesktop')?.addEventListener('click', survivalFail);
+  document.getElementById('survivalFailBtnMobile')?.addEventListener('click', survivalFail);
+
+  // Survival mobile panel accordion
+  document.getElementById('survivalMobileHeader')?.addEventListener('click', () => window.toggleSurvivalMobilePanel());
+
+  // Challenge filters (use data attributes already on buttons)
+  document.querySelectorAll('.challenges-level-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLevelFilter(btn.dataset.nivel));
+  });
+  document.querySelectorAll('.challenges-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTypeFilter(btn.dataset.tipo === 'todos' ? null : btn.dataset.tipo);
+    });
+  });
+}
+
+// window.* assignments keep onclick handlers in dynamically-generated HTML working.
+// Static HTML buttons now use addEventListener (see setupEvents above).
 window.generateReps = generateReps;
 window.clearRepsHistory = clearRepsHistory;
 window.timerToggle = timerToggle;

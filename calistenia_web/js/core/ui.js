@@ -1,22 +1,40 @@
 // ============================
 // UI HELPERS
 // ============================
-export function switchTab(id, btn) {
-  document.querySelectorAll('.section').forEach((s) => s.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach((b) => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  btn.classList.add('active');
 
-  // Scroll the nav so the active tab is centered
-  const nav = btn.closest('nav');
-  if (nav) {
-    const navWidth = nav.offsetWidth;
-    const btnLeft = btn.offsetLeft;
-    const btnWidth = btn.offsetWidth;
-    const targetScroll = btnLeft - (navWidth / 2) + (btnWidth / 2);
-    nav.scrollTo({ left: targetScroll, behavior: 'smooth' });
+const VALID_TABS = ['reps', 'roulette', 'skills', 'challenges', 'timer', 'ranking'];
+
+export function switchTab(id) {
+  if (!VALID_TABS.includes(id)) return;
+
+  // ── Sections ──────────────────────────────────────────────
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + id)?.classList.add('active');
+
+  // ── Nav tabs + ARIA ───────────────────────────────────────
+  document.querySelectorAll('.nav-tab').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  const btn = document.querySelector(`.nav-tab[data-tab="${id}"]`);
+  if (btn) {
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+
+    // Scroll so active tab is centred in the nav bar
+    const nav = btn.closest('nav');
+    if (nav) {
+      const targetScroll = btn.offsetLeft - (nav.offsetWidth / 2) + (btn.offsetWidth / 2);
+      nav.scrollTo({ left: targetScroll, behavior: 'smooth' });
+    }
   }
+
+  // ── Hash routing ──────────────────────────────────────────
+  const newHash = '#' + id;
+  if (location.hash !== newHash) history.pushState(null, '', newHash);
 }
+
+export { VALID_TABS };
 
 export function escHtml(str = '') {
   return String(str)

@@ -374,6 +374,29 @@ nav::-webkit-scrollbar {
   box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
 }
 
+/* ── Keyboard focus indicator (WCAG 2.1 AA — 2.4.7) ─────────── */
+.nav-tab:focus-visible,
+.btn:focus-visible,
+.btn-outline:focus-visible,
+.btn-outline2:focus-visible,
+.btn-accent:focus-visible,
+.btn-accent2:focus-visible,
+.btn-accent3:focus-visible,
+.time-src-btn:focus-visible,
+.challenges-level-btn:focus-visible,
+.challenges-type-btn:focus-visible,
+.survival-popover-close:focus-visible,
+.survival-fail-btn:focus-visible,
+.surv-mobile-header:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+/* Remove default :focus ring — only show on keyboard nav */
+.nav-tab:focus:not(:focus-visible),
+.btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .input-field::placeholder {
   color: #8090a8;
 }

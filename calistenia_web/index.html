@@ -18,28 +18,28 @@
     <span class="header-badge">v 2.8</span>
   </header>
 
-  <nav class="nav-scroll">
-    <button class="nav-tab active" onclick="switchTab('reps', this)">
+  <nav class="nav-scroll" role="tablist" aria-label="Secciones de la app">
+    <button class="nav-tab active" role="tab" aria-selected="true"  aria-controls="tab-reps"        data-tab="reps">
       <span class="tab-icon">🎲</span>Reps
     </button>
 
-    <button class="nav-tab" onclick="switchTab('roulette', this)">
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-roulette"    data-tab="roulette">
       <span class="tab-icon">🎯</span>Ruleta
     </button>
 
-    <button class="nav-tab" onclick="switchTab('skills', this)">
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-skills"      data-tab="skills">
       <span class="tab-icon">🎓</span>Aprende
     </button>
 
-    <button class="nav-tab" onclick="switchTab('challenges', this)">
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-challenges"  data-tab="challenges">
       <span class="tab-icon">⚡</span>Retos
     </button>
 
-    <button class="nav-tab" onclick="switchTab('timer', this)">
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-timer"       data-tab="timer">
       <span class="tab-icon">⏱️</span>Timer
     </button>
 
-    <button class="nav-tab" onclick="switchTab('ranking', this)">
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-ranking"     data-tab="ranking">
       <span class="tab-icon">🏆</span>Ranking
     </button>
   </nav>
@@ -54,7 +54,7 @@
         <span class="reps-number" id="repsNumber">—</span>
         <div class="reps-label">REPETICIONES</div>
       </div>
-      <button class="btn btn-accent" onclick="generateReps()">🎲 GENERAR NÚMERO</button>
+      <button class="btn btn-accent" id="generateRepsBtn">🎲 GENERAR NÚMERO</button>
     </div>
 
     <div class="card">
@@ -75,7 +75,7 @@
       <div id="repsHistory" style="display:flex;flex-wrap:wrap;gap:8px;min-height:32px;">
         <span style="color:var(--muted);font-size:0.8rem;font-weight:500;">Sin historial aún</span>
       </div>
-      <button class="btn btn-outline" style="margin-top:1rem;" onclick="clearRepsHistory()">🗑 Limpiar historial</button>
+      <button class="btn btn-outline" style="margin-top:1rem;" id="clearHistoryBtn">🗑 Limpiar historial</button>
     </div>
   </section>
 
@@ -91,8 +91,8 @@
         <div class="timer-status" id="timerStatus">LISTO</div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-accent2" id="timerStartBtn" onclick="timerToggle()">▶ INICIAR</button>
-        <button class="btn btn-outline2" onclick="timerReset()">↺ RESET</button>
+        <button class="btn btn-accent2" id="timerStartBtn">▶ INICIAR</button>
+        <button class="btn btn-outline2" id="timerResetBtn">↺ RESET</button>
       </div>
     </div>
 
@@ -105,8 +105,8 @@
       </p>
 
       <div class="time-source-toggle">
-        <button class="time-src-btn active" id="srcTimer" onclick="selectTimeSource('timer')">⏱ Usar cronómetro</button>
-        <button class="time-src-btn" id="srcManual" onclick="selectTimeSource('manual')">✏️ Introducir manual</button>
+        <button class="time-src-btn active" id="srcTimer">⏱ Usar cronómetro</button>
+        <button class="time-src-btn" id="srcManual">✏️ Introducir manual</button>
       </div>
 
       <div id="manualTimeFields" style="display:none; margin-bottom:0.8rem;">
@@ -129,7 +129,7 @@
         </div>
       </div>
 
-      <button class="btn btn-accent" id="saveRankingBtn" onclick="saveToRanking()">🏆 GUARDAR EN RANKING</button>
+      <button class="btn btn-accent" id="saveRankingBtn">🏆 GUARDAR EN RANKING</button>
     </div>
   </section>
 
@@ -159,8 +159,8 @@
       </p>
 
       <div class="btn-row" style="margin-top:1rem;">
-        <button class="btn btn-outline" onclick="loadRanking(true)">🔄 Actualizar ranking</button>
-        <button class="btn btn-outline2" id="deleteMyEntryBtn" onclick="confirmDeleteMyEntry()">🗑 Borrar mi marca</button>
+        <button class="btn btn-outline" id="updateRankingBtn">🔄 Actualizar ranking</button>
+        <button class="btn btn-outline2" id="deleteMyEntryBtn">🗑 Borrar mi marca</button>
       </div>
     </div>
   </section>
@@ -178,25 +178,25 @@
           <div class="exercise-wheel__glow"></div>
           <div class="exercise-wheel__labels" id="exerciseWheelLabels"></div>
 
-          <div class="exercise-wheel__center" id="rouletteSpinBtn" onclick="spinExerciseRoulette()" style="cursor:pointer;" title="¡Toca para girar!">
+          <div class="exercise-wheel__center" id="rouletteSpinBtn" style="cursor:pointer;" title="¡Toca para girar!">
             <span class="exercise-wheel__center-top">CALI</span>
             <strong class="exercise-wheel__center-main">SPIN</strong>
           </div>
         </div>
 
         <!-- ⚔️ Survival Badge + Popover (desktop) -->
-        <div class="survival-teaser" id="survivalTeaser" onclick="toggleSurvivalPopover(event)" title="Modo Supervivencia">
+        <div class="survival-teaser" id="survivalTeaser" title="Modo Supervivencia">
           <span class="survival-teaser-icon">⚔️</span>
           <span class="survival-teaser-label">SURVIVAL</span>
         </div>
 
         <div class="survival-popover survival-popover--desktop" id="survivalPopoverDesktop">
           <div class="survival-popover-arrow"></div>
-          <button class="survival-popover-close" onclick="closeSurvivalPopover()">✕</button>
+          <button class="survival-popover-close" id="survivalPopoverCloseBtn">✕</button>
           <div class="surv-popover-header">
             <div class="survival-popover-title">⚔️ Modo Supervivencia</div>
             <label class="toggle-switch surv-toggle-inline">
-              <input type="checkbox" id="survivalToggleDesktop" onchange="onSurvivalToggleChange(this.checked)">
+              <input type="checkbox" id="survivalToggleDesktop">
               <span class="toggle-track"></span>
             </label>
           </div>
@@ -213,7 +213,7 @@
               </div>
             </div>
             <button class="btn btn-accent3 survival-fail-btn" id="survivalFailBtnDesktop"
-                    onclick="survivalFail()" style="display:none">
+                    style="display:none">
               💀 No pude — fin de supervivencia
             </button>
           </div>
@@ -229,14 +229,14 @@
       </div>
 
       <button class="btn btn-outline roulette-end-session-btn" id="rouletteEndSessionBtn"
-              onclick="endRouletteSession()" style="display:none;">
+              style="display:none;">
         <span class="session-giro-badge" id="sessionGiroBadge">0</span>
         Revisar sesión
       </button>
 
       <!-- Panel Supervivencia (móvil): accordion debajo de la ruleta -->
       <div class="survival-mobile-panel" id="survivalMobilePanel">
-        <div class="surv-mobile-header" onclick="toggleSurvivalMobilePanel()">
+        <div class="surv-mobile-header" id="survivalMobileHeader">
           <span class="surv-mobile-header-label">⚔️ Modo Supervivencia</span>
           <div class="surv-mobile-header-right">
             <span class="surv-mobile-chevron">▾</span>
@@ -247,7 +247,7 @@
           <div class="surv-mobile-toggle-row">
             <span class="surv-mobile-toggle-label">Activar modo</span>
             <label class="toggle-switch">
-              <input type="checkbox" id="survivalToggleMobile" onchange="onSurvivalToggleChange(this.checked)">
+              <input type="checkbox" id="survivalToggleMobile">
               <span class="toggle-track"></span>
             </label>
           </div>
@@ -272,7 +272,7 @@
               </div>
             </div>
             <button class="btn btn-accent3 survival-fail-btn" id="survivalFailBtnMobile"
-                    onclick="survivalFail()" style="display:none">
+                    style="display:none">
               💀 No pude — fin de supervivencia
             </button>
           </div>
@@ -340,7 +340,7 @@
           <span class="label" style="font-size:0.65rem">REPS MÁX</span>
           <input type="number" class="range-input" id="routineRepMax" value="12" min="1" max="99">
         </div>
-        <button class="btn btn-accent routine-gen-btn" onclick="generateRoutine()">
+        <button class="btn btn-accent routine-gen-btn" id="routineGenBtn">
           🎲 Crear Rutina
         </button>
       </div>
@@ -359,18 +359,18 @@
     <div class="card">
       <span class="label">Dificultad</span>
       <div class="challenges-level-filters">
-        <button class="challenges-level-btn active" data-nivel="Fácil" onclick="setLevelFilter('Fácil')">🟢 Fácil</button>
-        <button class="challenges-level-btn" data-nivel="Intermedio" onclick="setLevelFilter('Intermedio')">🟡 Intermedio</button>
-        <button class="challenges-level-btn" data-nivel="Avanzado" onclick="setLevelFilter('Avanzado')">🔴 Avanzado</button>
+        <button class="challenges-level-btn active" data-nivel="Fácil">🟢 Fácil</button>
+        <button class="challenges-level-btn" data-nivel="Intermedio">🟡 Intermedio</button>
+        <button class="challenges-level-btn" data-nivel="Avanzado">🔴 Avanzado</button>
       </div>
     </div>
 
     <div class="card">
       <span class="label">Tipo de reto</span>
       <div class="challenges-type-filters">
-        <button class="challenges-type-btn active" data-tipo="todos" onclick="setTypeFilter(null)">📋 Todos</button>
-        <button class="challenges-type-btn" data-tipo="Tirón" onclick="setTypeFilter('Tirón')">💪 Tirón</button>
-        <button class="challenges-type-btn" data-tipo="Empuje" onclick="setTypeFilter('Empuje')">💪 Empuje</button>
+        <button class="challenges-type-btn active" data-tipo="todos">📋 Todos</button>
+        <button class="challenges-type-btn" data-tipo="Tirón">💪 Tirón</button>
+        <button class="challenges-type-btn" data-tipo="Empuje">💪 Empuje</button>
       </div>
     </div>
 
@@ -388,7 +388,7 @@
   <div class="toast" id="toast"></div>
 
   <!-- MODAL -->
-  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <div class="modal-handle"></div>
       <div class="modal-scroll-body">
@@ -396,7 +396,7 @@
         <p id="modalText" style="color:var(--muted);font-size:0.9rem;font-weight:600;margin-bottom:1.4rem;line-height:1.5;"></p>
       </div>
       <div class="btn-row modal-btn-row">
-        <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-outline" id="modalCancelBtn">Cancelar</button>
         <button class="btn btn-accent3" id="modalConfirmBtn">Confirmar</button>
       </div>
     </div>
