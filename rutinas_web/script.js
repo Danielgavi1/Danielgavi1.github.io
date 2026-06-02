@@ -170,10 +170,10 @@ function renderRutina(persona, secciones) {
 function cargarVictoria() {
   const rutina = {
     "<img src='./img/culo.webp' width='25%'>": [
-      "<strong>Hip trust libre:</strong> (barra 22.7Kg) + 30Kg <br> (15Kg x lado) 4 x 10 reps + negativa al fallo",
-      "<strong>Patada de glúteo:</strong> 9Kg 4 x 10 reps",
-      "<strong>Sentadilla búlgara con barra:</strong> (5Kg por lado) 3 x 10 reps",
-      "<strong>Abductor externo focalizado glúteo 🍑:</strong> 47Kg 4 x 10 reps",
+      "<strong>Hip trust libre:</strong> (barra 22.7Kg) + 50Kg <br> (25Kg x lado) 3 x 10 reps + negativa al fallo",
+      "<strong>Patada de glúteo:</strong> 11.3Kg 4 x 10 reps",
+      "<strong>Sentadilla búlgara multipower:</strong> barra: (22.7Kg) + 12.5Kg (6.25Kg por lado) 3 x 10 reps",
+      "<strong>Abductor externo focalizado glúteo 🍑:</strong> 50Kg 3 x 10 reps",
       "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 59Kg 3 x 10 reps",
       "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
       "<strong>Hacka:</strong> (barra) 3 x 10 reps"
@@ -182,7 +182,8 @@ function cargarVictoria() {
       "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
       "<strong>Curl de pierna:</strong> 18Kg 3 x 10 reps",
       "<strong>Abductor interno:</strong> 54Kg 3 x 10 reps",
-      "<strong>Abductor externo:</strong> 59Kg 3 x 10 reps"
+      "<strong>Abductor externo:</strong> 59Kg 3 x 10 reps",
+      "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 59Kg 3 x 10 reps",
     ],
     "<img src='./img/espalda.webp' width='30%'>": [
       "<strong>Estirar hacia abajo:</strong> 27.5Kg 3 x 10 reps",
