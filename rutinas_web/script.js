@@ -19,7 +19,7 @@ const RUTINAS = {
       ],
       pierna: [
         { id: 'v-pi-0', name: 'Extensión de cuádriceps', load: '27.5Kg', sets: '3', reps: '10' },
-        { id: 'v-pi-1', name: 'Curl de pierna',           load: '18Kg',  sets: '3', reps: '10' },
+        { id: 'v-pi-1', name: 'Curl de pierna',           load: '23Kg',  sets: '3', reps: '10' },
         { id: 'v-pi-2', name: 'Abductor interno',         load: '54Kg',  sets: '3', reps: '10' },
         { id: 'v-pi-3', name: 'Abductor externo',         load: '59Kg',  sets: '3', reps: '10' },
         { id: 'v-pi-4', name: 'Press pierna sentada 🍑',  load: '59Kg',  sets: '3', reps: '10', note: 'rango completo' },
