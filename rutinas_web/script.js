@@ -1,263 +1,510 @@
-function generarLista(titulo, ejercicios, persona) {
-  let html = `<h2>${titulo}</h2><ul>`;
-  ejercicios.forEach((ejercicio, i) => {
-    const id = `${persona}-${titulo}-${i}`.replace(/[^a-zA-Z0-9-]/g, '-');
-    const regex = /(<strong>.*?<\/strong>)(.*)/;
-    const match = ejercicio.match(regex);
-    let nombre = ejercicio, editableParte = "";
-    if (match) {
-      nombre = match[1];
-      editableParte = match[2].trim();
+'use strict';
+
+/* ============================================================
+   DATOS DE RUTINAS
+   ============================================================ */
+
+const RUTINAS = {
+  victoria: {
+    label: 'Victoria',
+    sections: {
+      gluteo: [
+        { id: 'v-gl-0', name: 'Hip trust libre',               load: '(barra 22.7Kg) + 50Kg',     sets: '3', reps: '10', note: 'negativa al fallo' },
+        { id: 'v-gl-1', name: 'Patada de glúteo',              load: '11.3Kg',                     sets: '4', reps: '10' },
+        { id: 'v-gl-2', name: 'Sentadilla búlgara multipower', load: 'barra (22.7Kg) + 12.5Kg',   sets: '3', reps: '10' },
+        { id: 'v-gl-3', name: 'Abductor externo focalizado 🍑',load: '50Kg',                       sets: '3', reps: '10' },
+        { id: 'v-gl-4', name: 'Press pierna sentada 🍑',       load: '59Kg',                       sets: '3', reps: '10', note: 'rango completo' },
+        { id: 'v-gl-5', name: 'Peso muerto rumano',            load: '—',                          sets: '3', reps: '10' },
+        { id: 'v-gl-6', name: 'Hacka',                         load: '(barra)',                    sets: '3', reps: '10' },
+      ],
+      pierna: [
+        { id: 'v-pi-0', name: 'Extensión de cuádriceps', load: '27.5Kg', sets: '3', reps: '10' },
+        { id: 'v-pi-1', name: 'Curl de pierna',           load: '18Kg',  sets: '3', reps: '10' },
+        { id: 'v-pi-2', name: 'Abductor interno',         load: '54Kg',  sets: '3', reps: '10' },
+        { id: 'v-pi-3', name: 'Abductor externo',         load: '59Kg',  sets: '3', reps: '10' },
+        { id: 'v-pi-4', name: 'Press pierna sentada 🍑',  load: '59Kg',  sets: '3', reps: '10', note: 'rango completo' },
+      ],
+      espalda: [
+        { id: 'v-es-0', name: 'Estirar hacia abajo', load: '27.5Kg', sets: '3', reps: '10' },
+        { id: 'v-es-1', name: 'Remo',                load: '15Kg',   sets: '3', reps: '10' },
+      ],
+    },
+  },
+
+  daniel: {
+    label: 'Daniel',
+    sections: {
+      gluteo: [
+        { id: 'd-gl-0', name: 'Hip trust',                        load: '20Kg',   sets: '4', reps: '10' },
+        { id: 'd-gl-1', name: 'Patada de glúteo',                 load: '20Kg',   sets: '4', reps: '10' },
+        { id: 'd-gl-2', name: 'Press pierna sentado 🍑',          load: '87Kg',   sets: '3', reps: '10', note: 'rango completo' },
+        { id: 'd-gl-3', name: 'Peso muerto rumano',               load: '—',      sets: '3', reps: '10' },
+        { id: 'd-gl-4', name: 'Sentadilla búlgara con mancuerna', load: '—',      sets: '4', reps: '10' },
+        { id: 'd-gl-5', name: 'Abductor focalizado 🍑',           load: '50Kg',   sets: '3', reps: '10' },
+        { id: 'd-gl-6', name: 'Hacka',                            load: '(barra)', sets: '3', reps: '10' },
+      ],
+      pierna: [
+        { id: 'd-pi-0', name: 'Femoral tumbado',           load: '25Kg', sets: '3', reps: '10' },
+        { id: 'd-pi-1', name: 'Extensión de cuádriceps',   load: '45Kg', sets: '3', reps: '10' },
+        { id: 'd-pi-2', name: 'Curl de pierna',            load: '35Kg', sets: '3', reps: '10' },
+        { id: 'd-pi-3', name: 'Abductor interno',          load: '93Kg', sets: '3', reps: '10' },
+        { id: 'd-pi-4', name: 'Aductor externo',           load: '77Kg', sets: '3', reps: '10' },
+      ],
+      espalda: [
+        { id: 'd-es-0', name: 'Estirar hacia abajo', load: '75Kg', sets: '3', reps: '10' },
+        { id: 'd-es-1', name: 'Remo',                load: '75Kg', sets: '3', reps: '10' },
+      ],
+    },
+  },
+};
+
+const SECTION_META = {
+  gluteo:  { label: 'Glúteo',  emoji: '🍑' },
+  pierna:  { label: 'Pierna',  emoji: '🦵' },
+  espalda: { label: 'Espalda', emoji: '💪' },
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentPerson = localStorage.getItem('person') || 'victoria';
+let currentFilter = 'all';
+let searchOpen    = false;
+
+/* ============================================================
+   STORAGE HELPERS
+   ============================================================ */
+const store = {
+  isDone(id)         { return localStorage.getItem(`chk:${id}`) === '1'; },
+  setDone(id, val)   { val ? localStorage.setItem(`chk:${id}`, '1') : localStorage.removeItem(`chk:${id}`); },
+  getLoad(id, def)   { return localStorage.getItem(`ld:${id}`) || def; },
+  setLoad(id, val)   { localStorage.setItem(`ld:${id}`, val); },
+};
+
+/* ============================================================
+   RENDER HELPERS
+   ============================================================ */
+
+function cardHTML(ex, sectionKey) {
+  const done  = store.isDone(ex.id);
+  const load  = store.getLoad(ex.id, ex.load);
+  const doneClass = done ? ' done' : '';
+
+  return /* html */`
+    <article class="ex-card${doneClass}"
+             data-id="${ex.id}"
+             data-group="${sectionKey}"
+             data-name="${ex.name.toLowerCase()}"
+             role="listitem">
+      <div class="ex-body">
+        <p class="ex-name">${ex.name}</p>
+        <div class="ex-meta">
+          <span class="ex-sets">${ex.sets}×${ex.reps}</span>
+          <span class="ex-dot">·</span>
+          <span class="ex-load"
+                data-id="${ex.id}"
+                data-default="${ex.load}"
+                title="Toca para editar carga">${load}</span>
+          ${ex.note ? `<span class="ex-dot">·</span><span class="ex-note">${ex.note}</span>` : ''}
+        </div>
+      </div>
+      <button class="ex-check-btn"
+              type="button"
+              tabindex="-1"
+              aria-label="${done ? 'Completado' : 'Marcar como completado'}">
+        <svg class="check-icon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="3.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </button>
+    </article>`;
+}
+
+function sectionHTML(sectionKey, exercises) {
+  const meta  = SECTION_META[sectionKey];
+  const done  = exercises.filter(ex => store.isDone(ex.id)).length;
+  const total = exercises.length;
+  const pct   = total ? ((done / total) * 100).toFixed(1) : 0;
+  const allDone = done === total && total > 0;
+
+  return /* html */`
+    <section class="section" data-group="${sectionKey}">
+      <div class="section-header">
+        <div class="section-left">
+          <span class="section-emoji">${meta.emoji}</span>
+          <h2 class="section-title">${meta.label}</h2>
+        </div>
+        <span class="section-badge${allDone ? ' all-done' : ''}">${done}/${total}</span>
+      </div>
+      <div class="section-minibar">
+        <div class="section-minibar-fill" style="width:${pct}%"></div>
+      </div>
+      ${allDone ? '<div class="section-complete">¡Sección completada! 🎉</div>' : ''}
+      <div class="ex-list" role="list">
+        ${exercises.map(ex => cardHTML(ex, sectionKey)).join('')}
+      </div>
+    </section>`;
+}
+
+/* ============================================================
+   RENDER — FULL REPAINT
+   ============================================================ */
+function render() {
+  const rutina = RUTINAS[currentPerson];
+  const main   = document.getElementById('main');
+
+  main.innerHTML = Object.entries(rutina.sections)
+    .map(([key, exs]) => sectionHTML(key, exs))
+    .join('');
+
+  updateProgress();
+  bindCardEvents();
+
+  // Re-apply current filter & search without re-parsing query
+  applyFilter(currentFilter, /* silent */ true);
+  const q = document.getElementById('searchInput').value;
+  if (q) applySearch(q);
+}
+
+/* ============================================================
+   PROGRESS UPDATE (incremental, no full re-render)
+   ============================================================ */
+function updateProgress() {
+  const rutina = RUTINAS[currentPerson];
+  let totalAll = 0, doneAll = 0;
+
+  Object.entries(rutina.sections).forEach(([key, exs]) => {
+    const d = exs.filter(ex => store.isDone(ex.id)).length;
+    const t = exs.length;
+    totalAll += t;
+    doneAll  += d;
+
+    const section  = document.querySelector(`.section[data-group="${key}"]`);
+    if (!section) return;
+
+    const badge    = section.querySelector('.section-badge');
+    const fill     = section.querySelector('.section-minibar-fill');
+    const existing = section.querySelector('.section-complete');
+    const list     = section.querySelector('.ex-list');
+    const allDone  = d === t && t > 0;
+
+    if (badge) {
+      badge.textContent = `${d}/${t}`;
+      badge.classList.toggle('all-done', allDone);
     }
+    if (fill) fill.style.width = t ? `${((d / t) * 100).toFixed(1)}%` : '0%';
 
-    html += `
-      <li data-exercise="${nombre.replace(/<strong>|<\/strong>/g, '').toLowerCase()}">
-        <input type="checkbox" id="${id}">
-        <label for="${id}">${nombre} <span id="editable-${id}">${editableParte}</span></label>
-        <button type="button" class="edit-btn" data-id="${id}">Editar texto</button>
-      </li>`;
+    // Insert / remove completion banner
+    if (allDone && !existing) {
+      const banner = document.createElement('div');
+      banner.className = 'section-complete';
+      banner.textContent = '¡Sección completada! 🎉';
+      section.querySelector('.section-minibar').insertAdjacentElement('afterend', banner);
+    } else if (!allDone && existing) {
+      existing.remove();
+    }
   });
-  html += '</ul>';
-  return html;
+
+  // Global bar
+  document.getElementById('doneCount').textContent  = doneAll;
+  document.getElementById('totalCount').textContent = totalAll;
+  const pct = totalAll ? ((doneAll / totalAll) * 100).toFixed(1) : 0;
+  const fill = document.getElementById('progressFill');
+  fill.style.width = `${pct}%`;
+  fill.classList.toggle('complete', doneAll === totalAll && totalAll > 0);
 }
 
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+/* ============================================================
+   CARD EVENTS (re-bound after each render)
+   ============================================================ */
+function bindCardEvents() {
+  document.querySelectorAll('.ex-card').forEach(card => {
+    card.addEventListener('click', e => {
+      // Don't toggle when clicking on the load editor
+      if (e.target.closest('.ex-load') || e.target.tagName === 'INPUT') return;
+      toggleCard(card);
+    });
+  });
+
+  document.querySelectorAll('.ex-load').forEach(loadEl => {
+    loadEl.addEventListener('click', e => {
+      e.stopPropagation();
+      startLoadEdit(loadEl);
+    });
+  });
+}
+
+function toggleCard(card) {
+  const id       = card.dataset.id;
+  const newState = !store.isDone(id);
+  store.setDone(id, newState);
+
+  card.classList.toggle('done', newState);
+
+  const btn = card.querySelector('.ex-check-btn');
+  if (btn) {
+    btn.setAttribute('aria-label', newState ? 'Completado' : 'Marcar como completado');
+    // Re-trigger animation by removing and adding done class trick
+    btn.style.animation = 'none';
+    btn.offsetHeight; // reflow
+    btn.style.animation = '';
+  }
+
+  card.classList.add('popping');
+  card.addEventListener('animationend', () => card.classList.remove('popping'), { once: true });
+
+  updateProgress();
+}
+
+/* ============================================================
+   LOAD EDITING (inline, no modal)
+   ============================================================ */
+function startLoadEdit(loadEl) {
+  if (loadEl.querySelector('input')) return; // already editing
+
+  const id         = loadEl.dataset.id;
+  const current    = loadEl.textContent.trim();
+  const defaultVal = loadEl.dataset.default;
+
+  // Build inline input
+  const input = document.createElement('input');
+  input.type      = 'text';
+  input.value     = current === '—' ? '' : current;
+  input.className = 'load-input';
+  input.setAttribute('aria-label', 'Editar carga');
+
+  loadEl.textContent = '';
+  loadEl.appendChild(input);
+  loadEl.classList.add('editing');
+
+  requestAnimationFrame(() => { input.focus(); input.select(); });
+
+  const save = () => {
+    const newVal = input.value.trim() || defaultVal;
+    store.setLoad(id, newVal);
+    loadEl.classList.remove('editing');
+    loadEl.textContent = newVal;
   };
+
+  const cancel = () => {
+    loadEl.classList.remove('editing');
+    loadEl.textContent = current;
+  };
+
+  input.addEventListener('blur', save);
+  input.addEventListener('keydown', e => {
+    e.stopPropagation();
+    if (e.key === 'Enter')  { e.preventDefault(); input.blur(); }
+    if (e.key === 'Escape') { input.removeEventListener('blur', save); cancel(); }
+  });
 }
 
-function configurarBuscador(persona) {
-  const searchInput = document.getElementById('searchInput');
-  const searchResults = document.getElementById('searchResults');
-  let resultados = [];
-  let indiceActual = -1;
+/* ============================================================
+   FILTER
+   ============================================================ */
+function applyFilter(filter, silent = false) {
+  currentFilter = filter;
 
-  const updateSearch = debounce(() => {
-    const query = searchInput.value.trim().toLowerCase();
-    const ejercicios = document.querySelectorAll('li[data-exercise]');
-    resultados = [];
-    indiceActual = -1;
+  if (!silent) {
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.classList.toggle('active', chip.dataset.filter === filter);
+    });
+  }
 
-    ejercicios.forEach(ejercicio => {
-      ejercicio.classList.remove('highlight');
-      ejercicio.classList.remove('hidden');
+  document.querySelectorAll('.section').forEach(section => {
+    const group   = section.dataset.group;
+    const visible = filter === 'all' || filter === group;
+    section.classList.toggle('hidden', !visible);
+  });
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+function applySearch(query) {
+  const q    = (query || '').trim().toLowerCase();
+  const info = document.getElementById('searchInfo');
+
+  if (!q) {
+    // Restore filter state
+    document.querySelectorAll('.ex-card').forEach(c => c.classList.remove('search-hidden'));
+    document.querySelectorAll('.section').forEach(s => {
+      const g = s.dataset.group;
+      s.classList.toggle('hidden', currentFilter !== 'all' && currentFilter !== g);
+    });
+    if (info) info.textContent = '';
+    return;
+  }
+
+  let totalFound = 0;
+
+  document.querySelectorAll('.section').forEach(section => {
+    let sectionFound = 0;
+    section.classList.remove('hidden');
+
+    section.querySelectorAll('.ex-card').forEach(card => {
+      const name    = card.dataset.name || '';
+      const matches = name.includes(q) || fuzzyWordMatch(name, q);
+      card.classList.toggle('search-hidden', !matches);
+      if (matches) { totalFound++; sectionFound++; }
     });
 
-    if (query) {
-      resultados = fuzzysort.go(query, Array.from(ejercicios), {
-        key: 'dataset.exercise',
-        threshold: -1000
-      }).map(result => result.obj);
+    if (sectionFound === 0) section.classList.add('hidden');
+  });
 
-      if (resultados.length > 0) {
-        resultados.forEach(ejercicio => ejercicio.classList.add('highlight'));
-        ejercicios.forEach(ejercicio => {
-          if (!resultados.includes(ejercicio)) ejercicio.classList.add('hidden');
-        });
-        indiceActual = 0;
-        resultados[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        searchResults.textContent = `${resultados.length} ejercicio${resultados.length > 1 ? 's' : ''} encontrado${resultados.length > 1 ? 's' : ''}`;
-        searchResults.classList.remove('no-results');
-      } else {
-        searchInput.classList.add('no-results');
-        setTimeout(() => searchInput.classList.remove('no-results'), 500);
-        searchResults.textContent = 'No se encontraron ejercicios';
-        searchResults.classList.add('no-results');
-      }
+  if (info) {
+    if (totalFound > 0) {
+      info.textContent = `${totalFound} ejercicio${totalFound !== 1 ? 's' : ''} encontrado${totalFound !== 1 ? 's' : ''}`;
+      info.style.color = '';
     } else {
-      searchResults.textContent = '';
+      info.textContent = 'Sin resultados';
+      info.style.color = '#f87171';
     }
-
-    localStorage.setItem(`searchQuery-${persona}`, searchInput.value);
-  }, 300);
-
-  searchInput.addEventListener('input', updateSearch);
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && resultados.length > 0) {
-      e.preventDefault();
-      if (indiceActual < resultados.length - 1) {
-        indiceActual++;
-        resultados[indiceActual].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-  });
-}
-
-function renderRutina(persona, secciones) {
-  let html = `<h1>${persona}</h1>`;
-  for (const [titulo, ejercicios] of Object.entries(secciones)) {
-    html += generarLista(titulo, ejercicios, persona);
-  }
-
-  html += `<button id="reset">🔄 Reiniciar</button>`;
-  document.getElementById('contenido').innerHTML = html;
-
-  // Restaurar checkboxes
-  document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-    const saved = localStorage.getItem(checkbox.id);
-    if (saved === "true") checkbox.checked = true;
-
-    checkbox.addEventListener("change", () => {
-      localStorage.setItem(checkbox.id, checkbox.checked);
-    });
-  });
-
-  // Restaurar textos editables
-  document.querySelectorAll('.edit-btn').forEach(button => {
-    const id = button.getAttribute('data-id');
-    const editableSpan = document.getElementById(`editable-${id}`);
-    const savedText = localStorage.getItem(`texto-${id}`);
-    if (savedText) editableSpan.textContent = savedText;
-
-    button.addEventListener('click', () => {
-      if (button.textContent === "Editar texto") {
-        editableSpan.contentEditable = "true";
-        editableSpan.focus();
-        button.textContent = "Guardar";
-      } else {
-        editableSpan.contentEditable = "false";
-        localStorage.setItem(`texto-${id}`, editableSpan.textContent.trim());
-        button.textContent = "Editar texto";
-      }
-    });
-  });
-
-  // Botón reiniciar
-  const resetBtn = document.getElementById("reset");
-  resetBtn.addEventListener("click", () => {
-    if (confirm("¿Estás segur@ de que quieres reiniciar la rutina?")) {
-      document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-        checkbox.checked = false;
-        localStorage.removeItem(checkbox.id);
-      });
-
-      document.querySelectorAll('.edit-btn').forEach(button => {
-        const id = button.getAttribute('data-id');
-        localStorage.removeItem(`texto-${id}`);
-      });
-
-      localStorage.removeItem(`searchQuery-${persona}`);
-      document.getElementById('searchInput').value = '';
-      document.getElementById('searchResults').textContent = '';
-
-      if (persona === "Victoria") {
-        cargarVictoria();
-      } else {
-        cargarDaniel();
-      }
-    }
-  });
-
-  // Configurar buscador
-  configurarBuscador(persona);
-
-  // Restaurar búsqueda guardada
-  const savedSearch = localStorage.getItem(`searchQuery-${persona}`);
-  if (savedSearch) {
-    const searchInput = document.getElementById('searchInput');
-    searchInput.value = savedSearch;
-    searchInput.dispatchEvent(new Event('input'));
   }
 }
 
-function cargarVictoria() {
-  const rutina = {
-    "<img src='./img/culo.webp' width='25%'>": [
-      "<strong>Hip trust libre:</strong> (barra 22.7Kg) + 50Kg <br> (25Kg x lado) 3 x 10 reps + negativa al fallo",
-      "<strong>Patada de glúteo:</strong> 11.3Kg 4 x 10 reps",
-      "<strong>Sentadilla búlgara multipower:</strong> barra: (22.7Kg) + 12.5Kg (6.25Kg por lado) 3 x 10 reps",
-      "<strong>Abductor externo focalizado glúteo 🍑:</strong> 50Kg 3 x 10 reps",
-      "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 59Kg 3 x 10 reps",
-      "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
-      "<strong>Hacka:</strong> (barra) 3 x 10 reps"
-    ],
-    "<img src='./img/pierna.webp' width='25%'>": [
-      "<strong>Extensión de cuádriceps:</strong> 27.5Kg 3 x 10 reps",
-      "<strong>Curl de pierna:</strong> 18Kg 3 x 10 reps",
-      "<strong>Abductor interno:</strong> 54Kg 3 x 10 reps",
-      "<strong>Abductor externo:</strong> 59Kg 3 x 10 reps",
-      "<strong>Press pierna sentada</strong> (ajustar rango completo 🍑): 59Kg 3 x 10 reps",
-    ],
-    "<img src='./img/espalda.webp' width='30%'>": [
-      "<strong>Estirar hacia abajo:</strong> 27.5Kg 3 x 10 reps",
-      "<strong>Remo:</strong> 15Kg 3 x 10 reps"
-    ]
-  };
-  renderRutina("Victoria", rutina);
+function fuzzyWordMatch(text, query) {
+  // Match each word of the query independently (min 2 chars)
+  return query.split(/\s+/).filter(w => w.length >= 2).some(w => text.includes(w));
 }
 
-function cargarDaniel() {
-  const rutina = {
-    "<img src='./img/culo.webp' width='25%'>": [
-      "<strong>Hip trust:</strong> 20Kg 4 x 10 reps",
-      "<strong>Patada de glúteo:</strong> 20Kg 4 x 10 reps",
-      "<strong>Press pierna sentado</strong> (ajustar rango completo 🍑): 87Kg 3 x 10 reps",
-      "<strong>Peso muerto rumano:</strong> 3 x 10 reps",
-      "<strong>Sentadilla búlgara con mancuerna:</strong> 4 x 10 reps",
-      "<strong>Abductor focalizado glúteo 🍑:</strong> 50Kg 3 x 10 reps",
-      "<strong>Hacka:</strong> (barra) 3 x 10 reps"
-    ],
-    "<img src='./img/pierna.webp' width='25%'>": [
-      "<strong>Femoral tumbado:</strong> 25Kg 3 x 10 reps",
-      "<strong>Extensión de cuádriceps:</strong> 45Kg 3 x 10 reps",
-      "<strong>Curl de pierna:</strong> 35Kg 3 x 10 reps",
-      "<strong>Abductor interno:</strong> 93Kg 3 x 10 reps",
-      "<strong>Aductor externo:</strong> 77Kg 3 x 10 reps"
-    ],
-    "<img src='./img/espalda.webp' width='30%'>": [
-      "<strong>Estirar hacia abajo:</strong> 75Kg 3 x 10 reps",
-      "<strong>Remo:</strong> 75Kg 3 x 10 reps"
-    ]
-  };
-  renderRutina("Daniel", rutina);
+/* ============================================================
+   PERSON SWITCH
+   ============================================================ */
+function switchPerson(personKey) {
+  currentPerson = personKey;
+  localStorage.setItem('person', personKey);
+
+  document.querySelectorAll('.person-tab').forEach(tab => {
+    const active = tab.dataset.person === personKey;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+
+  // Clear search when switching person
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) searchInput.value = '';
+  applySearch('');
+
+  currentFilter = 'all';
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.filter === 'all');
+  });
+
+  render();
 }
 
-// === MODO OSCURO ===
-function aplicarModoOscuro() {
-  const dark = localStorage.getItem('modoOscuro');
-  if (dark === 'true') {
-    document.body.classList.add('dark');
+/* ============================================================
+   THEME
+   ============================================================ */
+function applyTheme(save = false) {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const stored      = localStorage.getItem('theme');
+  const isDark      = stored ? stored === 'dark' : prefersDark;
+
+  if (save) localStorage.setItem('theme', isDark ? 'light' : 'dark');
+
+  const nowDark = save ? !isDark : isDark;
+  document.body.classList.toggle('dark',  nowDark);
+  document.body.classList.toggle('light', !nowDark);
+
+  // Update theme-color meta for mobile browsers
+  const meta = document.getElementById('themeColor');
+  if (meta) meta.content = nowDark ? '#0C0E14' : '#F0F3FA';
+}
+
+/* ============================================================
+   RESET SESSION
+   ============================================================ */
+function resetSession() {
+  const rutina = RUTINAS[currentPerson];
+  Object.values(rutina.sections).forEach(exs =>
+    exs.forEach(ex => store.setDone(ex.id, false))
+  );
+  render();
+}
+
+/* ============================================================
+   SEARCH TOGGLE
+   ============================================================ */
+function toggleSearch(force) {
+  searchOpen = typeof force === 'boolean' ? force : !searchOpen;
+
+  const bar   = document.getElementById('searchBar');
+  const input = document.getElementById('searchInput');
+
+  bar.classList.toggle('open', searchOpen);
+  bar.setAttribute('aria-hidden', searchOpen ? 'false' : 'true');
+
+  if (searchOpen) {
+    setTimeout(() => input && input.focus(), 220);
   } else {
-    document.body.classList.remove('dark');
+    if (input) input.value = '';
+    applySearch('');
   }
 }
 
-// Actualizar icono del botón de modo oscuro
-function actualizarIconoModoOscuro() {
-  const darkToggle = document.getElementById("darkModeToggle");
-  if (!darkToggle) return;
+/* ============================================================
+   INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
 
-  const isDark = document.body.classList.contains("dark");
-  darkToggle.textContent = isDark ? "☀️" : "🌙";
-}
+  // ── Theme ──────────────────────────────────────────────
+  applyTheme();
 
-// === INICIO DE LA APP ===
-window.addEventListener("DOMContentLoaded", () => {
-  // Aplicar modo oscuro guardado
-  aplicarModoOscuro();
-  actualizarIconoModoOscuro();
+  document.getElementById('darkToggle').addEventListener('click', () => applyTheme(true));
 
-  // Configurar botón de modo oscuro
-  const darkToggle = document.getElementById("darkModeToggle");
-  if (darkToggle) {
-    darkToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-      localStorage.setItem("modoOscuro", document.body.classList.contains("dark"));
-      actualizarIconoModoOscuro();
-    });
-  }
+  // ── Person tabs ────────────────────────────────────────
+  document.querySelectorAll('.person-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchPerson(tab.dataset.person));
+  });
 
-  // Configurar botones de cambio de rutina
-  document.getElementById("victoriaBtn").addEventListener("click", cargarVictoria);
-  document.getElementById("danielBtn").addEventListener("click", cargarDaniel);
+  // Set initial active tab visually
+  document.querySelectorAll('.person-tab').forEach(tab => {
+    const active = tab.dataset.person === currentPerson;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
 
-  // Cargar rutina por defecto
-  cargarVictoria();
+  // ── Filter chips ───────────────────────────────────────
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => applyFilter(chip.dataset.filter));
+  });
+
+  // ── Search ─────────────────────────────────────────────
+  document.getElementById('searchToggle').addEventListener('click', () => toggleSearch());
+
+  const searchInput = document.getElementById('searchInput');
+  const searchClear = document.getElementById('searchClear');
+
+  searchInput.addEventListener('input', () => applySearch(searchInput.value));
+
+  searchInput.addEventListener('keydown', e => {
+    if (e.key === 'Escape') toggleSearch(false);
+  });
+
+  searchClear.addEventListener('click', () => {
+    searchInput.value = '';
+    applySearch('');
+    searchInput.focus();
+  });
+
+  // ── Reset ──────────────────────────────────────────────
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (confirm(`¿Reiniciar la sesión de ${RUTINAS[currentPerson].label}?\nSe borrarán todos los checks.`)) {
+      resetSession();
+    }
+  });
+
+  // ── Keyboard shortcut: "/" opens search ────────────────
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !searchOpen && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      toggleSearch(true);
+    }
+  });
+
+  // ── Initial render ─────────────────────────────────────
+  render();
 });

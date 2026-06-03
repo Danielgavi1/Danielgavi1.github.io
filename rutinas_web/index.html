@@ -2,32 +2,93 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" id="themeColor" content="#0C0E14" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Rutinas</title>
   <link rel="stylesheet" href="./style.css" />
-  <script src="https://unpkg.com/fuzzysort@2.0.4/fuzzysort.min.js"></script>
-  <script src="./script.js" defer></script>
-  <!-- Icono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Outfit:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/x-icon" href="./img/pesa.ico" />
-  <!-- Iconos de alta resolución -->
-  <link rel="icon" type="image/png" sizes="192x192" href="./img/pesa-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="./img/pesa-512.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./img/pesa-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./img/pesa-512.png" />
+  <script src="./script.js" defer></script>
 </head>
-<body>
-  <nav>
-    <span class="nav-title">🏋️ Rutinas</span>
-    <div class="nav-right">
-      <button id="victoriaBtn" data-tooltip="Cargar rutina de Victoria" aria-label="Cargar rutina de Victoria">👧</button>
-      <button id="danielBtn" data-tooltip="Cargar rutina de Daniel" aria-label="Cargar rutina de Daniel">🧒</button>
-      <button id="darkModeToggle" data-tooltip="Cambiar modo oscuro/claro" aria-label="Cambiar modo oscuro/claro">🌙</button>
+<body class="dark">
+
+  <div class="app">
+
+    <!-- ── HEADER STICKY ── -->
+    <header class="header" id="header">
+      <div class="header-top">
+        <div class="person-tabs" role="group" aria-label="Seleccionar persona">
+          <button class="person-tab" data-person="victoria" aria-pressed="false">
+            <span class="person-av">👩</span>
+            <span class="person-name">Victoria</span>
+          </button>
+          <button class="person-tab" data-person="daniel" aria-pressed="false">
+            <span class="person-av">👨</span>
+            <span class="person-name">Daniel</span>
+          </button>
+        </div>
+
+        <div class="header-actions">
+          <button class="btn-icon" id="searchToggle" aria-label="Buscar ejercicio" title="Buscar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+          <button class="btn-icon" id="darkToggle" aria-label="Cambiar tema" title="Cambiar tema">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="session-progress">
+        <div class="session-info">
+          <span class="session-label">Sesión</span>
+          <span class="session-count"><strong id="doneCount">0</strong>/<span id="totalCount">0</span></span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Search (collapsible) -->
+      <div class="search-bar" id="searchBar" aria-hidden="true">
+        <div class="search-inner">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar ejercicio…" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Buscar ejercicio" />
+          <button class="search-clear" id="searchClear" aria-label="Limpiar búsqueda">✕</button>
+        </div>
+        <span class="search-info" id="searchInfo" aria-live="polite"></span>
+      </div>
+    </header>
+
+    <!-- ── FILTER CHIPS ── -->
+    <nav class="filter-bar" role="group" aria-label="Filtrar por músculo">
+      <button class="chip active" data-filter="all">Todos</button>
+      <button class="chip" data-filter="gluteo">🍑 Glúteo</button>
+      <button class="chip" data-filter="pierna">🦵 Pierna</button>
+      <button class="chip" data-filter="espalda">💪 Espalda</button>
+    </nav>
+
+    <!-- ── EXERCISE SECTIONS ── -->
+    <main class="main" id="main">
+      <!-- Rendered by script.js -->
+    </main>
+
+    <!-- ── RESET BUTTON ── -->
+    <div class="reset-wrap">
+      <button class="btn-reset" id="resetBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Reiniciar sesión
+      </button>
     </div>
-  </nav>
-  <div class="container">
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Buscar ejercicio..." class="search-input" aria-label="Buscar ejercicios en la rutina">
-      <span id="searchResults" class="search-results" aria-live="polite"></span>
-    </div>
-    <div id="contenido"></div>
-  </div>
+
+  </div><!-- /app -->
+
 </body>
 </html>
