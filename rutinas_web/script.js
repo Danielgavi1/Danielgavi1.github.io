@@ -35,12 +35,12 @@ const RUTINAS = {
     label: 'Daniel',
     sections: {
       gluteo: [
-        { id: 'd-gl-0', name: 'Hip trust',                        load: '20Kg',   sets: '4', reps: '10' },
-        { id: 'd-gl-1', name: 'Patada de glúteo',                 load: '20Kg',   sets: '4', reps: '10' },
-        { id: 'd-gl-2', name: 'Press pierna sentado 🍑',          load: '87Kg',   sets: '3', reps: '10', note: 'rango completo' },
-        { id: 'd-gl-3', name: 'Peso muerto rumano',               load: '—',      sets: '3', reps: '10' },
-        { id: 'd-gl-4', name: 'Sentadilla búlgara con mancuerna', load: '—',      sets: '4', reps: '10' },
-        { id: 'd-gl-5', name: 'Abductor focalizado 🍑',           load: '50Kg',   sets: '3', reps: '10' },
+        { id: 'd-gl-0', name: 'Hip trust',                        load: '20Kg',    sets: '4', reps: '10' },
+        { id: 'd-gl-1', name: 'Patada de glúteo',                 load: '20Kg',    sets: '4', reps: '10' },
+        { id: 'd-gl-2', name: 'Press pierna sentado 🍑',          load: '87Kg',    sets: '3', reps: '10', note: 'rango completo' },
+        { id: 'd-gl-3', name: 'Peso muerto rumano',               load: '—',       sets: '3', reps: '10' },
+        { id: 'd-gl-4', name: 'Sentadilla búlgara con mancuerna', load: '—',       sets: '4', reps: '10' },
+        { id: 'd-gl-5', name: 'Abductor focalizado 🍑',           load: '50Kg',    sets: '3', reps: '10' },
         { id: 'd-gl-6', name: 'Hacka',                            load: '(barra)', sets: '3', reps: '10' },
       ],
       pierna: [
@@ -59,9 +59,9 @@ const RUTINAS = {
 };
 
 const SECTION_META = {
-  gluteo:  { label: 'Glúteo',  emoji: '🍑' },
-  pierna:  { label: 'Pierna',  emoji: '🦵' },
-  espalda: { label: 'Espalda', emoji: '💪' },
+  gluteo:  { label: 'Glúteo',  img: './img/culo.webp',    alt: 'Glúteos' },
+  pierna:  { label: 'Pierna',  img: './img/pierna.webp',  alt: 'Pierna' },
+  espalda: { label: 'Espalda', img: './img/espalda.webp', alt: 'Espalda' },
 };
 
 /* ============================================================
@@ -122,25 +122,29 @@ function cardHTML(ex, sectionKey) {
 }
 
 function sectionHTML(sectionKey, exercises) {
-  const meta  = SECTION_META[sectionKey];
-  const done  = exercises.filter(ex => store.isDone(ex.id)).length;
-  const total = exercises.length;
-  const pct   = total ? ((done / total) * 100).toFixed(1) : 0;
+  const meta    = SECTION_META[sectionKey];
+  const done    = exercises.filter(ex => store.isDone(ex.id)).length;
+  const total   = exercises.length;
+  const pct     = total ? ((done / total) * 100).toFixed(1) : 0;
   const allDone = done === total && total > 0;
 
   return /* html */`
     <section class="section" data-group="${sectionKey}">
-      <div class="section-header">
-        <div class="section-left">
-          <span class="section-emoji">${meta.emoji}</span>
+      <div class="section-hero">
+        <img class="section-hero-img"
+             src="${meta.img}"
+             alt="${meta.alt}"
+             loading="lazy"
+             decoding="async" />
+        <div class="section-hero-content">
           <h2 class="section-title">${meta.label}</h2>
+          <span class="section-badge${allDone ? ' all-done' : ''}">${done}/${total}</span>
         </div>
-        <span class="section-badge${allDone ? ' all-done' : ''}">${done}/${total}</span>
       </div>
       <div class="section-minibar">
         <div class="section-minibar-fill" style="width:${pct}%"></div>
       </div>
-      ${allDone ? '<div class="section-complete">¡Sección completada! 🎉</div>' : ''}
+      ${allDone ? '<div class="section-complete">✓ Sección completada</div>' : ''}
       <div class="ex-list" role="list">
         ${exercises.map(ex => cardHTML(ex, sectionKey)).join('')}
       </div>
@@ -161,7 +165,6 @@ function render() {
   updateProgress();
   bindCardEvents();
 
-  // Re-apply current filter & search without re-parsing query
   applyFilter(currentFilter, /* silent */ true);
   const q = document.getElementById('searchInput').value;
   if (q) applySearch(q);
@@ -186,7 +189,7 @@ function updateProgress() {
     const badge    = section.querySelector('.section-badge');
     const fill     = section.querySelector('.section-minibar-fill');
     const existing = section.querySelector('.section-complete');
-    const list     = section.querySelector('.ex-list');
+    const minibar  = section.querySelector('.section-minibar');
     const allDone  = d === t && t > 0;
 
     if (badge) {
@@ -195,21 +198,20 @@ function updateProgress() {
     }
     if (fill) fill.style.width = t ? `${((d / t) * 100).toFixed(1)}%` : '0%';
 
-    // Insert / remove completion banner
     if (allDone && !existing) {
       const banner = document.createElement('div');
       banner.className = 'section-complete';
-      banner.textContent = '¡Sección completada! 🎉';
-      section.querySelector('.section-minibar').insertAdjacentElement('afterend', banner);
+      banner.textContent = '✓ Sección completada';
+      minibar.insertAdjacentElement('afterend', banner);
     } else if (!allDone && existing) {
       existing.remove();
     }
   });
 
-  // Global bar
+  // Global progress bar
   document.getElementById('doneCount').textContent  = doneAll;
   document.getElementById('totalCount').textContent = totalAll;
-  const pct = totalAll ? ((doneAll / totalAll) * 100).toFixed(1) : 0;
+  const pct  = totalAll ? ((doneAll / totalAll) * 100).toFixed(1) : 0;
   const fill = document.getElementById('progressFill');
   fill.style.width = `${pct}%`;
   fill.classList.toggle('complete', doneAll === totalAll && totalAll > 0);
@@ -221,7 +223,6 @@ function updateProgress() {
 function bindCardEvents() {
   document.querySelectorAll('.ex-card').forEach(card => {
     card.addEventListener('click', e => {
-      // Don't toggle when clicking on the load editor
       if (e.target.closest('.ex-load') || e.target.tagName === 'INPUT') return;
       toggleCard(card);
     });
@@ -245,7 +246,6 @@ function toggleCard(card) {
   const btn = card.querySelector('.ex-check-btn');
   if (btn) {
     btn.setAttribute('aria-label', newState ? 'Completado' : 'Marcar como completado');
-    // Re-trigger animation by removing and adding done class trick
     btn.style.animation = 'none';
     btn.offsetHeight; // reflow
     btn.style.animation = '';
@@ -261,13 +261,12 @@ function toggleCard(card) {
    LOAD EDITING (inline, no modal)
    ============================================================ */
 function startLoadEdit(loadEl) {
-  if (loadEl.querySelector('input')) return; // already editing
+  if (loadEl.querySelector('input')) return;
 
   const id         = loadEl.dataset.id;
   const current    = loadEl.textContent.trim();
   const defaultVal = loadEl.dataset.default;
 
-  // Build inline input
   const input = document.createElement('input');
   input.type      = 'text';
   input.value     = current === '—' ? '' : current;
@@ -327,7 +326,6 @@ function applySearch(query) {
   const info = document.getElementById('searchInfo');
 
   if (!q) {
-    // Restore filter state
     document.querySelectorAll('.ex-card').forEach(c => c.classList.remove('search-hidden'));
     document.querySelectorAll('.section').forEach(s => {
       const g = s.dataset.group;
@@ -365,7 +363,6 @@ function applySearch(query) {
 }
 
 function fuzzyWordMatch(text, query) {
-  // Match each word of the query independently (min 2 chars)
   return query.split(/\s+/).filter(w => w.length >= 2).some(w => text.includes(w));
 }
 
@@ -382,7 +379,6 @@ function switchPerson(personKey) {
     tab.setAttribute('aria-pressed', active ? 'true' : 'false');
   });
 
-  // Clear search when switching person
   const searchInput = document.getElementById('searchInput');
   if (searchInput) searchInput.value = '';
   applySearch('');
@@ -409,9 +405,8 @@ function applyTheme(save = false) {
   document.body.classList.toggle('dark',  nowDark);
   document.body.classList.toggle('light', !nowDark);
 
-  // Update theme-color meta for mobile browsers
   const meta = document.getElementById('themeColor');
-  if (meta) meta.content = nowDark ? '#0C0E14' : '#F0F3FA';
+  if (meta) meta.content = nowDark ? '#080A0F' : '#F0F3FA';
 }
 
 /* ============================================================
@@ -452,7 +447,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Theme ──────────────────────────────────────────────
   applyTheme();
-
   document.getElementById('darkToggle').addEventListener('click', () => applyTheme(true));
 
   // ── Person tabs ────────────────────────────────────────
@@ -460,7 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
     tab.addEventListener('click', () => switchPerson(tab.dataset.person));
   });
 
-  // Set initial active tab visually
   document.querySelectorAll('.person-tab').forEach(tab => {
     const active = tab.dataset.person === currentPerson;
     tab.classList.toggle('active', active);
@@ -479,7 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchClear = document.getElementById('searchClear');
 
   searchInput.addEventListener('input', () => applySearch(searchInput.value));
-
   searchInput.addEventListener('keydown', e => {
     if (e.key === 'Escape') toggleSearch(false);
   });
@@ -497,7 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ── Keyboard shortcut: "/" opens search ────────────────
+  // ── Keyboard: "/" opens search ──────────────────────────
   document.addEventListener('keydown', e => {
     if (e.key === '/' && !searchOpen && document.activeElement.tagName !== 'INPUT') {
       e.preventDefault();
