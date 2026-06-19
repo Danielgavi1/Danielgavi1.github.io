@@ -14,6 +14,9 @@
   <link rel="icon" type="image/x-icon" href="./img/pesa.ico" />
   <link rel="icon" type="image/png" sizes="192x192" href="./img/pesa-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="./img/pesa-512.png" />
+  <script src="./data.js" defer></script>
+  <script src="./logic.js" defer></script>
+  <script src="./db.js" defer></script>
   <script src="./script.js" defer></script>
 </head>
 <body class="dark">
@@ -35,6 +38,7 @@
         </div>
 
         <div class="header-actions">
+          <span class="sync-badge" id="syncBadge" title="Estado de sincronización">📴 Local</span>
           <button class="btn-icon" id="searchToggle" aria-label="Buscar ejercicio">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           </button>
