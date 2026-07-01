@@ -211,14 +211,19 @@ const DB = (() => {
      usado para PR / sugerencia / gráfico de progresión. */
   async function fetchExerciseHistory(exerciseId, limit = 50) {
     if (!online) return null;
+
+    // Importante: pedimos primero las sesiones más recientes y luego
+    // las devolvemos en orden cronológico. Con .order(...ascending:true)
+    // + .limit(limit), Supabase devolvería las 50 más antiguas, y el
+    // último peso real podría quedarse fuera cuando haya mucho histórico.
     const { data, error } = await client
       .from('exercise_history')
       .select('*')
       .eq('exercise_id', exerciseId)
-      .order('session_date', { ascending: true })
+      .order('session_date', { ascending: false })
       .limit(limit);
     if (error) { console.error(error); return null; }
-    return data;
+    return (data || []).reverse();
   }
 
   /* Todos los logs de una sesión (para pintar el estado al cargar

@@ -63,73 +63,6 @@ const Logic = (() => {
   }
 
   /* ----------------------------------------------------------
-     detectPR: dado el historial de cargas (kg) de un ejercicio
-     ordenado cronológicamente, y el valor actual, dice si es un
-     récord (PR) de carga.
-     history: array de { loadKg } de sesiones PREVIAS
-     (sin incluir la actual).
-     ---------------------------------------------------------- */
-  function detectPR(history, currentLoadKg) {
-    const loads = history.map(h => h.loadKg).filter(v => v != null);
-
-    const maxLoad = loads.length ? Math.max(...loads) : null;
-
-    const isPRLoad = currentLoadKg != null && (maxLoad == null || currentLoadKg > maxLoad);
-
-    return {
-      isPRLoad,
-      isPR: isPRLoad,
-      prevMaxLoad: maxLoad,
-      isFirstTime: history.length === 0,
-    };
-  }
-
-  /* ----------------------------------------------------------
-     suggestNextLoad: sugiere la carga para la próxima sesión.
-     Heurística simple y transparente (no IA, no caja negra):
-       - Si no hay historial → mantener la carga actual.
-       - Si la última sesión fue PR y se completó el ejercicio
-         → +2.5kg (progresión estándar de gimnasio).
-       - Si la carga lleva 3+ sesiones igual y siempre se completó
-         → +2.5kg (estancamiento, hora de subir).
-       - Si la sesión anterior NO se completó (done=false)
-         → mantener la misma carga, no subir.
-       - En cualquier otro caso → mantener la carga actual.
-     history: array ordenado cronológicamente (antiguo→reciente)
-              de { loadKg, completed } de sesiones previas.
-     ---------------------------------------------------------- */
-  function suggestNextLoad(history, currentLoadKg) {
-    const STEP = 2.5;
-
-    if (currentLoadKg == null) {
-      return { suggestedKg: null, reason: 'sin-carga-numerica' };
-    }
-    if (!history.length) {
-      return { suggestedKg: currentLoadKg, reason: 'primera-vez' };
-    }
-
-    const last = history[history.length - 1];
-
-    if (last.completed === false) {
-      return { suggestedKg: currentLoadKg, reason: 'no-completado' };
-    }
-
-    const recent = history.slice(-3);
-    const sameStreak = recent.length === 3 &&
-      recent.every(h => h.loadKg === currentLoadKg && h.completed !== false);
-
-    if (sameStreak) {
-      return { suggestedKg: Math.round((currentLoadKg + STEP) * 100) / 100, reason: 'estancamiento-3-sesiones' };
-    }
-
-    if (last.loadKg != null && currentLoadKg >= last.loadKg && last.completed !== false) {
-      return { suggestedKg: Math.round((currentLoadKg + STEP) * 100) / 100, reason: 'pr-completado' };
-    }
-
-    return { suggestedKg: currentLoadKg, reason: 'mantener' };
-  }
-
-  /* ----------------------------------------------------------
      sessionVolume: volumen total de una sesión completa
      (suma del volumen de todos los set_logs marcados como done).
      logs: array de { volumeKg, done }
@@ -169,32 +102,9 @@ const Logic = (() => {
   }
 
   /* ----------------------------------------------------------
-     explainSuggestion: convierte el "reason" interno de
-     suggestNextLoad en una frase humana, para que la sugerencia
-     deje de ser una caja negra y se entienda el porqué.
-     ---------------------------------------------------------- */
-  function explainSuggestion(reason, history) {
-    const n = history?.length || 0;
-    switch (reason) {
-      case 'estancamiento-3-sesiones':
-        return `Llevas ${Math.min(n, 3)} sesiones seguidas con la misma carga. Buen momento para subir.`;
-      case 'pr-completado':
-        return 'Completaste la última sesión a tope. Puedes apretar un poco más.';
-      case 'no-completado':
-        return 'La última vez no se completó el ejercicio entero. Mejor consolidar antes de subir.';
-      case 'primera-vez':
-        return 'Aún no hay historial: esta será tu primera referencia.';
-      case 'sin-carga-numerica':
-        return 'Este ejercicio no tiene una carga en Kg detectable (p. ej. solo peso corporal).';
-      default:
-        return 'Mantén la carga actual una sesión más antes de subir.';
-    }
-  }
-
-  /* ----------------------------------------------------------
-     calcStreak: nº de sesiones consecutivas más recientes
-     marcadas como completadas (done !== false), recorriendo
-     el historial de atrás hacia delante.
+     calcStreak: racha actual de sesiones marcadas como
+     completadas (done !== false), recorriendo el historial
+     de atrás hacia delante.
      history: array ordenado cronológicamente (antiguo→reciente)
      ---------------------------------------------------------- */
   function calcStreak(history) {
@@ -270,13 +180,10 @@ const Logic = (() => {
     parseLoad,
     calcVolume,
     calcDelta,
-    detectPR,
-    suggestNextLoad,
     sessionVolume,
     formatDelta,
     formatDate,
     todayISO,
-    explainSuggestion,
     calcStreak,
     bestStreak,
     trendOf,

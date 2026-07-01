@@ -173,6 +173,7 @@ async function loadHistoryForExercise(exerciseId) {
         .map(r => ({
           sessionDate: r.session_date,
           loadKg: r.load_kg,
+          loadLabel: r.load_label ?? (r.load_kg != null ? `${r.load_kg}Kg` : null),
           sets: r.sets ?? null,
           reps: r.reps ?? null,
           // volume_kg viene precalculado de la vista; si por lo que sea
@@ -192,13 +193,40 @@ async function loadHistoryForExercise(exerciseId) {
 /* ============================================================
    GETTERS DE ESTADO POR EJERCICIO (usados en el render)
    ============================================================ */
+function getLastKnownHistoryState(ex) {
+  const history = exerciseHistoryCache[ex.id] || [];
+
+  // Recorremos desde lo más reciente hacia atrás y buscamos el último
+  // registro útil. Esto evita que una sesión nueva vuelva al peso semilla
+  // antiguo si ayer se usó/guardó un peso superior en set_logs.
+  for (let i = history.length - 1; i >= 0; i--) {
+    const h = history[i];
+    if (h.loadLabel != null || h.loadKg != null) {
+      const label = h.loadLabel ?? (h.loadKg != null ? `${h.loadKg}Kg` : null);
+      return {
+        loadLabel: label,
+        loadKg: h.loadKg ?? Logic.parseLoad(label),
+        sets: h.sets ?? ex.sets,
+        reps: h.reps ?? ex.reps,
+      };
+    }
+  }
+
+  return null;
+}
+
 function getExerciseState(ex) {
   const logged = sessionLogs[ex.id];
-  const loadLabel = logged?.loadLabel ?? store.getLoad(ex.id, ex.defaultLoad);
+  const lastKnown = logged ? null : getLastKnownHistoryState(ex);
+
+  // Si estamos online, Supabase debe ser la fuente de verdad y no un
+  // localStorage viejo. En modo local sí usamos localStorage como fallback.
+  const fallbackLoad = lastKnown?.loadLabel ?? (isOnline ? ex.defaultLoad : store.getLoad(ex.id, ex.defaultLoad));
+  const loadLabel = logged?.loadLabel ?? fallbackLoad;
   const done      = logged?.done ?? false;  // Cada nueva sesión empieza limpia (sin heredar checks de ayer)
-  const sets      = logged?.sets ?? ex.sets;
-  const reps      = logged?.reps ?? ex.reps;
-  const loadKg    = logged?.loadKg ?? Logic.parseLoad(loadLabel);
+  const sets      = logged?.sets ?? lastKnown?.sets ?? ex.sets;
+  const reps      = logged?.reps ?? lastKnown?.reps ?? ex.reps;
+  const loadKg    = logged?.loadKg ?? lastKnown?.loadKg ?? Logic.parseLoad(loadLabel);
 
   return { loadLabel, loadKg, sets, reps, done };
 }
@@ -222,14 +250,41 @@ async function persistExerciseLog(ex, state) {
   }
 }
 
+async function persistExerciseDefaults(ex, state) {
+  // Esto es lo que faltaba: editar el peso debe actualizar también el
+  // peso base del ejercicio, no solo el log de la sesión actual.
+  ex.defaultLoad = state.loadLabel;
+  ex.sets = state.sets;
+  ex.reps = state.reps;
+
+  // Cache local para que, sin conexión, siga mostrando el último peso editado.
+  store.setLoad(ex.id, state.loadLabel);
+
+  if (isOnline && ex.id) {
+    const updated = await DB.updateExercise(ex.id, { defaultLoad: state.loadLabel });
+    if (updated) {
+      ex.defaultLoad = updated.default_load ?? state.loadLabel;
+    } else {
+      console.warn('[Sync] No se pudo actualizar exercises.default_load; el peso queda guardado en set_logs/localStorage.');
+    }
+  }
+
+  // Si la app está funcionando en modo local con catálogo editable, persistimos
+  // también el catálogo local para que no vuelva al seed de data.js.
+  if (!isOnline) {
+    const local = store.getLocalCatalog() || buildCatalogFromSeed();
+    const idx = local.findIndex(item => item.id === ex.id);
+    if (idx >= 0) {
+      local[idx] = { ...local[idx], defaultLoad: state.loadLabel, sets: state.sets, reps: state.reps };
+      store.saveLocalCatalog(local);
+      exerciseCatalog = local;
+    }
+  }
+}
+
 /* ============================================================
    RENDER HELPERS
    ============================================================ */
-
-function prBadgeHTML(prInfo) {
-  if (!prInfo || prInfo.isFirstTime || !prInfo.isPR) return '';
-  return `<span class="ex-pr-badge" title="Nuevo récord">🏆 PR</span>`;
-}
 
 function deltaBadgeHTML(delta) {
   if (!delta || delta.kind === 'none') return '';
@@ -237,13 +292,6 @@ function deltaBadgeHTML(delta) {
   const cls  = delta.kind === 'up' ? 'up' : delta.kind === 'down' ? 'down' : 'same';
   const arrow = delta.kind === 'up' ? '▲' : delta.kind === 'down' ? '▼' : '●';
   return `<span class="ex-delta ex-delta-${cls}" title="vs. sesión anterior">${arrow} ${text}</span>`;
-}
-
-function suggestionHTML(suggestion, currentLoadKg) {
-  if (!suggestion || suggestion.suggestedKg == null) return '';
-  if (suggestion.suggestedKg === currentLoadKg) return '';
-  return `<button type="button" class="ex-suggest" data-suggest="${suggestion.suggestedKg}"
-            title="Sugerencia para próxima sesión">💡 Probar ${suggestion.suggestedKg}Kg</button>`;
 }
 
 function cardHTML(ex) {
@@ -256,24 +304,13 @@ function cardHTML(ex) {
   // la última vez no se llegó a las reps objetivo).
   const completedHistory = history.filter(h => h.done !== false);
 
-  const prInfo = Logic.detectPR(
-    completedHistory.map(h => ({ loadKg: h.loadKg })),
-    state.loadKg
-  );
-
   const lastCompleted = completedHistory.length ? completedHistory[completedHistory.length - 1] : null;
   const delta = lastCompleted ? Logic.calcDelta(state.loadKg, lastCompleted.loadKg) : { kind: 'none' };
 
-  const suggestion = Logic.suggestNextLoad(
-    history.map(h => ({ loadKg: h.loadKg, completed: h.done })),
-    state.loadKg
-  );
-
   const doneClass = state.done ? ' done' : '';
-  const prClass   = (!prInfo.isFirstTime && prInfo.isPR && state.done) ? ' has-pr' : '';
 
   return /* html */`
-    <article class="ex-card${doneClass}${prClass}"
+    <article class="ex-card${doneClass}"
              data-id="${ex.id}"
              data-group="${ex.sectionId}"
              data-name="${ex.name.toLowerCase()}"
@@ -291,9 +328,7 @@ function cardHTML(ex) {
         </div>
         <div class="ex-stats">
           ${state.done ? deltaBadgeHTML(delta) : ''}
-          ${state.done ? prBadgeHTML(prInfo) : ''}
         </div>
-        ${!state.done ? suggestionHTML(suggestion, state.loadKg) : ''}
       </div>
       <button class="ex-check-btn"
               type="button"
@@ -442,7 +477,7 @@ function renderOnlineBadge() {
 function bindCardEvents() {
   document.querySelectorAll('.ex-card').forEach(card => {
     card.addEventListener('click', e => {
-      if (e.target.closest('.ex-load') || e.target.closest('.ex-suggest') || e.target.tagName === 'INPUT') return;
+      if (e.target.closest('.ex-load') || e.target.tagName === 'INPUT') return;
       toggleCard(card);
     });
   });
@@ -451,21 +486,6 @@ function bindCardEvents() {
     loadEl.addEventListener('click', e => {
       e.stopPropagation();
       startLoadEdit(loadEl);
-    });
-  });
-
-  document.querySelectorAll('.ex-suggest').forEach(btn => {
-    btn.addEventListener('click', async e => {
-      e.stopPropagation();
-      const card = btn.closest('.ex-card');
-      const id   = card.dataset.id;
-      const ex   = exById(id);
-      const newLoad = `${btn.dataset.suggest}Kg`;
-      const state = getExerciseState(ex);
-      state.loadLabel = newLoad;
-      state.loadKg = Logic.parseLoad(newLoad);
-      await persistExerciseLog(ex, state);
-      await render();
     });
   });
 }
@@ -514,7 +534,12 @@ function startLoadEdit(loadEl) {
 
   requestAnimationFrame(() => { input.focus(); input.select(); });
 
+  let saving = false;
+
   const save = async () => {
+    if (saving) return;
+    saving = true;
+
     const newVal = input.value.trim() || defaultVal;
     loadEl.classList.remove('editing');
     loadEl.textContent = newVal;
@@ -523,7 +548,9 @@ function startLoadEdit(loadEl) {
     const state = getExerciseState(ex);
     state.loadLabel = newVal;
     state.loadKg = Logic.parseLoad(newVal);
+
     await persistExerciseLog(ex, state);
+    await persistExerciseDefaults(ex, state);
     await render();
   };
 
