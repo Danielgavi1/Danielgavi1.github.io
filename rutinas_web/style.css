@@ -880,30 +880,6 @@ body.light .ex-card:hover {
 .sync-badge.offline { color: var(--text-sec); }
 
 /* ============================================================
-   EX-STATS — delta / PR (Tier 1, 2)
-   ============================================================ */
-.ex-stats {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.45rem;
-}
-
-.ex-delta {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.15rem 0.5rem;
-  border-radius: 6px;
-  letter-spacing: 0.02em;
-}
-.ex-delta-up   { color: #10B981; background: rgba(16,185,129,0.14); }
-.ex-delta-down { color: #F87171; background: rgba(248,113,113,0.14); }
-.ex-delta-same { color: var(--text-sec); background: rgba(148,163,184,0.14); }
-
-
-/* ============================================================
    MODALES (Histórico/Gráfico y CRUD)
    ============================================================ */
 .modal-overlay {
@@ -969,28 +945,6 @@ body.light .ex-card:hover {
 
 .modal-subheader { padding: 0.85rem 1.25rem 0; flex-shrink: 0; }
 
-/* ---- Pestañas internas del modal de progresión ---- */
-.hist-tabs {
-  display: flex;
-  gap: 0.4rem;
-  padding: 0.9rem 1.25rem 0;
-  flex-shrink: 0;
-}
-.hist-tab {
-  flex: 1;
-  border: none;
-  background: var(--bg-chip);
-  color: var(--text-sec);
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 0.55rem 0.5rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease;
-}
-.hist-tab.active { background: var(--bg-chip-act); color: var(--text); }
-.hist-tab:hover:not(.active) { color: var(--text); }
 
 .modal-select {
   width: 100%;
@@ -1015,132 +969,6 @@ body.light .ex-card:hover {
   text-align: center;
   padding: 2rem 1rem;
 }
-
-/* ---- Histórico / gráfico ---- */
-.hist-summary {
-  display: flex;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-}
-.hist-stat {
-  flex: 1;
-  background: var(--bg-chip);
-  border-radius: 12px;
-  padding: 0.7rem 0.6rem;
-  text-align: center;
-}
-.hist-stat-label {
-  display: block;
-  font-size: 0.65rem;
-  color: var(--text-sec);
-  margin-bottom: 0.25rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.hist-stat-value {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 1.05rem;
-  font-weight: 800;
-}
-.hist-stat-value.up { color: #10B981; }
-
-.hist-chart { width: 100%; height: auto; display: block; }
-.hist-axis  { stroke: var(--border-strong); stroke-width: 1.5; }
-.hist-line-load { stroke: var(--c-pierna); stroke-width: 2.5; }
-.hist-line-volume { stroke-width: 2; stroke-dasharray: 5 4; opacity: 0.85; }
-.hist-dot { fill: var(--c-pierna); }
-.hist-dot-pr { fill: #F59E0B; stroke: #78350F; stroke-width: 1; }
-
-.hist-caption {
-  text-align: center;
-  font-size: 0.74rem;
-  color: var(--text-sec);
-  margin-top: 0.6rem;
-}
-.hist-legend {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin: 0 0.5rem;
-}
-.hist-legend-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  display: inline-block;
-}
-.hist-legend-load { background: var(--c-pierna); }
-
-/* ---- Insights: racha + tendencia ---- */
-.hist-insight-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  margin-top: 1.1rem;
-}
-.hist-insight {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-  background: var(--bg-chip);
-  border-radius: 12px;
-  padding: 0.7rem 0.8rem;
-}
-.hist-insight-icon { font-size: 1.1rem; line-height: 1.3; }
-.hist-insight strong { display: block; font-size: 0.85rem; font-weight: 700; }
-.hist-insight p {
-  margin: 0.1rem 0 0;
-  font-size: 0.76rem;
-  color: var(--text-sec);
-  line-height: 1.3;
-}
-
-/* ---- Caja de sugerencia explicada ---- */
-.hist-suggestion {
-  margin-top: 0.8rem;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1.5px solid rgba(245, 158, 11, 0.3);
-  border-radius: 12px;
-  padding: 0.75rem 0.85rem;
-}
-.hist-suggestion-head {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.88rem;
-  margin-bottom: 0.25rem;
-}
-.hist-suggestion p {
-  margin: 0;
-  font-size: 0.78rem;
-  color: var(--text-sec);
-  line-height: 1.35;
-}
-
-/* ---- Heatmap de constancia ---- */
-.heat-grid {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-rows: repeat(7, 1fr);
-  gap: 3px;
-  margin: 0.5rem 0 0.25rem;
-  overflow-x: auto;
-  padding-bottom: 2px;
-}
-.heat-cell {
-  width: 13px;
-  height: 13px;
-  border-radius: 3px;
-  background: var(--bg-chip);
-  flex-shrink: 0;
-}
-.heat-lvl-0 { background: var(--bg-chip); }
-.heat-cell-blank { background: transparent; }
-.heat-lvl-1 { background: color-mix(in srgb, var(--c-done) 25%, var(--bg-chip)); }
-.heat-lvl-2 { background: color-mix(in srgb, var(--c-done) 50%, var(--bg-chip)); }
-.heat-lvl-3 { background: color-mix(in srgb, var(--c-done) 75%, var(--bg-chip)); }
-.heat-lvl-4 { background: var(--c-done); }
 
 /* ---- CRUD ---- */
 .crud-list {

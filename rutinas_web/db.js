@@ -137,7 +137,7 @@ const DB = (() => {
   }
 
   /* Soft delete: lo marcamos inactivo en lugar de borrar, así no
-     se pierde el histórico de set_logs ligado a este ejercicio. */
+     se mantienen los set_logs ligados a este ejercicio. */
   async function deleteExercise(id) {
     if (!online) return false;
     const { error } = await client.from('exercises').update({ active: false }).eq('id', id);
@@ -207,25 +207,6 @@ const DB = (() => {
     return data;
   }
 
-  /* Historial de un ejercicio concreto, ordenado cronológicamente,
-     usado para PR / sugerencia / gráfico de progresión. */
-  async function fetchExerciseHistory(exerciseId, limit = 50) {
-    if (!online) return null;
-
-    // Importante: pedimos primero las sesiones más recientes y luego
-    // las devolvemos en orden cronológico. Con .order(...ascending:true)
-    // + .limit(limit), Supabase devolvería las 50 más antiguas, y el
-    // último peso real podría quedarse fuera cuando haya mucho histórico.
-    const { data, error } = await client
-      .from('exercise_history')
-      .select('*')
-      .eq('exercise_id', exerciseId)
-      .order('session_date', { ascending: false })
-      .limit(limit);
-    if (error) { console.error(error); return null; }
-    return (data || []).reverse();
-  }
-
   /* Todos los logs de una sesión (para pintar el estado al cargar
      la app y saber qué hay marcado como hecho). */
   async function fetchSessionLogs(sessionId) {
@@ -234,20 +215,6 @@ const DB = (() => {
       .from('set_logs')
       .select('*')
       .eq('session_id', sessionId);
-    if (error) { console.error(error); return null; }
-    return data;
-  }
-
-  /* Para el gráfico de progresión: histórico completo de volumen
-     por sesión y persona (todas las secciones, todas las fechas). */
-  async function fetchVolumeBySession(personId, limit = 90) {
-    if (!online) return null;
-    const { data, error } = await client
-      .from('exercise_history')
-      .select('session_date, volume_kg, person_id')
-      .eq('person_id', personId)
-      .order('session_date', { ascending: true })
-      .limit(limit * 30); // margen amplio, se agrega después en JS
     if (error) { console.error(error); return null; }
     return data;
   }
@@ -264,8 +231,6 @@ const DB = (() => {
     getOrCreateSession,
     fetchSessions,
     upsertSetLog,
-    fetchExerciseHistory,
     fetchSessionLogs,
-    fetchVolumeBySession,
   };
 })();

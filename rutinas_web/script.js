@@ -5,7 +5,7 @@
    ============================================================
    Usa:
      - data.js   → seed local (PEOPLE, SECTION_META, RUTINAS)
-     - logic.js  → cálculos puros (Logic.*)
+     - logic.js  → utilidades puras (Logic.*)
      - db.js     → Supabase (DB.*)
    No define datos ni fórmulas aquí: solo pinta y conecta.
    ============================================================ */
@@ -30,10 +30,6 @@ let currentSession  = null;
 // { loadKg, loadLabel, sets, reps, done }
 let sessionLogs      = {};
 
-// Historial por ejercicio (para PR / delta / sugerencia), indexado
-// por exerciseId → array de { sessionDate, loadKg, done }
-let exerciseHistoryCache = {};
-
 /* ============================================================
    STORAGE LOCAL (fallback / caché — siempre se escribe aquí
    aunque haya Supabase, para que la app funcione sin red)
@@ -43,32 +39,6 @@ const store = {
   setDone(id, val) { val ? localStorage.setItem(`chk:${id}`, '1') : localStorage.removeItem(`chk:${id}`); },
   getLoad(id, def) { return localStorage.getItem(`ld:${id}`) || def; },
   setLoad(id, val) { localStorage.setItem(`ld:${id}`, val); },
-
-  // Histórico local de sesiones, por si no hay Supabase.
-  // Estructura: { "victoria": { "2026-06-17": { "v-gl-0": {loadKg,sets,reps,done}, ... } } }
-  getHistoryBlob() {
-    try { return JSON.parse(localStorage.getItem('sessionHistory') || '{}'); }
-    catch { return {}; }
-  },
-  saveHistoryBlob(blob) { localStorage.setItem('sessionHistory', JSON.stringify(blob)); },
-
-  recordLocalLog(personId, dateISO, exerciseId, fields) {
-    const blob = this.getHistoryBlob();
-    blob[personId] = blob[personId] || {};
-    blob[personId][dateISO] = blob[personId][dateISO] || {};
-    blob[personId][dateISO][exerciseId] = { ...fields };
-    this.saveHistoryBlob(blob);
-  },
-
-  getExerciseHistoryLocal(personId, exerciseId, excludeDate) {
-    const blob = this.getHistoryBlob();
-    const perPerson = blob[personId] || {};
-    return Object.entries(perPerson)
-      .filter(([date]) => date !== excludeDate)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([date, exs]) => ({ sessionDate: date, ...(exs[exerciseId] || {}) }))
-      .filter(h => h.loadKg !== undefined);
-  },
 
   // Catálogo local editable (CRUD sin Supabase) — se guarda aparte
   // de RUTINAS (que es el seed de fábrica) para no perder cambios
@@ -161,72 +131,20 @@ async function ensureSession() {
   sessionLogs = {};
 }
 
-async function loadHistoryForExercise(exerciseId) {
-  if (exerciseHistoryCache[exerciseId]) return exerciseHistoryCache[exerciseId];
-
-  let history = [];
-  if (isOnline) {
-    const remote = await DB.fetchExerciseHistory(exerciseId);
-    if (remote) {
-      history = remote
-        .filter(r => r.session_date !== currentSession.sessionDate)
-        .map(r => ({
-          sessionDate: r.session_date,
-          loadKg: r.load_kg,
-          loadLabel: r.load_label ?? (r.load_kg != null ? `${r.load_kg}Kg` : null),
-          sets: r.sets ?? null,
-          reps: r.reps ?? null,
-          // volume_kg viene precalculado de la vista; si por lo que sea
-          // no está, lo derivamos nosotros con la misma fórmula de Logic.
-          volumeKg: r.volume_kg ?? Logic.calcVolume(r.load_kg, r.sets, r.reps),
-          done: r.done,
-        }));
-    }
-  } else {
-    history = store.getExerciseHistoryLocal(currentPerson, exerciseId, currentSession.sessionDate)
-      .map(h => ({ ...h, volumeKg: Logic.calcVolume(h.loadKg, h.sets, h.reps) }));
-  }
-  exerciseHistoryCache[exerciseId] = history;
-  return history;
-}
-
 /* ============================================================
    GETTERS DE ESTADO POR EJERCICIO (usados en el render)
    ============================================================ */
-function getLastKnownHistoryState(ex) {
-  const history = exerciseHistoryCache[ex.id] || [];
-
-  // Recorremos desde lo más reciente hacia atrás y buscamos el último
-  // registro útil. Esto evita que una sesión nueva vuelva al peso semilla
-  // antiguo si ayer se usó/guardó un peso superior en set_logs.
-  for (let i = history.length - 1; i >= 0; i--) {
-    const h = history[i];
-    if (h.loadLabel != null || h.loadKg != null) {
-      const label = h.loadLabel ?? (h.loadKg != null ? `${h.loadKg}Kg` : null);
-      return {
-        loadLabel: label,
-        loadKg: h.loadKg ?? Logic.parseLoad(label),
-        sets: h.sets ?? ex.sets,
-        reps: h.reps ?? ex.reps,
-      };
-    }
-  }
-
-  return null;
-}
-
 function getExerciseState(ex) {
   const logged = sessionLogs[ex.id];
-  const lastKnown = logged ? null : getLastKnownHistoryState(ex);
 
-  // Si estamos online, Supabase debe ser la fuente de verdad y no un
-  // localStorage viejo. En modo local sí usamos localStorage como fallback.
-  const fallbackLoad = lastKnown?.loadLabel ?? (isOnline ? ex.defaultLoad : store.getLoad(ex.id, ex.defaultLoad));
+  // En online, Supabase/exercises.default_load es la fuente de verdad.
+  // En local, usamos el último peso editado guardado en localStorage.
+  const fallbackLoad = isOnline ? ex.defaultLoad : store.getLoad(ex.id, ex.defaultLoad);
   const loadLabel = logged?.loadLabel ?? fallbackLoad;
-  const done      = logged?.done ?? false;  // Cada nueva sesión empieza limpia (sin heredar checks de ayer)
-  const sets      = logged?.sets ?? lastKnown?.sets ?? ex.sets;
-  const reps      = logged?.reps ?? lastKnown?.reps ?? ex.reps;
-  const loadKg    = logged?.loadKg ?? lastKnown?.loadKg ?? Logic.parseLoad(loadLabel);
+  const done      = logged?.done ?? false;
+  const sets      = logged?.sets ?? ex.sets;
+  const reps      = logged?.reps ?? ex.reps;
+  const loadKg    = logged?.loadKg ?? Logic.parseLoad(loadLabel);
 
   return { loadLabel, loadKg, sets, reps, done };
 }
@@ -237,13 +155,7 @@ function getExerciseState(ex) {
 async function persistExerciseLog(ex, state) {
   store.setDone(ex.id, state.done);
   store.setLoad(ex.id, state.loadLabel);
-  store.recordLocalLog(currentPerson, currentSession.sessionDate, ex.id, {
-    loadKg: state.loadKg, loadLabel: state.loadLabel,
-    sets: state.sets, reps: state.reps, done: state.done,
-  });
   sessionLogs[ex.id] = { ...state };
-
-  delete exerciseHistoryCache[ex.id];
 
   if (isOnline && currentSession.id) {
     await DB.upsertSetLog(currentSession.id, ex.id, state);
@@ -286,27 +198,9 @@ async function persistExerciseDefaults(ex, state) {
    RENDER HELPERS
    ============================================================ */
 
-function deltaBadgeHTML(delta) {
-  if (!delta || delta.kind === 'none') return '';
-  const text = Logic.formatDelta(delta);
-  const cls  = delta.kind === 'up' ? 'up' : delta.kind === 'down' ? 'down' : 'same';
-  const arrow = delta.kind === 'up' ? '▲' : delta.kind === 'down' ? '▼' : '●';
-  return `<span class="ex-delta ex-delta-${cls}" title="vs. sesión anterior">${arrow} ${text}</span>`;
-}
 
 function cardHTML(ex) {
   const state = getExerciseState(ex);
-  const history = exerciseHistoryCache[ex.id] || [];
-
-  // PR y delta solo deben comparar contra sesiones COMPLETADAS: un set no
-  // terminado no cuenta como referencia de progreso. La sugerencia, en
-  // cambio, necesita ver también las incompletas (para no subir peso si
-  // la última vez no se llegó a las reps objetivo).
-  const completedHistory = history.filter(h => h.done !== false);
-
-  const lastCompleted = completedHistory.length ? completedHistory[completedHistory.length - 1] : null;
-  const delta = lastCompleted ? Logic.calcDelta(state.loadKg, lastCompleted.loadKg) : { kind: 'none' };
-
   const doneClass = state.done ? ' done' : '';
 
   return /* html */`
@@ -325,9 +219,6 @@ function cardHTML(ex) {
                 data-default="${ex.defaultLoad}"
                 title="Toca para editar carga">${state.loadLabel}</span>
           ${ex.note ? `<span class="ex-dot">·</span><span class="ex-note">${ex.note}</span>` : ''}
-        </div>
-        <div class="ex-stats">
-          ${state.done ? deltaBadgeHTML(delta) : ''}
         </div>
       </div>
       <button class="ex-check-btn"
@@ -379,15 +270,6 @@ function sectionHTML(sectionKey, exercises) {
 async function render() {
   const exercises = exFromCatalog(currentPerson);
   const main = document.getElementById('main');
-
-  // Invalidamos la cache de historial de los ejercicios visibles antes de
-  // recalcular: es una lectura local barata (o una llamada ya necesaria a
-  // Supabase) y evita mostrar PR/delta desactualizados si los datos
-  // cambiaron por una vía distinta al flujo normal de toggle/edición
-  // (p. ej. sync en segundo plano, multi-pestaña).
-  exercises.forEach(ex => delete exerciseHistoryCache[ex.id]);
-
-  await Promise.all(exercises.map(ex => loadHistoryForExercise(ex.id)));
 
   const bySection = {};
   exercises.forEach(ex => {
@@ -656,7 +538,6 @@ async function switchPerson(personKey) {
     chip.classList.toggle('active', chip.dataset.filter === 'all');
   });
 
-  exerciseHistoryCache = {};
   await loadCatalog();
   await ensureSession();
   await render();
