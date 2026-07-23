@@ -1,0 +1,7 @@
+
+# Rutinas Web
+rutinas_web/node_modules/
+rutinas_web/supabase/.temp/
+rutinas_web/backups/
+rutinas_web/.env
+rutinas_web/.env.*
