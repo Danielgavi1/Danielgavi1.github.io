@@ -680,20 +680,46 @@ button:disabled { cursor: wait; opacity: 0.58; }
   line-height: 1.3;
   text-overflow: ellipsis;
 }
-.exercise-load {
-  border-color: rgba(245, 158, 11, 0.24);
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.13), var(--input));
+/* Color de la carga según el grupo muscular */
+.section[data-section="gluteo"] {
+  --load-accent: #ec4899;
+  --load-accent-strong: #ec4899;
+  --load-accent-light: #db2777;
 }
-.exercise-load span { color: #fbbf24; }
+
+.section[data-section="pierna"] {
+  --load-accent: #2563eb;
+  --load-accent-strong: #60a5fa;
+  --load-accent-light: #1d4ed8;
+}
+
+.section[data-section="espalda"] {
+  --load-accent: #f59e0b;
+  --load-accent-strong: #f8c14d;
+  --load-accent-light: #b45309;
+}
+
+.exercise-load {
+  border-color: color-mix(in srgb, var(--load-accent, #f59e0b), transparent 70%);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--load-accent, #f59e0b), transparent 84%),
+    var(--input)
+  );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--load-accent, #f59e0b), transparent 88%);
+}
+.exercise-load span { color: var(--load-accent, #fbbf24); }
 .exercise-load strong {
-  color: #f8c14d;
+  color: var(--load-accent-strong, #f8c14d);
   font-family: var(--font-display);
   font-size: 1.02rem;
   letter-spacing: -0.015em;
   white-space: normal;
 }
-body.light .exercise-load strong { color: #b45309; }
-body.light .exercise-load span { color: #d97706; }
+body.light .exercise-load span,
+body.light .exercise-load strong {
+  color: var(--load-accent-light, #b45309);
+}
 
 .exercise-note {
   display: flex;
