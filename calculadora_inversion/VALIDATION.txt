@@ -20,3 +20,6 @@ Comprobación de referencia:
 ✓ Navbar móvil a ancho visual completo, sin franja lateral.
 ✓ Tarjetas del hero apiladas de forma compacta en móvil, sin posicionamiento absoluto.
 ✓ Reglas limitadas a <=760 px; escritorio sin cambios.
+✓ Enlaces antiguos con strategy=technological se migran a strategy=nasdaq.
+✓ Valores inválidos como strategy=undefined usan S&P 500 de forma segura.
+✓ El resumen no intenta leer preset.name cuando el parámetro de URL es obsoleto.

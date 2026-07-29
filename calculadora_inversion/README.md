@@ -70,3 +70,12 @@ La aplicación es educativa. El Monte Carlo paramétrico sigue usando choques no
 - Los selectores de moneda y tema se adaptan a anchos estrechos sin desbordarse.
 - Las tres tarjetas visuales de la portada dejan de usar posicionamiento absoluto en móvil y se muestran como una lista compacta, sin solapamientos ni grandes espacios vacíos.
 - Estos cambios se aplican únicamente a pantallas de 760 px o menos; la composición de escritorio no se modifica.
+
+## Corrección de compatibilidad de URL
+
+- Se corrigen enlaces o marcadores creados por versiones anteriores que contienen nombres de estrategia antiguos o inválidos.
+- `technological`, `tech`, `nasdaq100` y variantes se convierten a `nasdaq`.
+- `conservative` y variantes se convierten a `sp500`.
+- Cualquier valor desconocido usa de forma segura `sp500` en vez de dejar el selector vacío.
+- Los parámetros de URL de tipo selector solo se aplican cuando coinciden con una opción válida.
+- El resumen «Configuración utilizada», la validación y el bootstrap incluyen una segunda protección para que nunca intenten leer propiedades de una estrategia inexistente.

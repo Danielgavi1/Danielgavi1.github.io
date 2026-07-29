@@ -195,4 +195,18 @@ console.log("✓ Comparación conjunta Nasdaq/S&P correlacionada");
 console.log("✓ Bootstrap comparativo con años y bloques alineados");
 console.log("✓ Advertencia al extrapolar previsiones de 10 años");
 console.log("✓ Presets prospectivos institucionales separados del historial");
+
+// URLs o enlaces antiguos no deben romper la aplicación si contienen nombres de estrategia obsoletos.
+const legacyNasdaq = core.buildSimulationConfig(baseRaw({ strategy: "technological" }));
+assert.strictEqual(legacyNasdaq.strategy, "nasdaq");
+assert.strictEqual(legacyNasdaq.medianCagr, core.PRESETS.nasdaq.medianCagr);
+
+const invalidStrategy = core.buildSimulationConfig(baseRaw({ strategy: "undefined" }));
+assert.strictEqual(invalidStrategy.strategy, "sp500");
+assert.strictEqual(core.normalizeStrategyKey("nasdaq100"), "nasdaq");
+assert.strictEqual(core.normalizeStrategyKey("valor-inexistente"), "sp500");
+assert(Number.isFinite(core.simulate(invalidStrategy).result.finalValue));
+
+console.log("✓ Estrategias antiguas o inválidas de la URL se normalizan sin romper la interfaz");
+
 console.log("Todas las pruebas han pasado.");

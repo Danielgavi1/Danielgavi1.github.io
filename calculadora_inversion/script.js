@@ -68,6 +68,31 @@ const PRESETS = Object.freeze({
     })
 });
 
+const STRATEGY_ALIASES = Object.freeze({
+    conservative: "sp500",
+    conservadora: "sp500",
+    "s&p500": "sp500",
+    "s&p-500": "sp500",
+    "sp-500": "sp500",
+    technological: "nasdaq",
+    technology: "nasdaq",
+    tecnológica: "nasdaq",
+    tecnologica: "nasdaq",
+    tech: "nasdaq",
+    nasdaq100: "nasdaq",
+    "nasdaq-100": "nasdaq",
+    disruptive: "nasdaq",
+    disruptiva: "nasdaq",
+    personalized: "custom",
+    personalizada: "custom"
+});
+
+function normalizeStrategyKey(value) {
+    const rawKey = String(value ?? "").trim().toLowerCase();
+    const mappedKey = STRATEGY_ALIASES[rawKey] || rawKey;
+    return Object.prototype.hasOwnProperty.call(PRESETS, mappedKey) ? mappedKey : "sp500";
+}
+
 const HISTORICAL_RETURNS = Object.freeze({
     sp500: Object.freeze({
         label: "S&P 500 aproximado Total Return",
@@ -864,9 +889,10 @@ function historicalStatistics(returns, periodsPerYear = MONTHS_PER_YEAR) {
 }
 
 function buildSimulationConfig(raw) {
-    const preset = PRESETS[raw.strategy] || PRESETS.sp500;
-    const medianCagr = raw.strategy === "custom" ? raw.customRate / 100 : preset.medianCagr;
-    const volatility = raw.strategy === "custom" ? raw.customVolatility / 100 : preset.volatility;
+    const strategy = normalizeStrategyKey(raw.strategy);
+    const preset = PRESETS[strategy];
+    const medianCagr = strategy === "custom" ? raw.customRate / 100 : preset.medianCagr;
+    const volatility = strategy === "custom" ? raw.customVolatility / 100 : preset.volatility;
 
     return {
         initial: raw.initial,
@@ -874,7 +900,7 @@ function buildSimulationConfig(raw) {
         years: raw.years,
         frequency: raw.frequency,
         timing: raw.timing,
-        strategy: raw.strategy,
+        strategy,
         model: raw.model,
         medianCagr,
         volatility,
@@ -910,7 +936,8 @@ function validateConfig(config, currency) {
     if (config.annualFee < 0 || config.annualFee >= 1) errors.push("El coste anual debe estar entre 0% y menos de 100%.");
     if (config.inflationRate < 0 || config.inflationRate > 1) errors.push("La inflación debe estar entre 0% y 100%.");
     if (config.seed < 1) errors.push("La semilla debe ser un entero positivo.");
-    if (config.model === "bootstrap" && !PRESETS[config.strategy].historicalKey) {
+    const preset = PRESETS[normalizeStrategyKey(config.strategy)];
+    if (config.model === "bootstrap" && !preset.historicalKey) {
         errors.push("La estrategia seleccionada no tiene una serie histórica compatible para bootstrap.");
     }
     if (config.model === "sensitivity") {
@@ -972,7 +999,7 @@ function simulate(config) {
     if (config.model === "monte-carlo") {
         result = simulateParametric(config, plan);
     } else if (config.model === "bootstrap") {
-        const key = PRESETS[config.strategy].historicalKey;
+        const key = PRESETS[normalizeStrategyKey(config.strategy)].historicalKey;
         result = simulateBootstrap(config, plan, HISTORICAL_RETURNS[key]);
     } else {
         result = simulateSensitivity(config, plan, config.sensitivity);
@@ -1134,7 +1161,7 @@ function initApplication() {
     }
 
     function currentPreset() {
-        return PRESETS[inputs.strategy.value] || PRESETS.sp500;
+        return PRESETS[normalizeStrategyKey(inputs.strategy.value)];
     }
 
     function updateStrategyUI({ resetSensitivity = false } = {}) {
@@ -1227,7 +1254,7 @@ function initApplication() {
     function readRawConfig() {
         return {
             currency: state.currency,
-            strategy: inputs.strategy.value,
+            strategy: normalizeStrategyKey(inputs.strategy.value),
             model: selectedModel(),
             initial: parseLocaleNumber(inputs.initial.value),
             periodicContribution: parseLocaleNumber(inputs.periodicContribution.value),
@@ -1501,7 +1528,8 @@ function initApplication() {
     }
 
     function renderMethodSummary(config, plan, result) {
-        const preset = PRESETS[config.strategy];
+        const strategy = normalizeStrategyKey(config.strategy);
+        const preset = PRESETS[strategy];
         const frequencyText = { 1: "Anual", 12: "Mensual", 26: "Quincenal", 52: "Semanal" }[config.frequency];
         const modelText = {
             "monte-carlo": "Monte Carlo prospectivo",
@@ -1544,7 +1572,7 @@ function initApplication() {
             const aligned = result.alignedHistoricalComparison;
             const returns = aligned
                 ? ALIGNED_HISTORICAL_RETURNS.nasdaqSp500.primaryReturns
-                : HISTORICAL_RETURNS[PRESETS[config.strategy].historicalKey].returns;
+                : HISTORICAL_RETURNS[preset.historicalKey].returns;
             const periodsPerYear = aligned ? 1 : MONTHS_PER_YEAR;
             const stats = historicalStatistics(returns, periodsPerYear);
             entries.splice(3, 0,
@@ -1594,7 +1622,7 @@ function initApplication() {
             years: String(raw.years),
             frequency: String(raw.frequency),
             timing: raw.timing,
-            strategy: raw.strategy,
+            strategy: normalizeStrategyKey(raw.strategy),
             model: raw.model,
             currency: state.currency,
             theme: state.theme,
@@ -1612,13 +1640,21 @@ function initApplication() {
 
     function loadURLState() {
         const p = new URLSearchParams(location.search);
-        const set = (key, input) => { if (p.has(key)) input.value = p.get(key); };
+        const set = (key, input, normalize = (value) => value) => {
+            if (!p.has(key) || !input) return;
+            const value = normalize(p.get(key));
+            if (input.tagName === "SELECT") {
+                const isValidOption = Array.from(input.options).some((option) => option.value === value);
+                if (!isValidOption) return;
+            }
+            input.value = value;
+        };
         set("initial", inputs.initial);
         set("contribution", inputs.periodicContribution);
         set("years", inputs.years);
         set("frequency", inputs.frequency);
         set("timing", inputs.timing);
-        set("strategy", inputs.strategy);
+        set("strategy", inputs.strategy, normalizeStrategyKey);
         set("currency", inputs.currency);
         set("theme", inputs.theme);
         set("fee", inputs.annualFee);
@@ -1897,6 +1933,7 @@ const exportedCore = {
     mulberry32,
     parseLocaleNumber,
     percentile,
+    normalizeStrategyKey,
     pearsonCorrelation,
     simulate,
     simulateBootstrap,
