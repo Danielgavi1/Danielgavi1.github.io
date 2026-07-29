@@ -4,378 +4,768 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inversión IA & Tech | Futuro Financiero</title>
-    <!-- Google Fonts: Outfit for a modern tech feel -->
+    <meta name="description"
+        content="Simulador educativo de inversión con Monte Carlo prospectivo, bootstrap histórico y análisis de sensibilidad.">
+    <title>FutureWealth | Simulador probabilístico de inversión</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
-
-    <div class="background-globes">
+    <div class="background-globes" aria-hidden="true">
         <div class="globe globe-1"></div>
         <div class="globe globe-2"></div>
         <div class="globe globe-3"></div>
     </div>
 
+    <nav class="glass-nav" aria-label="Navegación principal">
+        <a class="logo" href="#hero" aria-label="FutureWealth, inicio">
+            <span aria-hidden="true">📊</span> FutureWealth
+        </a>
 
-    <!-- Navigation -->
-    <nav class="glass-nav">
-        <div class="logo">🚀 FutureWealth.AI</div>
         <div class="nav-actions">
-            <!-- Currency Custom Dropdown -->
-            <div class="custom-dropdown">
-                <div class="custom-dropdown-selected" data-dropdown="currency">
-                    <span class="dropdown-text">USD ($)</span>
-                    <span class="dropdown-arrow">▼</span>
+            <div class="custom-dropdown" data-control="currency">
+                <button class="custom-dropdown-selected" type="button" aria-haspopup="listbox" aria-expanded="false">
+                    <span class="dropdown-text">EUR (€)</span>
+                    <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                </button>
+                <div class="custom-dropdown-options" role="listbox" id="currency-options">
+                    <button class="custom-option selected" type="button" data-value="EUR" role="option"
+                        aria-selected="true">EUR (€)</button>
+                    <button class="custom-option" type="button" data-value="USD" role="option"
+                        aria-selected="false">USD ($)</button>
                 </div>
-                <div class="custom-dropdown-options" id="currency-options">
-                    <div class="custom-option" data-value="USD">USD ($)</div>
-                    <div class="custom-option" data-value="EUR">EUR (€)</div>
-                </div>
-                <select id="currency-selector" class="hidden">
+                <select id="currency-selector" class="visually-hidden" aria-label="Moneda de visualización">
+                    <option value="EUR" selected>EUR (€)</option>
                     <option value="USD">USD ($)</option>
-                    <option value="EUR">EUR (€)</option>
                 </select>
             </div>
 
-            <!-- Theme Custom Dropdown -->
-            <div class="custom-dropdown">
-                <div class="custom-dropdown-selected" data-dropdown="theme">
+            <div class="custom-dropdown" data-control="theme">
+                <button class="custom-dropdown-selected" type="button" aria-haspopup="listbox" aria-expanded="false">
                     <span class="dropdown-text">Cyberpunk</span>
-                    <span class="dropdown-arrow">▼</span>
+                    <span class="dropdown-arrow" aria-hidden="true">▼</span>
+                </button>
+                <div class="custom-dropdown-options" role="listbox" id="theme-options">
+                    <button class="custom-option selected" type="button" data-value="cyberpunk" role="option"
+                        aria-selected="true">Cyberpunk</button>
+                    <button class="custom-option" type="button" data-value="oled" role="option"
+                        aria-selected="false">OLED oscuro</button>
                 </div>
-                <div class="custom-dropdown-options" id="theme-options">
-                    <div class="custom-option" data-value="cyberpunk">Cyberpunk</div>
-                    <div class="custom-option" data-value="oled">OLED Dark</div>
-                </div>
-                <select id="theme-selector" class="hidden">
-                    <option value="cyberpunk">Cyberpunk</option>
-                    <option value="oled">OLED Dark</option>
+                <select id="theme-selector" class="visually-hidden" aria-label="Tema visual">
+                    <option value="cyberpunk" selected>Cyberpunk</option>
+                    <option value="oled">OLED oscuro</option>
                 </select>
             </div>
         </div>
+
         <div class="nav-links">
-            <a href="#hero">Inicio</a>
-            <a href="#risk-quiz">Perfil de Riesgo</a>
+            <a href="#risk-quiz">Perfil orientativo</a>
             <a href="#simulator">Simulador</a>
+            <a href="#methodology">Metodología</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section">
-        <div class="hero-content">
-            <h1>Descubre el Poder del Interés Compuesto con <span class="text-gradient">IA Agéntica</span></h1>
-            <p>Simula tu futuro financiero invirtiendo en las tecnologías que están cambiando el mundo.</p>
-            <a href="#simulator" class="cta-button">Comenzar Simulación</a>
-        </div>
-        <div class="hero-visual">
-            <div class="floating-card glass-card">
-                <div class="icon">📈</div>
-                <div class="stat">+35.4%</div>
-                <div class="label">Retorno Anual (IA)</div>
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <span class="eyebrow">Simulación financiera transparente</span>
+                <h1>Simula la <span class="text-gradient">incertidumbre</span>, no solo el interés compuesto</h1>
+                <p>
+                    Compara hipótesis prospectivas, periodos históricos reordenados y escenarios deterministas.
+                    Cada cifra muestra sus supuestos, sus fuentes y sus limitaciones.
+                </p>
+                <div class="hero-actions">
+                    <a href="#simulator" class="cta-button">Abrir simulador</a>
+                    <a href="#methodology" class="secondary-button">Ver metodología</a>
+                </div>
+                <p class="hero-caption">Herramienta educativa. No predice el mercado ni constituye asesoramiento.</p>
             </div>
-            <div class="floating-card glass-card card-2">
-                <div class="icon">🤖</div>
-                <div class="stat">CAGR 40%</div>
-                <div class="label">Crecimiento Sector</div>
+
+            <div class="hero-visual" aria-label="Características del simulador">
+                <article class="floating-card glass-card">
+                    <div class="icon" aria-hidden="true">🎲</div>
+                    <div class="stat">10.000</div>
+                    <div class="label">trayectorias reproducibles</div>
+                </article>
+                <article class="floating-card glass-card card-2">
+                    <div class="icon" aria-hidden="true">📉</div>
+                    <div class="stat">P10–P90</div>
+                    <div class="label">intervalo, no promesa</div>
+                </article>
+                <article class="floating-card glass-card card-3">
+                    <div class="icon" aria-hidden="true">🔎</div>
+                    <div class="stat">3 modelos</div>
+                    <div class="label">prospectivo, histórico y sensibilidad</div>
+                </article>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Risk Profile Quiz -->
-    <section id="risk-quiz" class="container">
-        <h2 class="section-title">1. Define tu Perfil de Riesgo</h2>
-        <div class="glass-panel quiz-panel">
-            <div id="quiz-container">
-                <div class="question-box">
-                    <h3>¿Cuál es tu reacción si tus inversiones bajan un 20% en un mes?</h3>
-                    <div class="options">
-                        <button class="option-btn" data-score="1">Vendo todo inmediatamente (Pánico)</button>
-                        <button class="option-btn" data-score="5">Me preocupo, pero espero (Cautela)</button>
-                        <button class="option-btn" data-score="10">Compro más barato (Oportunidad)</button>
+        <section id="risk-quiz" class="container">
+            <div class="section-heading">
+                <span class="eyebrow">Paso 1</span>
+                <h2 class="section-title">Perfil de riesgo orientativo</h2>
+                <p>
+                    Separa tolerancia emocional, capacidad de soportar pérdidas, horizonte y experiencia. El resultado
+                    no determina por sí solo qué producto es adecuado.
+                </p>
+            </div>
+
+            <div class="glass-panel quiz-panel">
+                <div id="quiz-question-view">
+                    <div class="quiz-progress-row">
+                        <span id="quiz-progress-text">Pregunta 1 de 8</span>
+                        <span id="quiz-progress-percent">13%</span>
+                    </div>
+                    <div class="quiz-progress" aria-hidden="true">
+                        <span id="quiz-progress-bar"></span>
+                    </div>
+                    <h3 id="quiz-question">Cargando cuestionario…</h3>
+                    <p id="quiz-help" class="quiz-help"></p>
+                    <div id="quiz-options" class="quiz-options" role="group" aria-labelledby="quiz-question"></div>
+                    <div class="quiz-navigation">
+                        <button id="quiz-back" class="secondary-button compact" type="button">Anterior</button>
+                        <button id="quiz-reset" class="text-button" type="button">Reiniciar</button>
                     </div>
                 </div>
-                <!-- More questions could be added dynamically or statically here if needed, keeping it simple for v1 -->
-                <div class="risk-result hidden">
-                    <h3>Tu Perfil: <span id="risk-type">---</span></h3>
-                    <p id="risk-description">Responde la pregunta para ver tu perfil.</p>
+
+                <div id="risk-result" class="risk-result hidden" aria-live="polite">
+                    <span class="result-kicker">Resultado educativo</span>
+                    <h3>Perfil orientativo: <span id="risk-type">—</span></h3>
+                    <p id="risk-description"></p>
+                    <div class="risk-metrics">
+                        <div><span>Tolerancia</span><strong id="risk-tolerance">—</strong></div>
+                        <div><span>Capacidad</span><strong id="risk-capacity">—</strong></div>
+                        <div><span>Conocimientos</span><strong id="risk-knowledge">—</strong></div>
+                    </div>
+                    <p class="fine-print">
+                        Este cuestionario no es una evaluación MiFID II ni una recomendación personalizada. Una
+                        evaluación real también requiere información completa y actualizada sobre objetivos, situación
+                        financiera y cartera total.
+                    </p>
+                    <button id="quiz-restart-result" class="secondary-button compact" type="button">Repetir cuestionario</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Investment Simulator -->
-    <section id="simulator" class="container">
-        <h2 class="section-title">2. Simulador de Inversión</h2>
-        <div class="simulator-grid">
-            <!-- Controls -->
-            <div class="glass-panel controls-panel">
+        <section id="simulator" class="container simulator-section">
+            <div class="section-heading">
+                <span class="eyebrow">Paso 2</span>
+                <h2 class="section-title">Simulador de inversión</h2>
+                <p>Los porcentajes son hipótesis nominales antes de inflación, impuestos y costes.</p>
+            </div>
 
-                <!-- Strategy Selection (Visual Cards) -->
-                <label style="display:block; margin-bottom: 15px; color: var(--text-muted);">Estrategia de
-                    Inversión</label>
-                <div class="strategy-cards-container">
-                    <div class="strategy-card selected" data-value="safe">
-                        <div class="strat-icon">🛡️</div>
-                        <div class="strat-info">
-                            <h5>Conservadora</h5>
-                            <span>~10% (S&P 500)</span>
-                        </div>
-                    </div>
-                    <div class="strategy-card" data-value="moderate">
-                        <div class="strat-icon">💻</div>
-                        <div class="strat-info">
-                            <h5>Tecnológica</h5>
-                            <span>~15% (Nasdaq)</span>
-                        </div>
-                    </div>
-                    <div class="strategy-card" data-value="aggressive">
-                        <div class="strat-icon">🚀</div>
-                        <div class="strat-info">
-                            <h5>Disruptiva</h5>
-                            <span>~25% (IA/Nvidia/Meta/Alphabet...)</span>
-                        </div>
-                    </div>
-                    <div class="strategy-card" data-value="custom">
-                        <div class="strat-icon">⚙️</div>
-                        <div class="strat-info">
-                            <h5>Personalizada</h5>
-                            <span>% a tu medida</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Hidden select to keep JS working without major refactor initially, or we update JS to listen to cards -->
-                <select id="strategy" class="hidden">
-                    <option value="safe">Conservadora</option>
-                    <option value="moderate">Tecnológica</option>
-                    <option value="aggressive">Disruptiva</option>
-                    <option value="custom">Personalizada</option>
-                </select>
+            <div id="simulation-alert" class="simulation-alert hidden" role="alert"></div>
 
-                <!-- Custom Rate Input (Hidden by default) -->
-                <div id="custom-rate-container" class="input-group hidden"
-                    style="margin-bottom: 15px; border: 1px dashed var(--accent-color); padding: 10px; border-radius: 12px; background: rgba(16, 185, 129, 0.05);">
-                    <label style="color: #4ade80;">Rentabilidad Esperada (%)</label>
-                    <div class="input-wrapper">
-                        <span class="static-prefix">%</span>
-                        <input type="number" id="custom-rate" value="50" min="0" max="1000">
-                    </div>
-                </div>
-
-                <div class="input-grid-2">
-                    <div class="input-group">
-                        <label>Inversión Inicial</label>
-                        <div class="input-wrapper">
-                            <span class="currency-prefix">$</span>
-                            <input type="text" inputmode="numeric" id="initial-investment" value="1000">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label id="contribution-label">Mensual</label>
-                        <div class="input-wrapper">
-                            <span class="currency-prefix">$</span>
-                            <input type="text" inputmode="numeric" id="monthly-contribution" value="200">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="input-grid-2">
-                    <div class="input-group">
-                        <label>Frecuencia de Aportación</label>
-                        <div class="custom-dropdown">
-                            <div class="custom-dropdown-selected" data-dropdown="frequency">
-                                <span class="dropdown-text">Mensual</span>
-                                <span class="dropdown-arrow">▼</span>
+            <div class="simulator-grid">
+                <div class="glass-panel controls-panel">
+                    <div class="control-section">
+                        <div class="control-section-header">
+                            <div>
+                                <span class="control-step">1</span>
+                                <h3>Estrategia de referencia</h3>
                             </div>
-                            <div class="custom-dropdown-options">
-                                <div class="custom-option selected" data-value="12">Mensual</div>
-                                <div class="custom-option" data-value="26">Quincenal</div>
-                                <div class="custom-option" data-value="52">Semanal</div>
-                                <div class="custom-option" data-value="1">Anual</div>
-                            </div>
-                            <select id="contribution-frequency" class="hidden">
-                                <option value="12">Mensual</option>
-                                <option value="26">Quincenal</option>
-                                <option value="52">Semanal</option>
-                                <option value="1">Anual</option>
-                            </select>
+                            <span class="info-badge">Supuestos editables en “Personalizada”</span>
                         </div>
-                    </div>
-                    <div class="input-group">
-                        <label>Momento Aportación</label>
-                        <div class="custom-dropdown">
-                            <div class="custom-dropdown-selected" data-dropdown="timing">
-                                <span class="dropdown-text">Inicio de Periodo</span>
-                                <span class="dropdown-arrow">▼</span>
-                            </div>
-                            <div class="custom-dropdown-options">
-                                <div class="custom-option selected" data-value="begin">Inicio de Periodo</div>
-                                <div class="custom-option" data-value="end">Final de Periodo</div>
-                            </div>
-                            <select id="contribution-timing" class="hidden">
-                                <option value="begin">Inicio de Periodo</option>
-                                <option value="end">Final de Periodo</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="input-group"
-                    style="margin-top: 20px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
-                    <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
-                        <div style="display:flex; align-items:center;">
-                            <span style="color: #a855f7; font-weight: bold;">🔮 AI Market Predictor</span>
-                            <div class="tooltip-container">
-                                <div class="tooltip-icon">?</div>
-                                <div class="tooltip-content" style="width: 250px;">
-                                    <strong>Modelo de Predicción</strong><br>
-                                    Simula la incertidumbre del mercado. Elige entre <strong>Bandas Simples</strong>
-                                    (rango fijo) o <strong>Monte Carlo</strong> (simulación probabilística avanzada).
+                        <div class="strategy-cards-container" role="radiogroup" aria-label="Estrategia de referencia">
+                            <button class="strategy-card" type="button" data-value="balanced" role="radio"
+                                aria-checked="false">
+                                <span class="strat-icon" aria-hidden="true">🛡️</span>
+                                <span class="strat-info">
+                                    <strong>Diversificada 40/60</strong>
+                                    <small>40% acciones · 60% bonos</small>
+                                </span>
+                            </button>
+                            <button class="strategy-card selected" type="button" data-value="sp500" role="radio"
+                                aria-checked="true">
+                                <span class="strat-icon" aria-hidden="true">🌐</span>
+                                <span class="strat-info">
+                                    <strong>Renta variable EE. UU.</strong>
+                                    <small>S&amp;P 500 · no es conservadora</small>
+                                </span>
+                            </button>
+                            <button class="strategy-card" type="button" data-value="nasdaq" role="radio"
+                                aria-checked="false">
+                                <span class="strat-icon" aria-hidden="true">💻</span>
+                                <span class="strat-info">
+                                    <strong>Tecnología concentrada</strong>
+                                    <small>Nasdaq-100 · mayor riesgo</small>
+                                </span>
+                            </button>
+                            <button class="strategy-card" type="button" data-value="custom" role="radio"
+                                aria-checked="false">
+                                <span class="strat-icon" aria-hidden="true">⚙️</span>
+                                <span class="strat-info">
+                                    <strong>Personalizada</strong>
+                                    <small>CAGR mediano y volatilidad independientes</small>
+                                </span>
+                            </button>
+                        </div>
+                        <select id="strategy" class="visually-hidden" aria-label="Estrategia">
+                            <option value="balanced">Diversificada 40/60</option>
+                            <option value="sp500" selected>Renta variable EE. UU.</option>
+                            <option value="nasdaq">Tecnología concentrada</option>
+                            <option value="custom">Personalizada</option>
+                        </select>
+
+                        <div class="assumption-card" aria-live="polite">
+                            <div class="assumption-card-top">
+                                <div>
+                                    <span class="assumption-label">CAGR geométrico mediano</span>
+                                    <strong id="strategy-return-display">6,7%</strong>
+                                </div>
+                                <div>
+                                    <span class="assumption-label">Volatilidad anual</span>
+                                    <strong id="strategy-vol-display">15,36%</strong>
                                 </div>
                             </div>
+                            <p id="strategy-description"></p>
+                            <p id="strategy-source" class="source-line"></p>
                         </div>
-                        <div class="toggle-switch">
-                            <input type="checkbox" id="ai-mode-toggle">
-                            <span class="slider"></span>
-                        </div>
-                    </label>
-                    <div id="ai-model-container" class="hidden ai-selector-container">
-                        <label class="ai-select-label">Modelo de Predicción</label>
-                        <div class="ai-model-options">
-                            <label class="ai-model-option selected">
-                                <input type="radio" name="ai-model" value="monte-carlo" checked>
-                                <span class="option-content">
-                                    <span class="option-icon">🎲</span>
-                                    <span class="option-text">
-                                        <strong>Monte Carlo Real</strong>
-                                        <small>10,000 Simulaciones</small>
-                                    </span>
-                                </span>
-                            </label>
-                            <label class="ai-model-option">
-                                <input type="radio" name="ai-model" value="simple-bands">
-                                <span class="option-content">
-                                    <span class="option-icon">📊</span>
-                                    <span class="option-text">
-                                        <strong>Bandas Simples</strong>
-                                        <small>+/- Volatilidad %</small>
-                                    </span>
-                                </span>
-                            </label>
-                        </div>
-                        <!-- Hidden select for backward compatibility -->
-                        <select id="ai-model-selector" class="hidden">
-                            <option value="monte-carlo">Monte Carlo Real (10,000 Sims)</option>
-                            <option value="simple-bands">Bandas Simples (+/- %)</option>
-                        </select>
-                    </div>
-                    <p id="ai-description" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Simula
-                        escenarios optimistas y pesimistas.</p>
-                </div>
 
-                <div class="input-group">
-                    <label>Tiempo: <span id="years-display" style="color: var(--accent-color); font-weight:bold;">10
-                            Años</span></label>
-                    <input type="range" id="years" min="1" max="50" value="10" class="styled-range">
-                </div>
-
-                <!-- Advanced Options (Toggle Chips) -->
-                <div class="advanced-section">
-                    <h5 class="advanced-title">Opciones Avanzadas ⚙️</h5>
-                    <div class="toggles-container">
-                        <label class="toggle-chip">
-                            <input type="checkbox" id="inflation-toggle">
-                            <span class="chip-label">📉 Inflación Real</span>
-                        </label>
-                        <label class="toggle-chip">
-                            <input type="checkbox" id="tax-toggle">
-                            <span class="chip-label">🏛️ Impuestos</span>
-                        </label>
-                        <label class="toggle-chip">
-                            <input type="checkbox" id="compare-toggle">
-                            <span class="chip-label">
-                                🆚 Comparar S&P
-                                <div class="tooltip-container"
-                                    style="display:inline-flex; width:auto; margin-left:5px;">
-                                    <div class="tooltip-icon" style="width:16px; height:16px; font-size:0.6rem;">?</div>
-                                    <div class="tooltip-content" style="width: 200px; bottom: 150%;">
-                                        El <strong>S&P 500</strong> es el índice bursátil de las 500 empresas más
-                                        grandes de EE.UU. Es el "benchmark" estándar del mercado (retorno medio ~10%).
+                        <div id="custom-assumptions" class="custom-assumptions hidden">
+                            <div class="input-grid-2">
+                                <div class="input-group">
+                                    <label for="custom-rate">CAGR geométrico mediano</label>
+                                    <div class="input-wrapper suffix-wrapper">
+                                        <input type="number" id="custom-rate" value="6" min="-20" max="30" step="0.1">
+                                        <span class="input-suffix">%</span>
                                     </div>
                                 </div>
+                                <div class="input-group">
+                                    <label for="custom-volatility">Volatilidad anual</label>
+                                    <div class="input-wrapper suffix-wrapper">
+                                        <input type="number" id="custom-volatility" value="18" min="0" max="80"
+                                            step="0.1">
+                                        <span class="input-suffix">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="field-help">No existe una relación fija entre rentabilidad y volatilidad; por eso se introducen por separado.</p>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <div class="control-section-header">
+                            <div>
+                                <span class="control-step">2</span>
+                                <h3>Capital y aportaciones</h3>
+                            </div>
+                        </div>
+
+                        <div class="input-grid-2">
+                            <div class="input-group">
+                                <label for="initial-investment">Inversión inicial</label>
+                                <div class="input-wrapper">
+                                    <span class="currency-prefix">€</span>
+                                    <input type="text" inputmode="decimal" id="initial-investment" value="1.000"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="periodic-contribution" id="contribution-label">Aportación mensual</label>
+                                <div class="input-wrapper">
+                                    <span class="currency-prefix">€</span>
+                                    <input type="text" inputmode="decimal" id="periodic-contribution" value="200"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-grid-2">
+                            <div class="input-group">
+                                <label for="contribution-frequency">Frecuencia</label>
+                                <select id="contribution-frequency">
+                                    <option value="12" selected>Mensual · 12/año</option>
+                                    <option value="26">Quincenal · 26/año</option>
+                                    <option value="52">Semanal · 52/año</option>
+                                    <option value="1">Anual · 1/año</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="contribution-timing">Momento de la aportación</label>
+                                <select id="contribution-timing">
+                                    <option value="begin" selected>Inicio de cada periodo</option>
+                                    <option value="end">Final de cada periodo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <div class="control-section-header">
+                            <div>
+                                <span class="control-step">3</span>
+                                <h3>Modelo de cálculo</h3>
+                            </div>
+                        </div>
+
+                        <div class="model-options" role="radiogroup" aria-label="Modelo de cálculo">
+                            <label class="model-option selected" data-model="monte-carlo">
+                                <input type="radio" name="model" value="monte-carlo" checked>
+                                <span class="model-option-content">
+                                    <span class="option-icon" aria-hidden="true">🎲</span>
+                                    <span>
+                                        <strong>Monte Carlo prospectivo</strong>
+                                        <small>10.000 trayectorias lognormales</small>
+                                    </span>
+                                </span>
+                            </label>
+                            <label class="model-option" data-model="bootstrap">
+                                <input type="radio" name="model" value="bootstrap">
+                                <span class="model-option-content">
+                                    <span class="option-icon" aria-hidden="true">🧱</span>
+                                    <span>
+                                        <strong>Bootstrap histórico</strong>
+                                        <small>Bloques reales de 12 meses</small>
+                                    </span>
+                                </span>
+                            </label>
+                            <label class="model-option" data-model="sensitivity">
+                                <input type="radio" name="model" value="sensitivity">
+                                <span class="model-option-content">
+                                    <span class="option-icon" aria-hidden="true">📊</span>
+                                    <span>
+                                        <strong>Análisis de sensibilidad</strong>
+                                        <small>Tres CAGR constantes, sin probabilidades</small>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                        <p id="model-description" class="model-description"></p>
+
+                        <div id="sensitivity-inputs" class="sensitivity-inputs hidden">
+                            <div class="input-grid-3">
+                                <div class="input-group">
+                                    <label for="sensitivity-low">Escenario bajo</label>
+                                    <div class="input-wrapper suffix-wrapper">
+                                        <input type="number" id="sensitivity-low" value="5.2" min="-50" max="50" step="0.1">
+                                        <span class="input-suffix">%</span>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="sensitivity-central">Escenario central</label>
+                                    <div class="input-wrapper suffix-wrapper">
+                                        <input type="number" id="sensitivity-central" value="6.7" min="-50" max="50"
+                                            step="0.1">
+                                        <span class="input-suffix">%</span>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="sensitivity-high">Escenario alto</label>
+                                    <div class="input-wrapper suffix-wrapper">
+                                        <input type="number" id="sensitivity-high" value="8.5" min="-50" max="50" step="0.1">
+                                        <span class="input-suffix">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <div class="input-group years-control">
+                            <div class="range-label-row">
+                                <label for="years">Horizonte temporal</label>
+                                <strong id="years-display">10 años</strong>
+                            </div>
+                            <input type="range" id="years" min="1" max="50" value="10" class="styled-range">
+                            <div class="range-ends"><span>1 año</span><span>50 años</span></div>
+                        </div>
+                    </div>
+
+                    <div class="control-section advanced-section">
+                        <div class="control-section-header">
+                            <div>
+                                <span class="control-step">4</span>
+                                <h3>Costes y ajustes</h3>
+                            </div>
+                        </div>
+
+                        <div class="input-grid-2">
+                            <div class="input-group">
+                                <label for="annual-fee">Coste anual total</label>
+                                <div class="input-wrapper suffix-wrapper">
+                                    <input type="number" id="annual-fee" value="0.20" min="0" max="10" step="0.01">
+                                    <span class="input-suffix">%</span>
+                                </div>
+                                <p class="field-help">TER, plataforma y otros costes recurrentes.</p>
+                            </div>
+                            <div class="input-group">
+                                <label for="simulation-seed">Semilla reproducible</label>
+                                <div class="seed-row">
+                                    <input type="number" id="simulation-seed" value="20260729" min="1" max="4294967295"
+                                        step="1">
+                                    <button type="button" id="randomize-seed" class="icon-button" title="Generar otra semilla"
+                                        aria-label="Generar otra semilla">↻</button>
+                                </div>
+                                <p class="field-help">La misma semilla produce el mismo resultado.</p>
+                            </div>
+                        </div>
+
+                        <div class="advanced-card">
+                            <label class="toggle-row" for="inflation-toggle">
+                                <span>
+                                    <strong>📉 Mostrar poder adquisitivo actual</strong>
+                                    <small>Deflacta cada año en vez de restar inflación a la rentabilidad.</small>
+                                </span>
+                                <span class="toggle-switch">
+                                    <input type="checkbox" id="inflation-toggle">
+                                    <span class="slider"></span>
+                                </span>
+                            </label>
+                            <div id="inflation-options" class="advanced-card-body hidden">
+                                <div class="input-grid-2">
+                                    <div class="input-group">
+                                        <label for="inflation-rate">Inflación anual</label>
+                                        <div class="input-wrapper suffix-wrapper">
+                                            <input type="number" id="inflation-rate" value="2" min="0" max="20" step="0.1">
+                                            <span class="input-suffix">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="contribution-growth">Evolución de aportaciones</label>
+                                        <select id="contribution-growth">
+                                            <option value="fixed" selected>Importe nominal fijo</option>
+                                            <option value="inflation">Aumentan con la inflación</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="advanced-card">
+                            <label class="toggle-row" for="tax-toggle">
+                                <span>
+                                    <strong>🏛️ Estimar impuestos al vender todo</strong>
+                                    <small>Solo plusvalía final; no simula dividendos ni compensación de pérdidas.</small>
+                                </span>
+                                <span class="toggle-switch">
+                                    <input type="checkbox" id="tax-toggle">
+                                    <span class="slider"></span>
+                                </span>
+                            </label>
+                            <div id="tax-options" class="advanced-card-body hidden">
+                                <div class="input-grid-2">
+                                    <div class="input-group">
+                                        <label for="tax-model">Modelo fiscal</label>
+                                        <select id="tax-model">
+                                            <option value="spain" selected>España · escala del ahorro</option>
+                                            <option value="custom">Tipo efectivo personalizado</option>
+                                        </select>
+                                    </div>
+                                    <div id="custom-tax-rate-group" class="input-group hidden">
+                                        <label for="custom-tax-rate">Tipo efectivo</label>
+                                        <div class="input-wrapper suffix-wrapper">
+                                            <input type="number" id="custom-tax-rate" value="19" min="0" max="100" step="0.1">
+                                            <span class="input-suffix">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p id="tax-warning" class="field-warning hidden"></p>
+                            </div>
+                        </div>
+
+                        <label class="toggle-row standalone-toggle" for="compare-toggle">
+                            <span>
+                                <strong>🆚 Comparar con S&amp;P 500</strong>
+                                <small>Usa el mismo método, aportaciones, costes, inflación e impuestos.</small>
+                            </span>
+                            <span class="toggle-switch">
+                                <input type="checkbox" id="compare-toggle">
+                                <span class="slider"></span>
                             </span>
                         </label>
                     </div>
 
-                    <!-- Tax Rate Input (Hidden by default) -->
-                    <div id="tax-rate-container" class="input-group hidden" style="margin-top: 15px; width: 150px;">
-                        <label style="font-size: 0.9rem;">Tasa Impuestos (%)</label>
-                        <div class="input-wrapper">
-                            <span class="static-prefix" style="font-size: 0.9rem;">%</span>
-                            <input type="number" id="tax-rate" value="19" min="0" max="100"
-                                style="padding: 8px 8px 8px 25px;">
+                    <button id="calculate-btn" class="cta-button full-width" type="button">
+                        <span aria-hidden="true">✨</span> Ejecutar simulación
+                    </button>
+                    <p class="currency-note">La moneda es solo una unidad de entrada y visualización. No se convierte EUR/USD ni se modela el riesgo de divisa.</p>
+                </div>
+
+                <div class="chart-column">
+                    <div class="glass-panel chart-panel">
+                        <div class="chart-header">
+                            <div>
+                                <span class="chart-kicker">Proyección del patrimonio</span>
+                                <h3 id="chart-title">Monte Carlo prospectivo</h3>
+                            </div>
+                            <span id="chart-unit-badge" class="info-badge">Valores nominales</span>
                         </div>
+                        <div id="chart-loading" class="chart-loading hidden" aria-live="polite">
+                            <span class="spinner" aria-hidden="true"></span>
+                            <strong>Calculando 10.000 trayectorias…</strong>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="growthChart" aria-label="Gráfico de crecimiento de la inversión" role="img"></canvas>
+                        </div>
+                        <div id="chart-explanation" class="chart-explanation"></div>
                     </div>
-                </div>
 
-                <button id="calculate-btn" class="cta-button full-width" style="margin-top: 25px;">
-                    <span style="font-size: 1.2rem;">✨</span> Simular Futuro
-                </button>
-            </div>
-
-            <!-- Chart -->
-            <div class="glass-panel chart-panel">
-                <canvas id="growthChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Summary Cards -->
-        <div class="charts-row" style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 30px;">
-            <!-- Summary Cards (Moved inside a container for layout) -->
-            <div class="summary-section">
-                <div class="summary-cards">
-                    <div class="glass-card summary-item">
-                        <h4>Total Invertido</h4>
-                        <p id="total-contributed">$0</p>
-                    </div>
-                    <div class="glass-card summary-item highlight">
-                        <h4>Valor Final Estimado</h4>
-                        <p id="final-value">$0</p>
-                    </div>
-                    <div class="glass-card summary-item">
-                        <h4>Interés Generado</h4>
-                        <p id="total-interest">$0</p>
-                    </div>
-                    <div class="glass-card summary-item" id="tax-card" style="display: none;">
-                        <h4>Impuestos Estimados</h4>
-                        <p id="estimated-tax" style="color: #ef4444;">$0</p>
+                    <div class="glass-panel live-method-card simulation-config-panel">
+                        <div class="live-method-title">
+                            <span aria-hidden="true">🔬</span>
+                            <div>
+                                <strong>Configuración utilizada</strong>
+                                <small>Resumen exacto de la última ejecución</small>
+                            </div>
+                        </div>
+                        <div id="live-method-summary" class="live-method-grid"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Distribution Chart -->
-            <div class="glass-panel donut-panel"
-                style="padding: 20px; display: flex; flex-direction: column; align-items: center;">
-                <h4 style="margin-bottom: 15px; font-size: 1rem; color: var(--text-muted);">Distribución de Activos</h4>
-                <div class="donut-chart-container">
-                    <canvas id="distributionChart"></canvas>
+            <div class="summary-cards" aria-live="polite">
+                <article class="glass-card summary-item">
+                    <h4 id="total-contributed-label">Total aportado</h4>
+                    <p id="total-contributed">0 €</p>
+                    <small id="total-contributed-help">Capital inicial y aportaciones</small>
+                </article>
+                <article class="glass-card summary-item highlight">
+                    <h4 id="final-value-label">Mediana final · P50</h4>
+                    <p id="final-value">0 €</p>
+                    <small id="final-value-help">50% de resultados por encima y por debajo</small>
+                </article>
+                <article class="glass-card summary-item">
+                    <h4 id="range-label">Intervalo P10–P90</h4>
+                    <p id="probable-range">—</p>
+                    <small id="range-help">Contiene el 80% de resultados simulados</small>
+                </article>
+                <article class="glass-card summary-item">
+                    <h4>Ganancia neta mediana</h4>
+                    <p id="total-interest">0 €</p>
+                    <small>Después de costes y, si se activa, impuestos</small>
+                </article>
+                <article class="glass-card summary-item">
+                    <h4>Prob. por debajo de lo aportado</h4>
+                    <p id="loss-probability">—</p>
+                    <small id="loss-probability-help">Solo disponible en modelos probabilísticos</small>
+                </article>
+                <article class="glass-card summary-item" id="tax-card">
+                    <h4>Impuestos medianos estimados</h4>
+                    <p id="estimated-tax">0 €</p>
+                    <small>Hipótesis de liquidación completa al final</small>
+                </article>
+            </div>
+
+            <div class="charts-row">
+                <div class="glass-panel donut-panel">
+                    <div>
+                        <span class="chart-kicker">Descomposición del resultado central</span>
+                        <h3 id="donut-title">Aportaciones y ganancia neta</h3>
+                    </div>
+                    <div class="donut-layout">
+                        <div class="donut-chart-container">
+                            <canvas id="distributionChart" aria-label="Descomposición del resultado final" role="img"></canvas>
+                        </div>
+                        <div id="donut-legend" class="donut-legend"></div>
+                    </div>
+                </div>
+
+                <div class="glass-panel interpretation-panel">
+                    <span class="chart-kicker">Cómo leerlo</span>
+                    <h3>Una simulación no elimina la incertidumbre</h3>
+                    <p id="interpretation-text">
+                        P10 y P90 no son el peor y el mejor caso. Son cortes de la distribución generada por los supuestos del modelo.
+                    </p>
+                    <div class="interpretation-warning">
+                        <strong>Importante</strong>
+                        <span>Una crisis futura puede ser distinta de cualquier crisis histórica o supuesto paramétrico utilizado aquí.</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section id="methodology" class="container methodology-section">
+            <div class="section-heading">
+                <span class="eyebrow">Metodología y fuentes</span>
+                <h2 class="section-title">Qué calcula realmente la aplicación</h2>
+                <p>La transparencia del modelo es más importante que una cifra final aparentemente precisa.</p>
+            </div>
+
+            <div class="methodology-grid">
+                <details class="glass-panel methodology-card" open>
+                    <summary>🎲 Monte Carlo prospectivo</summary>
+                    <div class="details-content">
+                        <p>
+                            Genera 10.000 trayectorias semanales mediante movimiento browniano geométrico. El CAGR
+                            geométrico mediano fija la trayectoria P50 y la volatilidad se introduce por separado para
+                            ensanchar P10–P90. Los choques son normales estándar generados con Box–Muller y semilla reproducible.
+                        </p>
+                        <p>
+                            Cuando se compara Nasdaq-100 con S&amp;P 500, las dos trayectorias se generan conjuntamente.
+                            Los choques usan una correlación del 93% publicada por Nasdaq para los retornos diarios entre
+                            diciembre de 2007 y junio de 2026, por lo que también puede calcularse la probabilidad de que
+                            una estrategia termine por encima de la otra.
+                        </p>
+                        <p>
+                            Es un modelo paramétrico útil para estudiar dispersión, pero no reproduce por sí solo colas
+                            gruesas, cambios estructurales ni agrupación persistente de volatilidad.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="glass-panel methodology-card">
+                    <summary>🧱 Bootstrap histórico por bloques</summary>
+                    <div class="details-content">
+                        <p>
+                            Reordena bloques consecutivos de 12 rentabilidades mensuales reales. Así conserva dentro de
+                            cada bloque parte de la secuencia de subidas, caídas y crisis, en lugar de fabricar cada mes
+                            con una distribución normal.
+                        </p>
+                        <p>
+                            Sin comparación, el S&amp;P 500 utiliza una aproximación mensual de rentabilidad total basada
+                            en Robert Shiller y el Nasdaq-100 su serie oficial Total Return. Al comparar ambos, se cambia
+                            a una base homogénea de años naturales Total Return 2008–2025 y se extraen exactamente los
+                            mismos bloques consecutivos de dos años para los dos índices.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="glass-panel methodology-card">
+                    <summary>📊 Análisis de sensibilidad</summary>
+                    <div class="details-content">
+                        <p>
+                            Capitaliza tres tasas anuales constantes: baja, central y alta. No asigna probabilidades y no
+                            debe interpretarse como P10, P50 o P90. Sirve para comprobar cuánto cambia el resultado al
+                            modificar el CAGR.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="glass-panel methodology-card">
+                    <summary>📉 Inflación, costes y aportaciones</summary>
+                    <div class="details-content">
+                        <p>
+                            La inflación no se resta directamente de la rentabilidad. Primero se simulan importes
+                            nominales y después cada año se deflacta por <code>(1 + inflación)^años</code>. Las
+                            aportaciones pueden permanecer nominalmente fijas o aumentar con la inflación.
+                        </p>
+                        <p>
+                            El coste anual se descuenta del patrimonio de forma compuesta. Las aportaciones semanales,
+                            quincenales, mensuales y anuales se programan exactamente en 52 semanas por año.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="glass-panel methodology-card">
+                    <summary>🏛️ Fiscalidad española</summary>
+                    <div class="details-content">
+                        <p>
+                            El cálculo español aplica a la plusvalía final los tramos 19%, 21%, 23%, 27% y 30%. Es una
+                            estimación de venta total al final y no incluye dividendos cobrados durante el periodo,
+                            compensación de minusvalías, mínimos personales, cambios normativos ni particularidades del
+                            vehículo de inversión.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="glass-panel methodology-card">
+                    <summary>🧭 Cuestionario de riesgo</summary>
+                    <div class="details-content">
+                        <p>
+                            El cuestionario separa tolerancia, capacidad de soportar pérdidas y conocimientos. Sigue la
+                            idea de MiFID II de que no basta preguntar cómo reacciona alguien ante una caída; también se
+                            necesita conocer experiencia, situación financiera, objetivos y horizonte.
+                        </p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="glass-panel sources-panel">
+                <div class="sources-heading">
+                    <div>
+                        <span class="chart-kicker">Fuentes de los parámetros predeterminados</span>
+                        <h3>Datos fechados y revisables</h3>
+                    </div>
+                    <span class="info-badge">Actualización del modelo: 29/07/2026</span>
+                </div>
+                <div class="sources-list">
+                    <a href="https://am.jpmorgan.com/content/dam/jpm-am-aem/global/en/insights/ltcma-2026-us-matrix_usd.pdf"
+                        target="_blank" rel="noopener noreferrer">
+                        <strong>J.P. Morgan · LTCMA 2026</strong>
+                        <span>Rentabilidad esperada de la renta variable estadounidense de gran capitalización: 6,7%. Se usa como hipótesis central del S&amp;P 500 y como escenario bajo del Nasdaq-100.</span>
+                    </a>
+                    <a href="https://www.blackrock.com/blk-inst-c-assets/images/tools/blackrock-investment-institute/cma/blackrock-capital-market-assumptions.xlsx"
+                        target="_blank" rel="noopener noreferrer">
+                        <strong>BlackRock Capital Market Assumptions · mayo de 2026</strong>
+                        <span>Escenario base a 10 años para grandes compañías estadounidenses: 8,47%; escenario de auge de productividad por IA: 14,81%. Se redondean a 8,5% y 14,8% para el Nasdaq, dejando claro que son proxies y escenarios, no una previsión específica del índice.</span>
+                    </a>
+                    <a href="https://corporate.vanguard.com/content/corporatesite/us/en/corp/vemo/vemo-return-forecasts.html"
+                        target="_blank" rel="noopener noreferrer">
+                        <strong>Vanguard Capital Markets Model</strong>
+                        <span>Rango geométrico a 10 años para renta variable estadounidense: 4,2%–6,2%. Se conserva como referencia prudente y la interfaz avisa al extrapolar una hipótesis de 10 años.</span>
+                    </a>
+                    <a href="https://www.spglobal.com/spdji/en/indices/equity/sp-500/" target="_blank"
+                        rel="noopener noreferrer">
+                        <strong>S&amp;P Dow Jones Indices</strong>
+                        <span>Volatilidad anualizada del S&amp;P 500 a 10 años: 15,36% a 30/06/2026; retornos Total Return anuales del benchmark.</span>
+                    </a>
+                    <a href="https://indexes.nasdaqomx.com/docs/FS_XNDX.pdf" target="_blank"
+                        rel="noopener noreferrer">
+                        <strong>Nasdaq-100 Total Return</strong>
+                        <span>CAGR histórico a 10 años 22,33% y volatilidad 22,63%. El rendimiento histórico no se presenta como expectativa futura.</span>
+                    </a>
+                    <a href="https://www.nasdaq.com/articles/nasdaq-100-indexr-celebrates-40-years-innovation" target="_blank"
+                        rel="noopener noreferrer">
+                        <strong>Nasdaq-100 · 40 años</strong>
+                        <span>CAGR histórico aproximado desde 1985: 14,25%, frente al 11,57% del S&amp;P 500. Se muestra como historia, no como preset prospectivo.</span>
+                    </a>
+                    <a href="https://indexes.nasdaqomx.com/docs/NDX%20vs.%20SPX%20-%202%20pager.pdf" target="_blank"
+                        rel="noopener noreferrer">
+                        <strong>Nasdaq-100 frente a S&amp;P 500</strong>
+                        <span>Correlación diaria histórica del 93% y rendimientos Total Return alineados utilizados para calibrar la comparación conjunta.</span>
+                    </a>
+                    <a href="https://fred.stlouisfed.org/series/GS10" target="_blank" rel="noopener noreferrer">
+                        <strong>Reserva Federal de St. Louis</strong>
+                        <span>Rentabilidad del Treasury estadounidense a 10 años: 4,47% de media en junio de 2026, usada como referencia de renta fija.</span>
+                    </a>
+                    <a href="https://www.ecb.europa.eu/mopo/strategy/pricestab/html/index.en.html" target="_blank"
+                        rel="noopener noreferrer">
+                        <strong>Banco Central Europeo</strong>
+                        <span>Objetivo de inflación del 2% a medio plazo, valor predeterminado editable.</span>
+                    </a>
+                    <a href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c15-calculo-impuesto-determinacion-cuotas-integras/gravamen-aplicable-contribuyentes-irpf-residentes-extranjero/gravamen-base-liquidable-ahorro.html"
+                        target="_blank" rel="noopener noreferrer">
+                        <strong>Agencia Tributaria</strong>
+                        <span>Escala de la base del ahorro 19%–30% utilizada por la estimación española.</span>
+                    </a>
+                    <a href="https://www.econ.yale.edu/~shiller/data.htm" target="_blank" rel="noopener noreferrer">
+                        <strong>Robert Shiller · Yale</strong>
+                        <span>Precios y dividendos mensuales empleados para construir la serie histórica del mercado estadounidense.</span>
+                    </a>
+                    <a href="https://www.esma.europa.eu/sites/default/files/library/esma35-43-1163_guidelines_on_certain_aspects_of_mifid_ii_suitability_requirements_0.pdf"
+                        target="_blank" rel="noopener noreferrer">
+                        <strong>ESMA · MiFID II</strong>
+                        <span>Conocimientos, experiencia, situación financiera, capacidad de soportar pérdidas, objetivos y tolerancia al riesgo.</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="methodology-disclaimer">
+                <strong>Limitaciones esenciales:</strong>
+                <span>
+                    no se modelan tipos de cambio, dividendos tributados durante el camino, reequilibrio entre activos,
+                    spreads, deslizamiento, quiebras, cambios regulatorios ni cambios de régimen futuros. La dependencia
+                    entre activos solo se aproxima en la comparación Nasdaq-100/S&amp;P 500 mediante una correlación histórica fija. Los índices no son directamente invertibles y los resultados pueden diferir de un ETF real.
+                </span>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <p>Disclaimer: Esta herramienta es solo para fines educativos y de simulación. Rentabilidades pasadas no
-            garantizan futuras.</p>
+        <p>
+            FutureWealth es una herramienta educativa. Los resultados son hipotéticos, dependen de los supuestos
+            introducidos y no garantizan resultados futuros. Invertir implica riesgo de pérdida parcial o total.
+        </p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,22 @@
+✓ Escala fiscal española
+✓ Aportaciones mensuales, quincenales, semanales y anuales
+✓ Capitalización anual exacta
+✓ Monte Carlo, bootstrap y sensibilidad reproducibles
+✓ Series históricas embebidas verificadas
+✓ CAGR geométrico mediano independiente de la volatilidad
+✓ Comparación conjunta Nasdaq/S&P con correlación 0,93
+✓ Bootstrap comparativo con retornos Total Return 2008–2025 alineados
+✓ Mismos bloques consecutivos de dos años para ambos índices
+✓ Advertencia al extrapolar previsiones de 10 años
+✓ Presets prospectivos separados de los CAGR históricos
+✓ HTML sin IDs duplicados ni referencias JavaScript ausentes
+Todas las pruebas han pasado.
+
+Comprobación de referencia:
+- Nasdaq-100: CAGR mediano prospectivo 8,5%, volatilidad 22,63%.
+- S&P 500: CAGR mediano prospectivo 6,7%, volatilidad 15,36%.
+- La volatilidad modifica P10/P90, no reduce de nuevo el CAGR central P50.
+- El 14,8% se conserva como escenario alto de IA, no como consenso central.
+✓ Navbar móvil a ancho visual completo, sin franja lateral.
+✓ Tarjetas del hero apiladas de forma compacta en móvil, sin posicionamiento absoluto.
+✓ Reglas limitadas a <=760 px; escritorio sin cambios.
