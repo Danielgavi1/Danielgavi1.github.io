@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://danielgavi1.github.io/VegiFinder/sitemap.xml

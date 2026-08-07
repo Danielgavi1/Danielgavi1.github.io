@@ -1,0 +1,18 @@
+{
+  "name": "VegiFinder — Buscador de productos veganos",
+  "short_name": "VegiFinder",
+  "description": "Busca productos por nombre, marca o código de barras y revisa su información vegana.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbfdfb",
+  "theme_color": "#176b45",
+  "icons": [
+    { "src": "./assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Buscar un producto", "short_name": "Buscar", "url": "./#buscar" }
+  ]
+}

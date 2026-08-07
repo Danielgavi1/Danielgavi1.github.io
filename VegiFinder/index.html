@@ -1,78 +1,375 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VegiFinder</title>
-    <!-- BOOTSTRAP CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- CSS NATIVO -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- JS NATIVO -->
-    <script src="js/index.js" defer></script>
-    <!-- FONT AWESOME JS -->
-    <script src="https://kit.fontawesome.com/9291085edc.js" crossorigin="anonymous" defer></script>
-    <!-- FONT AWESOME LINK -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha256-u7O49P5bSfFqfGnjsbLoNBMBNlHT6Z4+/U02d/yo3+g= crossorigin='anonymous'" />
-    <!-- ICONO -->
-    <link rel="icon" type="image/png" sizes="32x32" href="img/vegifinder.jpg" style="border-radius: 10px;">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b45">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Busca productos por nombre, marca o código de barras y consulta si sus datos permiten considerarlos veganos. Ingredientes, alérgenos, favoritos y fuentes de contraste.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="author" content="Daniel Gaya">
 
+  <title>VegiFinder — Comprueba productos veganos con más contexto</title>
+  <link rel="canonical" href="https://danielgavi1.github.io/VegiFinder/">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/img/icon-192.png">
+  <link rel="stylesheet" href="./assets/css/styles.css?v=2.1.0">
+  <script src="./assets/js/theme-static.js"></script>
 
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:title" content="VegiFinder — Comprueba productos veganos">
+  <meta property="og:description" content="Busca por nombre, marca o código de barras y revisa ingredientes, alérgenos y estado vegano con información colaborativa.">
+  <meta property="og:url" content="https://danielgavi1.github.io/VegiFinder/">
+  <meta property="og:image" content="https://danielgavi1.github.io/VegiFinder/assets/img/og-image.png">
+  <meta property="og:image:alt" content="VegiFinder, buscador de productos veganos">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VegiFinder — Comprueba productos veganos">
+  <meta name="twitter:description" content="Ingredientes, alérgenos y estado vegano en un buscador accesible y gratuito.">
+  <meta name="twitter:image" content="https://danielgavi1.github.io/VegiFinder/assets/img/og-image.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "VegiFinder",
+    "url": "https://danielgavi1.github.io/VegiFinder/",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "Any",
+    "inLanguage": "es",
+    "description": "Buscador de productos que ayuda a interpretar información vegana procedente de Open Food Facts.",
+    "isAccessibleForFree": true,
+    "author": {
+      "@type": "Person",
+      "name": "Daniel Gaya"
+    }
+  }
+  </script>
 </head>
-<body class="container mt-5">
+<body>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-dark bg-dark fixed-top mb-5 color-navbar">
-    <div class="container-fluid mb-2">
-      <button class="navbar-toggler color-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+  <header class="site-header">
+    <div class="container header-layout">
+      <a class="brand" href="./" aria-label="VegiFinder, ir al inicio">
+        <img src="./assets/img/logo.svg" width="42" height="42" alt="">
+        <span>VegiFinder</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="#buscar">Buscar</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#fuentes">Fuentes</a>
+        <a href="./acerca.html">Acerca</a>
+      </nav>
+
+      <button id="theme-toggle" class="icon-button theme-toggle" type="button" aria-label="Activar tema oscuro" aria-pressed="false">
+        <span data-theme-icon aria-hidden="true">☾</span>
       </button>
-      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-        <div class="offcanvas-header">
-          <h4 class="offcanvas-title" id="offcanvasDarkNavbarLabel">VegiFinder <i class="fas fa-leaf" style="color: #2cd87f;"></i></h4>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" data-bs-dismiss="offcanvas" aria-label="Close" href="#"><h5>Home</h5></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="html/lista.html"><h5>No has encontrado tu producto?</h5></a>
-            </li>
-          <form class="d-flex mt-3" role="search">
-            <a class="btn btn-success" type="submit" style="text-decoration: none;" href="https://docs.google.com/forms/d/e/1FAIpQLSfnVU7RQVD9We_9WEDk339Z0_YjNrYThPhmcJlJn5h7yk2SJQ/viewform">Ayudanos a completar la lista</a>
-          </form>
-        </div>
-      </div>
     </div>
-  </nav>
-  <!-- FIN NAVBAR -->
-  <br>
-    
-    <h1 class="text-center mb-4 mt-5">
-        VegiFinder <i class="fas fa-leaf" style="color: #2cd87f;"></i>    
-    </h1>
-    <!-- Imagen como botón -->
-    <img src="img/vino.webp" alt="Boton" onclick="addvino()" class="vino">
-    
-  <form id="search-form" class="form-inline justify-content-center mt-5">
-    <label class="sr-only" for="search-button">Buscar productos veganos:</label>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" id="search-button" placeholder="Escribe aquí..." aria-label="Escribir alimento aquí..." aria-describedby="button-addon2">
-        <button class="btn btn-primary" type="button" id="button-addon2" onclick="searchProducts()"><i class="fas fa-search"></i>ㅤBuscar</button>
-      </div>
-  </form>
+  </header>
 
-    <!-- Resultados de búsqueda -->
-    <div id="search-results" class="mt-4"></div>
-    <!-- ENLACE A LISTA.HTML -->
-    <div class="text-center mt-3" id="no_encontraste_producto">
-      <a class="btn-success" href="html/lista.html"><h5>No has encontrado tu producto?</h5></a>
+  <main id="main-content">
+    <section id="buscar" class="hero section">
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <span class="eyebrow">Información colaborativa, explicada con prudencia</span>
+          <h1>Comprueba un producto antes de comprarlo</h1>
+          <p class="hero-lead">Busca por nombre, marca o código de barras. VegiFinder reúne la información disponible y te indica si el producto figura como vegano, no vegano o todavía no se puede confirmar.</p>
+
+          <form id="search-form" class="search-form" role="search" novalidate>
+            <label for="search-input">Producto, marca o código de barras</label>
+            <div class="search-control">
+              <span class="search-control__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </span>
+              <input id="search-input" name="q" type="search" minlength="2" maxlength="100" autocomplete="off" enterkeyhint="search" placeholder="Ej.: bebida de avena, Heura o 841…" aria-describedby="search-help">
+              <button id="search-submit" class="button button--primary search-submit" type="submit">Buscar</button>
+            </div>
+            <p id="search-help" class="form-help">La búsqueda solo se ejecuta al pulsar Buscar, para no sobrecargar la fuente de datos.</p>
+          </form>
+
+          <div class="search-tools">
+            <button id="scan-button" class="button button--secondary" type="button">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7V4h3M17 4h3v3M20 17v3h-3M7 20H4v-3M7 9v6M10 9v6M14 9v6M17 9v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Escanear código
+            </button>
+            <div class="example-searches" aria-label="Búsquedas de ejemplo">
+              <span>Prueba:</span>
+              <button class="text-button" type="button" data-search-example="tofu">tofu</button>
+              <button class="text-button" type="button" data-search-example="hamburguesa vegetal">hamburguesa vegetal</button>
+              <button class="text-button" type="button" data-search-example="chocolate negro">chocolate negro</button>
+            </div>
+          </div>
+
+          <div id="recent-searches" class="recent-searches" hidden>
+            <span class="recent-searches__label">Búsquedas recientes</span>
+            <div id="recent-list" class="chip-list"></div>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Cómo interpretar los resultados">
+          <div class="hero-panel__visual" aria-hidden="true">
+            <div class="scan-frame">
+              <span class="scan-frame__line"></span>
+              <svg viewBox="0 0 160 160" width="150" height="150">
+                <path d="M80 132c-6-43 8-74 46-97-2 45-18 77-46 97Z" fill="currentColor" opacity=".2"/>
+                <path d="M80 132c-8-35-26-57-54-70 0 38 18 63 54 70Z" fill="currentColor" opacity=".35"/>
+                <path d="M80 132c7-36 22-63 46-81M80 132c-11-27-28-46-51-57" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+          <h2>Tres respuestas, sin falsas certezas</h2>
+          <ul class="status-guide">
+            <li><span class="status-dot status-dot--confirmed"></span><span><strong>Vegano:</strong> los ingredientes o el etiquetado lo respaldan.</span></li>
+            <li><span class="status-dot status-dot--uncertain"></span><span><strong>Sin confirmar:</strong> faltan datos o existe alguna duda.</span></li>
+            <li><span class="status-dot status-dot--not-vegan"></span><span><strong>No vegano:</strong> la información señala componentes no veganos.</span></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Aviso importante">
+      <div class="container trust-strip__content">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 3 3.8 6.4v5.1c0 4.8 3.4 8.3 8.2 9.5 4.8-1.2 8.2-4.7 8.2-9.5V6.4L12 3Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8.5 12 2.2 2.2 4.8-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><strong>El envase siempre tiene la última palabra.</strong> Las recetas, proveedores y procesos pueden cambiar. Revisa ingredientes, trazas y certificaciones antes de consumir.</p>
+      </div>
+    </section>
+
+    <section id="results" class="section results-section" aria-labelledby="results-title" hidden>
+      <div class="container">
+        <div class="section-heading results-heading">
+          <div>
+            <span class="eyebrow">Resultados de Open Food Facts</span>
+            <h2 id="results-title">Resultados</h2>
+            <p id="results-meta">Preparando la búsqueda…</p>
+          </div>
+          <button id="share-search" class="button button--secondary button--small" type="button" hidden>Compartir búsqueda</button>
+        </div>
+
+        <div id="results-summary" class="results-summary" aria-label="Resumen de clasificaciones"></div>
+
+        <div id="results-toolbar" class="results-toolbar" hidden>
+          <label>
+            Mostrar
+            <select id="status-filter">
+              <option value="all">Todos los estados</option>
+              <option value="confirmed">Solo veganos</option>
+              <option value="uncertain">Sin confirmar</option>
+              <option value="not-vegan">No veganos</option>
+            </select>
+          </label>
+          <label>
+            Ordenar
+            <select id="sort-select">
+              <option value="relevance">Más relevantes</option>
+              <option value="status">Estado vegano</option>
+              <option value="completeness">Ficha más completa</option>
+              <option value="name">Nombre A–Z</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="loading-state" class="loading-state" role="status" aria-live="polite" hidden>
+          <div class="spinner" aria-hidden="true"></div>
+          <p id="loading-message">Consultando productos…</p>
+        </div>
+
+        <div id="results-notice" class="state-card state-card--notice" role="status" hidden>
+          <span class="state-card__icon" aria-hidden="true">i</span>
+          <div>
+            <h3>Información sobre estos resultados</h3>
+            <p id="results-notice-message"></p>
+          </div>
+        </div>
+
+        <div id="error-state" class="state-card state-card--error" role="alert" hidden>
+          <span class="state-card__icon" aria-hidden="true">!</span>
+          <div class="state-card__content">
+            <h3>No hemos podido completar la consulta</h3>
+            <p id="error-message">Se ha producido un error.</p>
+            <button id="retry-search" class="button button--secondary button--small" type="button">Reintentar búsqueda</button>
+          </div>
+        </div>
+
+        <div id="empty-state" class="state-card" hidden>
+          <span class="state-card__icon" aria-hidden="true">⌕</span>
+          <div>
+            <h3 id="empty-title">No hay productos con este filtro</h3>
+            <p id="empty-message">Cambia el estado seleccionado o consulta las fuentes alternativas.</p>
+          </div>
+        </div>
+
+        <div id="products-grid" class="products-grid" aria-live="polite"></div>
+
+        <div class="load-more-wrapper">
+          <button id="load-more" class="button button--secondary" type="button" hidden>Cargar más resultados</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="favorites" class="section section--soft" aria-labelledby="favorites-title" hidden>
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Guardados en este dispositivo</span>
+            <h2 id="favorites-title">Tus favoritos</h2>
+            <p>No se crea ninguna cuenta: se almacenan únicamente en tu navegador.</p>
+          </div>
+          <button id="clear-favorites" class="text-button text-button--danger" type="button">Eliminar todos</button>
+        </div>
+        <div id="favorites-grid" class="favorites-grid"></div>
+      </div>
+    </section>
+
+    <section id="external-sources" class="section external-section" aria-labelledby="external-title" hidden>
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Contrasta antes de decidir</span>
+            <h2 id="external-title">Consulta otras fuentes</h2>
+            <p>Cada directorio tiene una cobertura diferente. Para bebidas alcohólicas, utiliza especialmente Barnivore.</p>
+          </div>
+        </div>
+        <div id="external-grid" class="sources-grid"></div>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section section--soft" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section-heading section-heading--center">
+          <span class="eyebrow">Proceso transparente</span>
+          <h2 id="how-title">Cómo funciona VegiFinder</h2>
+          <p>No inventa respuestas ni sustituye la lectura del etiquetado.</p>
+        </div>
+
+        <ol class="steps-grid">
+          <li class="step-card">
+            <span class="step-card__number">1</span>
+            <h3>Busca o escanea</h3>
+            <p>Introduce una marca, un alimento o el código de barras del envase.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-card__number">2</span>
+            <h3>Analiza los datos</h3>
+            <p>Se revisan las etiquetas y el análisis de ingredientes disponibles en Open Food Facts.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-card__number">3</span>
+            <h3>Comprueba el envase</h3>
+            <p>Contrasta ingredientes, trazas y posibles cambios de formulación antes de comprar.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="fuentes" class="section" aria-labelledby="sources-title">
+      <div class="container source-info-layout">
+        <div>
+          <span class="eyebrow">Datos abiertos</span>
+          <h2 id="sources-title">Una herramienta útil porque reconoce sus límites</h2>
+          <p>VegiFinder utiliza Open Food Facts, una base de datos alimentaria abierta y mantenida por su comunidad. Sus datos pueden ser incompletos, antiguos o contener errores. Por eso los resultados se expresan como una ayuda para decidir, no como una certificación.</p>
+          <p>Las imágenes de producto y los datos pertenecen a sus respectivas licencias. VegiFinder no está afiliado a marcas, supermercados ni a los directorios enlazados.</p>
+          <div class="button-row">
+            <a class="button button--primary" href="https://world.openfoodfacts.org/cgi/product.pl" target="_blank" rel="noopener noreferrer">Añadir un producto a Open Food Facts ↗</a>
+            <a class="button button--secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfnVU7RQVD9We_9WEDk339Z0_YjNrYThPhmcJlJn5h7yk2SJQ/viewform" target="_blank" rel="noopener noreferrer">Proponer una mejora ↗</a>
+          </div>
+        </div>
+
+        <aside class="source-license-card">
+          <h3>Licencias y atribución</h3>
+          <dl>
+            <div><dt>Base de datos</dt><dd>Open Database License (ODbL)</dd></div>
+            <div><dt>Contenido individual</dt><dd>Database Contents License</dd></div>
+            <div><dt>Imágenes</dt><dd>Creative Commons Attribution-ShareAlike</dd></div>
+            <div><dt>Código de VegiFinder</dt><dd>MIT</dd></div>
+          </dl>
+          <a href="./acerca.html#licencias">Ver información completa</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section--soft" aria-labelledby="faq-title">
+      <div class="container faq-container">
+        <div class="section-heading section-heading--center">
+          <span class="eyebrow">Preguntas frecuentes</span>
+          <h2 id="faq-title">Antes de confiar en un resultado</h2>
+        </div>
+
+        <div class="faq-list">
+          <details>
+            <summary>¿“Vegano” significa que está certificado?</summary>
+            <p>No necesariamente. El resultado puede proceder del análisis de ingredientes o de una etiqueta registrada en Open Food Facts. Una certificación oficial debe comprobarse en el envase y con la entidad correspondiente.</p>
+          </details>
+          <details>
+            <summary>¿Por qué algunos productos aparecen “sin confirmar”?</summary>
+            <p>Porque faltan ingredientes, la información no está actualizada o existen componentes cuyo origen no puede determinarse. VegiFinder evita convertir esa falta de datos en una afirmación.</p>
+          </details>
+          <details>
+            <summary>¿Las trazas hacen que un producto no sea vegano?</summary>
+            <p>Una advertencia de trazas suele referirse a contaminación cruzada y alérgenos, no necesariamente a un ingrediente añadido. La decisión puede depender de tus criterios personales y de tus necesidades médicas.</p>
+          </details>
+          <details>
+            <summary>¿Dónde se guardan mis favoritos?</summary>
+            <p>Solo en el almacenamiento local de tu navegador. VegiFinder no crea perfiles, no usa analítica y no envía tu lista a un servidor propio.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-layout">
+      <div>
+        <a class="brand brand--footer" href="./">
+          <img src="./assets/img/logo.svg" width="38" height="38" alt="">
+          <span>VegiFinder</span>
+        </a>
+        <p>Una ayuda gratuita para tomar decisiones más informadas, creada por Daniel Gaya.</p>
+      </div>
+      <nav aria-label="Enlaces del pie">
+        <a href="./acerca.html">Acerca del proyecto</a>
+        <a href="./privacidad.html">Privacidad</a>
+        <a href="https://github.com/danielgavi1/Danielgavi1.github.io/tree/main/VegiFinder" target="_blank" rel="noopener noreferrer">Código fuente ↗</a>
+      </nav>
+      <p class="footer-copy">© <span id="current-year">2026</span> VegiFinder · Datos alimentarios de Open Food Facts.</p>
     </div>
-    <!-- BOOTSTRAP JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-  </body>
+  </footer>
+
+  <dialog id="product-dialog" class="dialog">
+    <div class="dialog__header">
+      <span>Información del producto</span>
+      <button class="icon-button" type="button" data-close-dialog aria-label="Cerrar detalles">×</button>
+    </div>
+    <div id="product-dialog-content" class="dialog__content"></div>
+  </dialog>
+
+  <dialog id="scanner-dialog" class="dialog dialog--scanner">
+    <div class="dialog__header">
+      <span>Escanear código de barras</span>
+      <button class="icon-button" type="button" data-close-dialog aria-label="Cerrar escáner">×</button>
+    </div>
+    <div class="dialog__content">
+      <div class="scanner-view">
+        <video id="scanner-video" playsinline muted></video>
+        <div class="scanner-overlay" aria-hidden="true"><span></span></div>
+      </div>
+      <p id="scanner-status" class="scanner-status" role="status">Preparando la cámara…</p>
+      <div class="separator"><span>o escríbelo</span></div>
+      <form id="manual-barcode-form" class="manual-barcode-form">
+        <label for="manual-barcode">Código de barras</label>
+        <div class="inline-form">
+          <input id="manual-barcode" type="text" inputmode="numeric" pattern="[0-9\s-]{8,18}" autocomplete="off" placeholder="8–14 dígitos" required>
+          <button class="button button--primary" type="submit">Buscar</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="./assets/js/app.js?v=2.1.0"></script>
+</body>
 </html>

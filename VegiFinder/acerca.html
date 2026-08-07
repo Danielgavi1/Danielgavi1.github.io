@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b45">
+  <meta name="description" content="Conoce la metodología, las limitaciones, las fuentes de datos y las licencias de VegiFinder.">
+  <title>Acerca de VegiFinder — Metodología y fuentes</title>
+  <link rel="canonical" href="https://danielgavi1.github.io/VegiFinder/acerca.html">
+  <link rel="icon" href="./assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/css/styles.css?v=2.1.0">
+  <script src="./assets/js/theme-static.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="container header-layout">
+      <a class="brand" href="./"><img src="./assets/img/logo.svg" width="42" height="42" alt=""><span>VegiFinder</span></a>
+      <nav class="main-nav" aria-label="Navegación principal"><a href="./#buscar">Buscar</a><a href="./#como-funciona">Cómo funciona</a><a href="./#fuentes">Fuentes</a><a aria-current="page" href="./acerca.html">Acerca</a></nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="document-main">
+    <article class="container document-layout">
+      <header class="document-hero">
+        <span class="eyebrow">Transparencia del proyecto</span>
+        <h1>Acerca de VegiFinder</h1>
+        <p>VegiFinder ayuda a interpretar datos colaborativos sobre productos, pero no certifica marcas ni sustituye el etiquetado oficial.</p>
+      </header>
+
+      <section>
+        <h2>Qué problema intenta resolver</h2>
+        <p>Comprobar si un producto es vegano no siempre consiste en encontrar una palabra concreta en el envase. Puede haber aditivos de origen variable, ingredientes incompletos, cambios de receta o procesos de elaboración que no aparecen en una lista sencilla. VegiFinder centraliza la información disponible y comunica también la incertidumbre.</p>
+      </section>
+
+      <section>
+        <h2>Cómo se decide el estado mostrado</h2>
+        <div class="method-grid">
+          <div class="method-card"><span class="status-dot status-dot--confirmed"></span><h3>Vegano según los datos</h3><p>Open Food Facts marca el análisis de ingredientes como vegano o registra una etiqueta vegana explícita.</p></div>
+          <div class="method-card"><span class="status-dot status-dot--uncertain"></span><h3>No se puede confirmar</h3><p>No existen datos suficientes, el estado figura como desconocido o faltan ingredientes relevantes.</p></div>
+          <div class="method-card"><span class="status-dot status-dot--not-vegan"></span><h3>No vegano</h3><p>El análisis o las etiquetas disponibles indican que contiene componentes no veganos.</p></div>
+        </div>
+        <p>Cuando existen señales contradictorias, VegiFinder prioriza la advertencia y evita clasificar el producto como vegano.</p>
+      </section>
+
+      <section>
+        <h2>Limitaciones importantes</h2>
+        <ul class="document-list">
+          <li>La base de datos es colaborativa y puede contener información incompleta o incorrecta.</li>
+          <li>Un producto puede cambiar de formulación sin que su ficha se actualice inmediatamente.</li>
+          <li>Una etiqueta “vegana” registrada no equivale necesariamente a una certificación independiente.</li>
+          <li>Las advertencias de trazas responden principalmente a alérgenos y contaminación cruzada.</li>
+          <li>El origen de algunos aditivos puede variar entre fabricantes o lotes.</li>
+          <li>VegiFinder no ofrece consejo médico ni puede evaluar riesgos de alergia.</li>
+        </ul>
+      </section>
+
+      <section id="licencias">
+        <h2>Fuentes, licencias y atribución</h2>
+        <p>Los datos principales proceden de Open Food Facts. La base de datos se distribuye bajo Open Database License (ODbL), sus contenidos individuales bajo Database Contents License y las imágenes bajo Creative Commons Attribution-ShareAlike. Los nombres comerciales, logotipos y envases pertenecen a sus titulares.</p>
+        <p>Los enlaces a Vegano por Accidente Spain, Superveggie y Barnivore se ofrecen para facilitar el contraste. VegiFinder no copia sus contenidos ni está afiliado a esas páginas.</p>
+        <p>El código original de esta versión de VegiFinder se distribuye bajo licencia MIT.</p>
+      </section>
+
+      <section>
+        <h2>Privacidad por diseño</h2>
+        <p>No hay registro de usuarios, cookies publicitarias ni herramientas de analítica. Las búsquedas se envían directamente desde el navegador a Open Food Facts. Los favoritos y el historial se almacenan localmente, y las respuestas recientes pueden conservarse temporalmente durante la sesión para evitar consultas repetidas. Consulta la <a href="./privacidad.html">política de privacidad</a> para más detalle.</p>
+      </section>
+
+      <div class="document-cta">
+        <h2>¿Quieres comprobar un producto?</h2>
+        <p>Vuelve al buscador y utiliza el nombre, la marca o el código del envase.</p>
+        <a class="button button--primary" href="./#buscar">Ir al buscador</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-layout"><div><a class="brand brand--footer" href="./"><img src="./assets/img/logo.svg" width="38" height="38" alt=""><span>VegiFinder</span></a><p>Información colaborativa explicada con prudencia.</p></div><nav aria-label="Enlaces del pie"><a href="./">Buscador</a><a href="./privacidad.html">Privacidad</a></nav><p class="footer-copy">© 2026 VegiFinder</p></div></footer>
+</body>
+</html>

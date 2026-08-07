@@ -1,0 +1,12 @@
+{
+  "name": "vegifinder",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Buscador estático y accesible de información sobre productos veganos.",
+  "scripts": {
+    "test": "node tests/classification.test.mjs && node tests/api.test.mjs",
+    "serve": "python -m http.server 5500"
+  },
+  "license": "MIT"
+}
