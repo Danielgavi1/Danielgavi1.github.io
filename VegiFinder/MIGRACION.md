@@ -19,7 +19,7 @@ No conserves los archivos de la versión antigua dentro de la carpeta publicada:
 - el archivo de notas que enlazaba a la administración de Railway
 - copias duplicadas de Bootstrap, Popper o Font Awesome
 
-GitHub Pages no ejecuta PHP y VegiFinder 2.1 no necesita cuentas ni base de datos.
+GitHub Pages no ejecuta PHP y VegiFinder 2.2 no necesita cuentas ni base de datos.
 
 ## 3. Sustitución
 

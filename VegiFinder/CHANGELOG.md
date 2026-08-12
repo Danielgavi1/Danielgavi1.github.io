@@ -1,5 +1,14 @@
 # Historial de cambios
 
+## 2.2.0 — 2026-08-13
+
+- La sección de resultados permanece completamente oculta mientras una búsqueda nueva sigue pendiente; ya no aparece un error intermedio que desaparece al pulsar «Reintentar».
+- Una búsqueda de texto coordina hasta tres rondas silenciosas entre los dos proveedores de Open Food Facts, alternando el orden y aplicando espera progresiva ante fallos transitorios.
+- Los reintentos internos por proveedor se reducen para no multiplicar peticiones innecesarias; el reintento se gestiona ahora a nivel de búsqueda completa.
+- Una respuesta HTTP correcta con cero productos sigue tratándose como «sin resultados» y no como fallo de red.
+- Las fuentes externas, el historial y el desplazamiento a resultados solo se muestran cuando existe una respuesta definitiva o un error final.
+- Versión de recursos y service worker actualizada a 2.2.0 para impedir que el navegador conserve JavaScript 2.1.0.
+
 ## 2.1.0 — 2026-08-03
 
 - Corregido el reinicio incompleto de la interfaz entre búsquedas.

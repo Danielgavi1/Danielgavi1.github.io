@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vegifinder-static-v2.1.0';
+const CACHE_NAME = 'vegifinder-static-v2.2.0';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,12 +6,12 @@ const APP_SHELL = [
   './privacidad.html',
   './404.html',
   './manifest.webmanifest',
-  './assets/css/styles.css?v=2.1.0',
-  './assets/js/app.js?v=2.1.0',
-  './assets/js/api.js?v=2.1.0',
-  './assets/js/classification.js?v=2.1.0',
-  './assets/js/scanner.js?v=2.1.0',
-  './assets/js/storage.js?v=2.1.0',
+  './assets/css/styles.css?v=2.2.0',
+  './assets/js/app.js?v=2.2.0',
+  './assets/js/api.js?v=2.2.0',
+  './assets/js/classification.js?v=2.2.0',
+  './assets/js/scanner.js?v=2.2.0',
+  './assets/js/storage.js?v=2.2.0',
   './assets/js/theme-static.js',
   './assets/img/logo.svg',
   './assets/img/product-placeholder.svg',

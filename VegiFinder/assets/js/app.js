@@ -1,5 +1,5 @@
-import { searchProducts, buildExternalSources, ApiError } from './api.js?v=2.1.0';
-import { VEGAN_STATUS, uniqueProducts } from './classification.js?v=2.1.0';
+import { searchProducts, buildExternalSources, ApiError } from './api.js?v=2.2.0';
+import { VEGAN_STATUS, uniqueProducts } from './classification.js?v=2.2.0';
 import {
   addRecentSearch,
   getFavorites,
@@ -8,8 +8,8 @@ import {
   isFavorite,
   storeTheme,
   toggleFavorite
-} from './storage.js?v=2.1.0';
-import { createBarcodeScanner } from './scanner.js?v=2.1.0';
+} from './storage.js?v=2.2.0';
+import { createBarcodeScanner } from './scanner.js?v=2.2.0';
 
 const dom = {
   searchForm: document.querySelector('#search-form'),
@@ -327,7 +327,7 @@ function setSearchBusy(loading, { append = false, message = '' } = {}) {
   dom.searchForm.setAttribute('aria-busy', String(loading));
   dom.searchButton.classList.toggle('is-loading', loading && !append);
   dom.searchButton.textContent = loading && !append ? 'Buscando…' : 'Buscar';
-  dom.loading.hidden = !loading || append;
+  dom.loading.hidden = true;
   dom.loadingMessage.textContent = message || 'Consultando productos…';
   dom.loadMore.disabled = loading;
   if (append) dom.loadMore.textContent = loading ? 'Cargando…' : 'Cargar más resultados';
@@ -343,9 +343,10 @@ function resetResultsForSearch(query) {
   state.hasMore = false;
   resetRetryButton();
 
-  dom.resultsSection.hidden = false;
-  dom.resultsTitle.textContent = `Buscando “${query}”`;
-  dom.resultsMeta.textContent = 'Preparando la consulta…';
+  dom.resultsSection.hidden = true;
+  dom.externalSection.hidden = true;
+  dom.resultsTitle.textContent = `Resultados para “${query}”`;
+  dom.resultsMeta.textContent = '';
   dom.resultsGrid.replaceChildren();
   dom.resultsSummary.replaceChildren();
   dom.resultsSummary.hidden = true;
@@ -549,14 +550,9 @@ async function performSearch(rawQuery, { append = false } = {}) {
 
   if (!append) {
     resetResultsForSearch(query);
-    renderExternalSources(query);
-    addRecentSearch(query);
-    renderRecentSearches();
-
     const url = new URL(window.location.href);
     url.searchParams.set('q', query);
     history.replaceState(null, '', url);
-    scrollToResults();
   } else {
     dom.error.hidden = true;
     dom.notice.hidden = true;
@@ -565,7 +561,6 @@ async function performSearch(rawQuery, { append = false } = {}) {
   const progress = (message) => {
     if (requestId !== state.activeRequestId) return;
     dom.loadingMessage.textContent = message;
-    if (!append) dom.resultsMeta.textContent = message;
   };
 
   setSearchBusy(true, { append, message: append ? 'Cargando más resultados…' : 'Consultando productos…' });
@@ -597,6 +592,10 @@ async function performSearch(rawQuery, { append = false } = {}) {
     updateResultsHeader();
     renderSummary();
     renderProducts();
+    dom.resultsSection.hidden = false;
+    renderExternalSources(query);
+    addRecentSearch(query);
+    renderRecentSearches();
     dom.shareButton.hidden = false;
     showResultsNotice(result.warning || (result.cacheState === 'fresh' ? 'Resultados recuperados de la caché reciente para evitar consultas innecesarias.' : ''));
 
@@ -608,6 +607,8 @@ async function performSearch(rawQuery, { append = false } = {}) {
       dom.empty.hidden = false;
       dom.resultsMeta.textContent = 'Open Food Facts no ha devuelto productos para esta consulta.';
     }
+
+    requestAnimationFrame(scrollToResults);
   } catch (error) {
     if (requestId !== state.activeRequestId) return;
     if (error instanceof ApiError && error.code === 'cancelled') return;
@@ -620,6 +621,8 @@ async function performSearch(rawQuery, { append = false } = {}) {
       dom.loadMore.disabled = false;
       showResultsNotice(message);
     } else {
+      dom.resultsSection.hidden = false;
+      renderExternalSources(query);
       dom.errorMessage.textContent = message;
       dom.error.hidden = false;
       dom.empty.hidden = true;
@@ -632,6 +635,7 @@ async function performSearch(rawQuery, { append = false } = {}) {
       dom.resultsMeta.textContent = navigator.onLine
         ? 'La consulta ya se ha reintentado automáticamente. Puedes probar otra vez o usar las fuentes alternativas.'
         : 'Parece que no hay conexión a Internet.';
+      requestAnimationFrame(scrollToResults);
     }
   } finally {
     if (requestId === state.activeRequestId) {

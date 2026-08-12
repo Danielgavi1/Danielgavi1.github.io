@@ -1,4 +1,4 @@
-# VegiFinder 2.1
+# VegiFinder 2.2
 
 VegiFinder es una aplicación web estática que ayuda a comprobar productos por nombre, marca o código de barras. Consulta Open Food Facts y comunica el resultado con tres estados prudentes:
 
@@ -23,7 +23,7 @@ La versión anterior funcionaba como una lista de enlaces externos e incluía un
 - mejora responsive, accesibilidad, contraste, navegación por teclado y reducción de movimiento;
 - añade SEO, Open Graph, sitemap, robots, páginas de metodología y privacidad;
 - añade PWA, caché de archivos estáticos, iconos y página 404;
-- añade 14 comprobaciones automáticas de clasificación, relevancia y recuperación de la API;
+- añade 15 comprobaciones automáticas de clasificación, relevancia y recuperación de la API;
 - corrige estados visuales obsoletos, respuestas tardías, reintentos y ordenación por relevancia.
 
 ## Estructura
@@ -93,11 +93,12 @@ Consulta también `MIGRACION.md` para sustituir la versión antigua sin conserva
 
 ### Endpoints utilizados
 
-- Búsqueda de texto principal: endpoint oficial de texto completo `/cgi/search.pl`.
-- Respaldo automático: Search-a-licious mediante `https://search.openfoodfacts.org/search` cuando el endpoint principal no responde.
+- Búsqueda de texto: `/cgi/search.pl` y Search-a-licious (`https://search.openfoodfacts.org/search`) se coordinan como proveedores alternativos.
+- Si ambos proveedores fallan por red, timeout o errores transitorios, VegiFinder realiza hasta tres rondas silenciosas, alternando el orden y aplicando espera progresiva.
+- Un HTTP correcto con cero productos se considera una búsqueda válida sin resultados; no activa el estado de error.
 - Código de barras: `/api/v3.6/product/{code}.json`.
-- Una respuesta transitoria se reintenta automáticamente antes de mostrar un error.
 - Las respuestas recientes se guardan temporalmente en `sessionStorage` para evitar repetir consultas.
+- Mientras una búsqueda nueva está pendiente, la sección de resultados permanece oculta y solo se revela al existir una respuesta definitiva.
 
 La aplicación solo busca cuando el usuario envía el formulario; no implementa búsqueda mientras escribe. Esto ayuda a respetar los límites publicados por Open Food Facts.
 

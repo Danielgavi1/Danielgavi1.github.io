@@ -1,11 +1,11 @@
-import { normalizeProduct, uniqueProducts } from './classification.js?v=2.1.0';
+import { normalizeProduct, uniqueProducts } from './classification.js?v=2.2.0';
 
 const PRODUCT_API_ORIGIN = 'https://world.openfoodfacts.org';
 const SEARCH_API_ORIGIN = 'https://search.openfoodfacts.org';
 const PAGE_SIZE = 24;
 const FRESH_CACHE_TTL = 15 * 60 * 1000;
 const STALE_CACHE_TTL = 24 * 60 * 60 * 1000;
-const CACHE_PREFIX = 'vegifinder:api:v2.1:';
+const CACHE_PREFIX = 'vegifinder:api:v2.2:';
 const MAX_STORED_RESPONSES = 18;
 const memoryCache = new Map();
 
@@ -61,6 +61,8 @@ const SEARCH_FIELDS = [
 ];
 
 const TRANSIENT_STATUS = new Set([408, 425, 500, 502, 503, 504]);
+const TEXT_SEARCH_ROUNDS = 3;
+const TEXT_SEARCH_RETRY_DELAYS = [0, 900, 2200];
 
 export class ApiError extends Error {
   constructor(message, {
@@ -192,8 +194,8 @@ function messageForStatus(status) {
 
 async function fetchJson(url, {
   signal,
-  timeout = 15000,
-  retries = 1,
+  timeout = 12000,
+  retries = 0,
   onProgress,
   provider = 'Open Food Facts'
 } = {}) {
@@ -351,7 +353,7 @@ async function searchWithLegacyEndpoint(query, page, signal, onProgress) {
   onProgress?.('Buscando productos en Open Food Facts…');
   const { data, cacheState, cacheError } = await fetchJson(`${PRODUCT_API_ORIGIN}/cgi/search.pl?${params}`, {
     signal,
-    retries: 1,
+    retries: 0,
     onProgress,
     provider: 'Open Food Facts'
   });
@@ -412,28 +414,82 @@ async function searchWithSearchALicious(query, page, signal, onProgress) {
   };
 }
 
+function isCancelledError(error, signal) {
+  return Boolean(signal?.aborted || error?.code === 'cancelled' || error?.name === 'AbortError');
+}
+
+function isRateLimitError(error) {
+  return error?.status === 429 || error?.code === 'rate-limit';
+}
+
+function shouldRetrySearchRound(errors) {
+  return errors.some((error) => {
+    if (!(error instanceof ApiError)) return true;
+    if (isRateLimitError(error) || error.code === 'validation' || error.code === 'cancelled') return false;
+    return error.status === 0 || TRANSIENT_STATUS.has(error.status) || ['network', 'timeout', 'invalid-json', 'provider-error', 'http-error'].includes(error.code);
+  });
+}
+
 async function searchByText(query, page, signal, onProgress) {
-  try {
-    return await searchWithLegacyEndpoint(query, page, signal, onProgress);
-  } catch (primaryError) {
-    if (signal?.aborted || primaryError?.code === 'cancelled' || primaryError?.status === 429) {
-      throw primaryError;
+  let lastErrors = [];
+
+  for (let round = 0; round < TEXT_SEARCH_ROUNDS; round += 1) {
+    if (signal?.aborted) {
+      throw new ApiError('Búsqueda cancelada.', { code: 'cancelled' });
     }
 
-    try {
-      return await searchWithSearchALicious(query, page, signal, onProgress);
-    } catch (fallbackError) {
-      if (fallbackError?.code === 'cancelled') throw fallbackError;
-      throw new ApiError(
-        'No se ha podido completar la búsqueda después de varios intentos automáticos. Puedes reintentar o consultar las fuentes externas.',
-        {
-          status: fallbackError?.status || primaryError?.status || 0,
-          code: 'all-providers-failed',
-          cause: fallbackError
-        }
-      );
+    if (round > 0) {
+      onProgress?.('La fuente ha fallado temporalmente. Reintentando en segundo plano…');
+      await delay(TEXT_SEARCH_RETRY_DELAYS[round] || 0, signal);
     }
+
+    const providers = round % 2 === 0
+      ? [searchWithLegacyEndpoint, searchWithSearchALicious]
+      : [searchWithSearchALicious, searchWithLegacyEndpoint];
+
+    const roundErrors = [];
+    let emptyResult = null;
+
+    for (const provider of providers) {
+      try {
+        const result = await provider(query, page, signal, onProgress);
+
+        // Un HTTP 200 con cero productos es una respuesta válida: permite que
+        // el segundo proveedor confirme el vacío, pero nunca lo trata como error.
+        if (result.products.length === 0) {
+          emptyResult ||= result;
+          continue;
+        }
+
+        return result;
+      } catch (error) {
+        if (isCancelledError(error, signal)) throw error;
+        roundErrors.push(error);
+      }
+    }
+
+    if (emptyResult) return emptyResult;
+
+    lastErrors = roundErrors;
+    const rateLimitError = roundErrors.find(isRateLimitError);
+    if (rateLimitError) throw rateLimitError;
+
+    if (round === TEXT_SEARCH_ROUNDS - 1 || !shouldRetrySearchRound(roundErrors)) break;
   }
+
+  const lastError = lastErrors.at(-1);
+  const status = lastErrors.find((error) => Number(error?.status) > 0)?.status || 0;
+  const retryAfter = Math.max(0, ...lastErrors.map((error) => Number(error?.retryAfter) || 0));
+
+  throw new ApiError(
+    'No se ha podido completar la búsqueda después de varios intentos automáticos. Puedes reintentar o consultar las fuentes externas.',
+    {
+      status,
+      retryAfter,
+      code: 'all-providers-failed',
+      cause: lastError || null
+    }
+  );
 }
 
 export async function searchProducts(rawQuery, {
