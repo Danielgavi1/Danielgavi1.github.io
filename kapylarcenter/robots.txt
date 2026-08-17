@@ -1,0 +1,8 @@
+# Kapylar Center — robots.txt
+# Dominio canónico: https://kapylarcenter.es/
+# Las páginas legales se mantienen rastreables para que Google pueda leer su meta noindex.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://kapylarcenter.es/sitemap.xml
