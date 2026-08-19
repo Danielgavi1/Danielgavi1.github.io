@@ -1,5 +1,5 @@
 (() => {
-  const WA_NUMBER = '34680805463';
+  const WA_NUMBER = '34669530164';
 
   const buildWhatsAppUrl = (topic = 'un diagnóstico capilar') => {
     const message = `Hola, quiero información sobre ${topic} en Kapylar Center Sant Cugat. ¿Podéis orientarme?`;

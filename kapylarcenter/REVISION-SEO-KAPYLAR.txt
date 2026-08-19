@@ -1,74 +1,32 @@
-KAPYLAR CENTER — AUDITORÍA SEO Y TÉCNICA COMPLETA
-=================================================
-Fecha: 2026-08-17
-Dominio canónico preparado: https://kapylarcenter.es/
+KAPYLAR CENTER — REVISIÓN DE DATOS Y COHERENCIA
+================================================
+Actualización: 19 de agosto de 2026
+Dominio: https://kapylarcenter.es/
 
-1. DOMINIO Y ARQUITECTURA
-- kapylarcenter.es = landing local / captación de clientes.
-- https://www.tucentrocapilar.com/ = ecommerce independiente.
-- El ecommerce no se incluye en canonical, sitemap ni JSON-LD URL de la landing.
-- El email info@tucentrocapilar.com se conserva porque es el contacto real actualmente publicado.
+DATOS VIGENTES
+- Titular: Susana Serrano Aguilera
+- Identificación fiscal incorporada al Aviso Legal.
+- Email: kapylarcenter@gmail.com
+- Teléfono fijo: 931 15 02 79
+- WhatsApp: +34 669 530 164
+- Dirección: Passeig de Francesc Macià, 72, Local 1, 08173 Sant Cugat del Vallès, Barcelona.
+- Ecommerce independiente: https://www.tucentrocapilar.com/
 
-2. HEAD / INDEXACIÓN
-- Title final (45 caracteres): Centro capilar en Sant Cugat | Kapylar Center
-- Meta description (150 caracteres): Centro capilar en Sant Cugat del Vallès. Diagnóstico capilar, tricograma y tratamientos para caída, caspa, grasa y cuero cabelludo con Susana Serrano.
-- Canonical: https://kapylarcenter.es/
-- Meta robots home: index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1
-- Open Graph y Twitter completos y apuntando a kapylarcenter.es.
-- Favicon PNG 128x128 conservado.
+CAMBIOS APLICADOS
+- Sustituidos los datos de contacto anteriores por los vigentes.
+- WhatsApp del JavaScript, enlaces y textos visibles unificado.
+- Servicio capilar actualizado a crioterapia.
+- Eliminada cualquier afirmación de gratuidad del diagnóstico o asesoramiento.
+- Aviso Legal completado con titular e identificación.
+- Política de Privacidad actualizada con responsable y canales actuales.
+- Email para ejercicio de derechos actualizado.
+- JSON-LD actualizado con email, fijo y WhatsApp.
+- sitemap.xml actualizado con lastmod 2026-08-19.
 
-3. DATOS ESTRUCTURADOS
-- HealthAndBeautyBusiness actualizado al dominio nuevo.
-- image, logo, description y hasMap añadidos/mejorados.
-- WebSite añadido para reforzar el nombre de sitio "Kapylar Center".
-- FAQPage conservado: válido, aunque Google limita actualmente sus rich results a sitios de salud/gobierno autoritativos.
-
-4. IMÁGENES
-- WebP originales convertidos desde PNG: 8.
-- Peso anterior aproximado de esas 8 imágenes PNG: 14.78 MB.
-- Peso actual de esas 8 imágenes WebP: 480.6 KB.
-- Reducción: 96.8%.
-- Se han corregido width/height para coincidir con las dimensiones reales.
-- Se han generado versiones 640px reales para los WebP que antes reutilizaban el mismo archivo en srcset.
-- Se ha corregido el ALT de la imagen de láser LLLT.
-- Sitemap de imágenes incluye solo originales de alta resolución, no variantes -640.
-
-5. SITEMAP / ROBOTS
-- sitemap.xml: https://kapylarcenter.es/ + 13 imágenes de contenido.
-- lastmod: 2026-08-17.
-- Páginas legales no se incluyen porque están noindex,follow.
-- robots.txt permite rastreo completo y declara el sitemap.
-- /legal/ no se bloquea para que Google pueda leer el noindex.
-
-6. VALIDACIONES
-- canonical kapylarcenter.es: OK
-- og:url kapylarcenter.es: OK
-- 1 único H1: OK
-- JSON-LD válido (LocalBusiness/WebSite/FAQ): OK
-- robots.txt presente: OK
-- sitemap.xml válido: OK
-- legales noindex: OK
-- legales canonical nuevo dominio: OK
-- 0 rutas locales rotas: OK
-- 0 anclas internas rotas: OK
-- 0 dimensiones de imagen erróneas: OK
-- solo WebP salvo logo PNG: OK
-- 0 imágenes huérfanas: OK
-- 0 duplicados binarios: OK
-- dominio tienda solo permanece intencionadamente: OK
-
-7. PENDIENTE AL PUBLICAR (SERVIDOR / SEARCH CONSOLE)
-- Forzar HTTPS.
-- Elegir https://kapylarcenter.es/ como única variante.
-- Redirigir 301 www.kapylarcenter.es -> kapylarcenter.es.
-- Redirigir 301 http -> https.
-- Crear propiedad de dominio kapylarcenter.es en Google Search Console.
-- Enviar https://kapylarcenter.es/sitemap.xml.
-- Inspeccionar la home y solicitar indexación.
-- Asociar/actualizar el sitio web de la ficha de Google Business Profile con kapylarcenter.es.
-
-8. ESCALABILIDAD SEO
-- Esta versión es una landing de una sola URL indexable.
-- Si más adelante se crean páginas específicas (ej. /caida-cabello/, /tricograma/, /caspa-picor/),
-  deberán añadirse al sitemap con canonical propio y enlazado interno crawlable.
-- No crear páginas locales casi idénticas para ciudades vecinas sin contenido realmente útil y diferenciado.
+CONTROL FINAL
+- Sin referencias antiguas de email.
+- Sin referencias antiguas de WhatsApp.
+- Sin menciones al tratamiento sustituido.
+- Sin afirmaciones de gratuidad.
+- Rutas locales verificadas.
+- JSON-LD y sitemap validados.
