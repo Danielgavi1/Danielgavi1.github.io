@@ -584,6 +584,535 @@ linear-gradient(180deg,#fbfcfe 0%,#f5f7fb 72%,#fdfdfc 100%)}
 .treatment-copy{padding:25px 25px 27px;display:flex;flex-direction:column;flex:1}.treatment-copy h3{font-size:27px}.treatment-copy p{color:var(--muted);font-size:12px;line-height:1.65;margin-bottom:20px}.treatment-copy strong{color:var(--ink)}.treatment-no{display:block;margin-bottom:15px;color:var(--sage-dark);font-size:9px;font-weight:900;letter-spacing:.13em}.treatment-copy a{margin-top:auto;display:flex;align-items:center;justify-content:space-between;color:var(--sage-deep);font-size:11px;font-weight:850}.treatment-copy a span{font-size:17px}
 
 
+
+
+/* ==========================================================
+   INNOVACIÓN APLICADA — BIOMARCADORES + EPIGENÉTICA
+   ========================================================== */
+.innovation-section{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 8% 18%,rgba(220,229,240,.72),transparent 27%),
+    radial-gradient(circle at 94% 78%,rgba(232,223,210,.62),transparent 30%),
+    linear-gradient(180deg,#f8fafc 0%,#fdfdfc 100%);
+}
+.innovation-grid-bg{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  opacity:.42;
+  background-image:
+    linear-gradient(rgba(53,66,89,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(53,66,89,.035) 1px,transparent 1px);
+  background-size:54px 54px;
+  mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%);
+  pointer-events:none;
+}
+.innovation-section::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:420px;
+  height:420px;
+  left:-230px;
+  bottom:-180px;
+  border-radius:50%;
+  border:1px solid rgba(83,102,131,.11);
+  box-shadow:
+    0 0 0 44px rgba(83,102,131,.025),
+    0 0 0 88px rgba(83,102,131,.015);
+  pointer-events:none;
+}
+
+.innovation-head{
+  display:grid;
+  grid-template-columns:1.05fr .72fr;
+  gap:76px;
+  align-items:end;
+  margin-bottom:42px;
+}
+.innovation-head h2{max-width:790px}
+.innovation-intro{
+  align-self:end;
+  padding:18px 0 5px;
+}
+.innovation-intro p{
+  margin:16px 0 0;
+  color:var(--muted);
+  font-size:15.5px;
+  line-height:1.72;
+}
+.innovation-intro strong{color:var(--ink)}
+.innovation-new-pill{
+  width:max-content;
+  min-height:31px;
+  padding:0 11px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid rgba(53,66,89,.10);
+  border-radius:999px;
+  background:rgba(255,255,255,.75);
+  color:var(--sage-deep);
+  box-shadow:0 8px 20px rgba(53,66,89,.055);
+  font-size:8.5px;
+  font-weight:900;
+  letter-spacing:.11em;
+}
+.innovation-new-pill i,
+.innovation-status i{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#75a987;
+  box-shadow:0 0 0 4px rgba(117,169,135,.11);
+}
+
+.innovation-cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  align-items:stretch;
+}
+.innovation-card{
+  position:relative;
+  min-width:0;
+  min-height:570px;
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  overflow:hidden;
+  border-radius:34px;
+  border:1px solid rgba(53,66,89,.09);
+  box-shadow:
+    0 8px 0 rgba(53,66,89,.14),
+    0 20px 42px rgba(53,66,89,.10);
+  transition:
+    transform .22s cubic-bezier(.2,.8,.2,1),
+    box-shadow .22s cubic-bezier(.2,.8,.2,1),
+    border-color .22s ease;
+}
+.innovation-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:5;
+  border-radius:inherit;
+  pointer-events:none;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    inset 0 -1px 0 rgba(53,66,89,.08);
+}
+.innovation-card-dark{
+  background:
+    radial-gradient(circle at 85% 16%,rgba(115,145,190,.25),transparent 27%),
+    linear-gradient(145deg,#29364b 0%,#354259 58%,#465a78 100%);
+  color:#fff;
+}
+.innovation-card-light{
+  background:
+    radial-gradient(circle at 86% 18%,rgba(216,226,239,.85),transparent 28%),
+    linear-gradient(145deg,#fff 0%,#f5f8fc 62%,#f6efe7 100%);
+  color:var(--ink);
+}
+.innovation-card-copy{
+  position:relative;
+  z-index:3;
+  min-width:0;
+  padding:30px 10px 30px 30px;
+  display:flex;
+  flex-direction:column;
+}
+.innovation-card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:31px;
+}
+.innovation-service-no{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.15em;
+}
+.innovation-card-dark .innovation-service-no{color:rgba(255,255,255,.55)}
+.innovation-card-light .innovation-service-no{color:var(--sage-dark)}
+.innovation-status{
+  min-height:29px;
+  padding:0 10px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border-radius:999px;
+  font-size:8.5px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.075em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.innovation-card-dark .innovation-status{
+  color:rgba(255,255,255,.8);
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+}
+.innovation-card-light .innovation-status{
+  color:#66758c;
+  background:rgba(255,255,255,.76);
+  border:1px solid rgba(53,66,89,.08);
+}
+.innovation-eyebrow{
+  margin:0 0 10px;
+  font-size:9.5px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.innovation-card-dark .innovation-eyebrow{color:#b9c9dd}
+.innovation-card-light .innovation-eyebrow{color:var(--sage-dark)}
+.innovation-card h3{
+  max-width:355px;
+  margin-bottom:18px;
+  font-size:clamp(31px,3vw,43px);
+  line-height:.98;
+}
+.innovation-card-dark h3{color:#fff}
+.innovation-card-dark h3 em{color:#dce7f4}
+.innovation-description{
+  max-width:390px;
+  margin:0 0 22px;
+  font-size:13.5px;
+  line-height:1.72;
+}
+.innovation-card-dark .innovation-description{color:rgba(255,255,255,.67)}
+.innovation-card-dark .innovation-description strong{color:#fff}
+.innovation-card-light .innovation-description{color:var(--muted)}
+.innovation-card-light .innovation-description strong{color:var(--ink)}
+.innovation-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:25px;
+}
+.innovation-tags span{
+  min-height:27px;
+  padding:0 9px;
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.025em;
+}
+.innovation-card-dark .innovation-tags span{
+  color:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.11);
+  background:rgba(255,255,255,.055);
+}
+.innovation-card-light .innovation-tags span{
+  color:#65748b;
+  border:1px solid rgba(53,66,89,.08);
+  background:rgba(255,255,255,.7);
+}
+
+.innovation-cta{
+  width:min(100%,320px);
+  min-height:52px;
+  margin-top:auto;
+  padding:6px 7px 6px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-radius:16px;
+  font-size:12px;
+  font-weight:900;
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+.innovation-cta b{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  font-size:15px;
+  transition:transform .2s ease;
+}
+.innovation-cta-light{
+  color:var(--sage-deep);
+  background:#fff;
+  box-shadow:0 10px 24px rgba(0,0,0,.13);
+}
+.innovation-cta-light b{background:#eaf0f7}
+.innovation-cta-dark{
+  color:#fff;
+  background:linear-gradient(135deg,#536683,#354259);
+  box-shadow:0 10px 24px rgba(53,66,89,.20);
+}
+.innovation-cta-dark b{color:var(--sage-deep);background:#fff}
+.innovation-cta:hover{transform:translateY(-2px)}
+.innovation-cta:hover b{transform:translate(2px,-2px)}
+
+.innovation-visual{
+  position:relative;
+  min-width:0;
+  overflow:hidden;
+}
+.innovation-card-dark .innovation-visual{
+  margin:20px 18px 20px 0;
+  border-radius:26px;
+  border:1px solid rgba(255,255,255,.09);
+  background:
+    radial-gradient(circle at 50% 45%,rgba(147,176,214,.15),transparent 37%),
+    rgba(255,255,255,.025);
+}
+.innovation-card-light .innovation-visual{
+  margin:20px 18px 20px 0;
+  border-radius:26px;
+  border:1px solid rgba(53,66,89,.08);
+  background:
+    radial-gradient(circle at 50% 45%,rgba(255,255,255,.95),transparent 45%),
+    rgba(223,231,241,.48);
+}
+
+/* Biomarker visual */
+.bio-radar{
+  position:absolute;
+  left:50%;
+  top:48%;
+  width:230px;
+  height:230px;
+  transform:translate(-50%,-50%);
+}
+.bio-ring{
+  position:absolute;
+  left:50%;
+  top:50%;
+  border:1px solid rgba(217,229,245,.18);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+}
+.bio-ring-1{width:220px;height:220px}
+.bio-ring-2{width:154px;height:154px}
+.bio-ring-3{width:88px;height:88px}
+.bio-axis{
+  position:absolute;
+  left:50%;
+  top:50%;
+  background:rgba(217,229,245,.10);
+  transform:translate(-50%,-50%);
+}
+.bio-axis-x{width:224px;height:1px}
+.bio-axis-y{width:1px;height:224px}
+.bio-core{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:67px;
+  height:67px;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  border-radius:22px;
+  color:#fff;
+  background:linear-gradient(145deg,#6f86a6,#445a79);
+  box-shadow:0 14px 30px rgba(11,18,31,.25),inset 0 1px 0 rgba(255,255,255,.17);
+  transform:translate(-50%,-50%) rotate(4deg);
+}
+.bio-core b{font-size:12px;letter-spacing:.11em}
+.bio-core small{margin-top:2px;color:rgba(255,255,255,.52);font-size:6px;letter-spacing:.14em}
+.bio-node{
+  position:absolute;
+  width:11px;
+  height:11px;
+  border:2px solid #32415a;
+  border-radius:50%;
+  background:#a8bfdc;
+  box-shadow:0 0 0 5px rgba(168,191,220,.09);
+}
+.bio-node-a{left:26px;top:58px}
+.bio-node-b{right:18px;top:88px}
+.bio-node-c{left:55px;bottom:20px}
+.bio-node-d{right:54px;bottom:46px}
+.bio-wave{
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:20px;
+  height:30px;
+  display:flex;
+  align-items:end;
+  gap:5px;
+  opacity:.32;
+}
+.bio-wave i{
+  flex:1;
+  border-radius:5px 5px 2px 2px;
+  background:#b4cae4;
+}
+.bio-wave i:nth-child(1){height:22%}.bio-wave i:nth-child(2){height:49%}.bio-wave i:nth-child(3){height:34%}.bio-wave i:nth-child(4){height:76%}.bio-wave i:nth-child(5){height:58%}.bio-wave i:nth-child(6){height:90%}.bio-wave i:nth-child(7){height:47%}.bio-wave i:nth-child(8){height:66%}
+
+/* Epigenetic visual */
+.dna-helix{
+  position:absolute;
+  left:50%;
+  top:49%;
+  width:230px;
+  height:330px;
+  overflow:visible;
+  transform:translate(-50%,-50%) rotate(4deg);
+}
+.dna-line{
+  fill:none;
+  stroke-width:3.1;
+  stroke-linecap:round;
+}
+.dna-line-a{stroke:#536683}
+.dna-line-b{stroke:#bd9f77}
+.dna-rungs line{
+  stroke:#8999ad;
+  stroke-width:1.2;
+  stroke-linecap:round;
+  opacity:.55;
+}
+.epi-orbit{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:270px;
+  height:270px;
+  border:1px dashed rgba(83,102,131,.13);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+}
+/* Context note */
+.innovation-note{
+  max-width:930px;
+  margin:25px auto 0;
+  padding:15px 17px;
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  border:1px solid rgba(53,66,89,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.72);
+}
+.innovation-note-icon{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:var(--mint);
+  color:var(--sage-deep);
+  font-family:Georgia,serif;
+  font-size:13px;
+  font-weight:700;
+}
+.innovation-note p{
+  margin:1px 0 0;
+  color:var(--muted);
+  font-size:10.5px;
+  line-height:1.62;
+}
+.innovation-note strong{color:var(--ink)}
+
+/* Physical interaction */
+.innovation-card.reveal.is-visible:hover{
+  transform:translateY(-3px);
+  border-color:rgba(53,66,89,.14);
+  box-shadow:
+    0 11px 0 rgba(53,66,89,.14),
+    0 26px 46px rgba(53,66,89,.13);
+}
+.innovation-card.reveal.is-visible:active,
+.innovation-card.reveal.is-visible.pressed{
+  transform:translateY(6px);
+  box-shadow:
+    0 1px 0 rgba(53,66,89,.15),
+    0 7px 14px rgba(53,66,89,.08);
+  transition-duration:.07s;
+}
+.innovation-card.reveal.is-visible:focus-visible{
+  outline:3px solid rgba(83,102,131,.18);
+  outline-offset:4px;
+}
+
+/* Very subtle living-data motion */
+@media (prefers-reduced-motion:no-preference){
+  .bio-radar{animation:innovationDriftA 9.4s ease-in-out -2s infinite alternate}
+  .bio-node-a,.bio-node-c{animation:innovationPulse 3.8s ease-in-out infinite}
+  .bio-node-b,.bio-node-d{animation:innovationPulse 4.6s ease-in-out -1.7s infinite}
+  .dna-helix{animation:innovationDriftB 10.8s ease-in-out -4s infinite alternate}
+}
+@keyframes innovationDriftA{
+  from{translate:-2px 2px}
+  to{translate:3px -3px}
+}
+@keyframes innovationDriftB{
+  from{translate:-2px -2px}
+  to{translate:2px 3px}
+}
+@keyframes innovationPulse{
+  0%,100%{scale:1;opacity:.78}
+  50%{scale:1.2;opacity:1}
+}
+
+@media (max-width:1100px){
+  .innovation-head{grid-template-columns:1fr .8fr;gap:42px}
+  .innovation-card{grid-template-columns:1fr;min-height:0}
+  .innovation-card-copy{padding:28px 28px 10px}
+  .innovation-visual{height:315px}
+  .innovation-card-dark .innovation-visual,
+  .innovation-card-light .innovation-visual{margin:18px 20px 20px}
+}
+
+@media (max-width:820px){
+  .innovation-head{grid-template-columns:1fr;gap:15px;margin-bottom:30px}
+  .innovation-intro{padding-top:0}
+  .innovation-intro p{max-width:670px}
+  .innovation-cards{grid-template-columns:1fr}
+  .innovation-card{grid-template-columns:1.08fr .92fr;min-height:500px}
+  .innovation-card-copy{padding:27px 10px 27px 27px}
+  .innovation-visual{height:auto}
+  .innovation-card-dark .innovation-visual,
+  .innovation-card-light .innovation-visual{margin:18px 18px 18px 0}
+}
+
+@media (max-width:560px){
+  .innovation-head h2{font-size:39px}
+  .innovation-intro p{font-size:13.5px}
+  .innovation-cards{gap:15px}
+  .innovation-card{
+    grid-template-columns:1fr;
+    min-height:0;
+    border-radius:27px;
+    box-shadow:
+      0 6px 0 rgba(53,66,89,.13),
+      0 14px 28px rgba(53,66,89,.09);
+  }
+  .innovation-card-copy{padding:23px 21px 6px}
+  .innovation-card-top{margin-bottom:24px}
+  .innovation-status{font-size:8.3px}
+  .innovation-card h3{font-size:35px}
+  .innovation-description{font-size:13px}
+  .innovation-cta{width:100%;max-width:none}
+  .innovation-visual{height:285px}
+  .innovation-card-dark .innovation-visual,
+  .innovation-card-light .innovation-visual{margin:17px;border-radius:22px}
+  .bio-radar{width:205px;height:205px}
+  .bio-ring-1{width:198px;height:198px}
+  .bio-ring-2{width:140px;height:140px}
+  .bio-ring-3{width:80px;height:80px}
+  .bio-axis-x{width:200px}.bio-axis-y{height:200px}
+  .dna-helix{width:200px;height:286px}
+  .epi-orbit{width:225px;height:225px}
+  .innovation-note{margin-top:20px}
+}
+
 .expert-section{position:relative;overflow:clip;background:linear-gradient(180deg,#fff 0%,#fbfcfe 100%)}
 .expert-section::before{content:"";position:absolute;right:-130px;bottom:-140px;width:420px;height:420px;border-radius:50%;background:var(--peach-soft);filter:blur(20px)}
 .expert-section::after{content:"";position:absolute;left:-180px;top:90px;width:360px;height:360px;border-radius:50%;background:rgba(220,229,240,.42);filter:blur(18px);pointer-events:none}
@@ -616,9 +1145,9 @@ linear-gradient(180deg,#fbfcfe 0%,#f5f7fb 72%,#fdfdfc 100%)}
 .experience-card-head small{display:block;margin:1px 0 4px;color:var(--sage-dark);font-size:8px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
 .experience-card-head h3{margin:0;font-size:21px;line-height:1.12;letter-spacing:-.02em}
 .experience-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}
-.experience-list li{position:relative;padding:10px 0 10px 17px;border-top:1px solid rgba(53,66,89,.085);color:var(--muted);font-size:10px;line-height:1.48}
+.experience-list li{position:relative;padding:10px 0 10px 17px;border-top:1px solid rgba(53,66,89,.085);color:var(--muted);font-size:10.5px;line-height:1.48}
 .experience-list li::before{content:"";position:absolute;left:1px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--sage-dark);box-shadow:0 0 0 4px rgba(83,102,131,.08)}
-.experience-list strong,.experience-list span{display:block}.experience-list strong{color:var(--ink);font-size:11px;font-weight:760}.experience-list span{margin-top:2px;color:var(--muted);font-size:9px}
+.experience-list strong,.experience-list span{display:block}.experience-list strong{color:var(--ink);font-size:11.5px;font-weight:760}.experience-list span{margin-top:2px;color:var(--muted);font-size:9.5px}
 .experience-list-compact{grid-template-columns:1fr 1fr}
 .award-note{position:relative;margin-top:14px;padding:18px 20px;border-radius:22px;background:linear-gradient(135deg,#f6efe3,#fbf8f1);display:flex;align-items:flex-start;gap:14px;border:1px solid rgba(169,135,82,.14);box-shadow:0 8px 24px rgba(105,83,49,.055)}
 .award-icon{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;background:#fff;color:#a88752;font-size:17px;box-shadow:0 7px 16px rgba(105,83,49,.08)}
@@ -1057,6 +1586,7 @@ linear-gradient(180deg,#fbfcfe 0%,#f5f7fb 72%,#fdfdfc 100%)}
 .main-nav.open>a:nth-child(3){transition-delay:.10s}
 .main-nav.open>a:nth-child(4){transition-delay:.13s}
 .main-nav.open>a:nth-child(5){transition-delay:.16s}
+.main-nav.open>a:nth-child(6){transition-delay:.19s}
 
 .main-nav>a:not(.nav-cta){display:block;padding:13px}
 .main-nav>a:not(.nav-cta)::after{display:none}

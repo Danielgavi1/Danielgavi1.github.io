@@ -1,32 +1,31 @@
-KAPYLAR CENTER — REVISIÓN DE DATOS Y COHERENCIA
-================================================
-Actualización: 19 de agosto de 2026
+KAPYLAR CENTER — ACTUALIZACIÓN DE INNOVACIÓN
+============================================
+Fecha: 20 de agosto de 2026
 Dominio: https://kapylarcenter.es/
 
-DATOS VIGENTES
-- Titular: Susana Serrano Aguilera
-- Identificación fiscal incorporada al Aviso Legal.
-- Email: kapylarcenter@gmail.com
-- Teléfono fijo: 931 15 02 79
-- WhatsApp: +34 669 530 164
-- Dirección: Passeig de Francesc Macià, 72, Local 1, 08173 Sant Cugat del Vallès, Barcelona.
-- Ecommerce independiente: https://www.tucentrocapilar.com/
+NUEVOS SERVICIOS INCORPORADOS
+- Analíticas de biomarcadores.
+- Tests epigenéticos.
 
-CAMBIOS APLICADOS
-- Sustituidos los datos de contacto anteriores por los vigentes.
-- WhatsApp del JavaScript, enlaces y textos visibles unificado.
-- Servicio capilar actualizado a crioterapia.
-- Eliminada cualquier afirmación de gratuidad del diagnóstico o asesoramiento.
-- Aviso Legal completado con titular e identificación.
-- Política de Privacidad actualizada con responsable y canales actuales.
-- Email para ejercicio de derechos actualizado.
-- JSON-LD actualizado con email, fijo y WhatsApp.
-- sitemap.xml actualizado con lastmod 2026-08-19.
+INTEGRACIÓN EN LA WEB
+- Nueva sección indexable #innovacion entre Tratamientos y Susana Serrano.
+- Enlace “Innovación” en navegación principal.
+- Dos tarjetas premium con CTA específico a WhatsApp.
+- Opciones “Biomarcadores” y “Test epigenético” en el formulario de contacto.
+- Dos FAQ nuevas con su reflejo en FAQPage JSON-LD.
+- Dos Service nuevos dentro del catálogo HealthAndBeautyBusiness.
+- Enlaces de especialidad añadidos al footer.
+- Meta description y Open Graph actualizados.
+- sitemap.xml actualizado con lastmod 2026-08-20.
 
-CONTROL FINAL
-- Sin referencias antiguas de email.
-- Sin referencias antiguas de WhatsApp.
-- Sin menciones al tratamiento sustituido.
-- Sin afirmaciones de gratuidad.
-- Rutas locales verificadas.
-- JSON-LD y sitemap validados.
+PRIVACIDAD / INFORMACIÓN SANITARIA
+- Política de Privacidad ampliada para contemplar resultados de biomarcadores y tests epigenéticos.
+- Se advierte de que, según la naturaleza de la prueba, pueden existir datos de salud o genéticos.
+- Se indica que proveedores/laboratorios externos deberán informarse específicamente cuando corresponda.
+- Aviso Legal amplía el objeto de la web y la nota de información sanitaria.
+
+CRITERIO DE REDACCIÓN
+- No se atribuyen biomarcadores concretos, paneles concretos ni metodología concreta al test epigenético,
+  porque esos detalles no se han facilitado.
+- No se promete diagnóstico, prevención, predicción ni resultados clínicos.
+- Ambos servicios se presentan como herramientas de información complementaria.

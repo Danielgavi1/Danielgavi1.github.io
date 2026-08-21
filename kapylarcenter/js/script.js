@@ -198,6 +198,34 @@
   const year = document.querySelector('#year');
   if (year) year.textContent = String(new Date().getFullYear());
 
+  /* Experiencia profesional de Susana Serrano.
+     Año base confirmado: 2026 = 27 años.
+     A partir de ahí aumenta automáticamente 1 año por cada año natural. */
+  const EXPERIENCE_BASE_YEAR = 2026;
+  const EXPERIENCE_BASE_YEARS = 27;
+
+  const updateExperienceYears = () => {
+    const currentYear = new Date().getFullYear();
+    const experienceYears = Math.max(
+      EXPERIENCE_BASE_YEARS,
+      EXPERIENCE_BASE_YEARS + (currentYear - EXPERIENCE_BASE_YEAR)
+    );
+
+    document.querySelectorAll('[data-experience-years]').forEach((element) => {
+      element.textContent = `+${experienceYears}`;
+    });
+
+    document.querySelectorAll('[data-experience-years-plain]').forEach((element) => {
+      element.textContent = String(experienceYears);
+    });
+
+    document.querySelectorAll('[data-experience-label]').forEach((element) => {
+      element.setAttribute('aria-label', `Más de ${experienceYears} años de experiencia`);
+    });
+  };
+
+  updateExperienceYears();
+
   /* Carousel infinito para la pista .marquee-track en móviles (transform + CSS animation) */
   function initMarqueeCarousel() {
     if (!window.matchMedia('(max-width:560px)').matches) return;
@@ -260,7 +288,7 @@
 
   // Simular estado 'pressed' con teclado (Enter / Space) para las tarjetas interactivas
   function initCardKeyboardPress() {
-    const cards = document.querySelectorAll('.visual-card[tabindex], .treatment-card[tabindex]');
+    const cards = document.querySelectorAll('.visual-card[tabindex], .treatment-card[tabindex], .innovation-card[tabindex]');
     if (!cards.length) return;
     cards.forEach((card) => {
       let holding = false;
