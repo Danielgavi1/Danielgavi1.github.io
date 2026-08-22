@@ -48,35 +48,52 @@ body.legal-page{
 .legal-brand{
   display:inline-flex;
   align-items:center;
-  gap:11px;
+  gap:0;
   min-width:max-content;
+  --legal-word-size:clamp(17px,1.8vw,21px);
+  --legal-k-box-w:26px;
+  --legal-k-box-h:31px;
+  --legal-k-img:45px;
+  --legal-k-left:-10.5px;
+  --legal-k-top:-8.4px;
 }
-.legal-brand img{
-  width:42px;
-  height:42px;
+.legal-brand-k{
+  position:relative;
+  width:var(--legal-k-box-w);
+  height:var(--legal-k-box-h);
+  overflow:hidden;
+  flex:0 0 var(--legal-k-box-w);
+}
+.legal-brand-k img{
+  position:absolute;
+  width:var(--legal-k-img);
+  height:var(--legal-k-img);
+  max-width:none;
+  left:var(--legal-k-left);
+  top:var(--legal-k-top);
   object-fit:contain;
-  filter:drop-shadow(0 5px 10px rgba(53,66,89,.08));
+  display:block;
+  filter:drop-shadow(0 3px 6px rgba(53,66,89,.07));
 }
 .legal-brand-copy{
   display:flex;
-  flex-direction:column;
-  line-height:1.05;
+  align-items:center;
+  min-width:0;
+  line-height:1;
+  margin-left:-1px;
 }
 .legal-brand-copy strong{
-  font-family:"Iowan Old Style",Georgia,serif;
-  font-size:19px;
-  font-weight:600;
-  letter-spacing:.07em;
-  text-transform:uppercase;
+  display:block;
+  white-space:nowrap;
+  font-family:"Arial Rounded MT Bold","Trebuchet MS","Segoe UI",Arial,sans-serif;
+  font-size:var(--legal-word-size);
+  font-weight:800;
+  line-height:.98;
+  letter-spacing:-.048em;
+  text-transform:none;
+  text-rendering:geometricPrecision;
 }
-.legal-brand-copy small{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:8px;
-  font-weight:750;
-  letter-spacing:.11em;
-  text-transform:uppercase;
-}
+.legal-brand-copy small{display:none}
 
 .legal-back{
   min-height:44px;
@@ -486,9 +503,15 @@ body.legal-page{
 @media(max-width:560px){
   .legal-header{padding:8px 0}
   .legal-nav{width:calc(100% - 22px);min-height:61px;padding:7px 8px 7px 11px;border-radius:18px}
-  .legal-brand img{width:37px;height:37px}
-  .legal-brand-copy strong{font-size:16px}
-  .legal-brand-copy small{display:none}
+  .legal-brand{
+    --legal-word-size:clamp(15.5px,4.7vw,18px);
+    --legal-k-box-w:22px;
+    --legal-k-box-h:27px;
+    --legal-k-img:39px;
+    --legal-k-left:-9.1px;
+    --legal-k-top:-7.3px;
+  }
+  .legal-brand-copy strong{letter-spacing:-.05em}
   .legal-back{min-height:40px;padding:0 12px;font-size:9px}
   .legal-back span{display:none}
 
@@ -516,4 +539,20 @@ body.legal-page{
   .legal-contact-card a{justify-self:start}
 
   .legal-footer-inner{width:calc(100% - 28px);align-items:flex-start;flex-direction:column}
+}
+
+
+@media(max-width:360px){
+  .legal-nav{gap:12px}
+  .legal-brand{
+    --legal-word-size:15px;
+    --legal-k-box-w:20px;
+    --legal-k-box-h:25px;
+    --legal-k-img:36px;
+    --legal-k-left:-8.4px;
+    --legal-k-top:-6.8px;
+  }
+  .legal-brand-copy strong{letter-spacing:-.055em}
+  .legal-back{width:40px;min-width:40px;padding:0;justify-content:center;font-size:0}
+  .legal-back span{display:inline;font-size:16px;line-height:1}
 }
