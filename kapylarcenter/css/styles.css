@@ -1041,24 +1041,270 @@ linear-gradient(180deg,#fbfcfe 0%,#f5f7fb 72%,#fdfdfc 100%)}
   outline-offset:4px;
 }
 
-/* Very subtle living-data motion */
+/* Innovation visuals — living data motion.
+   Movimientos intencionadamente contenidos: aportan vida sin competir con el copy. */
 @media (prefers-reduced-motion:no-preference){
-  .bio-radar{animation:innovationDriftA 9.4s ease-in-out -2s infinite alternate}
-  .bio-node-a,.bio-node-c{animation:innovationPulse 3.8s ease-in-out infinite}
-  .bio-node-b,.bio-node-d{animation:innovationPulse 4.6s ease-in-out -1.7s infinite}
-  .dna-helix{animation:innovationDriftB 10.8s ease-in-out -4s infinite alternate}
+
+  /* -----------------------------
+     BIOMARCADORES · radar vivo
+     ----------------------------- */
+
+  .bio-radar{
+    animation:bioRadarDrift 10.8s ease-in-out -2.4s infinite alternate;
+  }
+
+  /* Barrido muy tenue del radar. */
+  .bio-radar::before{
+    content:"";
+    position:absolute;
+    inset:3px;
+    z-index:0;
+    border-radius:50%;
+    pointer-events:none;
+    opacity:0.34;
+    background:
+      conic-gradient(
+        from 0deg,
+        transparent 0 72%,
+        rgba(171,199,232,.08) 79%,
+        rgba(171,199,232,.38) 88%,
+        transparent 96% 100%
+      );
+    -webkit-mask:radial-gradient(circle,transparent 0 36%,#000 42% 100%);
+    mask:radial-gradient(circle,transparent 0 36%,#000 42% 100%);
+    animation:bioRadarSweep 12s linear infinite;
+  }
+
+  .bio-ring{
+    transform-origin:center;
+    will-change:scale,opacity;
+  }
+  .bio-ring-1{animation:bioRingBreath 7.6s ease-in-out -1.2s infinite}
+  .bio-ring-2{animation:bioRingBreath 6.8s ease-in-out -3.4s infinite}
+  .bio-ring-3{animation:bioRingBreath 5.9s ease-in-out -2.1s infinite}
+
+  .bio-axis{
+    animation:bioAxisSignal 5.8s ease-in-out infinite;
+  }
+  .bio-axis-y{animation-delay:-2.9s}
+
+  .bio-core{
+    animation:bioCoreBreath 5.6s ease-in-out -1.8s infinite;
+    will-change:scale;
+  }
+
+  /* Cada nodo dibuja una pequeña órbita distinta.
+     La amplitud máxima ronda 6–9px para no resultar exagerada. */
+  .bio-node{
+    will-change:translate,scale,opacity;
+  }
+  .bio-node-a{animation:bioNodeOrbitA 6.8s cubic-bezier(.45,.05,.3,1) -1.2s infinite}
+  .bio-node-b{animation:bioNodeOrbitB 7.7s cubic-bezier(.45,.05,.3,1) -4.1s infinite}
+  .bio-node-c{animation:bioNodeOrbitC 7.2s cubic-bezier(.45,.05,.3,1) -2.7s infinite}
+  .bio-node-d{animation:bioNodeOrbitD 8.1s cubic-bezier(.45,.05,.3,1) -5.2s infinite}
+
+  /* Las barras conservan su altura base pero "respiran"
+     independientemente, como datos que se actualizan. */
+  .bio-wave i{
+    transform-origin:50% 100%;
+    will-change:transform,opacity;
+    animation-name:bioBarSignal;
+    animation-timing-function:cubic-bezier(.42,0,.22,1);
+    animation-iteration-count:infinite;
+    animation-direction:alternate;
+  }
+  .bio-wave i:nth-child(1){animation-duration:3.3s;animation-delay:-1.6s}
+  .bio-wave i:nth-child(2){animation-duration:4.1s;animation-delay:-3.0s}
+  .bio-wave i:nth-child(3){animation-duration:3.7s;animation-delay:-.9s}
+  .bio-wave i:nth-child(4){animation-duration:4.5s;animation-delay:-2.4s}
+  .bio-wave i:nth-child(5){animation-duration:3.5s;animation-delay:-2.8s}
+  .bio-wave i:nth-child(6){animation-duration:4.3s;animation-delay:-1.1s}
+  .bio-wave i:nth-child(7){animation-duration:3.9s;animation-delay:-3.3s}
+  .bio-wave i:nth-child(8){animation-duration:4.7s;animation-delay:-2.0s}
+
+
+  /* -----------------------------
+     EPIGENÉTICA · código en movimiento
+     La hélice permanece fija. El dinamismo ocurre DENTRO del ADN:
+     pequeños cortes recorren las cadenas y los peldaños se desplazan
+     secuencialmente unos pocos píxeles.
+     ----------------------------- */
+
+  .dna-helix{
+    /* Sin flotación: conserva exactamente su posición y rotación base. */
+    filter:drop-shadow(0 8px 13px rgba(53,66,89,.045));
+  }
+
+  /* Las dos cadenas parecen ligeramente segmentadas.
+     Los huecos son visibles pero menos frecuentes, para conservar mejor la continuidad de la hélice. */
+  .dna-line{
+    transform:none;
+    stroke-dasharray:118 10 72 8;
+    will-change:stroke-dashoffset,opacity;
+  }
+
+  .dna-line-a{
+    animation:dnaCodeFlowA 12.5s linear infinite;
+  }
+
+  .dna-line-b{
+    animation:dnaCodeFlowB 14s linear -4.2s infinite;
+  }
+
+  /* Los "bloques" del ADN se mueven como una onda que desciende
+     por la hélice. Amplitud máxima: 4.8px. */
+  .dna-rungs line{
+    --dna-shift:4.8px;
+    transform-box:fill-box;
+    transform-origin:center;
+    will-change:translate,scale,opacity;
+    animation:dnaRungSequence 5.8s cubic-bezier(.45,.05,.25,1) infinite;
+  }
+
+  .dna-rungs line:nth-child(even){--dna-shift:-4.8px}
+
+  .dna-rungs line:nth-child(1){animation-delay:-.00s}
+  .dna-rungs line:nth-child(2){animation-delay:-.24s}
+  .dna-rungs line:nth-child(3){animation-delay:-.48s}
+  .dna-rungs line:nth-child(4){animation-delay:-.72s}
+  .dna-rungs line:nth-child(5){animation-delay:-.96s}
+  .dna-rungs line:nth-child(6){animation-delay:-1.20s}
+  .dna-rungs line:nth-child(7){animation-delay:-1.44s}
+  .dna-rungs line:nth-child(8){animation-delay:-1.68s}
+  .dna-rungs line:nth-child(9){animation-delay:-1.92s}
+  .dna-rungs line:nth-child(10){animation-delay:-2.16s}
+
+  /* La órbita deja de girar. Solo cambia mínimamente de presencia,
+     para mantener profundidad sin hacer que el dibujo "flote". */
+  .epi-orbit{
+    transform-origin:center;
+    will-change:opacity;
+    animation:epiOrbitQuiet 8.5s ease-in-out -2.5s infinite;
+  }
+
+  .epi-orbit::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:-3px;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#7188a5;
+    box-shadow:
+      0 0 0 4px rgba(113,136,165,.055),
+      0 0 11px rgba(113,136,165,.12);
+    transform:translateX(-50%);
+    opacity:.58;
+  }
 }
-@keyframes innovationDriftA{
-  from{translate:-2px 2px}
-  to{translate:3px -3px}
+
+/* Biomarker keyframes */
+@keyframes bioRadarDrift{
+  0%,100%{translate:-2px 2px}
+  50%{translate:3px -3px}
 }
-@keyframes innovationDriftB{
-  from{translate:-2px -2px}
-  to{translate:2px 3px}
+@keyframes bioRadarSweep{
+  to{transform:rotate(360deg)}
 }
-@keyframes innovationPulse{
-  0%,100%{scale:1;opacity:.78}
-  50%{scale:1.2;opacity:1}
+@keyframes bioRingBreath{
+  0%,100%{scale:1;opacity:.72}
+  48%{scale:1.022;opacity:1}
+}
+@keyframes bioAxisSignal{
+  0%,100%{opacity:.58}
+  50%{opacity:1}
+}
+@keyframes bioCoreBreath{
+  0%,100%{scale:1}
+  50%{scale:1.035}
+}
+@keyframes bioNodeOrbitA{
+  0%,100%{translate:0 0;scale:1;opacity:.84}
+  25%{translate:4px -5px;scale:1.04;opacity:1}
+  52%{translate:8px 0;scale:1.08;opacity:.94}
+  78%{translate:4px 5px;scale:1.03;opacity:1}
+}
+@keyframes bioNodeOrbitB{
+  0%,100%{translate:0 0;scale:1;opacity:.86}
+  27%{translate:-5px -4px;scale:1.06;opacity:1}
+  54%{translate:-9px 1px;scale:1.02;opacity:.92}
+  79%{translate:-4px 5px;scale:1.08;opacity:1}
+}
+@keyframes bioNodeOrbitC{
+  0%,100%{translate:0 0;scale:1;opacity:.82}
+  24%{translate:5px 4px;scale:1.07;opacity:1}
+  51%{translate:9px -1px;scale:1.02;opacity:.93}
+  76%{translate:4px -6px;scale:1.06;opacity:1}
+}
+@keyframes bioNodeOrbitD{
+  0%,100%{translate:0 0;scale:1;opacity:.86}
+  23%{translate:-4px 5px;scale:1.04;opacity:1}
+  50%{translate:-8px 0;scale:1.08;opacity:.93}
+  77%{translate:-3px -5px;scale:1.02;opacity:1}
+}
+@keyframes bioBarSignal{
+  0%{transform:scaleY(.76);opacity:.52}
+  45%{transform:scaleY(1.08);opacity:.94}
+  72%{transform:scaleY(.91);opacity:.72}
+  100%{transform:scaleY(1.16);opacity:1}
+}
+
+/* DNA keyframes — movimiento interno, no flotación */
+@keyframes dnaCodeFlowA{
+  0%{
+    stroke-dashoffset:0;
+    opacity:.96;
+  }
+  46%{
+    opacity:1;
+  }
+  100%{
+    stroke-dashoffset:-208;
+    opacity:.96;
+  }
+}
+
+@keyframes dnaCodeFlowB{
+  0%{
+    stroke-dashoffset:0;
+    opacity:.94;
+  }
+  52%{
+    opacity:1;
+  }
+  100%{
+    stroke-dashoffset:208;
+    opacity:.94;
+  }
+}
+
+@keyframes dnaRungSequence{
+  0%,100%{
+    translate:0 0;
+    scale:1 1;
+    opacity:.50;
+  }
+  34%{
+    translate:0 0;
+    scale:.97 1;
+    opacity:.58;
+  }
+  50%{
+    translate:var(--dna-shift) 0;
+    scale:1.045 1;
+    opacity:.78;
+  }
+  67%{
+    translate:0 0;
+    scale:.985 1;
+    opacity:.59;
+  }
+}
+
+@keyframes epiOrbitQuiet{
+  0%,100%{opacity:.72}
+  50%{opacity:.92}
 }
 
 @media (max-width:1100px){
