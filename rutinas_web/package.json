@@ -1,4 +1,14 @@
 {
+  "name": "rutinas_web",
+  "version": "1.0.0",
+  "description": "La rutina usa Supabase como única fuente de verdad para personas, secciones y ejercicios. Los checks de ejercicios completados son temporales y se guardan en `localStorage` por persona y por día.",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "supabase": "^2.109.1"
   }

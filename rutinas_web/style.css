@@ -463,6 +463,16 @@ button:disabled { cursor: wait; opacity: 0.58; }
     0 0 0 1px rgba(252, 211, 77, 0.14);
 }
 
+.filter-bar .chip:nth-child(5).active,
+.chip[data-filter="pecho"].active,
+.chip[data-section="pecho"].active {
+  background: linear-gradient(135deg, #a78bfa, #7c3aed);
+  color: #ffffff;
+  box-shadow:
+    0 8px 20px rgba(124, 58, 237, 0.28),
+    0 0 0 1px rgba(196, 181, 253, 0.18);
+}
+
 .chip.active:hover {
   filter: brightness(1.035);
 }
@@ -755,6 +765,12 @@ button:disabled { cursor: wait; opacity: 0.58; }
   --load-accent: #f59e0b;
   --load-accent-strong: #f8c14d;
   --load-accent-light: #b45309;
+}
+
+.section[data-section="pecho"] {
+  --load-accent: #8b5cf6;
+  --load-accent-strong: #c4b5fd;
+  --load-accent-light: #6d28d9;
 }
 
 .exercise-load {

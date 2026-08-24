@@ -104,7 +104,8 @@ on conflict (id) do update set
 insert into public.sections (id, label, color, image_url, sort_order) values
   ('gluteo', 'Glúteo', '#EC4899', './img/culo.webp', 1),
   ('pierna', 'Pierna', '#06B6D4', './img/pierna.webp', 2),
-  ('espalda', 'Espalda', '#F59E0B', './img/espalda.webp', 3)
+  ('espalda', 'Espalda', '#F59E0B', './img/espalda.webp', 3),
+  ('pecho', 'Pecho', '#8B5CF6', './img/pecho.webp', 4)
 on conflict (id) do update set
   label = excluded.label,
   color = excluded.color,

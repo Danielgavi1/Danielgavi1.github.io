@@ -671,7 +671,7 @@ function handleError(error) {
 }
 
 function sectionEmoji(sectionId) {
-  return { gluteo: '🍑', pierna: '🦵', espalda: '💪' }[sectionId] || '🏋️';
+  return { gluteo: '🍑', pierna: '🦵', espalda: '💪', pecho: '🫁' }[sectionId] || '🏋️';
 }
 
 function normalizeText(value) {

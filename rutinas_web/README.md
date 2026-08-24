@@ -52,3 +52,10 @@ git push
 ```
 
 `node_modules`, los temporales de Supabase, los backups y los archivos `.env` están excluidos mediante `.gitignore`.
+
+## Actualización 2026-08-24 · Pecho
+
+Se añadió el grupo muscular `pecho`, su imagen `img/pecho.webp` y 3 ejercicios para Daniel y 3 para Victoria.
+Para actualizar una base de datos ya desplegada, ejecuta la migración `supabase/migrations/20260824020000_add_pecho_section.sql`.
+
+> Nota: para «Apertura de pecho (máquina)» de Daniel se han usado 3 series × 10 repeticiones, que es el valor predeterminado actual de la aplicación, porque en los datos facilitados solo se indicó la carga (35Kg).
