@@ -5205,3 +5205,173 @@ em {
     flex-basis: 40px;
   }
 }
+
+/* =========================================================
+   SELLO DE CALIDAD · PRODUCTOS FITOBIOLÓGICOS
+   ========================================================= */
+.phyto-quality-seal{
+  position:relative;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  align-items:center;
+  gap:18px;
+  max-width:720px;
+  margin:28px 0 34px;
+  padding:18px 20px 18px 18px;
+  overflow:hidden;
+  border:1px solid rgba(190,148,62,.32);
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 8% 20%,rgba(255,238,181,.18),transparent 30%),
+    linear-gradient(135deg,rgba(255,251,239,.96),rgba(248,241,221,.90));
+  box-shadow:
+    0 8px 0 rgba(177,133,45,.10),
+    0 18px 42px rgba(133,102,38,.11),
+    inset 0 1px 0 rgba(255,255,255,.8);
+  isolation:isolate;
+}
+.phyto-quality-seal::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(110deg,transparent 0 34%,rgba(255,255,255,.45) 47%,transparent 60%);
+  transform:translateX(-120%);
+  opacity:.55;
+}
+@media (prefers-reduced-motion:no-preference){
+  .phyto-quality-seal::before{animation:phytoSealSheen 9s ease-in-out infinite}
+}
+@keyframes phytoSealSheen{
+  0%,72%,100%{transform:translateX(-120%)}
+  86%{transform:translateX(120%)}
+}
+.phyto-seal-medallion{
+  position:relative;
+  width:92px;
+  height:92px;
+  display:grid;
+  place-items:center;
+  flex:0 0 92px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 28%,#fff8dc 0 10%,#f2d78e 42%,#c89b45 72%,#a87825 100%);
+  box-shadow:
+    0 8px 0 rgba(147,104,31,.16),
+    0 14px 26px rgba(141,104,36,.18),
+    inset 0 2px 2px rgba(255,255,255,.64),
+    inset 0 -3px 8px rgba(118,79,21,.20);
+}
+.phyto-seal-ring{position:absolute;border-radius:50%;pointer-events:none}
+.phyto-seal-ring-outer{
+  inset:6px;
+  border:1px solid rgba(255,255,255,.56);
+  box-shadow:0 0 0 1px rgba(133,94,28,.13);
+}
+.phyto-seal-ring-inner{inset:13px;border:1px dashed rgba(111,80,28,.30)}
+.phyto-seal-leaf{
+  position:absolute;
+  width:39px;
+  height:39px;
+  top:15px;
+  left:26px;
+  fill:#667a4a;
+  filter:drop-shadow(0 2px 2px rgba(84,104,61,.18));
+}
+.phyto-seal-vein{
+  fill:none;
+  stroke:#f3e4aa;
+  stroke-width:2.3;
+  stroke-linecap:round;
+}
+.phyto-seal-100{
+  position:absolute;
+  bottom:14px;
+  left:0;
+  right:0;
+  text-align:center;
+  color:#5e4821;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.015em;
+  text-shadow:0 1px 0 rgba(255,255,255,.45);
+}
+.phyto-seal-copy{position:relative;z-index:1;min-width:0}
+.phyto-seal-kicker{
+  display:block;
+  margin-bottom:4px;
+  color:#9a742f;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.phyto-seal-copy strong{
+  display:block;
+  color:#2d3443;
+  font-family:"Iowan Old Style","Palatino Linotype",Baskerville,Georgia,serif;
+  font-size:clamp(24px,2.25vw,32px);
+  font-weight:600;
+  line-height:1.04;
+  letter-spacing:-.028em;
+}
+.phyto-seal-origin{
+  display:inline-block;
+  margin-top:4px;
+  color:#8b6727;
+  font-size:14px;
+  font-weight:850;
+  letter-spacing:.015em;
+}
+.phyto-seal-copy small{
+  display:block;
+  max-width:570px;
+  margin-top:7px;
+  color:#665d4d;
+  font-size:11px;
+  line-height:1.55;
+}
+@media (hover:hover) and (pointer:fine){
+  .phyto-quality-seal{transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}
+  .phyto-quality-seal:hover{
+    transform:translateY(-2px);
+    border-color:rgba(190,148,62,.46);
+    box-shadow:
+      0 10px 0 rgba(177,133,45,.10),
+      0 22px 48px rgba(133,102,38,.14),
+      inset 0 1px 0 rgba(255,255,255,.86);
+  }
+}
+@media (max-width:720px){
+  .phyto-quality-seal{
+    grid-template-columns:76px minmax(0,1fr);
+    gap:14px;
+    margin:24px 0 30px;
+    padding:15px 15px 15px 14px;
+    border-radius:19px;
+  }
+  .phyto-seal-medallion{width:76px;height:76px}
+  .phyto-seal-ring-outer{inset:5px}
+  .phyto-seal-ring-inner{inset:11px}
+  .phyto-seal-leaf{width:33px;height:33px;top:12px;left:21px}
+  .phyto-seal-100{bottom:11px;font-size:11px}
+  .phyto-seal-copy strong{font-size:clamp(21px,6.1vw,27px)}
+  .phyto-seal-origin{font-size:12px}
+  .phyto-seal-copy small{font-size:10.5px}
+}
+@media (max-width:460px){
+  .phyto-quality-seal{
+    grid-template-columns:62px minmax(0,1fr);
+    gap:12px;
+    padding:13px 13px 13px 12px;
+    border-radius:17px;
+  }
+  .phyto-seal-medallion{width:62px;height:62px}
+  .phyto-seal-ring-outer{inset:4px}
+  .phyto-seal-ring-inner{inset:9px}
+  .phyto-seal-leaf{width:27px;height:27px;top:10px;left:17px}
+  .phyto-seal-100{bottom:8px;font-size:9.5px}
+  .phyto-seal-kicker{font-size:7.5px;letter-spacing:.11em}
+  .phyto-seal-copy strong{font-size:20px}
+  .phyto-seal-origin{margin-top:3px;font-size:11px}
+  .phyto-seal-copy small{margin-top:5px;font-size:9.7px;line-height:1.45}
+}
