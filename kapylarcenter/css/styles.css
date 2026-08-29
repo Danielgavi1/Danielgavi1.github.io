@@ -5375,3 +5375,156 @@ em {
   .phyto-seal-origin{margin-top:3px;font-size:11px}
   .phyto-seal-copy small{margin-top:5px;font-size:10.2px;line-height:1.45}
 }
+
+/* =========================================================
+   LONGEVIDAD HOLÍSTICA CAPILAR · sello de especialización
+   ========================================================= */
+.longevity-quality-seal{
+  position:relative;
+  display:inline-grid;
+  grid-template-columns:50px minmax(0,1fr) 18px;
+  align-items:center;
+  gap:12px;
+  width:min(100%,570px);
+  margin:-12px 0 28px;
+  padding:10px 12px 10px 10px;
+  overflow:hidden;
+  border:1px solid rgba(200,218,238,.18);
+  border-radius:17px;
+  background:
+    radial-gradient(circle at 8% 30%,rgba(182,204,232,.13),transparent 34%),
+    linear-gradient(135deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 9px 22px rgba(12,25,47,.10);
+  backdrop-filter:blur(10px);
+}
+.longevity-quality-seal::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(110deg,transparent 0 38%,rgba(255,255,255,.13) 49%,transparent 60%);
+  transform:translateX(-125%);
+  opacity:.55;
+}
+.longevity-quality-emblem{
+  position:relative;
+  width:50px;
+  height:50px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 36% 30%,rgba(255,255,255,.20),transparent 27%),
+    linear-gradient(145deg,#7188a5,#536683);
+  box-shadow:
+    0 6px 13px rgba(15,31,55,.22),
+    inset 0 1px 0 rgba(255,255,255,.22);
+}
+.longevity-quality-ring{
+  position:absolute;
+  inset:5px;
+  border:1px solid rgba(255,255,255,.30);
+  border-radius:50%;
+}
+.longevity-quality-symbol{
+  position:relative;
+  z-index:2;
+  color:#fff;
+  font-family:"Iowan Old Style",Georgia,serif;
+  font-size:34px;
+  line-height:1;
+  font-weight:400;
+  transform:translateY(-2px);
+}
+.longevity-quality-copy{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.longevity-quality-copy>span{
+  color:rgba(255,255,255,.48);
+  font-size:7.8px;
+  font-weight:850;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.longevity-quality-copy strong{
+  color:#fff;
+  font-family:"Iowan Old Style",Georgia,serif;
+  font-size:14.7px;
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-.012em;
+}
+.longevity-quality-copy strong em{
+  color:#d8e3f0;
+  font-style:italic;
+}
+.longevity-quality-spark{
+  align-self:start;
+  justify-self:end;
+  color:#d8c59b;
+  font-size:11px;
+  line-height:1;
+  opacity:.72;
+  margin-top:4px;
+}
+
+@media (prefers-reduced-motion:no-preference){
+  .longevity-quality-seal::after{
+    animation:longevitySealSheen 10s ease-in-out infinite;
+  }
+  .longevity-quality-symbol{
+    animation:longevitySealBreath 6s ease-in-out infinite;
+  }
+}
+@keyframes longevitySealSheen{
+  0%,74%,100%{transform:translateX(-125%)}
+  87%{transform:translateX(125%)}
+}
+@keyframes longevitySealBreath{
+  0%,100%{opacity:.88;transform:translateY(-2px) scale(1)}
+  50%{opacity:1;transform:translateY(-2px) scale(1.035)}
+}
+
+@media (max-width:720px){
+  .longevity-quality-seal{
+    grid-template-columns:46px minmax(0,1fr) 15px;
+    gap:10px;
+    width:min(100%,540px);
+    margin:-10px 0 25px;
+    padding:9px 10px 9px 9px;
+    border-radius:16px;
+  }
+  .longevity-quality-emblem{
+    width:46px;
+    height:46px;
+  }
+  .longevity-quality-symbol{font-size:31px}
+  .longevity-quality-copy strong{font-size:14px}
+}
+
+@media (max-width:460px){
+  .longevity-quality-seal{
+    grid-template-columns:42px minmax(0,1fr);
+    gap:9px;
+    width:100%;
+    padding:9px;
+  }
+  .longevity-quality-emblem{
+    width:42px;
+    height:42px;
+  }
+  .longevity-quality-ring{inset:4px}
+  .longevity-quality-symbol{font-size:28px}
+  .longevity-quality-copy>span{font-size:7px}
+  .longevity-quality-copy strong{
+    font-size:13px;
+    line-height:1.28;
+  }
+  .longevity-quality-spark{display:none}
+}
+

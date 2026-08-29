@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://kapylarcenter.es/</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-29</lastmod>
     <image:image>
       <image:loc>https://kapylarcenter.es/assets/susana-serrano.webp</image:loc>
     </image:image>
@@ -41,7 +41,7 @@
       <image:loc>https://kapylarcenter.es/assets/dermopuncion.webp</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://kapylarcenter.es/assets/quiromasaje-capilar.webp</image:loc>
+      <image:loc>https://kapylarcenter.es/assets/oxigenacion-celular.webp</image:loc>
     </image:image>
   </url>
 </urlset>
